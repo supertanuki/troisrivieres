@@ -1,0 +1,19 @@
+{
+	"name": "trois-rivieres",
+	"private": true,
+	"version": "0.1.0",
+	"type": "module",
+	"scripts": {
+		"start": "vite",
+		"build": "vite build",
+		"preview": "vite preview",
+		"publish": "vite build && cp -a dist/. ../home/projets/trois-rivieres/demo/"
+	},
+	"devDependencies": {
+		"eslint": "^8.25.0",
+		"vite": "^3.2.7"
+	},
+	"dependencies": {
+		"phaser": "^3.55.2"
+	}
+}
