@@ -38,6 +38,9 @@ export default class Game extends Phaser.Scene {
     this.enemies;
     this.currentDiscussionStatus = DiscussionStatus.NONE;
     this.currentDiscussionSprite = null
+
+    this.bird = null
+    this.birdDirection = 1
   }
 
   preload() {
@@ -125,11 +128,42 @@ export default class Game extends Phaser.Scene {
     this.cameras.main.startFollow(this.hero, true);
     this.createControls()
 
+    this.bird = this.add.image(this.hero.x, this.hero.y, 'flyingbird');
+
     sceneEventsEmitter.on(sceneEvents.DiscussionReady, this.handleDiscussionReady, this)
     sceneEventsEmitter.on(sceneEvents.DiscussionStarted, this.handleDiscussionStarted, this)
     sceneEventsEmitter.on(sceneEvents.DiscussionWaiting, this.handleDiscussionWaiting, this)
     sceneEventsEmitter.on(sceneEvents.DiscussionEnded, this.handleDiscussionEnded, this)
     sceneEventsEmitter.on(sceneEvents.DiscussionInProgress, this.handleDiscussionInProgress, this)
+  }
+
+  moveBird() {
+    if (!this.bird.active) {
+      return
+    }
+    const worldView = this.cameras.main.worldView;
+    this.bird.x += 8 * this.birdDirection;
+    this.bird.y -= 1;
+
+    if (this.bird.x > worldView.x + worldView.width || this.bird.x < worldView.x) {
+      this.bird.setActive(false)
+      this.bird.setVisible(false)
+
+      this.time.addEvent({
+        callback: () => {
+          this.resetBirdPosition()
+        },
+        delay: Phaser.Math.Between(1000, 5000),
+      });
+    }
+  }
+
+  resetBirdPosition() {
+    this.birdDirection = this.goingRight ? 1 : -1
+    this.bird.setActive(true)
+    this.bird.setVisible(true)
+    this.bird.y = this.hero.y
+    this.bird.x = this.hero.x + 30 * this.birdDirection
   }
 
   handleDiscussionReady(sprite) {
@@ -482,6 +516,7 @@ export default class Game extends Phaser.Scene {
 
     this.hero.body.setVelocity(0);
 
+    this.moveBird()
 
     if (DiscussionStatus.STARTED === this.currentDiscussionStatus || DiscussionStatus.WAITING == this.currentDiscussionStatus) {
       this.stopHero()

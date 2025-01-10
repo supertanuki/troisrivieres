@@ -35,11 +35,14 @@ export default class Preloader extends Phaser.Scene {
 
 		//this.load.atlas('enemy', 'sprites/enemy.png', 'sprites/enemy.json');
 
+		// @todo : to remove ?
 		this.load.image('ui-heart-empty', 'img/Heart/heart-empty.png')
 		this.load.image('ui-heart-half', 'img/Heart/heart-half.png')
 		this.load.image('ui-heart-full', 'img/Heart/heart-full.png')
 
 		this.load.image('ui-chat', 'img/ui/chat.png');
+		
+		this.load.image('flyingbird', 'sprites/flyingbird.png');
 	}
 
 	create() {
