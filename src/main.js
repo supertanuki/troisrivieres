@@ -17,7 +17,7 @@ const config = {
 			gravity: { y: 0 },
 		},
 	},
-	scene: [Preloader, Game, Message, Workflow], // GameUI
+	scene: [Preloader, Game, Message, Workflow],
 	scale: {
 		zoom: 2,
 		mode: Phaser.Scale.FIT,

@@ -35,7 +35,6 @@ export default class Game extends Phaser.Scene {
     this.died = false;
 
     this.heroHealth = 10;
-    this.enemies;
     this.currentDiscussionStatus = DiscussionStatus.NONE;
     this.currentDiscussionSprite = null
 
@@ -159,7 +158,6 @@ export default class Game extends Phaser.Scene {
   }
 
   handleDiscussionEnded(sprite) {
-    this.cameras.main.zoomTo(1, 100);
     this.currentDiscussionStatus = DiscussionStatus.NONE
     this[sprite].stopChatting()
     // move after delay
@@ -244,7 +242,6 @@ export default class Game extends Phaser.Scene {
     }
 
     if (this.currentDiscussionStatus === DiscussionStatus.READY) {
-      this.cameras.main.zoomTo(1.5, 100);
       this.currentDiscussionStatus = DiscussionStatus.STARTED
       sceneEventsEmitter.emit(sceneEvents.DiscussionStarted, this.currentDiscussionSprite);
       return
@@ -335,28 +332,6 @@ export default class Game extends Phaser.Scene {
     this.joystick.on("pointerdown", this.handleAction, this)
   }
 
-  handleHeroEnemyCollision(hero, enemy) {
-    if (this.died) {
-      return;
-    }
-
-    const dx = this.hero.x - enemy.x;
-    const dy = this.hero.y - enemy.y;
-
-    const dir = new Phaser.Math.Vector2(dx, dy).normalize().scale(200);
-
-    this.hero.setVelocity(dir.x, dir.y);
-
-    if (this.hit > 0) {
-      return;
-    }
-
-    this.cameras.main.shake(300, 0.01);
-    this.hit = 1;
-    --this.heroHealth;
-    sceneEventsEmitter.emit(sceneEvents.HEARTSCHANGED, this.heroHealth);
-  }
-
   goLeft() {
     this.hero.setVelocityX(-this.speed);
     this.hero.scaleX = -1;
@@ -417,46 +392,7 @@ export default class Game extends Phaser.Scene {
     }
   }
 
-  gameOver() {
-    this.hero.anims.play("hero-die", true);
-    this.hero.setVelocity(0, 0);
-    this.died = true;
-
-    this.add.text(this.hero.x - 88, this.hero.y - 28, 'GAME OVER', {
-			fontFamily: 'Quicksand',
-			fontSize: '28px',
-			color: '#000'
-		})
-    this.add.text(this.hero.x - 90, this.hero.y - 30, 'GAME OVER', {
-			fontFamily: 'Quicksand',
-			fontSize: '28px',
-			color: '#fff'
-		})
-
-    sceneEventsEmitter.emit(sceneEvents.GAMEOVER);
-
-    setTimeout(() => {
-      if (confirm("Game Over ! Rejouer ?")) {
-        location.reload();
-      }
-    }, 3000);
-  }
-
   update(time, delta) {
-    if (this.died) {
-      return;
-    }
-
-    if (this.hit > 0) {
-      this.handleHit();
-      return;
-    }
-
-    if (this.heroHealth <= 0) {
-      this.gameOver();
-      return;
-    }
-
     if (!this.cursors || !this.hero) {
       return;
     }
