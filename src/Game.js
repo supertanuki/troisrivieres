@@ -8,12 +8,12 @@ import "./Sprites/Miner";
 import "./Sprites/Bird";
 
 const DiscussionStatus = {
-  'NONE': 'NONE',
-  'READY': 'READY',
-	'STARTED': 'STARTED',
-	'WAITING': 'WAITING',
-	'INPROGRESS': 'INPROGRESS',
-}
+  NONE: "NONE",
+  READY: "READY",
+  STARTED: "STARTED",
+  WAITING: "WAITING",
+  INPROGRESS: "INPROGRESS",
+};
 
 export default class Game extends Phaser.Scene {
   constructor() {
@@ -30,15 +30,15 @@ export default class Game extends Phaser.Scene {
     this.goingUp = false;
     this.goingAngle = null;
     this.land = null;
-    this.topObjects = null
+    this.topObjects = null;
     this.hit = 0;
     this.died = false;
 
     this.heroHealth = 10;
     this.currentDiscussionStatus = DiscussionStatus.NONE;
-    this.currentDiscussionSprite = null
+    this.currentDiscussionSprite = null;
 
-    this.bird = null
+    this.bird = null;
   }
 
   preload() {
@@ -46,8 +46,8 @@ export default class Game extends Phaser.Scene {
   }
 
   create() {
-    this.scene.run("game-ui")
-    this.scene.run("message")
+    this.scene.run("game-ui");
+    this.scene.run("message");
 
     createHeroAnims(this.anims);
 
@@ -58,45 +58,58 @@ export default class Game extends Phaser.Scene {
     map.createLayer("subbottom", tileset);
     map.createLayer("bottom", tileset);
 
-    map.getObjectLayer('hero').objects.forEach(heroPosition => {
-      this.hero = this.physics.add.sprite(heroPosition.x, heroPosition.y, "hero", "run-down-1")
+    map.getObjectLayer("hero").objects.forEach((heroPosition) => {
+      this.hero = this.physics.add.sprite(
+        heroPosition.x,
+        heroPosition.y,
+        "hero",
+        "run-down-1"
+      );
     });
 
     this.hero.body.setSize(this.hero.width * 0.5, this.hero.height * 0.8);
     this.hero.anims.play("hero-idle-down", true);
 
-    map.getObjectLayer('farmer').objects.forEach(farmerPosition => {
-      this.farmer = this.add.farmer(farmerPosition.x, farmerPosition.y, 'farmer')
-      this.farmer.setImmovable(true)
-      this.farmer.setInteractive()
-      this.farmer.on("pointerdown", this.handleAction, this)
+    map.getObjectLayer("farmer").objects.forEach((farmerPosition) => {
+      this.farmer = this.add.farmer(
+        farmerPosition.x,
+        farmerPosition.y,
+        "farmer"
+      );
+      this.farmer.setImmovable(true);
+      this.farmer.setInteractive();
+      this.farmer.on("pointerdown", this.handleAction, this);
     });
 
-    let futurePosition
-    map.getObjectLayer('miner').objects.forEach(minerPosition => {
-      if ('miner_position1' === minerPosition.name) {
-        this.miner = this.add.miner(minerPosition.x, minerPosition.y, 'miner')
-        this.miner.setImmovable(true)
-        this.miner.setInteractive()
-        this.miner.on("pointerdown", this.handleAction, this)
+    let futurePosition;
+    map.getObjectLayer("miner").objects.forEach((minerPosition) => {
+      if ("miner_position1" === minerPosition.name) {
+        this.miner = this.add.miner(minerPosition.x, minerPosition.y, "miner");
+        this.miner.setImmovable(true);
+        this.miner.setInteractive();
+        this.miner.on("pointerdown", this.handleAction, this);
       } else {
-        futurePosition = { x: minerPosition.x, y: minerPosition.y }
+        futurePosition = { x: minerPosition.x, y: minerPosition.y };
       }
     });
-    this.miner.addFuturePosition(futurePosition)
+    this.miner.addFuturePosition(futurePosition);
 
     // Add trees
     this.anims.create({
-      key: 'animated-tree',
-      frames: this.anims.generateFrameNames('tree', { start: 0, end: 7, prefix: 'tree-' }),
+      key: "animated-tree",
+      frames: this.anims.generateFrameNames("tree", {
+        start: 0,
+        end: 7,
+        prefix: "tree-",
+      }),
       repeat: -1,
-      frameRate: 6
+      frameRate: 6,
     });
 
-    const treesLayer = map.getObjectLayer('trees')
+    const treesLayer = map.getObjectLayer("trees");
     // sort tress in order to draw trees from top to down
     treesLayer.objects.sort((a, b) => a.y - b.y);
-    treesLayer.objects.forEach(treeObject => {
+    treesLayer.objects.forEach((treeObject) => {
       const tree = this.add.sprite(treeObject.x + 3, treeObject.y - 50, "tree");
       tree.anims.play("animated-tree");
     });
@@ -105,66 +118,86 @@ export default class Game extends Phaser.Scene {
     this.topObjects.setCollisionByProperty({ collide: true });
 
     this.physics.add.collider(this.farmer, this.land, () => {
-      this.farmer.changeDirection()
+      this.farmer.changeDirection();
     });
     this.physics.add.collider(this.farmer, this.topObjects, () => {
-      this.farmer.changeDirection()
+      this.farmer.changeDirection();
     });
     this.physics.add.collider(this.farmer, this.hero, () => {
-      sceneEventsEmitter.emit(sceneEvents.DiscussionReady, 'farmer')
-      this.farmer.readyToChat()
+      sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "farmer");
+      this.farmer.readyToChat();
     });
 
     this.physics.add.collider(this.miner, this.hero, () => {
-      sceneEventsEmitter.emit(sceneEvents.DiscussionReady, 'miner')
-      this.miner.readyToChat()
+      sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "miner");
+      this.miner.readyToChat();
     });
 
     this.physics.add.collider(this.hero, this.land);
     this.physics.add.collider(this.hero, this.topObjects);
 
     this.cameras.main.startFollow(this.hero, true);
-    this.createControls()
+    this.createControls();
 
-    this.bird = this.add.bird(this.hero.x, this.hero.y)
+    this.bird = this.add.bird(this.hero.x, this.hero.y);
 
-    sceneEventsEmitter.on(sceneEvents.DiscussionReady, this.handleDiscussionReady, this)
-    sceneEventsEmitter.on(sceneEvents.DiscussionStarted, this.handleDiscussionStarted, this)
-    sceneEventsEmitter.on(sceneEvents.DiscussionWaiting, this.handleDiscussionWaiting, this)
-    sceneEventsEmitter.on(sceneEvents.DiscussionEnded, this.handleDiscussionEnded, this)
-    sceneEventsEmitter.on(sceneEvents.DiscussionInProgress, this.handleDiscussionInProgress, this)
+    sceneEventsEmitter.on(
+      sceneEvents.DiscussionReady,
+      this.handleDiscussionReady,
+      this
+    );
+    sceneEventsEmitter.on(
+      sceneEvents.DiscussionStarted,
+      this.handleDiscussionStarted,
+      this
+    );
+    sceneEventsEmitter.on(
+      sceneEvents.DiscussionWaiting,
+      this.handleDiscussionWaiting,
+      this
+    );
+    sceneEventsEmitter.on(
+      sceneEvents.DiscussionEnded,
+      this.handleDiscussionEnded,
+      this
+    );
+    sceneEventsEmitter.on(
+      sceneEvents.DiscussionInProgress,
+      this.handleDiscussionInProgress,
+      this
+    );
   }
 
   handleDiscussionReady(sprite) {
     if (this.currentDiscussionStatus !== DiscussionStatus.NONE) {
-      return
+      return;
     }
 
-    this.currentDiscussionStatus = DiscussionStatus.READY
-    this.currentDiscussionSprite = sprite
-    this.endWaitingToChatAfterDelay(sprite)
+    this.currentDiscussionStatus = DiscussionStatus.READY;
+    this.currentDiscussionSprite = sprite;
+    this.endWaitingToChatAfterDelay(sprite);
   }
 
   handleDiscussionInProgress() {
-    this.currentDiscussionStatus = DiscussionStatus.INPROGRESS
+    this.currentDiscussionStatus = DiscussionStatus.INPROGRESS;
   }
 
   handleDiscussionStarted() {
-    this.currentDiscussionStatus = DiscussionStatus.STARTED
+    this.currentDiscussionStatus = DiscussionStatus.STARTED;
   }
 
   handleDiscussionWaiting() {
-    this.currentDiscussionStatus = DiscussionStatus.WAITING
+    this.currentDiscussionStatus = DiscussionStatus.WAITING;
   }
 
   handleDiscussionEnded(sprite) {
-    this.currentDiscussionStatus = DiscussionStatus.NONE
-    this[sprite].stopChatting()
+    this.currentDiscussionStatus = DiscussionStatus.NONE;
+    this[sprite].stopChatting();
     // move after delay
     this.time.addEvent({
       callback: () => {
         if (this.currentDiscussionStatus == DiscussionStatus.NONE) {
-          this[sprite].move()
+          this[sprite].move();
         }
       },
       delay: 2000,
@@ -175,9 +208,9 @@ export default class Game extends Phaser.Scene {
     this.time.addEvent({
       callback: () => {
         if (this.currentDiscussionStatus === DiscussionStatus.READY) {
-          this.currentDiscussionStatus = DiscussionStatus.NONE
-          this[sprite].stopChatting()
-          this[sprite].move()
+          this.currentDiscussionStatus = DiscussionStatus.NONE;
+          this[sprite].stopChatting();
+          this[sprite].move();
         }
       },
       delay: 2000,
@@ -209,7 +242,7 @@ export default class Game extends Phaser.Scene {
           this.goingRight = true;
           this.goingLeft = false;
         } else if (event.keyCode === 32) {
-          this.handleAction()
+          this.handleAction();
         }
       },
       this
@@ -230,21 +263,24 @@ export default class Game extends Phaser.Scene {
       },
       this
     );
-    
-    this.addJoystickForMobile()
+
+    this.addJoystickForMobile();
   }
 
   handleAction() {
     if (this.currentDiscussionStatus === DiscussionStatus.WAITING) {
-      this.currentDiscussionStatus = DiscussionStatus.STARTED
+      this.currentDiscussionStatus = DiscussionStatus.STARTED;
       sceneEventsEmitter.emit(sceneEvents.DiscussionContinuing);
-      return
+      return;
     }
 
     if (this.currentDiscussionStatus === DiscussionStatus.READY) {
-      this.currentDiscussionStatus = DiscussionStatus.STARTED
-      sceneEventsEmitter.emit(sceneEvents.DiscussionStarted, this.currentDiscussionSprite);
-      return
+      this.currentDiscussionStatus = DiscussionStatus.STARTED;
+      sceneEventsEmitter.emit(
+        sceneEvents.DiscussionStarted,
+        this.currentDiscussionSprite
+      );
+      return;
     }
   }
 
@@ -329,7 +365,7 @@ export default class Game extends Phaser.Scene {
       this
     );
 
-    this.joystick.on("pointerdown", this.handleAction, this)
+    this.joystick.on("pointerdown", this.handleAction, this);
   }
 
   goLeft() {
@@ -399,13 +435,15 @@ export default class Game extends Phaser.Scene {
 
     this.hero.body.setVelocity(0);
 
-    this.bird.move()
+    this.bird.move();
 
-    if (DiscussionStatus.STARTED === this.currentDiscussionStatus || DiscussionStatus.WAITING == this.currentDiscussionStatus) {
-      this.stopHero()
-      return
+    if (
+      DiscussionStatus.STARTED === this.currentDiscussionStatus ||
+      DiscussionStatus.WAITING == this.currentDiscussionStatus
+    ) {
+      this.stopHero();
+      return;
     }
-
 
     if (this.goingLeft) {
       this.goLeft();
