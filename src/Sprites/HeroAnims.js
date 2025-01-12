@@ -1,5 +1,3 @@
-import Phaser from 'phaser'
-
 export const createHeroAnims = function(anims) {
 	anims.create({
 		key: 'hero-idle-down',

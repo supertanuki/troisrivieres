@@ -1,8 +1,8 @@
 import Phaser from "phaser";
-import { createHeroAnims } from "./HeroAnims";
 import { sceneEventsEmitter, sceneEvents } from "./Events/EventsCenter";
 import isMobile from "./Utils/isMobile";
 
+import "./Sprites/Hero";
 import "./Sprites/Farmer";
 import "./Sprites/Miner";
 import "./Sprites/Bird";
@@ -22,7 +22,6 @@ export default class Game extends Phaser.Scene {
     this.cursors = null;
     this.hero = null;
     this.joystick = null;
-    this.speed = 100;
 
     this.goingLeft = false;
     this.goingRight = false;
@@ -31,10 +30,7 @@ export default class Game extends Phaser.Scene {
     this.goingAngle = null;
     this.land = null;
     this.topObjects = null;
-    this.hit = 0;
-    this.died = false;
 
-    this.heroHealth = 10;
     this.currentDiscussionStatus = DiscussionStatus.NONE;
     this.currentDiscussionSprite = null;
 
@@ -46,10 +42,7 @@ export default class Game extends Phaser.Scene {
   }
 
   create() {
-    this.scene.run("game-ui");
     this.scene.run("message");
-
-    createHeroAnims(this.anims);
 
     const map = this.make.tilemap({ key: "map" });
     const tileset = map.addTilesetImage("tiles", "tiles");
@@ -59,7 +52,7 @@ export default class Game extends Phaser.Scene {
     map.createLayer("bottom", tileset);
 
     map.getObjectLayer("hero").objects.forEach((heroPosition) => {
-      this.hero = this.physics.add.sprite(
+      this.hero = this.add.hero(
         heroPosition.x,
         heroPosition.y,
         "hero",
@@ -67,8 +60,7 @@ export default class Game extends Phaser.Scene {
       );
     });
 
-    this.hero.body.setSize(this.hero.width * 0.5, this.hero.height * 0.8);
-    this.hero.anims.play("hero-idle-down", true);
+
 
     map.getObjectLayer("farmer").objects.forEach((farmerPosition) => {
       this.farmer = this.add.farmer(
@@ -76,8 +68,6 @@ export default class Game extends Phaser.Scene {
         farmerPosition.y,
         "farmer"
       );
-      this.farmer.setImmovable(true);
-      this.farmer.setInteractive();
       this.farmer.on("pointerdown", this.handleAction, this);
     });
 
@@ -117,24 +107,7 @@ export default class Game extends Phaser.Scene {
     this.topObjects = map.createLayer("top", tileset);
     this.topObjects.setCollisionByProperty({ collide: true });
 
-    this.physics.add.collider(this.farmer, this.land, () => {
-      this.farmer.changeDirection();
-    });
-    this.physics.add.collider(this.farmer, this.topObjects, () => {
-      this.farmer.changeDirection();
-    });
-    this.physics.add.collider(this.farmer, this.hero, () => {
-      sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "farmer");
-      this.farmer.readyToChat();
-    });
-
-    this.physics.add.collider(this.miner, this.hero, () => {
-      sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "miner");
-      this.miner.readyToChat();
-    });
-
-    this.physics.add.collider(this.hero, this.land);
-    this.physics.add.collider(this.hero, this.topObjects);
+    this.addCollisionManagement()
 
     this.cameras.main.startFollow(this.hero, true);
     this.createControls();
@@ -166,6 +139,27 @@ export default class Game extends Phaser.Scene {
       this.handleDiscussionInProgress,
       this
     );
+  }
+
+  addCollisionManagement() {
+    this.physics.add.collider(this.farmer, this.land, () => {
+      this.farmer.changeDirection();
+    });
+    this.physics.add.collider(this.farmer, this.topObjects, () => {
+      this.farmer.changeDirection();
+    });
+    this.physics.add.collider(this.farmer, this.hero, () => {
+      sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "farmer");
+      this.farmer.readyToChat();
+    });
+
+    this.physics.add.collider(this.miner, this.hero, () => {
+      sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "miner");
+      this.miner.readyToChat();
+    });
+
+    this.physics.add.collider(this.hero, this.land);
+    this.physics.add.collider(this.hero, this.topObjects);
   }
 
   handleDiscussionReady(sprite) {
@@ -368,72 +362,12 @@ export default class Game extends Phaser.Scene {
     this.joystick.on("pointerdown", this.handleAction, this);
   }
 
-  goLeft() {
-    this.hero.setVelocityX(-this.speed);
-    this.hero.scaleX = -1;
-    this.hero.body.offset.x = 24;
-  }
-
-  goRight() {
-    this.hero.setVelocityX(this.speed);
-    this.hero.scaleX = 1;
-    this.hero.body.offset.x = 8;
-  }
-
-  goUp() {
-    this.hero.setVelocityY(-this.speed);
-    //this.hero.body.offset.y = 8;
-  }
-
-  goDown() {
-    this.hero.setVelocityY(this.speed);
-    //this.hero.body.offset.y = 4;
-  }
-
-  animateToLeft() {
-    this.hero.anims.play("hero-run-side", true);
-  }
-
-  animateToRight() {
-    this.hero.anims.play("hero-run-side", true);
-  }
-
-  animateToUp() {
-    this.hero.anims.play("hero-run-up", true);
-  }
-
-  animateToDown() {
-    this.hero.anims.play("hero-run-down", true);
-  }
-
-  stopHero() {
-    this.goingLeft = false;
-    this.goingRight = false;
-    this.goingDown = false;
-    this.goingUp = false;
-
-    const parts = this.hero.anims.currentAnim.key.split("-");
-    parts[1] = "idle";
-    this.hero.anims.play(parts.join("-"));
-    this.hero.setVelocity(0, 0);
-  }
-
-  handleHit() {
-    ++this.hit;
-    this.hero.setTint(0xff0000);
-
-    if (this.hit > 10) {
-      this.hit = 0;
-      this.hero.setTint(0xffffff);
-    }
-  }
-
   update(time, delta) {
     if (!this.cursors || !this.hero) {
       return;
     }
 
-    this.hero.body.setVelocity(0);
+    this.hero.resetVelocity();
 
     this.bird.move();
 
@@ -441,20 +375,20 @@ export default class Game extends Phaser.Scene {
       DiscussionStatus.STARTED === this.currentDiscussionStatus ||
       DiscussionStatus.WAITING == this.currentDiscussionStatus
     ) {
-      this.stopHero();
+      this.hero.stopAndWait();
       return;
     }
 
     if (this.goingLeft) {
-      this.goLeft();
+      this.hero.goLeft();
     } else if (this.goingRight) {
-      this.goRight();
+      this.hero.goRight();
     }
 
     if (this.goingUp) {
-      this.goUp();
+      this.hero.goUp();
     } else if (this.goingDown) {
-      this.goDown();
+      this.hero.goDown();
     }
 
     // Animation need to be done once
@@ -463,21 +397,21 @@ export default class Game extends Phaser.Scene {
       (null === this.goingAngle ||
         (-45 > this.goingAngle && -135 <= this.goingAngle))
     ) {
-      this.animateToUp();
+      this.hero.animateToUp();
     } else if (
       this.goingDown &&
       (null === this.goingAngle ||
         (45 < this.goingAngle && 135 >= this.goingAngle))
     ) {
-      this.animateToDown();
+      this.hero.animateToDown();
     } else if (
       this.goingRight &&
       (null === this.goingAngle ||
         (45 > this.goingAngle && -45 <= this.goingAngle))
     ) {
-      this.animateToRight();
+      this.hero.animateToRight();
     } else if (this.goingLeft) {
-      this.animateToLeft();
+      this.hero.animateToLeft();
     }
 
     if (
@@ -486,7 +420,11 @@ export default class Game extends Phaser.Scene {
       !this.goingRight &&
       !this.goingLeft
     ) {
-      this.stopHero();
+      this.goingLeft = false;
+      this.goingRight = false;
+      this.goingDown = false;
+      this.goingUp = false;
+      this.hero.stopAndWait();
     }
   }
 }

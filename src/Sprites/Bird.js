@@ -37,6 +37,7 @@ export default class Bird extends Phaser.GameObjects.Image {
   }
 
   preUpdate(time, delta) {
+    // nothing
   }
 }
 

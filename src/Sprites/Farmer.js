@@ -158,6 +158,9 @@ Phaser.GameObjects.GameObjectFactory.register(
       Phaser.Physics.Arcade.DYNAMIC_BODY
     );
 
+    sprite.setImmovable(true);
+    sprite.setInteractive();
+
     this.displayList.add(sprite);
     this.updateList.add(sprite);
 
