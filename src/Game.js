@@ -60,8 +60,6 @@ export default class Game extends Phaser.Scene {
       );
     });
 
-
-
     map.getObjectLayer("farmer").objects.forEach((farmerPosition) => {
       this.farmer = this.add.farmer(
         farmerPosition.x,
@@ -107,7 +105,7 @@ export default class Game extends Phaser.Scene {
     this.topObjects = map.createLayer("top", tileset);
     this.topObjects.setCollisionByProperty({ collide: true });
 
-    this.addCollisionManagement()
+    this.addCollisionManagement();
 
     this.cameras.main.startFollow(this.hero, true);
     this.createControls();
@@ -372,8 +370,11 @@ export default class Game extends Phaser.Scene {
     this.bird.move();
 
     if (
-      DiscussionStatus.STARTED === this.currentDiscussionStatus ||
-      DiscussionStatus.WAITING == this.currentDiscussionStatus
+      [
+        DiscussionStatus.STARTED,
+        DiscussionStatus.WAITING,
+        DiscussionStatus.INPROGRESS,
+      ].includes(this.currentDiscussionStatus)
     ) {
       this.hero.stopAndWait();
       return;
