@@ -352,7 +352,7 @@ export default class Game extends Phaser.Scene {
       "pointerup",
       function () {
         this.joystick.setVisible(false);
-        this.stopHero();
+        this.hero.stopAndWait();
       },
       this
     );
