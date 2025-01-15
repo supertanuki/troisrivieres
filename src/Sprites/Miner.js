@@ -12,8 +12,8 @@ class Miner extends Phaser.Physics.Arcade.Sprite {
       frames: [{ key: "farmer", frame: "walk-down-2" }],
     });
 
-    this.chatImageUi = scene.add.image(0, 0, 'ui-chat');
-    this.chatImageUi.setVisible(false)
+    this.chatImageUi = scene.add.image(this.x, this.y - 20, 'ui-chat');
+    this.chatImageUi.setVisible(true)
     this.chatImageUi.setDepth(1000)
 
     this.chatTextUi = scene.add.text(0, 2, isMobile() ? 'Appuyer pour continuer': 'Appuyer sur espace', {
@@ -44,6 +44,8 @@ class Miner extends Phaser.Physics.Arcade.Sprite {
     console.log('moveMinerToNewPosition', this.futureMinerPosition)
     const {x, y} = this.futureMinerPosition
     this.setPosition(x, y)
+    this.chatImageUi.x = this.x
+    this.chatImageUi.y = this.y - 20
   }
 
   move() {
@@ -51,15 +53,11 @@ class Miner extends Phaser.Physics.Arcade.Sprite {
   }
 
   stopChatting() {
-    this.chatImageUi.setVisible(false)
     this.chatTextUi.setVisible(false)
   }
 
   readyToChat() {
     this.stopMoving()
-    this.chatImageUi.x = this.x
-    this.chatImageUi.y = this.y - 20
-    this.chatImageUi.setVisible(true)
 
     this.chatTextUi.x = this.x - 50
     this.chatTextUi.y = this.y - 48

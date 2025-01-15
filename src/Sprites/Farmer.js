@@ -58,7 +58,7 @@ class Farmer extends Phaser.Physics.Arcade.Sprite {
     });
 
     this.chatImageUi = scene.add.image(0, 0, 'ui-chat');
-    this.chatImageUi.setVisible(false)
+    this.chatImageUi.setVisible(true)
     this.chatImageUi.setDepth(1000)
 
     this.chatTextUi = scene.add.text(0, 2, isMobile() ? 'Appuyer pour continuer': 'Appuyer sur espace', {
@@ -81,7 +81,6 @@ class Farmer extends Phaser.Physics.Arcade.Sprite {
   }
 
   stopChatting() {
-    this.chatImageUi.setVisible(false)
     this.chatTextUi.setVisible(false)
   }
 
@@ -112,6 +111,9 @@ class Farmer extends Phaser.Physics.Arcade.Sprite {
     if (!this.isMoving) {
       return
     }
+
+    this.chatImageUi.x = this.x
+    this.chatImageUi.y = this.y - 20
 
     switch (this.direction) {
       case Direction.UP:
