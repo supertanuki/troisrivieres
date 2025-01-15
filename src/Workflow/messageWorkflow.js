@@ -1,3 +1,8 @@
+const spriteNames = {
+  farmer: 'Jojo',
+  miner: 'Kolo',
+}
+
 const messageWorkflow = {
   farmer: [
     {
@@ -79,4 +84,4 @@ const messageWorkflow = {
   ],
 };
 
-export { messageWorkflow };
+export { spriteNames, messageWorkflow };

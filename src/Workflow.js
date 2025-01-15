@@ -114,7 +114,7 @@ export default class Workflow {
     }
 
     sceneEventsEmitter.emit(sceneEvents.DiscussionInProgress);
-    sceneEventsEmitter.emit(sceneEvents.MessageSent, message);
+    sceneEventsEmitter.emit(sceneEvents.MessageSent, { sprite: this.currentSprite, message });
   }
 
   unlockMessages(data) {
