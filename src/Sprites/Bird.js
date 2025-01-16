@@ -1,16 +1,28 @@
 import Phaser from "phaser";
 
-export default class Bird extends Phaser.GameObjects.Image {
+const SPEED = 200
+
+export default class Bird extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
-    super(scene, x, y, "flyingbird");
+    super(scene, x, y, "waitingbird");
     this.scene = scene;
     this.birdDirection = 1;
+    this.flying = false
+  }
+
+  fly() {
+    if (this.flying) {
+      return;
+    }
+
+    this.setTexture("flyingbird")
+    this.birdDirection = this.scene.goingRight ? 1 : -1
+    this.scaleX = this.birdDirection
+    this.setOffset(this.birdDirection === -1 ? 25 : -25, -25)
+    this.flying = true
   }
 
   move() {
-    if (!this.active) {
-      return;
-    }
     const worldView = this.scene.cameras.main.worldView;
     this.x += 8 * this.birdDirection;
     this.y -= 1;
@@ -37,13 +49,25 @@ export default class Bird extends Phaser.GameObjects.Image {
   }
 
   preUpdate(time, delta) {
-    // nothing
+    super.preUpdate(time, delta);
+
+    if (!this.flying) {
+      return
+    }
+
+    this.setVelocity(SPEED * this.birdDirection, -50);
   }
 }
 
 Phaser.GameObjects.GameObjectFactory.register("bird", function (x, y) {
   const sprite = new Bird(this.scene, x, y);
 
+  this.scene.physics.world.enableBody(
+    sprite,
+    Phaser.Physics.Arcade.DYNAMIC_BODY
+  );
+
+  sprite.body.setSize(50, 50)
   this.displayList.add(sprite);
   this.updateList.add(sprite);
 

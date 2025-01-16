@@ -33,8 +33,7 @@ export default class Game extends Phaser.Scene {
 
     this.currentDiscussionStatus = DiscussionStatus.NONE;
     this.currentDiscussionSprite = null;
-
-    this.bird = null;
+    this.birds = []
   }
 
   preload() {
@@ -105,12 +104,14 @@ export default class Game extends Phaser.Scene {
     this.topObjects = map.createLayer("top", tileset);
     this.topObjects.setCollisionByProperty({ collide: true });
 
+    map.getObjectLayer("birds").objects.forEach((birdPosition) => {
+      this.birds.push(this.add.bird(birdPosition.x, birdPosition.y))
+    });
+
     this.addCollisionManagement();
 
     this.cameras.main.startFollow(this.hero, true);
     this.createControls();
-
-    this.bird = this.add.bird(this.hero.x, this.hero.y);
 
     sceneEventsEmitter.on(
       sceneEvents.DiscussionReady,
@@ -146,6 +147,7 @@ export default class Game extends Phaser.Scene {
     this.physics.add.collider(this.farmer, this.topObjects, () => {
       this.farmer.changeDirection();
     });
+
     this.physics.add.collider(this.farmer, this.hero, () => {
       sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "farmer");
       this.farmer.readyToChat();
@@ -154,6 +156,10 @@ export default class Game extends Phaser.Scene {
     this.physics.add.collider(this.miner, this.hero, () => {
       sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "miner");
       this.miner.readyToChat();
+    });
+
+    this.physics.add.collider(this.birds, this.hero, (bird) => {
+      bird.fly()
     });
 
     this.physics.add.collider(this.hero, this.land);
@@ -366,8 +372,6 @@ export default class Game extends Phaser.Scene {
     }
 
     this.hero.resetVelocity();
-
-    this.bird.move();
 
     if (
       [

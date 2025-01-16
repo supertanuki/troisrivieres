@@ -34,6 +34,7 @@ export default class Preloader extends Phaser.Scene {
 
 		this.load.image('ui-chat', 'img/ui/chat.png');
 		
+		this.load.image('waitingbird', 'sprites/waitingbird.png');
 		this.load.image('flyingbird', 'sprites/flyingbird.png');
 	}
 
