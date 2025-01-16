@@ -34,7 +34,6 @@ class Miner extends Phaser.Physics.Arcade.Sprite {
   }
 
   listenEvents(data) {
-    console.log('listenEvents', data)
     if (data.newUnlockedEvents.includes('miner_clothes_validated')) {
       this.moveMinerToNewPosition()
     }

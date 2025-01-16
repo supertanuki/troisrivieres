@@ -47,6 +47,8 @@ export default class Game extends Phaser.Scene {
     const tileset = map.addTilesetImage("tiles", "tiles");
     this.land = map.createLayer("land", tileset);
     this.land.setCollisionByProperty({ collide: true });
+    this.landUpdated = map.createLayer("landUpdated", tileset);
+    this.landUpdated.setVisible(false)
     map.createLayer("subbottom", tileset);
     map.createLayer("bottom", tileset);
 
@@ -138,6 +140,18 @@ export default class Game extends Phaser.Scene {
       this.handleDiscussionInProgress,
       this
     );
+
+    sceneEventsEmitter.on(
+      sceneEvents.EventsUnlocked,
+      this.listenEvents,
+      this
+    );
+  }
+
+  listenEvents(data) {
+    if (data.newUnlockedEvents.includes('miner_clothes_validated')) {
+      this.landUpdated.setVisible(true)
+    }
   }
 
   addCollisionManagement() {

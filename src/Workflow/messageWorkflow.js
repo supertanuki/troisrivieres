@@ -21,6 +21,9 @@ const messageWorkflow = {
         "pour creuser le sol, à la recherche de matières premières précieuses. ►",
         "Nous cherchons un moyen pour chasser ces miliciens.",
       ],
+      unlockEvents: [
+        'updated_land',
+      ],
     },
     {
       messages: [
