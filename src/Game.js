@@ -149,8 +149,15 @@ export default class Game extends Phaser.Scene {
   }
 
   listenEvents(data) {
-    if (data.newUnlockedEvents.includes('miner_clothes_validated')) {
+    if (data.newUnlockedEvents.includes('mine_clothes_found')) {
       this.landUpdated.setVisible(true)
+      this.cameras.main.fadeOut(200, 0, 0, 0)
+
+      this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
+        this.time.delayedCall(500, () => {
+          this.cameras.main.fadeIn(200, 0, 0, 0)
+        })
+      })
     }
   }
 

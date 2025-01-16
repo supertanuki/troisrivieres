@@ -11,6 +11,9 @@ const messageWorkflow = {
         "Tu n'as rien à faire dans notre village ! ►",
         "Vas t-en !",
       ],
+      unlockEvents: [
+        'updated_land',
+      ],
     },
     {
       messages: [
@@ -20,9 +23,6 @@ const messageWorkflow = {
         "depuis que ces miliciens sont venus et ont abattu des arbres... ►",
         "pour creuser le sol, à la recherche de matières premières précieuses. ►",
         "Nous cherchons un moyen pour chasser ces miliciens.",
-      ],
-      unlockEvents: [
-        'updated_land',
       ],
     },
     {
