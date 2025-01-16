@@ -1,17 +1,34 @@
 import Phaser from "phaser";
 
-const SPEED = 200
+const SPEEDX = 300
+const SPEEDY = -50
+
+const Status = {
+  waiting: 'waiting',
+  flying: 'flying',
+  outOfScreen: 'outOfScreen',
+};
 
 export default class Bird extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
     super(scene, x, y, "waitingbird");
     this.scene = scene;
     this.birdDirection = 1;
-    this.flying = false
+    this.status = Status.waiting
+    this.initialX = x
+    this.initialY = y
+  }
+
+  isFlying() {
+    return this.status === Status.flying
+  }
+
+  isOutOfScreen() {
+    return this.status === Status.outOfScreen
   }
 
   fly() {
-    if (this.flying) {
+    if (this.isFlying()) {
       return;
     }
 
@@ -19,43 +36,51 @@ export default class Bird extends Phaser.Physics.Arcade.Sprite {
     this.birdDirection = this.scene.goingRight ? 1 : -1
     this.scaleX = this.birdDirection
     this.setOffset(this.birdDirection === -1 ? 25 : -25, -25)
-    this.flying = true
-  }
-
-  move() {
-    const worldView = this.scene.cameras.main.worldView;
-    this.x += 8 * this.birdDirection;
-    this.y -= 1;
-
-    if (this.x > worldView.x + worldView.width || this.x < worldView.x) {
-      this.setActive(false);
-      this.setVisible(false);
-
-      this.scene.time.addEvent({
-        callback: () => {
-          this.reset();
-        },
-        delay: Phaser.Math.Between(2000, 5000),
-      });
-    }
+    this.status = Status.flying
   }
 
   reset() {
-    this.birdDirection = this.scene.goingRight ? 1 : -1;
-    this.setActive(true);
+    this.setTexture("waitingbird")
     this.setVisible(true);
-    this.y = this.scene.hero.y;
-    this.x = this.scene.hero.x + 30 * this.birdDirection;
+    this.x = this.initialX
+    this.y = this.initialY;
+    this.status = Status.waiting
+    this.birdDirection = 1
+    this.scaleX = 1
+    this.setOffset(-17, -19)
+  }
+
+  outOfScreen() {
+    this.status = Status.outOfScreen
+    this.setVelocity(0, 0)
+    this.setVisible(false)
   }
 
   preUpdate(time, delta) {
-    super.preUpdate(time, delta);
+    super.preUpdate(time, delta)
 
-    if (!this.flying) {
+    if (this.isOutOfScreen()) {
+      const mainCamera = this.scene.cameras.main
+      const hero = this.scene.hero
+
+      if (this.initialX < hero.x - mainCamera.width / 2 || this.initialX > hero.x + mainCamera.width / 2) {
+        this.reset()
+      }
+
       return
     }
 
-    this.setVelocity(SPEED * this.birdDirection, -50);
+    if (!this.isFlying()) {
+      this.setVelocity(0, 0)
+      return
+    }
+
+    this.setVelocity(SPEEDX * this.birdDirection, SPEEDY)
+    const worldView = this.scene.cameras.main.worldView
+
+    if (this.x > worldView.x + worldView.width || this.x < worldView.x) {
+      this.outOfScreen()
+    }
   }
 }
 
