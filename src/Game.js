@@ -34,6 +34,8 @@ export default class Game extends Phaser.Scene {
     this.currentDiscussionStatus = DiscussionStatus.NONE;
     this.currentDiscussionSprite = null;
     this.birds = []
+
+    this.backgrounds = []
   }
 
   preload() {
@@ -42,6 +44,26 @@ export default class Game extends Phaser.Scene {
 
   create() {
     this.scene.run("message");
+
+    // parallax backgrounds
+    const { width, height } = this.scale
+    this.add.image(0, 0, 'background-sky')
+      .setOrigin(0, 0)
+      .setScrollFactor(0)
+		this.backgrounds.push({
+			ratioX: 0.1,
+			sprite: this.add.tileSprite(0, 0, width, height, 'background-mountains')
+        .setPosition(0, -120)
+				.setOrigin(0, 0)
+				.setScrollFactor(0, 0)
+		})
+		this.backgrounds.push({
+			ratioX: 0.2,
+			sprite: this.add.tileSprite(0, 0, width, height, 'background-middle')
+        .setPosition(0, -140)
+				.setOrigin(0, 0)
+				.setScrollFactor(0, 0)
+		})
 
     const map = this.make.tilemap({ key: "map" });
     const tileset = map.addTilesetImage("tiles", "tiles");
@@ -452,5 +474,12 @@ export default class Game extends Phaser.Scene {
       this.goingUp = false;
       this.hero.stopAndWait();
     }
+
+    // parallax backgrounds
+    for (let i = 0; i < this.backgrounds.length; ++i) {
+			const bg = this.backgrounds[i]
+			bg.sprite.tilePositionX = this.cameras.main.scrollX * bg.ratioX
+      bg.sprite.tilePositionY = this.cameras.main.scrollY * 0.1
+		}
   }
 }
