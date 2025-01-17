@@ -52,15 +52,17 @@ export default class Game extends Phaser.Scene {
       .setScrollFactor(0)
 		this.backgrounds.push({
 			ratioX: 0.1,
+      ratioY: 0.5,
 			sprite: this.add.tileSprite(0, 0, width, height, 'background-mountains')
-        .setPosition(0, -120)
+        .setPosition(0, -20)
 				.setOrigin(0, 0)
 				.setScrollFactor(0, 0)
 		})
 		this.backgrounds.push({
 			ratioX: 0.2,
+      ratioY: 0.8,
 			sprite: this.add.tileSprite(0, 0, width, height, 'background-middle')
-        .setPosition(0, -140)
+        .setPosition(0, 0)
 				.setOrigin(0, 0)
 				.setScrollFactor(0, 0)
 		})
@@ -477,9 +479,11 @@ export default class Game extends Phaser.Scene {
 
     // parallax backgrounds
     for (let i = 0; i < this.backgrounds.length; ++i) {
-			const bg = this.backgrounds[i]
-			bg.sprite.tilePositionX = this.cameras.main.scrollX * bg.ratioX
-      bg.sprite.tilePositionY = this.cameras.main.scrollY * 0.1
+			const background = this.backgrounds[i]
+			background.sprite.setTilePosition(
+        this.cameras.main.scrollX * background.ratioX,
+        this.cameras.main.scrollY * background.ratioY
+      )
 		}
   }
 }

@@ -1973,15 +1973,15 @@
          "objects":[
                 {
                  "height":0,
-                 "id":205,
+                 "id":206,
                  "name":"hero",
                  "point":true,
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":1267,
-                 "y":650.5
+                 "x":1431,
+                 "y":358.5
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -2335,7 +2335,7 @@
          "y":0
         }],
  "nextlayerid":16,
- "nextobjectid":206,
+ "nextobjectid":207,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.11.1-93-ge62b7ff9",
