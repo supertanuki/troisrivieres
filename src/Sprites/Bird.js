@@ -9,11 +9,14 @@ const Status = {
   outOfScreen: 'outOfScreen',
 };
 
+const randomSign = () => Math.random() < 0.5 ? -1 : 1;
+
 export default class Bird extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
     super(scene, x, y, "waitingbird");
     this.scene = scene;
-    this.birdDirection = 1;
+    this.birdDirection = randomSign();
+    this.scaleX = this.birdDirection
     this.status = Status.waiting
     this.initialX = x
     this.initialY = y
@@ -44,10 +47,12 @@ export default class Bird extends Phaser.Physics.Arcade.Sprite {
     this.setVisible(true);
     this.x = this.initialX
     this.y = this.initialY;
-    this.status = Status.waiting
-    this.birdDirection = 1
-    this.scaleX = 1
     this.setOffset(-17, -19)
+    this.body.checkCollision.none = false
+    this.birdDirection = randomSign();
+    this.scaleX = this.birdDirection
+    this.setOffset(this.birdDirection === -1 ? 25 : -25, -25)
+    this.status = Status.waiting
   }
 
   outOfScreen() {
@@ -93,6 +98,8 @@ Phaser.GameObjects.GameObjectFactory.register("bird", function (x, y) {
   );
 
   sprite.body.setSize(50, 50)
+  sprite.setOffset(sprite.birdDirection === -1 ? 25 : -25, -25)
+
   this.displayList.add(sprite);
   this.updateList.add(sprite);
 
