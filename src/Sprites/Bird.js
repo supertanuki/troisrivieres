@@ -35,6 +35,7 @@ export default class Bird extends Phaser.Physics.Arcade.Sprite {
       return;
     }
 
+    this.body.checkCollision.none = true
     this.setTexture("flyingbird")
     this.birdDirection = this.scene.goingRight ? 1 : -1
     this.scaleX = this.birdDirection
