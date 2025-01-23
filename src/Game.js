@@ -6,6 +6,7 @@ import "./Sprites/Hero";
 import "./Sprites/Farmer";
 import "./Sprites/Miner";
 import "./Sprites/Bird";
+import { isScene1 } from "./Utils/isDebug";
 
 const DiscussionStatus = {
   NONE: "NONE",
@@ -42,8 +43,25 @@ export default class Game extends Phaser.Scene {
     this.cursors = this.input.keyboard.createCursorKeys();
   }
 
+  gotoScene1() {
+    this.scene.pause('game')
+    this.scene.start("cable-game")
+  }
+
   create() {
     this.scene.run("message");
+
+    if (isScene1()) {
+      this.gotoScene1()
+    }
+
+    const esc = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+    esc.on('down', () => {
+      this.cameras.main.fadeOut(200, 0, 0, 0)
+      this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
+        this.gotoScene1()
+      })
+    })
 
     // parallax backgrounds
     const { width, height } = this.scale
