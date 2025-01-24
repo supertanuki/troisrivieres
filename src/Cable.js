@@ -1,7 +1,7 @@
 import Phaser from "phaser";
 import { isDebug } from "./Utils/isDebug";
 
-const SPEED = 5
+const SPEED = 5;
 
 export default class Cable extends Phaser.Scene {
   constructor() {
@@ -20,14 +20,37 @@ export default class Cable extends Phaser.Scene {
     this.load.image("circle", "img/circle.png");
     this.load.image("water", "img/rain.png");
     this.load.image("mine-background", "img/mine-background.png");
+
     this.load.image("rock", "img/rock.png");
-    this.load.audio('music-background', "sounds/music.mp3");
+    this.load.json("shapes", "img/shapes.json");
+
+    this.load.audio("music-background", "sounds/music.mp3");
   }
 
   create() {
-    this.add.image(200, 150, 'mine-background')
+    this.matter.world.setBounds(0, 0, 550, 300);
+    this.add.image(200, 150, "mine-background");
+    const text = this.add.text(10, 10, 'Click to play and run music', { font: '32px Courier', fill: '#ffffff' });
+    text.setInteractive()
+    text.on('pointerdown', () => {
+      text.destroy()
+      this.start()
+    })
+  }
 
-    this.rock = this.physics.add.sprite(260, 195, 'rock')
+  start() {
+    this.started = true
+
+    const shapes = this.cache.json.get("shapes");
+    this.rock = this.matter.add.sprite(260, 195, "rock", null, {
+      shape: shapes.rock,
+    });
+    
+    this.rock.setBody({
+      type: "circle",
+      radius: 30,
+    });
+    
 
     this.mousePosition = { x: 420, y: 50 };
     const segments = [];
@@ -36,25 +59,24 @@ export default class Cable extends Phaser.Scene {
     const segmentHeight = 10;
 
     for (let i = 0; i < numSegments; i++) {
-      const segment = this.matter.add.sprite(
-            420,
-            50,
-            'circle',
-            null,
-            {
-                shape: {
-                    type: 'circle',
-                    width: segmentWidth,
-                    height: segmentHeight,
-                },
-                isStatic: i === 0
-            }
-        );
+      const segment = this.matter.add.sprite(420, 50, "circle", null, {
+        shape: {
+          type: "circle",
+          width: segmentWidth,
+          height: segmentHeight,
+        },
+        isStatic: i === 0,
+      });
 
       segments.push(segment);
 
       if (i > 0) {
-        this.matter.add.constraint(segments[i - 1].body, segment.body, segmentWidth, 0.5);
+        this.matter.add.constraint(
+          segments[i - 1].body,
+          segment.body,
+          segmentWidth,
+          0.5
+        );
       }
     }
 
@@ -66,40 +88,44 @@ export default class Cable extends Phaser.Scene {
     });
 
     this.water = this.add.particles(0, 0, "water", {
-        speed: { min: 100, max: 200 },
-        angle: { min: -200, max: -150 },
-        gravityY: 300,
-        lifespan: 2000,
-        quantity: 100,
-        scale: { start: 0.5, end: 0 },
-        emitting: false
-      })
-      
-    this.events.on("update", () => {
-        this.water.emitParticleAt(this.lastSegment.position.x - 10, this.lastSegment.position.y);
+      speed: { min: 100, max: 200 },
+      angle: { min: -200, max: -150 },
+      gravityY: 300,
+      lifespan: 2000,
+      quantity: 100,
+      scale: { start: 0.5, end: 0 },
+      emitting: false,
     });
 
-    this.createControls()
+    this.events.on("update", () => {
+      this.water.emitParticleAt(
+        this.lastSegment.position.x - 10,
+        this.lastSegment.position.y
+      );
+    });
 
-    // Bug : la musique ne se joue pas à tous les coups
-    //this.music = this.sound.add('music-background');
-    //this.music.play()
+    this.createControls();
+
+    // La musique se joue uniquement après une interaction (clic sur start)
+    this.music = this.sound.add('music-background');
+    this.music.loop = true
+    this.music.play()
   }
 
   goLeft() {
-    this.mousePosition.x -= SPEED
+    this.mousePosition.x -= SPEED;
   }
 
   goRight() {
-    this.mousePosition.x += SPEED
+    this.mousePosition.x += SPEED;
   }
 
   goUp() {
-    this.mousePosition.y -= SPEED
+    this.mousePosition.y -= SPEED;
   }
 
   goDown() {
-    this.mousePosition.y += SPEED
+    this.mousePosition.y += SPEED;
   }
 
   createControls() {
@@ -153,17 +179,21 @@ export default class Cable extends Phaser.Scene {
   handleAction() {}
 
   update() {
+    if (!this.started) {
+      return
+    }
+
     if (this.goingLeft) {
-        this.goLeft();
-      } else if (this.goingRight) {
-        this.goRight();
-      }
-  
-      if (this.goingUp) {
-        this.goUp();
-      } else if (this.goingDown) {
-        this.goDown();
-      }
+      this.goLeft();
+    } else if (this.goingRight) {
+      this.goRight();
+    }
+
+    if (this.goingUp) {
+      this.goUp();
+    } else if (this.goingDown) {
+      this.goDown();
+    }
 
     // Force
     const dx = this.mousePosition.x - this.lastSegment.position.x;
@@ -176,13 +206,11 @@ export default class Cable extends Phaser.Scene {
       { x: forceX, y: forceY }
     );
 
-
-    const waterOverlap = this.water.overlap(this.rock.body);
-    if (waterOverlap.length > 0)
-    {
-        waterOverlap.forEach(particle => {
-            particle.kill();
-        });
+    const waterOverlap = this.water.overlap(this.rock);
+    if (waterOverlap.length > 0) {
+      waterOverlap.forEach((particle) => {
+        particle.kill();
+      });
     }
   }
 }
