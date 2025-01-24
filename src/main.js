@@ -1,11 +1,12 @@
 import Phaser from "phaser";
 
+import { isDebug } from "./Utils/isDebug";
 import Preloader from "./Preloader";
 import Game from "./Game";
 import Message from "./Message";
 import Workflow from "./Workflow";
 import Cable from "./Cable";
-import { isDebug } from "./Utils/isDebug";
+import Factory from "./Factory";
 
 const config = {
   type: Phaser.AUTO,
@@ -20,7 +21,7 @@ const config = {
       gravity: { y: 0 },
     },
   },
-  scene: [Preloader, Game, Cable, Message, Workflow],
+  scene: [Preloader, Game, Cable, Factory, Message, Workflow],
   scale: {
     zoom: 2,
     mode: Phaser.Scale.FIT,

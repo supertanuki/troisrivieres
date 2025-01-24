@@ -7,3 +7,7 @@ export function isDebug() {
 export function isScene1() {
     return params.has("scene1");
 }
+
+export function isFactory() {
+  return params.has("factory");
+}

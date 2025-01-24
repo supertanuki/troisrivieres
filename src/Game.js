@@ -6,7 +6,7 @@ import "./Sprites/Hero";
 import "./Sprites/Farmer";
 import "./Sprites/Miner";
 import "./Sprites/Bird";
-import { isScene1 } from "./Utils/isDebug";
+import { isFactory, isScene1 } from "./Utils/isDebug";
 
 const DiscussionStatus = {
   NONE: "NONE",
@@ -48,12 +48,21 @@ export default class Game extends Phaser.Scene {
     this.scene.start("cable-game")
   }
 
-  create() {
-    this.scene.run("message");
+  gotoFactory() {
+    this.scene.pause('game')
+    this.scene.start("factory")
+  }
 
+  create() {
     if (isScene1()) {
       this.gotoScene1()
     }
+
+    if (isFactory()) {
+      this.gotoFactory()
+    }
+
+    this.scene.run("message");
 
     const esc = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
     esc.on('down', () => {
