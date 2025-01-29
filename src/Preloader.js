@@ -44,6 +44,11 @@ export default class Preloader extends Phaser.Scene {
 		this.load.image('background-middle', 'img/Parallax/Middle.png');
 		this.load.image('background-mountains', 'img/Parallax/Mountains.png');
 		this.load.image('background-sky', 'img/Parallax/Sky.png');
+
+		this.load.plugin(
+			"AnimatedTiles",
+			"https://raw.githubusercontent.com/nkholski/phaser-animated-tiles/master/dist/AnimatedTiles.js"
+		  );
 	}
 
 	create() {

@@ -36,79 +36,87 @@ export default class Game extends Phaser.Scene {
 
     this.currentDiscussionStatus = DiscussionStatus.NONE;
     this.currentDiscussionSprite = null;
-    this.birds = []
+    this.birds = [];
 
-    this.backgrounds = []
+    this.backgrounds = [];
   }
 
   preload() {
-    this.cursors = this.input.keyboard.createCursorKeys();
+    this.load.scenePlugin(
+      "AnimatedTiles",
+      "https://raw.githubusercontent.com/nkholski/phaser-animated-tiles/master/dist/AnimatedTiles.js",
+      "animatedTiles",
+      "animatedTiles"
+    );
   }
 
   gotoScene1() {
-    this.scene.pause('game')
-    this.scene.start("cable-game")
+    this.scene.pause("game");
+    this.scene.start("cable-game");
   }
 
   gotoFactory() {
-    this.scene.pause('game')
-    this.scene.start("factory")
+    this.scene.pause("game");
+    this.scene.start("factory");
   }
 
   create() {
     if (isScene1()) {
-      this.gotoScene1()
+      this.gotoScene1();
     }
 
     if (isFactory()) {
-      this.gotoFactory()
+      this.gotoFactory();
     }
 
     this.scene.run("message");
 
     const esc = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
-    esc.on('down', () => {
-      this.cameras.main.fadeOut(200, 0, 0, 0)
-      this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
-        this.gotoScene1()
-      })
-    })
+    esc.on("down", () => {
+      this.cameras.main.fadeOut(200, 0, 0, 0);
+      this.cameras.main.once(
+        Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE,
+        (cam, effect) => {
+          this.gotoScene1();
+        }
+      );
+    });
 
     // parallax backgrounds
-    const { width, height } = this.scale
-    this.add.image(0, 0, 'background-sky')
-      .setOrigin(0, 0)
-      .setScrollFactor(0)
-		this.backgrounds.push({
-			ratioX: 0.1,
+    const { width, height } = this.scale;
+    this.add.image(0, 0, "background-sky").setOrigin(0, 0).setScrollFactor(0);
+    this.backgrounds.push({
+      ratioX: 0.1,
       ratioY: 0.5,
-			sprite: this.add.tileSprite(0, -100, width, height, 'background-mountains')
+      sprite: this.add
+        .tileSprite(0, -100, width, height, "background-mountains")
         //.setPosition(0, 0)
-				.setOrigin(0, 0)
-				.setScrollFactor(0, 0)
-		})
-		this.backgrounds.push({
-			ratioX: 0.2,
+        .setOrigin(0, 0)
+        .setScrollFactor(0, 0),
+    });
+    this.backgrounds.push({
+      ratioX: 0.2,
       ratioY: 0.8,
-			sprite: this.add.tileSprite(0, -170, width, height, 'background-middle')
+      sprite: this.add
+        .tileSprite(0, -170, width, height, "background-middle")
         //.setPosition(0, 0)
-				.setOrigin(0, 0)
-				.setScrollFactor(0, 0)
-		})
+        .setOrigin(0, 0)
+        .setScrollFactor(0, 0),
+    });
 
     const map = this.make.tilemap({ key: "map" });
     const tileset = map.addTilesetImage("Atlas_01", "tiles");
 
     this.water = map.createLayer("water", tileset);
     this.water.setCollisionByProperty({ collide: true });
-    
+
     map.createLayer("waterUp", tileset);
 
     this.land = map.createLayer("land", tileset);
     this.land.setCollisionByProperty({ collide: true });
 
     //debugDraw(this.land, this)
-    
+
     //this.landUpdated = map.createLayer("landUpdated", tileset);
     //this.landUpdated.setVisible(false)
     //map.createLayer("subbottom", tileset);
@@ -118,12 +126,7 @@ export default class Game extends Phaser.Scene {
     this.sprites.setCollisionByProperty({ collide: true });
 
     map.getObjectLayer("hero").objects.forEach((heroPosition) => {
-      this.hero = this.add.hero(
-        heroPosition.x,
-        heroPosition.y,
-        "mai",
-        "back"
-      );
+      this.hero = this.add.hero(heroPosition.x, heroPosition.y, "mai", "back");
     });
 
     map.getObjectLayer("farmer").objects.forEach((farmerPosition) => {
@@ -175,9 +178,10 @@ export default class Game extends Phaser.Scene {
     this.topObjects.setCollisionByProperty({ collide: true });
 
     map.getObjectLayer("birds").objects.forEach((birdPosition) => {
-      this.birds.push(this.add.bird(birdPosition.x, birdPosition.y))
+      this.birds.push(this.add.bird(birdPosition.x, birdPosition.y));
     });
 
+    this.animatedTiles.init(map);
     this.addCollisionManagement();
 
     this.cameras.main.startFollow(this.hero, true);
@@ -209,23 +213,22 @@ export default class Game extends Phaser.Scene {
       this
     );
 
-    sceneEventsEmitter.on(
-      sceneEvents.EventsUnlocked,
-      this.listenEvents,
-      this
-    );
+    sceneEventsEmitter.on(sceneEvents.EventsUnlocked, this.listenEvents, this);
   }
 
   listenEvents(data) {
-    if (data.newUnlockedEvents.includes('mine_clothes_found')) {
-      this.landUpdated.setVisible(true)
-      this.cameras.main.fadeOut(200, 0, 0, 0)
+    if (data.newUnlockedEvents.includes("mine_clothes_found")) {
+      this.landUpdated.setVisible(true);
+      this.cameras.main.fadeOut(200, 0, 0, 0);
 
-      this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
-        this.time.delayedCall(500, () => {
-          this.cameras.main.fadeIn(200, 0, 0, 0)
-        })
-      })
+      this.cameras.main.once(
+        Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE,
+        (cam, effect) => {
+          this.time.delayedCall(500, () => {
+            this.cameras.main.fadeIn(200, 0, 0, 0);
+          });
+        }
+      );
     }
   }
 
@@ -250,7 +253,7 @@ export default class Game extends Phaser.Scene {
     */
 
     this.physics.add.collider(this.birds, this.hero, (bird) => {
-      bird.fly()
+      bird.fly();
     });
 
     this.physics.add.collider(this.hero, this.water);
@@ -527,11 +530,11 @@ export default class Game extends Phaser.Scene {
 
     // parallax backgrounds
     for (let i = 0; i < this.backgrounds.length; ++i) {
-			const background = this.backgrounds[i]
-			background.sprite.setTilePosition(
+      const background = this.backgrounds[i];
+      background.sprite.setTilePosition(
         this.cameras.main.scrollX * background.ratioX,
         this.cameras.main.scrollY * background.ratioY
-      )
-		}
+      );
+    }
   }
 }
