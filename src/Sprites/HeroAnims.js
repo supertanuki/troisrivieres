@@ -1,19 +1,20 @@
 export const createHeroAnims = function(anims) {
 	anims.create({
-		key: 'hero-idle-down',
-		frames: [{ key: 'hero', frame: 'run-down-2' }]
+		key: 'mai-idle-down',
+		frames: [{ key: 'mai', frame: 'front' }]
 	});
 
 	anims.create({
-		key: 'hero-idle-up',
-		frames: [{ key: 'hero', frame: 'run-up-4' }]
+		key: 'mai-idle-up',
+		frames: [{ key: 'mai', frame: 'back' }]
 	});
 
 	anims.create({
-		key: 'hero-idle-side',
-		frames: [{ key: 'hero', frame: 'run-side-2' }]
+		key: 'mai-idle-side',
+		frames: [{ key: 'mai', frame: 'side' }]
 	});
 
+	/*
 	anims.create({
 		key: 'hero-run-down',
 		frames: anims.generateFrameNames('hero', { start: 1, end: 8, prefix: 'run-down-' }),
@@ -41,4 +42,5 @@ export const createHeroAnims = function(anims) {
 		repeat: 0,
 		frameRate: 14
 	});
+	*/
 }

@@ -7,6 +7,7 @@ import "./Sprites/Farmer";
 import "./Sprites/Miner";
 import "./Sprites/Bird";
 import { isFactory, isScene1 } from "./Utils/isDebug";
+import debugDraw from "./Utils/debugDraw";
 
 const DiscussionStatus = {
   NONE: "NONE",
@@ -29,6 +30,7 @@ export default class Game extends Phaser.Scene {
     this.goingDown = false;
     this.goingUp = false;
     this.goingAngle = null;
+    this.water = null;
     this.land = null;
     this.topObjects = null;
 
@@ -80,35 +82,47 @@ export default class Game extends Phaser.Scene {
 		this.backgrounds.push({
 			ratioX: 0.1,
       ratioY: 0.5,
-			sprite: this.add.tileSprite(0, 0, width, height, 'background-mountains')
-        .setPosition(0, -20)
+			sprite: this.add.tileSprite(0, -100, width, height, 'background-mountains')
+        //.setPosition(0, 0)
 				.setOrigin(0, 0)
 				.setScrollFactor(0, 0)
 		})
 		this.backgrounds.push({
 			ratioX: 0.2,
       ratioY: 0.8,
-			sprite: this.add.tileSprite(0, 0, width, height, 'background-middle')
-        .setPosition(0, 0)
+			sprite: this.add.tileSprite(0, -170, width, height, 'background-middle')
+        //.setPosition(0, 0)
 				.setOrigin(0, 0)
 				.setScrollFactor(0, 0)
 		})
 
     const map = this.make.tilemap({ key: "map" });
-    const tileset = map.addTilesetImage("tiles", "tiles");
+    const tileset = map.addTilesetImage("Atlas_01", "tiles");
+
+    this.water = map.createLayer("water", tileset);
+    this.water.setCollisionByProperty({ collide: true });
+    
+    map.createLayer("waterUp", tileset);
+
     this.land = map.createLayer("land", tileset);
     this.land.setCollisionByProperty({ collide: true });
-    this.landUpdated = map.createLayer("landUpdated", tileset);
-    this.landUpdated.setVisible(false)
-    map.createLayer("subbottom", tileset);
+
+    //debugDraw(this.land, this)
+    
+    //this.landUpdated = map.createLayer("landUpdated", tileset);
+    //this.landUpdated.setVisible(false)
+    //map.createLayer("subbottom", tileset);
     map.createLayer("bottom", tileset);
+    map.createLayer("bridges", tileset);
+    this.sprites = map.createLayer("sprites", tileset);
+    this.sprites.setCollisionByProperty({ collide: true });
 
     map.getObjectLayer("hero").objects.forEach((heroPosition) => {
       this.hero = this.add.hero(
         heroPosition.x,
         heroPosition.y,
-        "hero",
-        "run-down-1"
+        "mai",
+        "back"
       );
     });
 
@@ -121,6 +135,7 @@ export default class Game extends Phaser.Scene {
       this.farmer.on("pointerdown", this.handleAction, this);
     });
 
+    /*
     let futurePosition;
     map.getObjectLayer("miner").objects.forEach((minerPosition) => {
       if ("miner_position1" === minerPosition.name) {
@@ -146,6 +161,7 @@ export default class Game extends Phaser.Scene {
       frameRate: 6,
     });
 
+    /*
     const treesLayer = map.getObjectLayer("trees");
     // sort tress in order to draw trees from top to down
     treesLayer.objects.sort((a, b) => a.y - b.y);
@@ -153,6 +169,7 @@ export default class Game extends Phaser.Scene {
       const tree = this.add.sprite(treeObject.x + 3, treeObject.y - 50, "tree");
       tree.anims.play("animated-tree");
     });
+    */
 
     this.topObjects = map.createLayer("top", tileset);
     this.topObjects.setCollisionByProperty({ collide: true });
@@ -225,17 +242,21 @@ export default class Game extends Phaser.Scene {
       this.farmer.readyToChat();
     });
 
+    /*
     this.physics.add.collider(this.miner, this.hero, () => {
       sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "miner");
       this.miner.readyToChat();
     });
+    */
 
     this.physics.add.collider(this.birds, this.hero, (bird) => {
       bird.fly()
     });
 
+    this.physics.add.collider(this.hero, this.water);
     this.physics.add.collider(this.hero, this.land);
     this.physics.add.collider(this.hero, this.topObjects);
+    this.physics.add.collider(this.hero, this.sprites);
   }
 
   handleDiscussionReady(sprite) {

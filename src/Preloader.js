@@ -22,12 +22,16 @@ export default class Preloader extends Phaser.Scene {
 			this.progressBar.destroy();
 		}, this);
 
-		this.load.image('tiles', 'img/Environment/PNG/tiles.png');
-		this.load.tilemapTiledJSON('map', 'tiles/tiles.json');
+		//this.load.image('tiles', 'img/Environment/PNG/tiles.png');
+		this.load.image('tiles', 'tiles/Asset_Atlas_01.png');
+		
+		//this.load.tilemapTiledJSON('map', 'tiles/tiles.json');
+		this.load.tilemapTiledJSON('map', 'tiles/3rivers.json');
 
 		this.load.plugin('rexvirtualjoystickplugin', 'plugins/rexvirtualjoystickplugin.min.js', true);
 
-		this.load.atlas('hero', 'sprites/hero.png', 'sprites/hero.json');
+		//this.load.atlas('hero', 'sprites/hero.png', 'sprites/hero.json');
+		this.load.atlas('mai', 'sprites/mai.png', 'sprites/mai.json');
 		this.load.atlas('farmer', 'sprites/farmer.png', 'sprites/farmer.json');
 
 		this.load.atlas('tree', 'sprites/tree-top.png', 'sprites/tree.json');

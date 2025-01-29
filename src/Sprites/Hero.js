@@ -20,41 +20,47 @@ class Hero extends Phaser.Physics.Arcade.Sprite {
   goLeft() {
     this.setVelocityX(-SPEED)
     this.scaleX = -1
-    this.body.offset.x = 24
-    this.body.offset.y = 4
+    this.body.setSize(10, this.height)
+    this.body.offset.x = this.width
   }
 
   goRight() {
     this.setVelocityX(SPEED)
     this.scaleX = 1
-    this.body.offset.x = 8
-    this.body.offset.y = 4
+    this.body.setSize(10 , this.height)
+    this.body.offset.x = 5
+    console.log(this.width, this.height)
   }
 
   goUp() {
     this.setVelocityY(-SPEED)
-    this.body.offset.y = 4
+    this.scaleX = 1
+    this.body.setSize(this.width, this.height)
+    console.log(this.width, this.height)
+    this.body.offset.x = 0
   }
 
   goDown() {
     this.setVelocityY(SPEED);
-    this.body.offset.y = 4
+    this.scaleX = 1
+    this.body.setSize(this.width, this.height)
+    this.body.offset.x = 0
   }
 
   animateToLeft() {
-    this.anims.play("hero-run-side", true);
+    this.anims.play("mai-idle-side", true);
   }
 
   animateToRight() {
-    this.anims.play("hero-run-side", true);
+    this.anims.play("mai-idle-side", true);
   }
 
   animateToUp() {
-    this.anims.play("hero-run-up", true);
+    this.anims.play("mai-idle-up", true);
   }
 
   animateToDown() {
-    this.anims.play("hero-run-down", true);
+    this.anims.play("mai-idle-down", true);
   }
 
   stopAndWait() {
@@ -79,7 +85,7 @@ Phaser.GameObjects.GameObjectFactory.register(
       Phaser.Physics.Arcade.DYNAMIC_BODY
     );
 
-    sprite.body.setSize(sprite.width * 0.5, sprite.height * 0.8)
+    sprite.body.setSize(sprite.width , sprite.height)
 
     this.displayList.add(sprite);
     this.updateList.add(sprite);
