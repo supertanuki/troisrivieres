@@ -29,14 +29,14 @@ class Hero extends Phaser.Physics.Arcade.Sprite {
     this.scaleX = 1
     this.body.setSize(10 , this.height)
     this.body.offset.x = 5
-    console.log(this.width, this.height)
+    //console.log(this.width, this.height)
   }
 
   goUp() {
     this.setVelocityY(-SPEED)
     this.scaleX = 1
     this.body.setSize(this.width, this.height)
-    console.log(this.width, this.height)
+    //console.log(this.width, this.height)
     this.body.offset.x = 0
   }
 

@@ -182,6 +182,7 @@ export default class Game extends Phaser.Scene {
     });
 
     this.animatedTiles.init(map);
+
     this.addCollisionManagement();
 
     this.cameras.main.startFollow(this.hero, true);
@@ -454,12 +455,20 @@ export default class Game extends Phaser.Scene {
       "pointerup",
       function () {
         this.joystick.setVisible(false);
-        this.hero.stopAndWait();
+        this.stopMoving();
       },
       this
     );
 
     this.joystick.on("pointerdown", this.handleAction, this);
+  }
+
+  stopMoving() {
+    this.goingLeft = false;
+    this.goingRight = false;
+    this.goingDown = false;
+    this.goingUp = false;
+    this.hero.stopAndWait();
   }
 
   update(time, delta) {
@@ -521,11 +530,7 @@ export default class Game extends Phaser.Scene {
       !this.goingRight &&
       !this.goingLeft
     ) {
-      this.goingLeft = false;
-      this.goingRight = false;
-      this.goingDown = false;
-      this.goingUp = false;
-      this.hero.stopAndWait();
+      this.stopMoving();
     }
 
     // parallax backgrounds
