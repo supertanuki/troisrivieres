@@ -71,6 +71,10 @@ export default class Game extends Phaser.Scene {
 
     this.scene.run("message");
 
+    // Fade init
+    this.cameras.main.fadeOut(0, 0, 0, 0);
+    this.cameras.main.fadeIn(1000, 0, 0, 0);
+
     const esc = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
     esc.on("down", () => {
       this.cameras.main.fadeOut(200, 0, 0, 0);
