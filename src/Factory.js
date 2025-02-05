@@ -26,6 +26,7 @@ export default class Factory extends Phaser.Scene {
     this.componentValidated = 0;
     this.isMotherboardValidated = false;
     this.motherboardSpeed = 2;
+    this.numberValidated = 0
   }
 
   preload() {
@@ -42,6 +43,22 @@ export default class Factory extends Phaser.Scene {
     this.initMotherboard();
     this.initComponents();
     this.createControls();
+
+    const config = this.sys.game.config;
+    this.textObject = this.add.text(config.width / 2, 50, "", {
+      font: "14px Arial",
+      fill: "#ffffff",
+      backgroundColor: "rgba(0,0,0,0.9)",
+      padding: 6,
+      alpha: 0,
+    })
+    this.textObject
+      .setOrigin(0.5, 1)
+      .setScrollFactor(0)
+      .setDepth(1000)
+      .setWordWrapWidth(300)
+      .setActive(false)
+      .setVisible(false)
   }
 
   initComponents() {
@@ -88,12 +105,6 @@ export default class Factory extends Phaser.Scene {
   }
 
   createControls() {
-    /*
-    this.keyLeft = this.input.keyboard.addKey(
-      Phaser.Input.Keyboard.KeyCodes.LEFT
-    );
-    */
-
     this.cursors = this.input.keyboard.addKeys({
       space: "space",
       up: "up",
@@ -171,7 +182,19 @@ export default class Factory extends Phaser.Scene {
   validateMotherboard() {
     this.isMotherboardValidated = true;
     this.motherBoard[0].fillColor = 0xffffff;
-    this.motherboardSpeed += 0.25
+    this.numberValidated++
+
+    const isFaster = 1 === this.numberValidated % 3
+
+    if (isFaster) {
+      this.motherboardSpeed += 1
+    }
+
+    this.textObject.text = isFaster ? 'Validé ! Plus vite maintenant !!!' : 'Validé !'
+    this.textObject.setVisible(true)
+    this.time.delayedCall(1000, () => {
+      this.textObject.setVisible(false)
+    });
   }
 
   destroyMotherboard() {
@@ -181,6 +204,14 @@ export default class Factory extends Phaser.Scene {
   }
 
   endMotherboard() {
+    if (!this.isMotherboardValidated) {
+      this.textObject.text =  'Raté !!!'
+      this.textObject.setVisible(true)
+      this.time.delayedCall(1000, () => {
+        this.textObject.setVisible(false)
+      });
+    }
+
     this.destroyMotherboard();
     this.initMotherboard();
   }
@@ -207,12 +238,6 @@ export default class Factory extends Phaser.Scene {
   handleAction() {}
 
   update() {
-    /*
-    if (this.keyLeft.isDown) {
-      this.left();
-    }
-    */
-
     for (const element of this.motherBoard) {
       element.x += this.isMotherboardValidated
         ? motherboardValidatedSpeed

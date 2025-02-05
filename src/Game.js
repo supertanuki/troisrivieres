@@ -77,7 +77,7 @@ export default class Game extends Phaser.Scene {
       this.cameras.main.once(
         Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE,
         (cam, effect) => {
-          this.gotoScene1();
+          this.gotoFactory();
         }
       );
     });
@@ -115,6 +115,8 @@ export default class Game extends Phaser.Scene {
     this.land = map.createLayer("land", tileset);
     this.land.setCollisionByProperty({ collide: true });
 
+    map.createLayer("landUp", tileset);
+
     //debugDraw(this.land, this)
 
     //this.landUpdated = map.createLayer("landUpdated", tileset);
@@ -151,27 +153,6 @@ export default class Game extends Phaser.Scene {
       }
     });
     this.miner.addFuturePosition(futurePosition);
-
-    // Add trees
-    this.anims.create({
-      key: "animated-tree",
-      frames: this.anims.generateFrameNames("tree", {
-        start: 0,
-        end: 7,
-        prefix: "tree-",
-      }),
-      repeat: -1,
-      frameRate: 6,
-    });
-
-    /*
-    const treesLayer = map.getObjectLayer("trees");
-    // sort tress in order to draw trees from top to down
-    treesLayer.objects.sort((a, b) => a.y - b.y);
-    treesLayer.objects.forEach((treeObject) => {
-      const tree = this.add.sprite(treeObject.x + 3, treeObject.y - 50, "tree");
-      tree.anims.play("animated-tree");
-    });
     */
 
     this.topObjects = map.createLayer("top", tileset);
@@ -219,7 +200,7 @@ export default class Game extends Phaser.Scene {
 
   listenEvents(data) {
     if (data.newUnlockedEvents.includes("mine_clothes_found")) {
-      this.landUpdated.setVisible(true);
+      //this.landUpdated.setVisible(true);
       this.cameras.main.fadeOut(200, 0, 0, 0);
 
       this.cameras.main.once(
@@ -240,6 +221,9 @@ export default class Game extends Phaser.Scene {
     this.physics.add.collider(this.farmer, this.topObjects, () => {
       this.farmer.changeDirection();
     });
+    this.physics.add.collider(this.farmer, this.water, () => {
+      this.farmer.changeDirection();
+    });
 
     this.physics.add.collider(this.farmer, this.hero, () => {
       sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "farmer");
@@ -254,6 +238,9 @@ export default class Game extends Phaser.Scene {
     */
 
     this.physics.add.collider(this.birds, this.hero, (bird) => {
+      bird.fly();
+    });
+    this.physics.add.collider(this.birds, this.farmer, (bird) => {
       bird.fly();
     });
 
