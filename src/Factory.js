@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { isDebug } from "./Utils/isDebug";
+import isMobile from "./Utils/isMobile";
 
 const COMPONENTS = {
   bleu: "img/factory/bleu.png",
@@ -59,6 +59,10 @@ export default class Factory extends Phaser.Scene {
       .setWordWrapWidth(300)
       .setActive(false)
       .setVisible(false)
+
+    // Fade init
+    this.cameras.main.fadeOut(0, 0, 0, 0);
+    this.cameras.main.fadeIn(1000, 0, 0, 0);
   }
 
   initComponents() {
@@ -130,6 +134,25 @@ export default class Factory extends Phaser.Scene {
       },
       this
     );
+
+    if (isMobile()) {
+      const screenWidth = Number(this.sys.game.config.width);
+      const delta = 100;
+
+      this.input.on('pointerdown', (pointer) => {
+        if (pointer.x < (screenWidth/2 - delta)) {
+          this.left()
+          return
+        }
+
+        if (pointer.x > (screenWidth/2 + delta)) {
+          this.right()
+          return
+        }
+
+        this.up()
+      }, this);
+    }
   }
 
   refreshComponentsLine() {
