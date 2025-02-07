@@ -169,6 +169,8 @@ export default class Game extends Phaser.Scene {
 
     this.cameras.main.startFollow(this.hero, true);
     this.createControls();
+    this.addJoystickForMobile();
+    //this.addControlsForMobile();
 
     sceneEventsEmitter.on(
       sceneEvents.DiscussionReady,
@@ -346,8 +348,6 @@ export default class Game extends Phaser.Scene {
       },
       this
     );
-
-    this.addJoystickForMobile();
   }
 
   handleAction() {
@@ -365,6 +365,61 @@ export default class Game extends Phaser.Scene {
       );
       return;
     }
+  }
+
+  addControlsForMobile() {
+    if (!isMobile()) {
+      return;
+    }
+    const screenWidth = Number(this.sys.game.config.width);
+    const screenHeight = Number(this.sys.game.config.height);
+    const deltaX = 150;
+    const deltaY = 50;
+
+    this.input.on(
+      "pointerdown",
+      (pointer) => {
+        if (pointer.x < screenWidth / 2 - deltaX) {
+          this.goingLeft = true;
+          this.goingRight = false;
+          return;
+        }
+
+        if (pointer.x > screenWidth / 2 + deltaX) {
+          this.goingLeft = false;
+          this.goingRight = true;
+          return;
+        }
+
+        if (
+          pointer.x > screenWidth / 2 - deltaX &&
+          pointer.x < screenWidth / 2 + deltaX
+        ) {
+          if (pointer.y < screenHeight / 2 - deltaY) {
+            this.goingLeft = false;
+            this.goingRight = false;
+            this.goingUp = true;
+            this.goingDown = false;
+            return;
+          }
+
+          if (pointer.y > screenHeight / 2 + deltaY) {
+            this.goingLeft = false;
+            this.goingRight = false;
+            this.goingUp = false;
+            this.goingDown = true;
+            return;
+          }
+        }
+
+        this.handleAction();
+      },
+      this
+    );
+
+    this.input.on("pointerup", (pointer) => {
+      this.stopMoving();
+    });
   }
 
   addJoystickForMobile() {
