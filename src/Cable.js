@@ -6,7 +6,7 @@ const SPEED = 5;
 export default class Cable extends Phaser.Scene {
   constructor() {
     super({
-      key: "cable-game",
+      key: "cable",
       physics: {
         matter: {
           debug: isDebug(),
@@ -41,9 +41,9 @@ export default class Cable extends Phaser.Scene {
   start() {
     this.started = true
 
-    const shapes = this.cache.json.get("shapes");
+    //const shapes = this.cache.json.get("shapes");
     this.rock = this.matter.add.sprite(260, 195, "rock", null, {
-      shape: shapes.rock,
+      //shape: shapes.rock,
     });
     
     this.rock.setBody({
@@ -109,7 +109,7 @@ export default class Cable extends Phaser.Scene {
     // La musique se joue uniquement après une interaction (clic sur start)
     this.music = this.sound.add('music-background');
     this.music.loop = true
-    this.music.play()
+    //this.music.play()
   }
 
   goLeft() {

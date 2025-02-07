@@ -6,7 +6,7 @@ import "./Sprites/Hero";
 import "./Sprites/Farmer";
 import "./Sprites/Miner";
 import "./Sprites/Bird";
-import { isFactory, isScene1 } from "./Utils/isDebug";
+import { isCable, isFactory, isMine, isScene1 } from "./Utils/isDebug";
 
 const DiscussionStatus = {
   NONE: "NONE",
@@ -59,6 +59,16 @@ export default class Game extends Phaser.Scene {
     this.scene.start("factory");
   }
 
+  gotoMine() {
+    this.scene.pause("game");
+    this.scene.start("mine");
+  }
+
+  gotoCable() {
+    this.scene.pause("game");
+    this.scene.start("cable");
+  }
+
   create() {
     if (isScene1()) {
       this.gotoScene1();
@@ -66,6 +76,14 @@ export default class Game extends Phaser.Scene {
 
     if (isFactory()) {
       this.gotoFactory();
+    }
+
+    if (isMine()) {
+      this.gotoMine();
+    }
+
+    if (isCable()) {
+      this.gotoCable();
     }
 
     this.scene.run("message");

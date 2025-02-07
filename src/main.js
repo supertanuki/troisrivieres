@@ -7,6 +7,7 @@ import Message from "./Message";
 import Workflow from "./Workflow";
 import Cable from "./Cable";
 import Factory from "./Factory";
+import Mine from "./Mine";
 
 const config = {
   type: Phaser.AUTO,
@@ -21,7 +22,7 @@ const config = {
       gravity: { y: 0 },
     },
   },
-  scene: [Preloader, Game, Cable, Factory, Message, Workflow],
+  scene: [Preloader, Game, Cable, Mine, Factory, Message, Workflow],
   scale: {
     zoom: 2,
     mode: Phaser.Scale.FIT,

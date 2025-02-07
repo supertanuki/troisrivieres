@@ -11,3 +11,11 @@ export function isScene1() {
 export function isFactory() {
   return params.has("factory");
 }
+
+export function isMine() {
+  return params.has("mine");
+}
+
+export function isCable() {
+  return params.has("cable");
+}
