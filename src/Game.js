@@ -7,7 +7,6 @@ import "./Sprites/Farmer";
 import "./Sprites/Miner";
 import "./Sprites/Bird";
 import { isFactory, isScene1 } from "./Utils/isDebug";
-import debugDraw from "./Utils/debugDraw";
 
 const DiscussionStatus = {
   NONE: "NONE",
@@ -120,8 +119,6 @@ export default class Game extends Phaser.Scene {
     this.land.setCollisionByProperty({ collide: true });
 
     map.createLayer("landUp", tileset);
-
-    //debugDraw(this.land, this)
 
     //this.landUpdated = map.createLayer("landUpdated", tileset);
     //this.landUpdated.setVisible(false)
