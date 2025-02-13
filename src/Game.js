@@ -43,7 +43,7 @@ export default class Game extends Phaser.Scene {
   preload() {
     this.load.scenePlugin(
       "AnimatedTiles",
-      "https://raw.githubusercontent.com/nkholski/phaser-animated-tiles/master/dist/AnimatedTiles.js",
+      "plugins/AnimatedTiles.js",
       "animatedTiles",
       "animatedTiles"
     );
@@ -92,8 +92,18 @@ export default class Game extends Phaser.Scene {
     this.cameras.main.fadeOut(0, 0, 0, 0);
     this.cameras.main.fadeIn(1000, 0, 0, 0);
 
-    const esc = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
-    esc.on("down", () => {
+    const ctrlR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
+    ctrlR.on("down", () => {
+      this.roads.setVisible(!this.roads.active)
+      this.roads.setActive(!this.roads.active)
+    });
+
+    const ctrlA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+    ctrlA.on("down", () => {
+      this.landLessWater.setVisible(!this.landLessWater.active)
+      this.landLessWater.setActive(!this.landLessWater.active)
+      return
+
       this.cameras.main.fadeOut(200, 0, 0, 0);
       this.cameras.main.once(
         Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE,
@@ -104,6 +114,7 @@ export default class Game extends Phaser.Scene {
     });
 
     // parallax backgrounds
+    /*
     const { width, height } = this.scale;
     this.add.image(0, 0, "background-sky").setOrigin(0, 0).setScrollFactor(0);
     this.backgrounds.push({
@@ -124,25 +135,33 @@ export default class Game extends Phaser.Scene {
         .setOrigin(0, 0)
         .setScrollFactor(0, 0),
     });
+    */
 
     const map = this.make.tilemap({ key: "map" });
     const tileset = map.addTilesetImage("Atlas_01", "tiles");
-
-    this.water = map.createLayer("water", tileset);
-    this.water.setCollisionByProperty({ collide: true });
-
     map.createLayer("waterUp", tileset);
 
     this.land = map.createLayer("land", tileset);
     this.land.setCollisionByProperty({ collide: true });
 
+    this.landLessWater = map.createLayer("landLessWater", tileset);
+    this.landLessWater.setCollisionByProperty({ collide: true });
+    this.landLessWater.setVisible(false)
+    this.landLessWater.setActive(false)
+
     map.createLayer("landUp", tileset);
+    
 
     //this.landUpdated = map.createLayer("landUpdated", tileset);
     //this.landUpdated.setVisible(false)
     //map.createLayer("subbottom", tileset);
     map.createLayer("bottom", tileset);
     map.createLayer("bridges", tileset);
+
+    this.roads = map.createLayer("roads", tileset);
+    this.roads.setVisible(false)
+    this.roads.setActive(false)
+
     this.sprites = map.createLayer("sprites", tileset);
     this.sprites.setCollisionByProperty({ collide: true });
 
@@ -595,6 +614,7 @@ export default class Game extends Phaser.Scene {
     }
 
     // parallax backgrounds
+    /*
     for (let i = 0; i < this.backgrounds.length; ++i) {
       const background = this.backgrounds[i];
       background.sprite.setTilePosition(
@@ -602,5 +622,6 @@ export default class Game extends Phaser.Scene {
         this.cameras.main.scrollY * background.ratioY
       );
     }
+      */
   }
 }
