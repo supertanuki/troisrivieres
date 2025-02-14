@@ -149,24 +149,21 @@ export default class Game extends Phaser.Scene {
     this.landLessWater.setVisible(false)
     this.landLessWater.setActive(false)
 
-    map.createLayer("landUp", tileset);
-    
-
-    //this.landUpdated = map.createLayer("landUpdated", tileset);
-    //this.landUpdated.setVisible(false)
-    //map.createLayer("subbottom", tileset);
-    map.createLayer("bottom", tileset);
+    map.createLayer("landUp", tileset);    
+    map.createLayer("bridgesShadow", tileset);
     map.createLayer("bridges", tileset);
 
     this.roads = map.createLayer("roads", tileset);
     this.roads.setVisible(false)
     this.roads.setActive(false)
 
+    map.createLayer("bottom", tileset);
+
     this.sprites = map.createLayer("sprites", tileset);
     this.sprites.setCollisionByProperty({ collide: true });
 
     map.getObjectLayer("hero").objects.forEach((heroPosition) => {
-      this.hero = this.add.hero(heroPosition.x, heroPosition.y, "mai", "back");
+      this.hero = this.add.hero(heroPosition.x, heroPosition.y, "mai", "idle-down-1");
     });
 
     map.getObjectLayer("farmer").objects.forEach((farmerPosition) => {

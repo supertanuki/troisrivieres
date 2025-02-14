@@ -1,46 +1,43 @@
 export const createHeroAnims = function(anims) {
 	anims.create({
+		key: 'mai-walk-down',
+		frames: anims.generateFrameNames('mai', { start: 1, end: 3, prefix: 'walk-down-' }),
+		repeat: -1,
+		frameRate: 14
+	});
+
+	anims.create({
+		key: 'mai-walk-up',
+		frames: anims.generateFrameNames('mai', { start: 1, end: 3, prefix: 'walk-up-' }),
+		repeat: -1,
+		frameRate: 14
+	});
+
+	anims.create({
+		key: 'mai-walk-side',
+		frames: anims.generateFrameNames('mai', { start: 1, end: 3, prefix: 'walk-right-' }),
+		repeat: -1,
+		frameRate: 14
+	});
+
+	anims.create({
 		key: 'mai-idle-down',
-		frames: [{ key: 'mai', frame: 'front' }]
+		frames: anims.generateFrameNames('mai', { start: 1, end: 3, prefix: 'idle-down-' }),
+		repeat: 0,
+		frameRate: 4
 	});
 
 	anims.create({
 		key: 'mai-idle-up',
-		frames: [{ key: 'mai', frame: 'back' }]
+		frames: anims.generateFrameNames('mai', { start: 1, end: 3, prefix: 'idle-up-' }),
+		repeat: 0,
+		frameRate: 4
 	});
 
 	anims.create({
 		key: 'mai-idle-side',
-		frames: [{ key: 'mai', frame: 'side' }]
-	});
-
-	/*
-	anims.create({
-		key: 'hero-run-down',
-		frames: anims.generateFrameNames('hero', { start: 1, end: 8, prefix: 'run-down-' }),
-		repeat: -1,
-		frameRate: 14
-	});
-
-	anims.create({
-		key: 'hero-run-up',
-		frames: anims.generateFrameNames('hero', { start: 1, end: 8, prefix: 'run-up-' }),
-		repeat: -1,
-		frameRate: 14
-	});
-
-	anims.create({
-		key: 'hero-run-side',
-		frames: anims.generateFrameNames('hero', { start: 1, end: 8, prefix: 'run-side-' }),
-		repeat: -1,
-		frameRate: 14
-	});
-
-	anims.create({
-		key: 'hero-die',
-		frames: anims.generateFrameNames('hero', { start: 1, end: 4, prefix: 'faint-' }),
+		frames: anims.generateFrameNames('mai', { start: 1, end: 3, prefix: 'idle-right-' }),
 		repeat: 0,
-		frameRate: 14
+		frameRate: 4
 	});
-	*/
 }

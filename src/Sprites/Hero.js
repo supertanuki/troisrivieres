@@ -48,19 +48,19 @@ class Hero extends Phaser.Physics.Arcade.Sprite {
   }
 
   animateToLeft() {
-    this.anims.play("mai-idle-side", true);
+    this.anims.play("mai-walk-side", true);
   }
 
   animateToRight() {
-    this.anims.play("mai-idle-side", true);
+    this.anims.play("mai-walk-side", true);
   }
 
   animateToUp() {
-    this.anims.play("mai-idle-up", true);
+    this.anims.play("mai-walk-up", true);
   }
 
   animateToDown() {
-    this.anims.play("mai-idle-down", true);
+    this.anims.play("mai-walk-down", true);
   }
 
   stopAndWait() {
@@ -70,7 +70,8 @@ class Hero extends Phaser.Physics.Arcade.Sprite {
 
     const parts = this.anims.currentAnim.key.split("-");
     parts[1] = "idle";
-    this.anims.play(parts.join("-"));
+    console.log(parts.join("-"))
+    this.anims.play(parts.join("-"), true);
     this.setVelocity(0, 0);
   }
 }
