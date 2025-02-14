@@ -14,6 +14,9 @@ const initialY = 265;
 const initialX = 275;
 const step = 70;
 const motherboardValidatedSpeed = 10;
+const accelerationStep = 5
+const initialSpeed = 0.75
+const acceleration = 0.5
 
 export default class Factory extends Phaser.Scene {
   constructor() {
@@ -25,8 +28,9 @@ export default class Factory extends Phaser.Scene {
     this.componentsLinePosition = 0;
     this.componentValidated = 0;
     this.isMotherboardValidated = false;
-    this.motherboardSpeed = 2;
+    this.motherboardSpeed = initialSpeed;
     this.numberValidated = 0
+    this.enableComponentsControl = true
   }
 
   preload() {
@@ -76,22 +80,30 @@ export default class Factory extends Phaser.Scene {
     }
   }
 
+  getComponentsNumber() {
+    return this.numberValidated > 5 ? 3 : 2;
+  }
+
   initMotherboard() {
+    const x = -150;
+    const componentsNumber = this.getComponentsNumber();
+    const step = 160 / componentsNumber;
     this.componentValidated = 0;
     this.isMotherboardValidated = false;
     this.motherBoardComponents = [];
     this.motherBoard = [];
-    const x = -150;
     this.motherBoard.push(this.add.rectangle(x, 150, 200, 100, 0x555555));
 
-    for (let i = 0; i < 2; i++) {
+    for (let i = 0; i < componentsNumber; i++) {
       const name = Phaser.Math.RND.pick(Object.keys(COMPONENTS));
       const component = this.add
-        .image(x - 40 + 80 * i, 150, name)
+        .image(x - 40 + step * i, 150, name)
         .setAlpha(0, 0.4, 0.6, 0.6);
       this.motherBoardComponents.push({ name, component, validated: false });
       this.motherBoard.push(component);
     }
+
+    this.enableComponentsControl = true;
   }
 
   initSelectedComponent() {
@@ -102,10 +114,12 @@ export default class Factory extends Phaser.Scene {
       },
     });
     this.graphics.strokeRect(250, 240, 50, 50);
+
+    // to remove ???
     const style = { color: "0x000000" };
-    this.upText = this.add.text(275, 230, "🢁", style).setOrigin(0.5, 0.5);
-    this.leftText = this.add.text(235, 235, "🢀", style).setOrigin(0.5, 0.5);
-    this.rightText = this.add.text(315, 235, "🢂", style).setOrigin(0.5, 0.5);
+    this.upText = this.add.text(275, 230, "🢁", style).setOrigin(0.5, 0.5).setVisible(false);
+    this.leftText = this.add.text(235, 235, "🢀", style).setOrigin(0.5, 0.5).setVisible(false)
+    this.rightText = this.add.text(315, 235, "🢂", style).setOrigin(0.5, 0.5).setVisible(false)
   }
 
   createControls() {
@@ -121,7 +135,7 @@ export default class Factory extends Phaser.Scene {
       "keydown",
       (event) => {
         if (event.key === "ArrowUp") {
-          this.up();
+          this.setComponent();
         } else if (event.key === "ArrowDown") {
           //this.down()
         } else if (event.key === "ArrowLeft") {
@@ -150,7 +164,7 @@ export default class Factory extends Phaser.Scene {
           return
         }
 
-        this.up()
+        this.setComponent()
       }, this);
     }
   }
@@ -161,11 +175,12 @@ export default class Factory extends Phaser.Scene {
       component.image.x =
         initialX + this.componentsLinePosition * step + step * i;
       i++;
+      component.image.y = initialY
     });
   }
 
   right() {
-    if (this.componentsLinePosition - 1 < -1 * this.componentsLine.length + 1) {
+    if (!this.enableComponentsControl || this.componentsLinePosition - 1 < -1 * this.componentsLine.length + 1) {
       return;
     }
     this.hightLightCommand(this.rightText);
@@ -174,7 +189,7 @@ export default class Factory extends Phaser.Scene {
   }
 
   left() {
-    if (this.componentsLinePosition + 1 > 0) {
+    if (!this.enableComponentsControl || this.componentsLinePosition + 1 > 0) {
       return;
     }
     this.hightLightCommand(this.leftText);
@@ -182,23 +197,70 @@ export default class Factory extends Phaser.Scene {
     this.refreshComponentsLine();
   }
 
-  up() {
-    this.hightLightCommand(this.upText);
-    const selectedComponent =
-      this.componentsLine[-1 * this.componentsLinePosition];
+  getSelectedComponent() {
+    return this.componentsLine[-1 * this.componentsLinePosition];
+  }
+
+  getValidatedComponent() {
+    const selectedComponent = this.getSelectedComponent()
 
     for (const component of this.motherBoardComponents) {
-      console.log(component);
       if (component.name === selectedComponent.name && !component.validated) {
         this.componentValidated++;
         this.validateComponent(component.component);
         component.validated = true;
-        break;
+        return component
       }
     }
 
-    if (this.componentValidated === 2) {
-      this.validateMotherboard();
+    return null
+  }
+
+  setComponent() {
+    if (!this.enableComponentsControl) return
+
+    this.enableComponentsControl = false;
+    this.hightLightCommand(this.upText);
+
+    const {image} = this.getSelectedComponent()
+    image.setDepth(1)
+
+    const validatedComponent = this.getValidatedComponent()
+
+    if (validatedComponent) {
+      const initialPosition = {x: image.x, y: image.y}
+      this.tweens.add({
+        targets: image,
+        x: validatedComponent.component.x + 10,
+        y: validatedComponent.component.y,
+        ease: "Sine.easeInOut",
+        duration: 200,
+        onComplete: () => {
+          image.x = initialPosition.x
+          image.y = initialY
+          this.enableComponentsControl = true;
+        },
+      });
+
+    } else {
+      this.tweens.add({
+        targets: image,
+        y: 150,
+        yoyo: true,
+        ease: "Sine.easeInOut",
+        duration: 200,
+        onComplete: () => {
+          this.enableComponentsControl = true;
+        },
+      });
+    }
+
+    if (this.componentValidated === this.getComponentsNumber()) {
+      this.time.delayedCall(200, () => {
+        if (this.motherBoard.length) {
+          this.validateMotherboard();
+        }
+      });
     }
   }
 
@@ -207,10 +269,10 @@ export default class Factory extends Phaser.Scene {
     this.motherBoard[0].fillColor = 0xffffff;
     this.numberValidated++
 
-    const isFaster = 1 === this.numberValidated % 3
+    const isFaster = 1 === this.numberValidated % accelerationStep
 
     if (isFaster) {
-      this.motherboardSpeed += 1
+      this.motherboardSpeed += acceleration
     }
 
     this.textObject.text = isFaster ? 'Validé ! Plus vite maintenant !!!' : 'Validé !'
@@ -224,15 +286,23 @@ export default class Factory extends Phaser.Scene {
     for (const element of this.motherBoard) {
       element.destroy();
     }
+    this.motherBoard = []
   }
 
   endMotherboard() {
+    this.enableComponentsControl = false;
+
     if (!this.isMotherboardValidated) {
       this.textObject.text =  'Raté !!!'
       this.textObject.setVisible(true)
+      this.destroyMotherboard();
+
       this.time.delayedCall(1000, () => {
-        this.textObject.setVisible(false)
+        this.textObject.setVisible(false)  
+        this.initMotherboard();
       });
+
+      return
     }
 
     this.destroyMotherboard();
@@ -244,6 +314,7 @@ export default class Factory extends Phaser.Scene {
   }
 
   hightLightCommand(text) {
+    return
     this.tweens.addCounter({
       from: 0,
       to: 1,
@@ -264,10 +335,10 @@ export default class Factory extends Phaser.Scene {
     for (const element of this.motherBoard) {
       element.x += this.isMotherboardValidated
         ? motherboardValidatedSpeed
-        : this.motherboardSpeed;
+        : this.motherBoard[0].x < 30 || this.motherBoard[0].x > 500 ? 10 : this.motherboardSpeed;
     }
 
-    if (this.motherBoard[0].x > 700) {
+    if (this.motherBoard.length && this.motherBoard[0].x > 700) {
       this.endMotherboard();
     }
   }
