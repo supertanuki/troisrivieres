@@ -19,3 +19,7 @@ export function isMine() {
 export function isCable() {
   return params.has("cable");
 }
+
+export function getUrlParam(name, defaultValue) {
+  return params.get(name) || defaultValue
+}

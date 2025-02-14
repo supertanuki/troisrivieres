@@ -8,28 +8,32 @@ export const createHeroAnims = function(anims) {
 		frames: anims.generateFrameNames('mai', { start: 1, end: 3, prefix: 'walk-down-' }),
 		repeat: -1,
 		frameRate: moveframerate,
-	});
+	})
+	.addFrame(anims.generateFrameNames('mai', { start: 2, end: 2, prefix: 'walk-down-' }));
 
 	anims.create({
 		key: 'mai-walk-up',
 		frames: anims.generateFrameNames('mai', { start: 1, end: 3, prefix: 'walk-up-' }),
 		repeat: -1,
 		frameRate: moveframerate,
-	});
+	})
+	.addFrame(anims.generateFrameNames('mai', { start: 2, end: 2, prefix: 'walk-up-' }));
 
 	anims.create({
 		key: 'mai-walk-side',
 		frames: anims.generateFrameNames('mai', { start: 1, end: 3, prefix: 'walk-right-' }),
 		repeat: -1,
 		frameRate: moveframerate,
-	});
+	})
+	.addFrame(anims.generateFrameNames('mai', { start: 2, end: 2, prefix: 'walk-right-' }));
 
 	anims.create({
 		key: 'mai-idle-down',
 		frames: anims.generateFrameNames('mai', { start: 1, end: 3, prefix: 'idle-down-' }),
 		repeat: 0,
 		frameRate: idleframerate,
-	});
+	})
+	.addFrame(anims.generateFrameNames('mai', { start: 1, end: 2, prefix: 'idle-down-' }));
 
 	anims.create({
 		key: 'mai-idle-up',
@@ -43,5 +47,6 @@ export const createHeroAnims = function(anims) {
 		frames: anims.generateFrameNames('mai', { start: 1, end: 3, prefix: 'idle-right-' }),
 		repeat: 0,
 		frameRate: idleframerate,
-	});
+	})
+	.addFrame(anims.generateFrameNames('mai', { start: 1, end: 2, prefix: 'idle-right-' }));
 }

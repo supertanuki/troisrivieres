@@ -164,6 +164,8 @@ export default class Game extends Phaser.Scene {
 
     map.getObjectLayer("hero").objects.forEach((heroPosition) => {
       this.hero = this.add.hero(heroPosition.x, heroPosition.y, "mai", "idle-down-1");
+      this.hero.animateToDown()
+      this.hero.stopAndWait()
     });
 
     map.getObjectLayer("farmer").objects.forEach((farmerPosition) => {

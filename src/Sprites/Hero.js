@@ -27,7 +27,7 @@ class Hero extends Phaser.Physics.Arcade.Sprite {
   goRight() {
     this.setVelocityX(SPEED)
     this.scaleX = 1
-    this.body.setSize(10 , this.height)
+    this.body.setSize(10, this.height)
     this.body.offset.x = 5
     //console.log(this.width, this.height)
   }
@@ -70,7 +70,6 @@ class Hero extends Phaser.Physics.Arcade.Sprite {
 
     const parts = this.anims.currentAnim.key.split("-");
     parts[1] = "idle";
-    console.log(parts.join("-"))
     this.anims.play(parts.join("-"), true);
     this.setVelocity(0, 0);
   }
