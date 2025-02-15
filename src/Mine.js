@@ -4,8 +4,9 @@ import { isDebug } from "./Utils/isDebug";
 
 const SPEED = 1;
 const rockPositions = [150, 190, 230];
-const cablePositionsX = [100, 150, 200];
+const cablePositionsX = [150, 275, 450];
 const cablePositionsY = [50, 100, 150];
+const numberIsRefined = 140
 
 export default class Mine extends Phaser.Scene {
   constructor() {
@@ -21,6 +22,7 @@ export default class Mine extends Phaser.Scene {
     this.rocks = [];
     this.currentCablePosition = { x: 0, y: 0 };
     this.movingCable = false;
+    this.rockValidated = 0
   }
 
   preload() {
@@ -35,34 +37,34 @@ export default class Mine extends Phaser.Scene {
     this.createControls();
 
     const config = this.sys.game.config;
-    this.textObject = this.add.text(config.width / 2, 50, "", {
+    this.scoreObject = this.add.text(10, 20, "0", {
       font: "14px Arial",
       fill: "#ffffff",
       backgroundColor: "rgba(0,0,0,0.9)",
       padding: 6,
       alpha: 0,
     });
-    this.textObject
-      .setOrigin(0.5, 1)
+    this.scoreObject
       .setScrollFactor(0)
       .setDepth(1000)
       .setWordWrapWidth(300)
-      .setActive(false)
-      .setVisible(false);
+      .setActive(true)
+      .setVisible(true);
 
     // Fade init
     this.cameras.main.fadeOut(0, 0, 0, 0);
     this.cameras.main.fadeIn(1000, 0, 0, 0);
-
     this.matter.world.setBounds(0, 0, 550, 300);
+    this.targetV = this.add.rectangle(100, 100, 20, 4, 0x2244ff)
+    this.targetH = this.add.rectangle(100, 100, 4, 16, 0x2244ff)
 
     const segments = [];
-    const numSegments = 20;
+    const numSegments = 12;
     const segmentWidth = 10;
     const segmentHeight = 10;
 
     for (let i = 0; i < numSegments; i++) {
-      const segment = this.matter.add.sprite(0, 0, "circle", null, {
+      const segment = this.matter.add.sprite(config.width / 2, 0, "circle", null, {
         shape: {
           type: "circle",
           width: segmentWidth,
@@ -90,19 +92,27 @@ export default class Mine extends Phaser.Scene {
 
     this.water = this.add.particles(0, 0, "water", {
       speed: { min: 100, max: 200 },
-      angle: { min: -50, max: 50 },
+      angle: { min: 70, max: 110 },
       gravityY: 300,
       lifespan: 1000,
       quantity: 100,
       scale: { start: 0.5, end: 0 },
       emitting: false,
     });
-    this.water.setDepth(2);
+    this.water.setDepth(1);
+
+    this.particlesBounds = [
+      this.water.addParticleBounds(0, 0, 550, rockPositions[0] + 30),
+      this.water.addParticleBounds(0, 0, 550, rockPositions[1] + 30),
+      this.water.addParticleBounds(0, 0, 550, rockPositions[2] + 30),
+    ]
+    this.particlesBounds[1].active = false
+    this.particlesBounds[2].active = false
 
     this.events.on("update", () => {
       this.water.emitParticleAt(
-        this.lastSegment.position.x + 10,
-        this.lastSegment.position.y
+        this.lastSegment.position.x,
+        this.lastSegment.position.y + 10
       );
     });
 
@@ -166,18 +176,19 @@ export default class Mine extends Phaser.Scene {
 
   createRock() {
     const initX = 600;
-    const selectedY = [...rockPositions]
-      .sort(() => 0.5 - Math.random())
-      .slice(0, 1)[0];
-    const index = rockPositions.indexOf(selectedY);
+    const index = Phaser.Math.Between(0, 2);
+    const selectedY = rockPositions[index]
     const rock = this.add.image(initX, selectedY, "rock");
+    const scale = Math.random() + 0.5
+    rock.setScale(scale > 1 ? 1 : scale)
+    rock.setDepth(index*10)
     this.rocks.push({ rock, index, refined: 0 });
 
     this.time.addEvent({
       callback: () => {
         this.createRock();
       },
-      delay: 1000,
+      delay: 2000,
     });
   }
 
@@ -199,12 +210,21 @@ export default class Mine extends Phaser.Scene {
     }
   }
 
+  updateWaterBounds() {
+    for (const key in this.particlesBounds) {
+      this.particlesBounds[key].active = key == this.currentCablePosition.y
+    }
+
+    this.water.setDepth(this.currentCablePosition.y * 10 + 1);
+  }
+
   up() {
     if (this.movingCable) return;
 
     if (this.currentCablePosition.y > 0) {
       this.currentCablePosition.y--;
       this.moveCable();
+      this.updateWaterBounds()
     }
   }
 
@@ -214,6 +234,7 @@ export default class Mine extends Phaser.Scene {
     if (this.currentCablePosition.y < 2) {
       this.currentCablePosition.y++;
       this.moveCable();
+      this.updateWaterBounds()
     }
   }
 
@@ -232,16 +253,47 @@ export default class Mine extends Phaser.Scene {
   }
 
   update() {
-    const deltaX = 100;
-    const dephtX = 100;
+    const targetY = rockPositions[this.currentCablePosition.y] + 10
+    this.targetV.setPosition(this.lastSegment.position.x, targetY)
+    this.targetH.setPosition(this.lastSegment.position.x, targetY)
+
+    const deltaX = 0;
+    const dephtX = 50;
     for (const element of this.rocks) {
       element.rock.x -= SPEED;
+
+      if (element.refined > numberIsRefined) {
+        continue
+      }
+
       if (element.index === this.currentCablePosition.y) {
         if (
           element.rock.x > this.lastSegment.position.x + deltaX - dephtX &&
           element.rock.x < this.lastSegment.position.x + deltaX + dephtX
         ) {
           element.rock.scale = element.rock.scale * 0.995;
+          element.refined++
+
+          if (element.refined > numberIsRefined) {
+            element.rock.setTint(0xff5555)
+            this.rockValidated++;
+            this.scoreObject.setText(this.rockValidated + ' g')
+            
+            const copiedRock = this.add.image(element.rock.x, element.rock.y, "rock");
+            copiedRock.scale = element.rock.scale
+            copiedRock.setTint(0xff5555)
+            this.tweens.add({
+              targets: copiedRock,
+              x: 20,
+              y: 30,
+              alpha: 0.2,
+              ease: "Sine.easeInOut",
+              duration: 500,
+              onComplete: () => {
+                copiedRock.destroy()
+              },
+            });
+          }
         }
       }
     }
