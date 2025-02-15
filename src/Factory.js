@@ -6,7 +6,7 @@ const COMPONENTS = {
   bleuge: "img/factory/bleuge.png",
   jaune: "img/factory/jaune.png",
   rouge: "img/factory/rouge.png",
-  roune: "img/factory/roune.png",
+  //roune: "img/factory/roune.png",
   vert: "img/factory/vert.png",
 };
 
