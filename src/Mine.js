@@ -25,6 +25,8 @@ export default class Mine extends Phaser.Scene {
     this.rockNotValidated = 0;
     this.speed = 1;
     this.control = "none";
+    this.waterStockPercentage = 100;
+    this.rechargeWater = false;
   }
 
   preload() {
@@ -75,8 +77,20 @@ export default class Mine extends Phaser.Scene {
     this.targetV = this.add.rectangle(100, 100, 20, 4, 0x2244ff);
     this.targetH = this.add.rectangle(100, 100, 4, 16, 0x2244ff);
 
+    this.add.rectangle(0, 29, 550, 10, 0x115555).setOrigin(0, 0);
+
+    this.waterStockAlert = this.add
+      .rectangle(275, 0, 550, 29, 0xff0000)
+      .setOrigin(0.5, 0)
+      .setVisible(false);
+
+    this.waterStock = this.add
+      .rectangle(275, 29, 550, 29, 0x66aaff)
+      .setOrigin(0.5, 0)
+      .setDepth(10);
+
     this.tube = this.add
-      .rectangle(cablePositionsX[0], cablePositionsY[0], 6, 200, 0x555555)
+      .rectangle(cablePositionsX[0], cablePositionsY[0], 12, 200, 0x115555)
       .setOrigin(0.5, 1)
       .setDepth(3);
 
@@ -115,7 +129,7 @@ export default class Mine extends Phaser.Scene {
     */
 
     this.water = this.add.particles(0, 0, "water", {
-      speed: { min: 100, max: 200 },
+      speed: { min: 200, max: 300 },
       angle: { min: 70, max: 110 },
       gravityY: 300,
       lifespan: 1000,
@@ -134,7 +148,39 @@ export default class Mine extends Phaser.Scene {
     this.particlesBounds[2].active = false;
 
     this.events.on("update", () => {
-      this.water.emitParticleAt(this.tube.x, this.tube.y);
+      if (!this.rechargeWater && this.action && this.waterStockPercentage > 0) {
+        this.water.emitParticleAt(this.tube.x, this.tube.y);
+        this.waterStockPercentage -= 0.2;
+
+        if (this.waterStockPercentage < 0) {
+          this.waterStockPercentage = 0;
+          this.rechargeWater = true;
+          this.targetV.setVisible(false);
+          this.targetH.setVisible(false);
+          this.updateMessage("Réserve d'eau vide !");
+        }
+      } else {
+        this.waterStockPercentage += 0.5;
+
+        if (this.waterStockPercentage >= 100) {
+          this.waterStockPercentage = 100;
+        }
+
+        if (this.rechargeWater && this.waterStockPercentage === 100) {
+          this.rechargeWater = false;
+          this.targetV.setVisible(true);
+          this.targetH.setVisible(true);
+          this.waterStockAlert.setVisible(false);
+          this.updateMessage("Réserve d'eau rechargée !");
+        }
+      }
+
+      this.waterStockAlert.setVisible(
+        this.rechargeWater || this.waterStockPercentage < 30
+      );
+
+      this.waterStock.height = (29 * this.waterStockPercentage) / 100;
+      this.waterStock.y = 29 - this.waterStock.height;
     });
 
     this.startGame();
@@ -148,8 +194,6 @@ export default class Mine extends Phaser.Scene {
       left: "left",
       right: "right",
     });
-
-
 
     this.input.keyboard.on(
       "keydown",
@@ -167,7 +211,7 @@ export default class Mine extends Phaser.Scene {
           this.goingRight = true;
           this.goingLeft = false;
         } else if (event.keyCode === 32) {
-          // space
+          this.action = true;
         }
       },
       this
@@ -184,6 +228,8 @@ export default class Mine extends Phaser.Scene {
           this.goingLeft = false;
         } else if (event.key == "ArrowRight") {
           this.goingRight = false;
+        } else if (event.keyCode === 32) {
+          this.action = false;
         }
       },
       this
@@ -328,11 +374,11 @@ export default class Mine extends Phaser.Scene {
     } else if (this.goingDown) {
       this.down();
     }
-    
+
     if (this.goingLeft) {
-      if (this.tube.x > 100) this.tube.x -= 5
+      if (this.tube.x > 100) this.tube.x -= 5;
     } else if (this.goingRight) {
-      if (this.tube.x < 450) this.tube.x += 5
+      if (this.tube.x < 450) this.tube.x += 5;
     }
 
     const targetY = rockPositions[this.currentCablePosition.y] + 10;
@@ -340,7 +386,7 @@ export default class Mine extends Phaser.Scene {
     this.targetH.setPosition(this.tube.x, targetY);
 
     const deltaX = 0;
-    const dephtX = 50;
+    const dephtX = 40;
 
     for (const index in this.rocks) {
       const element = this.rocks[index];
@@ -363,6 +409,8 @@ export default class Mine extends Phaser.Scene {
 
       if (element.index === this.currentCablePosition.y) {
         if (
+          !this.rechargeWater &&
+          this.action &&
           rock.x > this.tube.x + deltaX - dephtX &&
           rock.x < this.tube.x + deltaX + dephtX
         ) {
