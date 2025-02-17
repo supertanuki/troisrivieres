@@ -236,34 +236,89 @@ export default class Mine extends Phaser.Scene {
     );
 
     if (isMobile()) {
-      const screenWidth = Number(this.sys.game.config.width);
-      const delta = 100;
-
+      this.joystick = this.plugins.get("rexvirtualjoystickplugin").add(this, {
+        x: 100,
+        y: 200,
+        radius: 100,
+        base: this.add.circle(0, 0, 50, 0xff5544, 0.4),
+        thumb: this.add.circle(0, 0, 30, 0xcccccc, 0.3),
+        dir: "8dir",
+        forceMin: 16,
+        enable: true,
+        inputEnable: true,
+        fixed: true,
+      });
+  
+      // Make floating joystick
       this.input.on(
         "pointerdown",
-        (pointer) => {
-          if (pointer.x < screenWidth / 2 - delta) {
+        function (pointer) {
+          this.joystick.setPosition(pointer.x, pointer.y);
+          this.joystick.setVisible(true);
+        },
+        this
+      );
+  
+      this.joystick.on(
+        "update",
+        function () {
+          this.goingAngle = this.joystick.angle;
+  
+          if (this.joystick.left) {
             this.goingLeft = true;
-            return;
+            this.goingRight = false;
+  
+            if (177.5 < this.goingAngle || -177.5 > this.goingAngle) {
+              this.goingUp = false;
+              this.goingDown = false;
+            }
+          } else if (this.joystick.right) {
+            this.goingRight = true;
+            this.goingLeft = false;
+  
+            if (22.5 > this.goingAngle && -22.5 < this.goingAngle) {
+              this.goingUp = false;
+              this.goingDown = false;
+            }
           }
-
-          if (pointer.x > screenWidth / 2 + delta) {
-            this.control = "right";
-            return;
+  
+          if (this.joystick.up) {
+            this.goingUp = true;
+            this.goingDown = false;
+  
+            if (-67.5 > this.goingAngle && -112.5 < this.goingAngle) {
+              this.goingRight = false;
+              this.goingLeft = false;
+            }
+          } else if (this.joystick.down) {
+            this.goingDown = true;
+            this.goingUp = false;
+  
+            if (67.5 < this.goingAngle && 112.5 > this.goingAngle) {
+              this.goingRight = false;
+              this.goingLeft = false;
+            }
           }
-
-          // @todo
         },
         this
       );
-
-      this.input.on(
+  
+      this.joystick.on(
         "pointerup",
-        (pointer) => {
-          this.control = "none";
+        () => {
+          this.joystick.setVisible(false);
+          this.action = false;
+          this.goingUp = false;
+          this.goingDown = false;
+          this.goingRight = false;
+          this.goingLeft = false;
         },
         this
       );
+  
+      this.joystick.on("pointerdown", () => {
+        this.action = true;
+      }, this);
     }
   }
 
