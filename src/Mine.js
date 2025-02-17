@@ -47,13 +47,13 @@ export default class Mine extends Phaser.Scene {
       backgroundColor: "rgba(0,0,0,0.9)",
       padding: 6,
       alpha: 0,
-    });
+    })
     this.scoreObject
       .setScrollFactor(0)
       .setDepth(1000)
       .setWordWrapWidth(300)
       .setActive(true)
-      .setVisible(true);
+      .setVisible(false);
 
     this.textObject = this.add.text(config.width / 2, 100, "hello", {
       font: "14px Arial",
@@ -352,12 +352,16 @@ export default class Mine extends Phaser.Scene {
   }
 
   updateScore() {
+    const total = this.rockValidated + this.rockNotValidated
+    const percent = Math.round(100 * this.rockValidated / (total || 1))
     this.scoreObject.setText(
+      percent + " %\n" +
       this.rockValidated +
         " g / " +
-        (this.rockValidated + this.rockNotValidated) +
+        total +
         " kg"
     );
+    this.scoreObject.setVisible(true)
   }
 
   updateMessage(message) {
