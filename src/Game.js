@@ -94,15 +94,15 @@ export default class Game extends Phaser.Scene {
 
     const ctrlR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
     ctrlR.on("down", () => {
-      this.roads.setVisible(!this.roads.active)
-      this.roads.setActive(!this.roads.active)
+      this.roads.setVisible(!this.roads.active);
+      this.roads.setActive(!this.roads.active);
     });
 
     const ctrlA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
     ctrlA.on("down", () => {
-      this.landLessWater.setVisible(!this.landLessWater.active)
-      this.landLessWater.setActive(!this.landLessWater.active)
-      return
+      this.landLessWater.setVisible(!this.landLessWater.active);
+      this.landLessWater.setActive(!this.landLessWater.active);
+      return;
 
       this.cameras.main.fadeOut(200, 0, 0, 0);
       this.cameras.main.once(
@@ -146,16 +146,16 @@ export default class Game extends Phaser.Scene {
 
     this.landLessWater = map.createLayer("landLessWater", tileset);
     this.landLessWater.setCollisionByProperty({ collide: true });
-    this.landLessWater.setVisible(false)
-    this.landLessWater.setActive(false)
+    this.landLessWater.setVisible(false);
+    this.landLessWater.setActive(false);
 
-    map.createLayer("landUp", tileset);    
+    map.createLayer("landUp", tileset);
     map.createLayer("bridgesShadow", tileset);
     map.createLayer("bridges", tileset);
 
     this.roads = map.createLayer("roads", tileset);
-    this.roads.setVisible(false)
-    this.roads.setActive(false)
+    this.roads.setVisible(false);
+    this.roads.setActive(false);
 
     map.createLayer("bottom", tileset);
 
@@ -163,9 +163,14 @@ export default class Game extends Phaser.Scene {
     this.sprites.setCollisionByProperty({ collide: true });
 
     map.getObjectLayer("hero").objects.forEach((heroPosition) => {
-      this.hero = this.add.hero(heroPosition.x, heroPosition.y, "mai", "idle-down-1");
-      this.hero.animateToDown()
-      this.hero.stopAndWait()
+      this.hero = this.add.hero(
+        heroPosition.x,
+        heroPosition.y,
+        "mai",
+        "idle-down-1"
+      );
+      this.hero.animateToDown();
+      this.hero.stopAndWait();
     });
 
     map.getObjectLayer("farmer").objects.forEach((farmerPosition) => {
@@ -580,23 +585,11 @@ export default class Game extends Phaser.Scene {
     }
 
     // Animation need to be done once
-    if (
-      this.goingUp &&
-      (null === this.goingAngle ||
-        (-45 > this.goingAngle && -135 <= this.goingAngle))
-    ) {
+    if (this.goingUp) {
       this.hero.animateToUp();
-    } else if (
-      this.goingDown &&
-      (null === this.goingAngle ||
-        (45 < this.goingAngle && 135 >= this.goingAngle))
-    ) {
+    } else if (this.goingDown) {
       this.hero.animateToDown();
-    } else if (
-      this.goingRight &&
-      (null === this.goingAngle ||
-        (45 > this.goingAngle && -45 <= this.goingAngle))
-    ) {
+    } else if (this.goingRight) {
       this.hero.animateToRight();
     } else if (this.goingLeft) {
       this.hero.animateToLeft();
