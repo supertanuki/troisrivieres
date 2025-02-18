@@ -482,6 +482,7 @@ export default class Game extends Phaser.Scene {
       function (pointer) {
         this.joystick.setPosition(pointer.x, pointer.y);
         this.joystick.setVisible(true);
+        this.handleAction();
       },
       this
     );
@@ -538,8 +539,6 @@ export default class Game extends Phaser.Scene {
       },
       this
     );
-
-    this.joystick.on("pointerdown", this.handleAction, this);
   }
 
   stopMoving() {
