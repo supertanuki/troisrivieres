@@ -108,14 +108,19 @@ export default class Game extends Phaser.Scene {
 
     const ctrlR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
     ctrlR.on("down", () => {
-      this.roads.setVisible(!this.roads.active);
-      this.roads.setActive(!this.roads.active);
+      const enabled = this.roads.visible
+      this.roads.setVisible(!enabled);
+      this.roadsBottom.setVisible(!enabled);
+
+      this.bridgesShadow.setVisible(enabled);
+      this.bridges.setVisible(enabled);
+      this.bridgesTop.setVisible(enabled)
     });
 
     const ctrlA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
     ctrlA.on("down", () => {
-      this.landLessWater.setVisible(!this.landLessWater.active);
-      this.landLessWater.setActive(!this.landLessWater.active);
+      this.landLessWater.setVisible(!this.landLessWater.visible);
+      this.landLessWater.setActive(!this.landLessWater.visible);
       return;
 
       this.cameras.main.fadeOut(200, 0, 0, 0);
@@ -164,12 +169,12 @@ export default class Game extends Phaser.Scene {
     this.landLessWater.setActive(false);
 
     map.createLayer("landUp", tileset);
-    map.createLayer("bridgesShadow", tileset);
-    map.createLayer("bridges", tileset);
+    this.bridgesShadow = map.createLayer("bridgesShadow", tileset);
+    this.bridges = map.createLayer("bridges", tileset);
+    this.bridgesTop = map.createLayer("bridgesTop", tileset);
 
-    this.roads = map.createLayer("roads", tileset);
-    this.roads.setVisible(false);
-    this.roads.setActive(false);
+    this.roadsBottom = map.createLayer("roadsBottom", tileset).setVisible(false);
+    this.roads = map.createLayer("roads", tileset).setVisible(false);
 
     map.createLayer("bottom", tileset);
 
