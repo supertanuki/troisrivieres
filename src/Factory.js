@@ -2,21 +2,21 @@ import Phaser from "phaser";
 import isMobile from "./Utils/isMobile";
 
 const COMPONENTS = {
-  bleu: "img/factory/bleu.png",
-  bleuge: "img/factory/bleuge.png",
-  jaune: "img/factory/jaune.png",
-  rouge: "img/factory/rouge.png",
-  //roune: "img/factory/roune.png",
-  vert: "img/factory/vert.png",
+  blue: "component-blue",
+  violet: "component-violet",
+  yellow: "component-yellow",
+  red: "component-red",
+  green: "component-green",
 };
 
 const initialY = 265;
 const initialX = 275;
 const step = 70;
+const motherboardInitialSpeed = 10;
 const motherboardValidatedSpeed = 10;
-const accelerationStep = 5
-const initialSpeed = 0.75
-const acceleration = 0.5
+const accelerationStep = 5;
+const initialSpeed = 0.75;
+const acceleration = 0.5;
 
 export default class Factory extends Phaser.Scene {
   constructor() {
@@ -29,40 +29,195 @@ export default class Factory extends Phaser.Scene {
     this.componentValidated = 0;
     this.isMotherboardValidated = false;
     this.motherboardSpeed = initialSpeed;
-    this.numberValidated = 0
-    this.enableComponentsControl = true
+    this.numberValidated = 0;
+    this.enableComponentsControl = true;
+    this.conveyorPosition = 0;
+    this.conveyorRollings = [];
+    this.conveyorBackPosition = 0;
   }
 
   preload() {
-    this.load.image("tapis", "img/factory/tapisroulant.jpg");
+    this.load.atlas("firm", "sprites/firm.png", "sprites/firm.json");
+  }
 
-    for (const [key, value] of Object.entries(COMPONENTS)) {
-      this.load.image(key, value);
-    }
+  addHands() {
+    this.leftHand = this.add.image(420, -10, "firm", "gant").setOrigin(0, 0);
+    this.tweens.add({
+      targets: this.leftHand,
+      x: 300,
+      y: -100,
+      angle: 40,
+      ease: "Sine.easeInOut",
+      yoyo: true,
+      loop: -1,
+      delay: 200,
+      duration: 1000,
+    });
+    this.rightHand = this.add.image(330, -10, "firm", "gant").setOrigin(0, 0);
+    this.rightHand.scaleX = -1;
+    this.tweens.add({
+      targets: this.rightHand,
+      x: 350,
+      y: -100,
+      angle: -40,
+      ease: "Sine.easeInOut",
+      yoyo: true,
+      loop: -1,
+      delay: 1000,
+      duration: 800,
+    });
+
+    this.leftHand2 = this.add.image(200, -12, "firm", "gant").setOrigin(0, 0);
+    this.tweens.add({
+      targets: this.leftHand2,
+      x: 200,
+      y: -80,
+      angle: 30,
+      ease: "Sine.easeInOut",
+      yoyo: true,
+      loop: -1,
+      delay: 250,
+      duration: 800,
+    });
+    this.rightHand2 = this.add.image(100, -12, "firm", "gant").setOrigin(0, 0);
+    this.rightHand2.scaleX = -1;
+    this.tweens.add({
+      targets: this.rightHand2,
+      x: 150,
+      y: -90,
+      angle: -25,
+      ease: "Sine.easeInOut",
+      yoyo: true,
+      loop: -1,
+      delay: 1000,
+      duration: 900,
+    });
   }
 
   create() {
-    this.add.image(0, 0, "tapis").setOrigin(0, 0);
+    // @to remove
+    this.input.on("pointerdown", (pointer) =>
+      console.log(pointer.x, pointer.y)
+    );
+
+    this.anims.create({
+      key: "speaker-off",
+      frames: [
+        {
+          key: "firm",
+          frame: "hautparleur-off",
+        },
+      ],
+      repeat: -1,
+      frameRate: 1,
+    });
+    this.anims.create({
+      key: "speaker-on",
+      frames: [
+        {
+          key: "firm",
+          frame: "hautparleur-off",
+        },
+        {
+          key: "firm",
+          frame: "hautparleur-on",
+        },
+      ],
+      repeat: -1,
+      frameRate: 8,
+    });
+
+    this.anims.create({
+      key: "rolling",
+      frames: this.anims.generateFrameNames("firm", {
+        start: 1,
+        end: 4,
+        prefix: "roulement-",
+      }),
+      repeat: -1,
+      frameRate: 10,
+    });
+
+    this.anims.create({
+      key: "rolling-fast",
+      frames: this.anims.generateFrameNames("firm", {
+        start: 1,
+        end: 4,
+        prefix: "roulement-",
+      }),
+      repeat: -1,
+      frameRate: 20,
+    });
+
+
+    // back
+    this.add.tileSprite(-4, -42, 554, 146, "firm", "sol").setOrigin(0, 0);
+    this.conveyorInBack = this.add
+    .tileSprite(0, -10, 550, 96, "firm", "tapis")
+    .setOrigin(0, 0)
+    .setScrollFactor(0, 0);
+
+
+    this.add.tileSprite(0, 99, 550, 146, "firm", "sol").setOrigin(0, 0);
+    this.conveyor = this.add
+      .tileSprite(0, 105, 550, 96, "firm", "tapis")
+      .setOrigin(0, 0)
+      .setScrollFactor(0, 0);
+    this.add.image(30, 104, "firm", "rouleaugauche").setOrigin(0, 0);
+    this.add
+      .image(30, 104, "firm", "rouleaugauche")
+      .setOrigin(0, 0)
+      .setScale(-1, 1);
+    this.add.tileSprite(45, 201, 450, 11, "firm", "rouleaubas").setOrigin(0, 0);
+
+
+
+    this.addHands();
+
+    this.add.tileSprite(0, 0, 150, 99, "firm", "glass-repeat").setOrigin(0, 0);
+    this.add.tileSprite(150, 0, 67, 99, "firm", "vitre").setOrigin(0, 0);
+    this.add
+      .tileSprite(217, 0, 350, 99, "firm", "glass-repeat")
+      .setOrigin(0, 0);
+
+    this.speaker = this.add
+      .sprite(470, 0, "firm", "hautparleur-off")
+      .setOrigin(0, 0);
+
+    for (let i = 0; i < 50; i++) {
+      this.conveyorRollings.push(
+        this.add
+          .sprite(38 + i * 8, 202, "firm", "roulement-1")
+          .setOrigin(0, 0)
+          .anims.play("rolling", true)
+      );
+    }
+
     this.initSelectedComponent();
     this.initMotherboard();
     this.initComponents();
     this.createControls();
 
     const config = this.sys.game.config;
-    this.textObject = this.add.text(config.width / 2, 50, "", {
-      font: "14px Arial",
-      fill: "#ffffff",
-      backgroundColor: "rgba(0,0,0,0.9)",
-      padding: 6,
-      alpha: 0,
-    })
+    this.textObject = this.add.text(
+      350,
+      80,
+      "une super longue phrase qui veut rien dire",
+      {
+        font: "14px Arial",
+        fill: "#ffffff",
+        backgroundColor: "rgba(20,20,20,0.8)",
+        padding: 6,
+        alpha: 0,
+      }
+    );
     this.textObject
       .setOrigin(0.5, 1)
       .setScrollFactor(0)
       .setDepth(1000)
-      .setWordWrapWidth(300)
+      .setWordWrapWidth(200)
       .setActive(false)
-      .setVisible(false)
+      .setVisible(false);
 
     // Fade init
     this.cameras.main.fadeOut(0, 0, 0, 0);
@@ -74,7 +229,12 @@ export default class Factory extends Phaser.Scene {
     for (const name in COMPONENTS) {
       this.componentsLine.push({
         name,
-        image: this.add.image(initialX + step * i, initialY, name),
+        image: this.add.image(
+          initialX + step * i,
+          initialY,
+          "firm",
+          COMPONENTS[name]
+        ),
       });
       i++;
     }
@@ -87,17 +247,17 @@ export default class Factory extends Phaser.Scene {
   initMotherboard() {
     const x = -150;
     const componentsNumber = this.getComponentsNumber();
-    const step = 160 / componentsNumber;
+    const step = 90 / componentsNumber;
     this.componentValidated = 0;
     this.isMotherboardValidated = false;
     this.motherBoardComponents = [];
     this.motherBoard = [];
-    this.motherBoard.push(this.add.rectangle(x, 150, 200, 100, 0x555555));
+    this.motherBoard.push(this.add.image(x, 150, "firm", "motherboard"));
 
     for (let i = 0; i < componentsNumber; i++) {
       const name = Phaser.Math.RND.pick(Object.keys(COMPONENTS));
       const component = this.add
-        .image(x - 40 + step * i, 150, name)
+        .image(x - 24 + step * i, 150, "firm", COMPONENTS[name])
         .setAlpha(0, 0.4, 0.6, 0.6);
       this.motherBoardComponents.push({ name, component, validated: false });
       this.motherBoard.push(component);
@@ -110,16 +270,25 @@ export default class Factory extends Phaser.Scene {
     this.graphics = this.add.graphics({
       lineStyle: {
         width: 2,
-        color: 0x555555,
+        color: 0xffff55,
       },
     });
     this.graphics.strokeRect(250, 240, 50, 50);
 
     // to remove ???
     const style = { color: "0x000000" };
-    this.upText = this.add.text(275, 230, "🢁", style).setOrigin(0.5, 0.5).setVisible(false);
-    this.leftText = this.add.text(235, 235, "🢀", style).setOrigin(0.5, 0.5).setVisible(false)
-    this.rightText = this.add.text(315, 235, "🢂", style).setOrigin(0.5, 0.5).setVisible(false)
+    this.upText = this.add
+      .text(275, 230, "🢁", style)
+      .setOrigin(0.5, 0.5)
+      .setVisible(false);
+    this.leftText = this.add
+      .text(235, 235, "🢀", style)
+      .setOrigin(0.5, 0.5)
+      .setVisible(false);
+    this.rightText = this.add
+      .text(315, 235, "🢂", style)
+      .setOrigin(0.5, 0.5)
+      .setVisible(false);
   }
 
   createControls() {
@@ -143,7 +312,7 @@ export default class Factory extends Phaser.Scene {
         } else if (event.key === "ArrowRight") {
           this.right();
         } else if (event.keyCode === 32) {
-          this.handleAction();
+          this.setComponent();
         }
       },
       this
@@ -153,19 +322,23 @@ export default class Factory extends Phaser.Scene {
       const screenWidth = Number(this.sys.game.config.width);
       const delta = 100;
 
-      this.input.on('pointerdown', (pointer) => {
-        if (pointer.x < (screenWidth/2 - delta)) {
-          this.left()
-          return
-        }
+      this.input.on(
+        "pointerdown",
+        (pointer) => {
+          if (pointer.x < screenWidth / 2 - delta) {
+            this.left();
+            return;
+          }
 
-        if (pointer.x > (screenWidth/2 + delta)) {
-          this.right()
-          return
-        }
+          if (pointer.x > screenWidth / 2 + delta) {
+            this.right();
+            return;
+          }
 
-        this.setComponent()
-      }, this);
+          this.setComponent();
+        },
+        this
+      );
     }
   }
 
@@ -175,12 +348,15 @@ export default class Factory extends Phaser.Scene {
       component.image.x =
         initialX + this.componentsLinePosition * step + step * i;
       i++;
-      component.image.y = initialY
+      component.image.y = initialY;
     });
   }
 
   right() {
-    if (!this.enableComponentsControl || this.componentsLinePosition - 1 < -1 * this.componentsLine.length + 1) {
+    if (
+      !this.enableComponentsControl ||
+      this.componentsLinePosition - 1 < -1 * this.componentsLine.length + 1
+    ) {
       return;
     }
     this.hightLightCommand(this.rightText);
@@ -202,33 +378,33 @@ export default class Factory extends Phaser.Scene {
   }
 
   getValidatedComponent() {
-    const selectedComponent = this.getSelectedComponent()
+    const selectedComponent = this.getSelectedComponent();
 
     for (const component of this.motherBoardComponents) {
       if (component.name === selectedComponent.name && !component.validated) {
         this.componentValidated++;
         this.validateComponent(component.component);
         component.validated = true;
-        return component
+        return component;
       }
     }
 
-    return null
+    return null;
   }
 
   setComponent() {
-    if (!this.enableComponentsControl) return
+    if (!this.enableComponentsControl) return;
 
     this.enableComponentsControl = false;
     this.hightLightCommand(this.upText);
 
-    const {image} = this.getSelectedComponent()
-    image.setDepth(1)
+    const { image } = this.getSelectedComponent();
+    image.setDepth(1);
 
-    const validatedComponent = this.getValidatedComponent()
+    const validatedComponent = this.getValidatedComponent();
 
     if (validatedComponent) {
-      const initialPosition = {x: image.x, y: image.y}
+      const initialPosition = { x: image.x, y: image.y };
       this.tweens.add({
         targets: image,
         x: validatedComponent.component.x + 10,
@@ -236,12 +412,11 @@ export default class Factory extends Phaser.Scene {
         ease: "Sine.easeInOut",
         duration: 200,
         onComplete: () => {
-          image.x = initialPosition.x
-          image.y = initialY
+          image.x = initialPosition.x;
+          image.y = initialY;
           this.enableComponentsControl = true;
         },
       });
-
     } else {
       this.tweens.add({
         targets: image,
@@ -264,45 +439,54 @@ export default class Factory extends Phaser.Scene {
     }
   }
 
+  updateMessage(message) {
+    this.speaker.anims.play("speaker-on", true);
+
+    this.textObject.text = message;
+    this.textObject.setVisible(true);
+    this.time.delayedCall(2000, () => {
+      this.textObject.setVisible(false);
+      this.speaker.anims.play("speaker-off");
+    });
+  }
+
   validateMotherboard() {
     this.isMotherboardValidated = true;
     this.motherBoard[0].fillColor = 0xffffff;
-    this.numberValidated++
+    this.numberValidated++;
 
-    const isFaster = 1 === this.numberValidated % accelerationStep
+    const isFaster = 1 === this.numberValidated % accelerationStep;
 
     if (isFaster) {
-      this.motherboardSpeed += acceleration
+      this.motherboardSpeed += acceleration;
     }
 
-    this.textObject.text = isFaster ? 'Validé ! Plus vite maintenant !!!' : 'Validé !'
-    this.textObject.setVisible(true)
-    this.time.delayedCall(1000, () => {
-      this.textObject.setVisible(false)
-    });
+    this.updateMessage(
+      isFaster
+        ? "Validé ! Plus vite maintenant !!!"
+        : "C'est bien, tu es productive !"
+    );
   }
 
   destroyMotherboard() {
     for (const element of this.motherBoard) {
       element.destroy();
     }
-    this.motherBoard = []
+    this.motherBoard = [];
   }
 
   endMotherboard() {
     this.enableComponentsControl = false;
 
     if (!this.isMotherboardValidated) {
-      this.textObject.text =  'Raté !!!'
-      this.textObject.setVisible(true)
+      this.updateMessage("C'est quoi ce boulot ? Ressaisis-toi la nouvelle !");
       this.destroyMotherboard();
 
       this.time.delayedCall(1000, () => {
-        this.textObject.setVisible(false)  
         this.initMotherboard();
       });
 
-      return
+      return;
     }
 
     this.destroyMotherboard();
@@ -314,7 +498,7 @@ export default class Factory extends Phaser.Scene {
   }
 
   hightLightCommand(text) {
-    return
+    return;
     this.tweens.addCounter({
       from: 0,
       to: 1,
@@ -329,13 +513,35 @@ export default class Factory extends Phaser.Scene {
     });
   }
 
-  handleAction() {}
-
   update() {
+    this.conveyorBackPosition += 1;
+    this.conveyorInBack.setTilePosition(this.conveyorBackPosition, 0);
+
+    if (!this.motherBoard.length) {
+      this.conveyorRollings.forEach((element) => element.anims.stop());
+      return;
+    }
+
+    const speed = this.isMotherboardValidated
+      ? motherboardValidatedSpeed
+      : this.motherBoard[0].x < 30 || this.motherBoard[0].x > 500
+      ? motherboardInitialSpeed
+      : this.motherboardSpeed;
+
+    this.conveyorRollings.forEach((element) =>
+      element.anims.play(
+        [motherboardValidatedSpeed, motherboardInitialSpeed].includes(speed)
+          ? "rolling-fast"
+          : "rolling",
+        true
+      )
+    );
+
+    this.conveyorPosition -= speed;
+    this.conveyor.setTilePosition(this.conveyorPosition, 0);
+
     for (const element of this.motherBoard) {
-      element.x += this.isMotherboardValidated
-        ? motherboardValidatedSpeed
-        : this.motherBoard[0].x < 30 || this.motherBoard[0].x > 500 ? 10 : this.motherboardSpeed;
+      element.x += speed;
     }
 
     if (this.motherBoard.length && this.motherBoard[0].x > 700) {
