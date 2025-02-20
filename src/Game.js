@@ -38,6 +38,7 @@ export default class Game extends Phaser.Scene {
     this.birds = [];
 
     this.backgrounds = [];
+    this.pointsCollider = [];
   }
 
   preload() {
@@ -176,7 +177,7 @@ export default class Game extends Phaser.Scene {
     this.roadsBottom = map.createLayer("roadsBottom", tileset).setVisible(false);
     this.roads = map.createLayer("roads", tileset).setVisible(false);
 
-    map.createLayer("bottom", tileset);
+    this.bottomObjects = map.createLayer("bottom", tileset).setCollisionByProperty({ collide: true });
 
     this.sprites = map.createLayer("sprites", tileset);
     this.sprites.setCollisionByProperty({ collide: true });
@@ -216,8 +217,16 @@ export default class Game extends Phaser.Scene {
     this.miner.addFuturePosition(futurePosition);
     */
 
-    this.topObjects = map.createLayer("top", tileset);
-    this.topObjects.setCollisionByProperty({ collide: true });
+    this.topObjects = map.createLayer("top", tileset).setCollisionByProperty({ collide: true });
+    this.topObjects.forEachTile(tile => {
+      if (tile.properties?.pointCollide === true) {
+        this.pointsCollider.push(this.physics.add.sprite(tile.getCenterX(), tile.getCenterY(), null)
+            .setSize(10, 1)
+            .setImmovable(true)
+            .setVisible(false)
+          )
+      }
+    })
 
     map.getObjectLayer("birds").objects.forEach((birdPosition) => {
       this.birds.push(this.add.bird(birdPosition.x, birdPosition.y));
@@ -339,7 +348,9 @@ export default class Game extends Phaser.Scene {
     this.physics.add.collider(this.hero, this.water);
     this.physics.add.collider(this.hero, this.land);
     this.physics.add.collider(this.hero, this.topObjects);
+    this.physics.add.collider(this.hero, this.bottomObjects);
     this.physics.add.collider(this.hero, this.sprites);
+    this.physics.add.collider(this.hero, this.pointsCollider);    
   }
 
   handleDiscussionReady(sprite) {
