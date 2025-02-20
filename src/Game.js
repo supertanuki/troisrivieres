@@ -92,6 +92,20 @@ export default class Game extends Phaser.Scene {
     this.cameras.main.fadeOut(0, 0, 0, 0);
     this.cameras.main.fadeIn(1000, 0, 0, 0);
 
+    this.input.keyboard
+      .addKey(Phaser.Input.Keyboard.KeyCodes.M)
+      .on("down", () => {
+        console.log("MINUS");
+        this.cameras.main.zoomTo(this.cameras.main.zoom === 2 ? 1 : 0.6, 100);
+      });
+
+    this.input.keyboard
+      .addKey(Phaser.Input.Keyboard.KeyCodes.P)
+      .on("down", () => {
+        console.log("PLUS");
+        this.cameras.main.zoomTo(this.cameras.main.zoom === 0.6 ? 1 : 2, 100);
+      });
+
     const ctrlR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
     ctrlR.on("down", () => {
       this.roads.setVisible(!this.roads.active);
@@ -203,6 +217,35 @@ export default class Game extends Phaser.Scene {
     map.getObjectLayer("birds").objects.forEach((birdPosition) => {
       this.birds.push(this.add.bird(birdPosition.x, birdPosition.y));
     });
+
+    const width = this.land.width;
+    const height = this.land.height;
+    const darkOverlay = this.add
+      .rectangle(width / 2, height / 2, width, height, 0x000000)
+      .setOrigin(0.5, 0.5)
+      .setAlpha(0)
+      .setVisible(false)
+      .setActive(false);
+    let night = false
+    this.input.keyboard
+      .addKey(Phaser.Input.Keyboard.KeyCodes.N)
+      .on("down", () => {
+        if (night) {
+          night = false
+          darkOverlay.setVisible(false);
+          darkOverlay.setAlpha(0);
+          return
+        }
+
+        night = true
+        darkOverlay.setVisible(true);
+        this.tweens.add({
+          targets: darkOverlay,
+          alpha: 0.7, // Passe à noir complet
+          duration: 5000, // En 1 seconde
+          ease: "Sine.easeInOut",
+        });
+      });
 
     this.animatedTiles.init(map);
 
