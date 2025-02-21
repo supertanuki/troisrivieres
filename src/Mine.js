@@ -44,9 +44,7 @@ export default class Mine extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image("tapis", "img/factory/tapisroulant.jpg");
     this.load.image("rock", "img/rock.png");
-    this.load.image("circle", "img/circle.png");
     this.load.image("water", "img/rain.png");
   }
 

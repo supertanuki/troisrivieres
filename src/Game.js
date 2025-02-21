@@ -87,6 +87,15 @@ export default class Game extends Phaser.Scene {
       this.gotoCable();
     }
 
+    const text = this.add.text(275, 150, 'Start', { font: '32px Courier', fill: '#ffffff' }).setOrigin(0.5, 0.5)
+    text.setInteractive({ useHandCursor: true  })
+    text.on('pointerdown', () => {
+      text.destroy()
+      this.start()
+    })
+  }
+
+  start() {
     this.scene.run("message");
 
     // Fade init
@@ -232,11 +241,27 @@ export default class Game extends Phaser.Scene {
       this.birds.push(this.add.bird(birdPosition.x, birdPosition.y));
     });
 
+
+
+let nightOverlay = this.add.graphics()
+nightOverlay.fillStyle(0x000000, 0.8);
+nightOverlay.fillRect(0, 0, this.scale.width, this.scale.height)
+nightOverlay.setScrollFactor(0, 0)
+let maskGraphics = this.make.graphics();
+maskGraphics.fillStyle(0xffffff);
+maskGraphics.fillCircle(275, 150, 100);
+maskGraphics.setScrollFactor(0, 0)
+let mask = maskGraphics.createGeometryMask();
+mask.invertAlpha = true;
+nightOverlay.setMask(mask);
+nightOverlay.setVisible(false)
+
     const width = this.land.width;
     const height = this.land.height;
     const darkOverlay = this.add
-      .rectangle(width / 2, height / 2, width, height, 0x000000)
+      .rectangle(275, 150, 550, 300, 0x000000)
       .setOrigin(0.5, 0.5)
+      .setScrollFactor(0, 0)
       .setAlpha(0)
       .setVisible(false)
       .setActive(false);
@@ -247,16 +272,26 @@ export default class Game extends Phaser.Scene {
         if (night) {
           night = false
           darkOverlay.setVisible(false);
-          darkOverlay.setAlpha(0);
+          nightOverlay.setVisible(false);
           return
         }
 
         night = true
+        darkOverlay.setAlpha(0);
         darkOverlay.setVisible(true);
         this.tweens.add({
           targets: darkOverlay,
-          alpha: 0.7,
-          duration: 5000,
+          alpha: 0.4,
+          duration: 1000,
+          ease: "Sine.easeInOut",
+        });
+
+        nightOverlay.setAlpha(0)
+        nightOverlay.setVisible(true);
+        this.tweens.add({
+          targets: nightOverlay,
+          alpha: 1,
+          duration: 1000,
           ease: "Sine.easeInOut",
         });
       });
@@ -297,6 +332,10 @@ export default class Game extends Phaser.Scene {
     );
 
     sceneEventsEmitter.on(sceneEvents.EventsUnlocked, this.listenEvents, this);
+
+    this.music = this.sound.add('village-theme');
+    this.music.loop = true
+    this.music.play()
   }
 
   listenEvents(data) {
