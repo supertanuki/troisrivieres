@@ -1,11 +1,25 @@
 import Phaser from "phaser";
 import isMobile from "./Utils/isMobile";
-import { isDebug } from "./Utils/isDebug";
+import { getUrlParam, isDebug } from "./Utils/isDebug";
 
 const rockPositions = [150, 190, 230];
 const cablePositionsX = [150, 275, 450];
 const cablePositionsY = [50, 100, 150];
-const numberIsRefined = 50;
+
+const conveyorInitialSpeed = getUrlParam('conveyorInitialSpeed', 1)
+const conveyorSpeedIncrement = getUrlParam('conveyorSpeedIncrement', 0.5)
+const numberRockValidatedBeforeSpeedIncrement = getUrlParam('numberRockValidatedBeforeSpeedIncrement', 3)
+
+const waterReductionFactor = getUrlParam('waterReductionFactor', 0.2)
+const waterRefillFactor = getUrlParam('waterRefillFactor', 0.5)
+
+const numberRockValidatedToHaveMoreMaterials = getUrlParam('numberRockValidatedToHaveMoreMaterials', 12)
+const timeBetweenRocks = getUrlParam('timeBetweenRocks', 2000)
+const moreMaterialsTimeBetweenRocks = getUrlParam('moreMaterialsTimeBetweenRocks', 1000)
+const numberIsRefined = getUrlParam('numberIsRefined', 50);
+
+const tubeSpeed = getUrlParam('tubeSpeed', 5);
+const tubeDeltaEffect = getUrlParam('tubeDeltaEffect', 40);
 
 export default class Mine extends Phaser.Scene {
   constructor() {
@@ -23,7 +37,7 @@ export default class Mine extends Phaser.Scene {
     this.movingCable = false;
     this.rockValidated = 0;
     this.rockNotValidated = 0;
-    this.speed = 1;
+    this.speed = conveyorInitialSpeed;
     this.control = "none";
     this.waterStockPercentage = 100;
     this.rechargeWater = false;
@@ -150,7 +164,7 @@ export default class Mine extends Phaser.Scene {
     this.events.on("update", () => {
       if (!this.rechargeWater && this.action && this.waterStockPercentage > 0) {
         this.water.emitParticleAt(this.tube.x, this.tube.y);
-        this.waterStockPercentage -= 0.2;
+        this.waterStockPercentage -= waterReductionFactor;
 
         if (this.waterStockPercentage < 0) {
           this.waterStockPercentage = 0;
@@ -160,7 +174,7 @@ export default class Mine extends Phaser.Scene {
           this.updateMessage("Réserve d'eau vide !");
         }
       } else {
-        this.waterStockPercentage += 0.5;
+        this.waterStockPercentage += waterRefillFactor;
 
         if (this.waterStockPercentage >= 100) {
           this.waterStockPercentage = 100;
@@ -339,11 +353,11 @@ export default class Mine extends Phaser.Scene {
     this.time.addEvent({
       callback: () => {
         this.createRock();
-        if (this.rockValidated === 12) {
+        if (this.rockValidated === numberRockValidatedToHaveMoreMaterials) {
           this.updateMessage("Plus de matières à traiter !");
         }
       },
-      delay: this.rockValidated > 12 ? 1000 : 2000,
+      delay: this.rockValidated > numberRockValidatedToHaveMoreMaterials ? moreMaterialsTimeBetweenRocks : timeBetweenRocks,
     });
   }
 
@@ -412,9 +426,8 @@ export default class Mine extends Phaser.Scene {
     this.scoreObject.setText(
       percent + " %\n" +
       this.rockValidated +
-        " g / " +
-        total +
-        " kg"
+        " / " +
+        total
     );
     this.scoreObject.setVisible(true)
   }
@@ -435,17 +448,14 @@ export default class Mine extends Phaser.Scene {
     }
 
     if (this.goingLeft) {
-      if (this.tube.x > 100) this.tube.x -= 5;
+      if (this.tube.x > 100) this.tube.x -= tubeSpeed;
     } else if (this.goingRight) {
-      if (this.tube.x < 450) this.tube.x += 5;
+      if (this.tube.x < 450) this.tube.x += tubeSpeed;
     }
 
     const targetY = rockPositions[this.currentCablePosition.y] + 10;
     this.targetV.setPosition(this.tube.x, targetY);
     this.targetH.setPosition(this.tube.x, targetY);
-
-    const deltaX = 0;
-    const dephtX = 40;
 
     for (const index in this.rocks) {
       const element = this.rocks[index];
@@ -470,8 +480,8 @@ export default class Mine extends Phaser.Scene {
         if (
           !this.rechargeWater &&
           this.action &&
-          rock.x > this.tube.x + deltaX - dephtX &&
-          rock.x < this.tube.x + deltaX + dephtX
+          rock.x > this.tube.x - tubeDeltaEffect &&
+          rock.x < this.tube.x + tubeDeltaEffect
         ) {
           rock.scale = rock.scale * 0.995;
           rock.setTint(element.refined % 3 ? 0xffffff : 0x555555);
@@ -482,8 +492,8 @@ export default class Mine extends Phaser.Scene {
             this.rockValidated++;
             this.updateScore();
 
-            if (this.rockValidated === 3) {
-              this.speed += 0.5;
+            if (this.rockValidated === numberRockValidatedBeforeSpeedIncrement) {
+              this.speed += conveyorSpeedIncrement;
               this.updateMessage("Plus vite maintenant !!!");
             }
 
