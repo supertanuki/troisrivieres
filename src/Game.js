@@ -172,7 +172,6 @@ export default class Game extends Phaser.Scene {
     map.createLayer("landUp", tileset);
     this.bridgesShadow = map.createLayer("bridgesShadow", tileset);
     this.bridges = map.createLayer("bridges", tileset);
-    this.bridgesTop = map.createLayer("bridgesTop", tileset);
 
     this.roadsBottom = map.createLayer("roadsBottom", tileset).setVisible(false);
     this.roads = map.createLayer("roads", tileset).setVisible(false);
@@ -217,6 +216,7 @@ export default class Game extends Phaser.Scene {
     this.miner.addFuturePosition(futurePosition);
     */
 
+    this.bridgesTop = map.createLayer("bridgesTop", tileset);
     this.topObjects = map.createLayer("top", tileset).setCollisionByProperty({ collide: true });
     this.topObjects.forEachTile(tile => {
       if (tile.properties?.pointCollide === true) {
@@ -255,8 +255,8 @@ export default class Game extends Phaser.Scene {
         darkOverlay.setVisible(true);
         this.tweens.add({
           targets: darkOverlay,
-          alpha: 0.7, // Passe à noir complet
-          duration: 5000, // En 1 seconde
+          alpha: 0.7,
+          duration: 5000,
           ease: "Sine.easeInOut",
         });
       });
