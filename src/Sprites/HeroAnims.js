@@ -88,7 +88,7 @@ export const createHeroAnims = function (anims) {
       anims.generateFrameNames("mai", {
         start: 2,
         end: 2,
-        prefix: "idle-down-",
+        prefix: "idle-up-",
       })
     );
 
