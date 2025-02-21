@@ -247,7 +247,7 @@ export default class Factory extends Phaser.Scene {
   initMotherboard() {
     const x = -150;
     const componentsNumber = this.getComponentsNumber();
-    const step = 90 / componentsNumber;
+    const stepBetweenComponents = 90 / componentsNumber;
     this.componentValidated = 0;
     this.isMotherboardValidated = false;
     this.motherBoardComponents = [];
@@ -257,7 +257,7 @@ export default class Factory extends Phaser.Scene {
     for (let i = 0; i < componentsNumber; i++) {
       const name = Phaser.Math.RND.pick(Object.keys(COMPONENTS));
       const component = this.add
-        .image(x - 24 + step * i, 150, "firm", COMPONENTS[name])
+        .image(x - 24 + stepBetweenComponents * i, 150, "firm", COMPONENTS[name])
         .setAlpha(0, 0.4, 0.6, 0.6);
       this.motherBoardComponents.push({ name, component, validated: false });
       this.motherBoard.push(component);
