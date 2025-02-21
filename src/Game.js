@@ -71,22 +71,6 @@ export default class Game extends Phaser.Scene {
   }
 
   create() {
-    if (isScene1()) {
-      this.gotoScene1();
-    }
-
-    if (isFactory()) {
-      this.gotoFactory();
-    }
-
-    if (isMine()) {
-      this.gotoMine();
-    }
-
-    if (isCable()) {
-      this.gotoCable();
-    }
-
     const text = this.add.text(275, 150, 'Start', { font: '32px Courier', fill: '#ffffff' }).setOrigin(0.5, 0.5)
     text.setInteractive({ useHandCursor: true  })
     text.on('pointerdown', () => {
@@ -96,6 +80,26 @@ export default class Game extends Phaser.Scene {
   }
 
   start() {
+    if (isScene1()) {
+      this.gotoScene1();
+      return
+    }
+
+    if (isFactory()) {
+      this.gotoFactory();
+      return
+    }
+
+    if (isMine()) {
+      this.gotoMine();
+      return
+    }
+
+    if (isCable()) {
+      this.gotoCable();
+      return
+    }
+
     this.scene.run("message");
 
     // Fade init

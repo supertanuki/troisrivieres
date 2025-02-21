@@ -3,8 +3,6 @@ import isMobile from "./Utils/isMobile";
 import { getUrlParam, isDebug } from "./Utils/isDebug";
 
 const rockPositions = [150, 190, 230];
-const cablePositionsX = [150, 275, 450];
-const cablePositionsY = [50, 100, 150];
 
 const conveyorInitialSpeed = getUrlParam('conveyorInitialSpeed', 1)
 const conveyorSpeedIncrement = getUrlParam('conveyorSpeedIncrement', 0.5)
@@ -33,7 +31,6 @@ export default class Mine extends Phaser.Scene {
       },
     });
     this.rocks = [];
-    this.currentCablePosition = { x: 0, y: 0 };
     this.movingCable = false;
     this.rockValidated = 0;
     this.rockNotValidated = 0;
@@ -46,6 +43,7 @@ export default class Mine extends Phaser.Scene {
   preload() {
     this.load.image("rock", "img/rock.png");
     this.load.image("water", "img/rain.png");
+    this.load.image("tapis", "img/factory/tapisroulant.jpg");
   }
 
   create() {
@@ -102,43 +100,9 @@ export default class Mine extends Phaser.Scene {
       .setDepth(10);
 
     this.tube = this.add
-      .rectangle(cablePositionsX[0], cablePositionsY[0], 12, 200, 0x115555)
+      .rectangle(275, 100, 12, 200, 0x115555)
       .setOrigin(0.5, 1)
       .setDepth(3);
-
-    /*
-    const segments = [];
-    const numSegments = 12;
-    const segmentWidth = 10;
-    const segmentHeight = 10;
-
-    for (let i = 0; i < numSegments; i++) {
-      const segment = this.matter.add.sprite(config.width / 2, 0, "circle", null, {
-        shape: {
-          type: "circle",
-          width: segmentWidth,
-          height: segmentHeight,
-        },
-        isStatic: i === 0,
-      });
-      segment.setDepth(2);
-
-      segments.push(segment);
-
-      if (i > 0) {
-        this.matter.add.constraint(
-          segments[i - 1].body,
-          segment.body,
-          segmentWidth,
-          0.5
-        );
-      }
-    }
-
-    this.lastSegment = segments[numSegments - 1].body;
-    this.lastSegment.position.x = 200;
-    this.lastSegment.position.y = cablePositionsY[0];
-    */
 
     this.water = this.add.particles(0, 0, "water", {
       speed: { min: 200, max: 300 },
@@ -151,13 +115,7 @@ export default class Mine extends Phaser.Scene {
     });
     this.water.setDepth(1);
 
-    this.particlesBounds = [
-      this.water.addParticleBounds(0, 0, 550, rockPositions[0] + 30),
-      this.water.addParticleBounds(0, 0, 550, rockPositions[1] + 30),
-      this.water.addParticleBounds(0, 0, 550, rockPositions[2] + 30),
-    ];
-    this.particlesBounds[1].active = false;
-    this.particlesBounds[2].active = false;
+    this.particlesBound = this.water.addParticleBounds(0, 0, 550, 200)
 
     this.events.on("update", () => {
       if (!this.rechargeWater && this.action && this.waterStockPercentage > 0) {
@@ -359,65 +317,6 @@ export default class Mine extends Phaser.Scene {
     });
   }
 
-  right() {
-    if (this.movingCable) return;
-
-    if (this.currentCablePosition.x < 2) {
-      this.currentCablePosition.x++;
-      this.moveCable();
-    }
-  }
-
-  left() {
-    if (this.movingCable) return;
-
-    if (this.currentCablePosition.x > 0) {
-      this.currentCablePosition.x--;
-      this.moveCable();
-    }
-  }
-
-  updateWaterBounds() {
-    for (const key in this.particlesBounds) {
-      this.particlesBounds[key].active = key == this.currentCablePosition.y;
-    }
-
-    this.water.setDepth(this.currentCablePosition.y * 10 + 1);
-  }
-
-  up() {
-    if (this.movingCable) return;
-
-    if (this.currentCablePosition.y > 0) {
-      this.currentCablePosition.y--;
-      this.moveCable();
-      this.updateWaterBounds();
-    }
-  }
-
-  down() {
-    if (this.movingCable) return;
-
-    if (this.currentCablePosition.y < 2) {
-      this.currentCablePosition.y++;
-      this.moveCable();
-      this.updateWaterBounds();
-    }
-  }
-
-  moveCable() {
-    this.movingCable = true;
-    this.tweens.add({
-      targets: this.tube,
-      y: cablePositionsY[this.currentCablePosition.y],
-      ease: "Sine.easeInOut",
-      duration: 200,
-      onComplete: () => {
-        this.movingCable = false;
-      },
-    });
-  }
-
   updateScore() {
     const total = this.rockValidated + this.rockNotValidated
     const percent = Math.round(100 * this.rockValidated / (total || 1))
@@ -440,10 +339,19 @@ export default class Mine extends Phaser.Scene {
 
   update() {
     if (this.goingUp) {
-      this.up();
+      if (this.tube.y > 50) this.tube.y -= tubeSpeed;
     } else if (this.goingDown) {
-      this.down();
+      if (this.tube.y < 150) this.tube.y += tubeSpeed;
     }
+
+    if (this.goingDown || this.goingUp) {
+      this.particlesBound.active = false
+      this.particlesBound = this.water.addParticleBounds(0, 0, 550, this.tube.y + 100)
+    }
+
+    const depth = this.tube.y < 100 ? 1 : this.tube.y < 120 ? 11 : 21
+    console.log(this.tube.y, depth)
+    this.water.setDepth(depth);
 
     if (this.goingLeft) {
       if (this.tube.x > 100) this.tube.x -= tubeSpeed;
@@ -451,9 +359,8 @@ export default class Mine extends Phaser.Scene {
       if (this.tube.x < 450) this.tube.x += tubeSpeed;
     }
 
-    const targetY = rockPositions[this.currentCablePosition.y] + 10;
-    this.targetV.setPosition(this.tube.x, targetY);
-    this.targetH.setPosition(this.tube.x, targetY);
+    this.targetV.setPosition(this.tube.x, this.tube.y + 100);
+    this.targetH.setPosition(this.tube.x, this.tube.y + 100);
 
     for (const index in this.rocks) {
       const element = this.rocks[index];
@@ -474,7 +381,7 @@ export default class Mine extends Phaser.Scene {
         continue;
       }
 
-      if (element.index === this.currentCablePosition.y) {
+      if (rock.y < this.tube.y + 125 && rock.y > this.tube.y + 75) {
         if (
           !this.rechargeWater &&
           this.action &&
@@ -484,6 +391,7 @@ export default class Mine extends Phaser.Scene {
           rock.scale = rock.scale * 0.995;
           rock.setTint(element.refined % 3 ? 0xffffff : 0x555555);
           element.refined++;
+          console.log(rock.depth)
 
           if (element.refined > numberIsRefined) {
             rock.setTint(0xff5555);
@@ -513,14 +421,5 @@ export default class Mine extends Phaser.Scene {
         }
       }
     }
-
-    /*
-    if (!this.movingCable) {
-      this.lastSegment.position.y =
-        cablePositionsY[this.currentCablePosition.y];
-      this.lastSegment.position.x =
-        cablePositionsX[this.currentCablePosition.x];
-    }
-    */
   }
 }
