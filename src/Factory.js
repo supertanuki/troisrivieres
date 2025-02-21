@@ -38,60 +38,7 @@ export default class Factory extends Phaser.Scene {
 
   preload() {
     this.load.atlas("firm", "sprites/firm.png", "sprites/firm.json");
-  }
-
-  addHands() {
-    this.leftHand = this.add.image(420, -10, "firm", "gant").setOrigin(0, 0);
-    this.tweens.add({
-      targets: this.leftHand,
-      x: 300,
-      y: -100,
-      angle: 40,
-      ease: "Sine.easeInOut",
-      yoyo: true,
-      loop: -1,
-      delay: 200,
-      duration: 1000,
-    });
-    this.rightHand = this.add.image(330, -10, "firm", "gant").setOrigin(0, 0);
-    this.rightHand.scaleX = -1;
-    this.tweens.add({
-      targets: this.rightHand,
-      x: 350,
-      y: -100,
-      angle: -40,
-      ease: "Sine.easeInOut",
-      yoyo: true,
-      loop: -1,
-      delay: 1000,
-      duration: 800,
-    });
-
-    this.leftHand2 = this.add.image(200, -12, "firm", "gant").setOrigin(0, 0);
-    this.tweens.add({
-      targets: this.leftHand2,
-      x: 200,
-      y: -80,
-      angle: 30,
-      ease: "Sine.easeInOut",
-      yoyo: true,
-      loop: -1,
-      delay: 250,
-      duration: 800,
-    });
-    this.rightHand2 = this.add.image(100, -12, "firm", "gant").setOrigin(0, 0);
-    this.rightHand2.scaleX = -1;
-    this.tweens.add({
-      targets: this.rightHand2,
-      x: 150,
-      y: -90,
-      angle: -25,
-      ease: "Sine.easeInOut",
-      yoyo: true,
-      loop: -1,
-      delay: 1000,
-      duration: 900,
-    });
+    this.load.image("water", "img/rain.png");
   }
 
   create() {
@@ -149,14 +96,12 @@ export default class Factory extends Phaser.Scene {
       frameRate: 20,
     });
 
-
     // back
     this.add.tileSprite(-4, -42, 554, 146, "firm", "sol").setOrigin(0, 0);
     this.conveyorInBack = this.add
-    .tileSprite(0, -10, 550, 96, "firm", "tapis")
-    .setOrigin(0, 0)
-    .setScrollFactor(0, 0);
-
+      .tileSprite(0, -10, 550, 96, "firm", "tapis")
+      .setOrigin(0, 0)
+      .setScrollFactor(0, 0);
 
     this.add.tileSprite(0, 99, 550, 146, "firm", "sol").setOrigin(0, 0);
     this.conveyor = this.add
@@ -170,15 +115,46 @@ export default class Factory extends Phaser.Scene {
       .setScale(-1, 1);
     this.add.tileSprite(45, 201, 450, 11, "firm", "rouleaubas").setOrigin(0, 0);
 
+    this.tubeBack = this.add
+      .rectangle(20, 5, 12, 100, 0x115555)
+      .setOrigin(0.5, 1);
 
+    this.waterBack = this.add.particles(0, 0, "water", {
+      speed: { min: 200, max: 300 },
+      angle: { min: 70, max: 110 },
+      gravityY: 300,
+      lifespan: 500,
+      quantity: 100,
+      scale: { start: 0.5, end: 0 },
+      emitting: false,
+    });
+    this.waterBack.addParticleBounds(0, 0, 550, 50);
 
-    this.addHands();
+    this.addBackHands();
 
     this.add.tileSprite(0, 0, 150, 99, "firm", "glass-repeat").setOrigin(0, 0);
     this.add.tileSprite(150, 0, 67, 99, "firm", "vitre").setOrigin(0, 0);
     this.add
       .tileSprite(217, 0, 350, 99, "firm", "glass-repeat")
       .setOrigin(0, 0);
+
+    // front
+    this.tube = this.add
+      .rectangle(510, 80, 12, 100, 0x115555)
+      .setOrigin(0.5, 1);
+
+    this.water = this.add
+      .particles(0, 0, "water", {
+        speed: { min: 200, max: 300 },
+        angle: { min: 70, max: 110 },
+        gravityY: 300,
+        lifespan: 500,
+        quantity: 100,
+        scale: { start: 0.5, end: 0 },
+        emitting: false,
+      })
+      .setDepth(1);
+    this.water.addParticleBounds(0, 0, 550, 150);
 
     this.speaker = this.add
       .sprite(470, 0, "firm", "hautparleur-off")
@@ -224,6 +200,60 @@ export default class Factory extends Phaser.Scene {
     this.cameras.main.fadeIn(1000, 0, 0, 0);
   }
 
+  addBackHands() {
+    this.leftHand = this.add.image(420, -10, "firm", "gant").setOrigin(0, 0);
+    this.tweens.add({
+      targets: this.leftHand,
+      x: 300,
+      y: -100,
+      angle: 40,
+      ease: "Sine.easeInOut",
+      yoyo: true,
+      loop: -1,
+      delay: 200,
+      duration: 1000,
+    });
+    this.rightHand = this.add.image(330, -10, "firm", "gant").setOrigin(0, 0);
+    this.rightHand.scaleX = -1;
+    this.tweens.add({
+      targets: this.rightHand,
+      x: 350,
+      y: -100,
+      angle: -40,
+      ease: "Sine.easeInOut",
+      yoyo: true,
+      loop: -1,
+      delay: 1000,
+      duration: 800,
+    });
+
+    this.leftHand2 = this.add.image(200, -12, "firm", "gant").setOrigin(0, 0);
+    this.tweens.add({
+      targets: this.leftHand2,
+      x: 200,
+      y: -80,
+      angle: 30,
+      ease: "Sine.easeInOut",
+      yoyo: true,
+      loop: -1,
+      delay: 250,
+      duration: 800,
+    });
+    this.rightHand2 = this.add.image(100, -12, "firm", "gant").setOrigin(0, 0);
+    this.rightHand2.scaleX = -1;
+    this.tweens.add({
+      targets: this.rightHand2,
+      x: 150,
+      y: -90,
+      angle: -25,
+      ease: "Sine.easeInOut",
+      yoyo: true,
+      loop: -1,
+      delay: 1000,
+      duration: 900,
+    });
+  }
+
   initComponents() {
     let i = 0;
     for (const name in COMPONENTS) {
@@ -257,7 +287,12 @@ export default class Factory extends Phaser.Scene {
     for (let i = 0; i < componentsNumber; i++) {
       const name = Phaser.Math.RND.pick(Object.keys(COMPONENTS));
       const component = this.add
-        .image(x - 24 + stepBetweenComponents * i, 150, "firm", COMPONENTS[name])
+        .image(
+          x - 24 + stepBetweenComponents * i,
+          150,
+          "firm",
+          COMPONENTS[name]
+        )
         .setAlpha(0, 0.4, 0.6, 0.6);
       this.motherBoardComponents.push({ name, component, validated: false });
       this.motherBoard.push(component);
@@ -514,12 +549,17 @@ export default class Factory extends Phaser.Scene {
   }
 
   update() {
+    this.waterBack.emitParticleAt(this.tubeBack.x, this.tubeBack.y);
     this.conveyorBackPosition += 1;
     this.conveyorInBack.setTilePosition(this.conveyorBackPosition, 0);
 
     if (!this.motherBoard.length) {
       this.conveyorRollings.forEach((element) => element.anims.stop());
       return;
+    }
+
+    if (this.isMotherboardValidated) {
+      this.water.emitParticleAt(this.tube.x, this.tube.y);
     }
 
     const speed = this.isMotherboardValidated
