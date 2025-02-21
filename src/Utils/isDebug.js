@@ -21,5 +21,5 @@ export function isCable() {
 }
 
 export function getUrlParam(name, defaultValue) {
-  return params.get(name) || defaultValue
+  return Number(params.get(name)) || defaultValue
 }
