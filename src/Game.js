@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 import { sceneEventsEmitter, sceneEvents } from "./Events/EventsCenter";
-import isMobile from "./Utils/isMobile";
+import isMobileOrTablet from "./Utils/isMobileOrTablet";
 
 import "./Sprites/Hero";
 import "./Sprites/Farmer";
@@ -71,33 +71,35 @@ export default class Game extends Phaser.Scene {
   }
 
   create() {
-    const text = this.add.text(275, 150, 'Start', { font: '32px Courier', fill: '#ffffff' }).setOrigin(0.5, 0.5)
-    text.setInteractive({ useHandCursor: true  })
-    text.on('pointerdown', () => {
-      text.destroy()
-      this.start()
-    })
+    const text = this.add
+      .text(275, 150, "Start", { font: "32px Courier", fill: "#ffffff" })
+      .setOrigin(0.5, 0.5);
+    text.setInteractive({ useHandCursor: true });
+    text.on("pointerdown", () => {
+      text.destroy();
+      this.start();
+    });
   }
 
   start() {
     if (isScene1()) {
       this.gotoScene1();
-      return
+      return;
     }
 
     if (isFactory()) {
       this.gotoFactory();
-      return
+      return;
     }
 
     if (isMine()) {
       this.gotoMine();
-      return
+      return;
     }
 
     if (isCable()) {
       this.gotoCable();
-      return
+      return;
     }
 
     this.scene.run("message");
@@ -122,13 +124,13 @@ export default class Game extends Phaser.Scene {
 
     const ctrlR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
     ctrlR.on("down", () => {
-      const enabled = this.roads.visible
+      const enabled = this.roads.visible;
       this.roads.setVisible(!enabled);
       this.roadsBottom.setVisible(!enabled);
 
       this.bridgesShadow.setVisible(enabled);
       this.bridges.setVisible(enabled);
-      this.bridgesTop.setVisible(enabled)
+      this.bridgesTop.setVisible(enabled);
     });
 
     const ctrlA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
@@ -186,10 +188,14 @@ export default class Game extends Phaser.Scene {
     this.bridgesShadow = map.createLayer("bridgesShadow", tileset);
     this.bridges = map.createLayer("bridges", tileset);
 
-    this.roadsBottom = map.createLayer("roadsBottom", tileset).setVisible(false);
+    this.roadsBottom = map
+      .createLayer("roadsBottom", tileset)
+      .setVisible(false);
     this.roads = map.createLayer("roads", tileset).setVisible(false);
 
-    this.bottomObjects = map.createLayer("bottom", tileset).setCollisionByProperty({ collide: true });
+    this.bottomObjects = map
+      .createLayer("bottom", tileset)
+      .setCollisionByProperty({ collide: true });
 
     this.sprites = map.createLayer("sprites", tileset);
     this.sprites.setCollisionByProperty({ collide: true });
@@ -230,75 +236,26 @@ export default class Game extends Phaser.Scene {
     */
 
     this.bridgesTop = map.createLayer("bridgesTop", tileset);
-    this.topObjects = map.createLayer("top", tileset).setCollisionByProperty({ collide: true });
-    this.topObjects.forEachTile(tile => {
+    this.topObjects = map
+      .createLayer("top", tileset)
+      .setCollisionByProperty({ collide: true });
+    this.topObjects.forEachTile((tile) => {
       if (tile.properties?.pointCollide === true) {
-        this.pointsCollider.push(this.physics.add.sprite(tile.getCenterX(), tile.getCenterY(), null)
+        this.pointsCollider.push(
+          this.physics.add
+            .sprite(tile.getCenterX(), tile.getCenterY(), null)
             .setSize(10, 1)
             .setImmovable(true)
             .setVisible(false)
-          )
+        );
       }
-    })
+    });
 
     map.getObjectLayer("birds").objects.forEach((birdPosition) => {
       this.birds.push(this.add.bird(birdPosition.x, birdPosition.y));
     });
 
-
-
-let nightOverlay = this.add.graphics()
-nightOverlay.fillStyle(0x000000, 0.8);
-nightOverlay.fillRect(0, 0, this.scale.width, this.scale.height)
-nightOverlay.setScrollFactor(0, 0)
-let maskGraphics = this.make.graphics();
-maskGraphics.fillStyle(0xffffff);
-maskGraphics.fillCircle(275, 150, 100);
-maskGraphics.setScrollFactor(0, 0)
-let mask = maskGraphics.createGeometryMask();
-mask.invertAlpha = true;
-nightOverlay.setMask(mask);
-nightOverlay.setVisible(false)
-
-    const width = this.land.width;
-    const height = this.land.height;
-    const darkOverlay = this.add
-      .rectangle(275, 150, 550, 300, 0x000000)
-      .setOrigin(0.5, 0.5)
-      .setScrollFactor(0, 0)
-      .setAlpha(0)
-      .setVisible(false)
-      .setActive(false);
-    let night = false
-    this.input.keyboard
-      .addKey(Phaser.Input.Keyboard.KeyCodes.N)
-      .on("down", () => {
-        if (night) {
-          night = false
-          darkOverlay.setVisible(false);
-          nightOverlay.setVisible(false);
-          return
-        }
-
-        night = true
-        darkOverlay.setAlpha(0);
-        darkOverlay.setVisible(true);
-        this.tweens.add({
-          targets: darkOverlay,
-          alpha: 0.4,
-          duration: 1000,
-          ease: "Sine.easeInOut",
-        });
-
-        nightOverlay.setAlpha(0)
-        nightOverlay.setVisible(true);
-        this.tweens.add({
-          targets: nightOverlay,
-          alpha: 1,
-          duration: 1000,
-          ease: "Sine.easeInOut",
-        });
-      });
+    this.addNightMode()
 
     this.animatedTiles.init(map);
 
@@ -337,9 +294,93 @@ nightOverlay.setVisible(false)
 
     sceneEventsEmitter.on(sceneEvents.EventsUnlocked, this.listenEvents, this);
 
-    this.music = this.sound.add('village-theme');
-    this.music.loop = true
-    this.music.play()
+    this.music = this.sound.add("village-theme");
+    this.music.loop = true;
+    this.music.play();
+  }
+
+  addNightCircle(radius) {
+    const nightOverlay = this.add.graphics();
+    nightOverlay.fillStyle(0x000000, 0.3);
+    nightOverlay.fillRect(0, 0, this.scale.width, this.scale.height);
+    nightOverlay.setScrollFactor(0, 0);
+    nightOverlay.setVisible(false);
+
+    const maskGraphics = this.make.graphics();
+    maskGraphics.fillStyle(0xffffff);
+    maskGraphics.fillCircle(275, 150, radius);
+    maskGraphics.setScrollFactor(0, 0);
+    
+    const mask = maskGraphics.createGeometryMask();
+    mask.invertAlpha = true;
+    nightOverlay.setMask(mask);
+
+    return nightOverlay
+  }
+
+  addNightMode() {
+    this.nightOverlay1 = this.addNightCircle(50)
+    this.nightOverlay2 = this.addNightCircle(70)
+    this.nightOverlay3 = this.addNightCircle(90)
+
+    const darkOverlay = this.add
+      .rectangle(275, 150, 550, 300, 0x000000)
+      .setOrigin(0.5, 0.5)
+      .setScrollFactor(0, 0)
+      .setAlpha(0)
+      //.setAlpha(0.4)
+      .setVisible(true)
+
+    let night = false;
+    this.input.keyboard
+      .addKey(Phaser.Input.Keyboard.KeyCodes.N)
+      .on("down", () => {
+        if (night) {
+          night = false;
+          darkOverlay.setVisible(false);
+          this.nightOverlay1.setVisible(false);
+          this.nightOverlay2.setVisible(false);
+          this.nightOverlay3.setVisible(false);
+          return;
+        }
+
+        night = true;
+        darkOverlay.setAlpha(0);
+        darkOverlay.setVisible(true);
+        this.tweens.add({
+          targets: darkOverlay,
+          alpha: 0.4,
+          duration: 3000,
+          ease: "Sine.easeInOut",
+        });
+
+        this.nightOverlay1.setAlpha(0);
+        this.nightOverlay1.setVisible(true);
+        this.tweens.add({
+          targets: this.nightOverlay1,
+          alpha: 1,
+          duration: 3000,
+          ease: "Sine.easeInOut",
+        });
+
+        this.nightOverlay2.setAlpha(0);
+        this.nightOverlay2.setVisible(true);
+        this.tweens.add({
+          targets: this.nightOverlay2,
+          alpha: 1,
+          duration: 3000,
+          ease: "Sine.easeInOut",
+        });
+
+        this.nightOverlay3.setAlpha(0);
+        this.nightOverlay3.setVisible(true);
+        this.tweens.add({
+          targets: this.nightOverlay3,
+          alpha: 1,
+          duration: 3000,
+          ease: "Sine.easeInOut",
+        });
+      });
   }
 
   listenEvents(data) {
@@ -393,7 +434,7 @@ nightOverlay.setVisible(false)
     this.physics.add.collider(this.hero, this.topObjects);
     this.physics.add.collider(this.hero, this.bottomObjects);
     this.physics.add.collider(this.hero, this.sprites);
-    this.physics.add.collider(this.hero, this.pointsCollider);    
+    this.physics.add.collider(this.hero, this.pointsCollider);
   }
 
   handleDiscussionReady(sprite) {
@@ -511,7 +552,7 @@ nightOverlay.setVisible(false)
   }
 
   addControlsForMobile() {
-    if (!isMobile()) {
+    if (!isMobileOrTablet()) {
       return;
     }
     const screenWidth = Number(this.sys.game.config.width);
@@ -566,7 +607,7 @@ nightOverlay.setVisible(false)
   }
 
   addJoystickForMobile() {
-    if (!isMobile()) {
+    if (!isMobileOrTablet()) {
       return;
     }
 

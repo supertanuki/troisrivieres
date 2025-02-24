@@ -1,5 +1,5 @@
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
-import isMobile from "../Utils/isMobile";
+import isMobileOrTablet from "../Utils/isMobileOrTablet";
 
 class Miner extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y, texture, frame) {
@@ -16,7 +16,7 @@ class Miner extends Phaser.Physics.Arcade.Sprite {
     this.chatImageUi.setVisible(true)
     this.chatImageUi.setDepth(1000)
 
-    this.chatTextUi = scene.add.text(0, 2, isMobile() ? 'Appuyer pour continuer': 'Appuyer sur espace', {
+    this.chatTextUi = scene.add.text(0, 2, isMobileOrTablet() ? 'Appuyer pour continuer': 'Appuyer sur espace', {
 			font: '12px Arial',
 			color: '#fff',
       backgroundColor: '#000',

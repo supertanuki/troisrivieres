@@ -1,4 +1,4 @@
-import isMobile from "../Utils/isMobile";
+import isMobileOrTablet from "../Utils/isMobileOrTablet";
 import { Direction, randomDirection } from "../Utils/randomDirection";
 
 class Farmer extends Phaser.Physics.Arcade.Sprite {
@@ -7,7 +7,7 @@ class Farmer extends Phaser.Physics.Arcade.Sprite {
 
     this.speed = 20;
     this.initialY = y;
-    this.isMoving = true
+    this.isMoving = false
 
     scene.anims.create({
       key: "farmer-walk-down",
@@ -47,21 +47,21 @@ class Farmer extends Phaser.Physics.Arcade.Sprite {
       frames: [{ key: "farmer", frame: "walk-down-2" }],
     });
 
-    this.direction = Direction.RIGHT;
+    this.direction = Direction.DOWN;
 
-    this.moveEvent = scene.time.addEvent({
+    /*this.moveEvent = scene.time.addEvent({
       delay: 2000,
       callback: () => {
         this.direction = randomDirection(this.direction);
       },
       loop: true,
-    });
+    });*/
 
     this.chatImageUi = scene.add.image(0, 0, 'ui-chat');
     this.chatImageUi.setVisible(true)
     this.chatImageUi.setDepth(1000)
 
-    this.chatTextUi = scene.add.text(0, 2, isMobile() ? 'Appuyer pour continuer': 'Appuyer sur espace', {
+    this.chatTextUi = scene.add.text(0, 2, isMobileOrTablet() ? 'Appuyer pour continuer': 'Appuyer sur espace', {
 			font: '12px Arial',
 			color: '#fff',
       backgroundColor: '#000',
@@ -77,7 +77,7 @@ class Farmer extends Phaser.Physics.Arcade.Sprite {
   }
 
   move() {
-    this.isMoving = true
+    //this.isMoving = true
   }
 
   stopChatting() {

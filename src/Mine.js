@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import isMobile from "./Utils/isMobile";
+import isMobileOrTablet from "./Utils/isMobileOrTablet";
 import { getUrlParam, isDebug } from "./Utils/isDebug";
 
 const rockPositions = [150, 190, 230];
@@ -205,7 +205,7 @@ export default class Mine extends Phaser.Scene {
       this
     );
 
-    if (isMobile()) {
+    if (isMobileOrTablet()) {
       this.joystick = this.plugins.get("rexvirtualjoystickplugin").add(this, {
         x: 100,
         y: 200,

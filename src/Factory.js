@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import isMobile from "./Utils/isMobile";
+import isMobileOrTablet from "./Utils/isMobileOrTablet";
 
 const COMPONENTS = {
   blue: "component-blue",
@@ -353,7 +353,7 @@ export default class Factory extends Phaser.Scene {
       this
     );
 
-    if (isMobile()) {
+    if (isMobileOrTablet()) {
       const screenWidth = Number(this.sys.game.config.width);
       const delta = 100;
 
