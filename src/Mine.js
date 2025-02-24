@@ -14,7 +14,7 @@ const waterRefillFactor = getUrlParam('waterRefillFactor', 0.5)
 const numberRockValidatedToHaveMoreMaterials = getUrlParam('numberRockValidatedToHaveMoreMaterials', 12)
 const timeBetweenRocks = getUrlParam('timeBetweenRocks', 2000)
 const moreMaterialsTimeBetweenRocks = getUrlParam('moreMaterialsTimeBetweenRocks', 1000)
-const numberIsRefined = getUrlParam('numberIsRefined', 50);
+const numberIsRefined = getUrlParam('numberIsRefined', 60);
 
 const tubeSpeed = getUrlParam('tubeSpeed', 5);
 const tubeDeltaEffect = getUrlParam('tubeDeltaEffect', 40);
@@ -304,7 +304,8 @@ export default class Mine extends Phaser.Scene {
     const scale = Math.random() + 0.5;
     rock.setScale(scale > 1 ? 1 : scale);
     rock.setDepth(index * 10);
-    this.rocks.push({ rock, index, refined: 0 });
+    const refined = Math.round(numberIsRefined / 3 / scale)
+    this.rocks.push({ rock, index, refined });
 
     this.time.addEvent({
       callback: () => {
@@ -350,7 +351,6 @@ export default class Mine extends Phaser.Scene {
     }
 
     const depth = this.tube.y < 100 ? 1 : this.tube.y < 120 ? 11 : 21
-    console.log(this.tube.y, depth)
     this.water.setDepth(depth);
 
     if (this.goingLeft) {
@@ -389,9 +389,8 @@ export default class Mine extends Phaser.Scene {
           rock.x < this.tube.x + tubeDeltaEffect
         ) {
           rock.scale = rock.scale * 0.995;
-          rock.setTint(element.refined % 3 ? 0xffffff : 0x555555);
+          rock.setTint(element.refined % 2 ? 0xffffff : 0x555555);
           element.refined++;
-          console.log(rock.depth)
 
           if (element.refined > numberIsRefined) {
             rock.setTint(0xff5555);
