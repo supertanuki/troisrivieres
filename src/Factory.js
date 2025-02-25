@@ -17,6 +17,7 @@ const motherboardValidatedSpeed = 10;
 const accelerationStep = 5;
 const initialSpeed = 0.75;
 const acceleration = 0.5;
+const userLeftHandInitialPosition = { x: 255, y: 310 };
 
 export default class Factory extends Phaser.Scene {
   constructor() {
@@ -116,7 +117,7 @@ export default class Factory extends Phaser.Scene {
     this.add.tileSprite(45, 201, 450, 11, "firm", "rouleaubas").setOrigin(0, 0);
 
     this.tubeBack = this.add
-      .rectangle(20, 5, 12, 100, 0x115555)
+      .rectangle(30, 5, 12, 100, 0x115555)
       .setOrigin(0.5, 1);
 
     this.waterBack = this.add.particles(0, 0, "water", {
@@ -128,7 +129,7 @@ export default class Factory extends Phaser.Scene {
       scale: { start: 0.5, end: 0 },
       emitting: false,
     });
-    this.waterBack.addParticleBounds(0, 0, 550, 50);
+    this.waterBack.addParticleBounds(0, 0, 550, 60);
 
     this.addBackHands();
 
@@ -140,7 +141,7 @@ export default class Factory extends Phaser.Scene {
 
     // front
     this.tube = this.add
-      .rectangle(510, 80, 12, 100, 0x115555)
+      .rectangle(510, 100, 12, 10, 0x115555)
       .setOrigin(0.5, 1);
 
     this.water = this.add
@@ -172,7 +173,17 @@ export default class Factory extends Phaser.Scene {
     this.initSelectedComponent();
     this.initMotherboard();
     this.initComponents();
-    this.createControls();
+
+    this.userLeftHand = this.add
+      .image(
+        userLeftHandInitialPosition.x,
+        userLeftHandInitialPosition.y,
+        "firm",
+        "gant"
+      )
+      .setOrigin(0, 0);
+    this.userLeftHand.scaleY = -1;
+    this.userLeftHand.setDepth(10).setVisible(false);
 
     const config = this.sys.game.config;
     this.textObject = this.add.text(
@@ -198,6 +209,8 @@ export default class Factory extends Phaser.Scene {
     // Fade init
     this.cameras.main.fadeOut(0, 0, 0, 0);
     this.cameras.main.fadeIn(1000, 0, 0, 0);
+
+    this.createControls();
   }
 
   addBackHands() {
@@ -394,18 +407,70 @@ export default class Factory extends Phaser.Scene {
     ) {
       return;
     }
-    this.hightLightCommand(this.rightText);
     this.componentsLinePosition--;
     this.refreshComponentsLine();
+
+    if (this.handAnimation) {
+      this.handAnimation.destroy()
+    }
+
+    this.resetUserHand()
+    // right hand
+    this.userLeftHand.scaleX = 1
+    this.movingHand = true
+    this.userLeftHand.setX(450)
+    this.userLeftHand.setVisible(true);
+
+    this.handAnimation = this.tweens.add({
+      targets: this.userLeftHand,
+      x: 350,
+      y: 330,
+      angle: -30,
+      alpha: 1,
+      yoyo: true,
+      ease: "Sine.easeInOut",
+      duration: 200,
+      onComplete: () => {
+        this.resetUserHand()
+      },
+    });
   }
 
   left() {
     if (!this.enableComponentsControl || this.componentsLinePosition + 1 > 0) {
       return;
     }
-    this.hightLightCommand(this.leftText);
     this.componentsLinePosition++;
     this.refreshComponentsLine();
+
+    if (this.movingHand) {
+      //return
+    }
+    
+    if (this.handAnimation) {
+      this.handAnimation.destroy()
+    }
+
+    this.resetUserHand()
+    // left hand
+    this.userLeftHand.scaleX = -1
+    this.movingHand = true
+    this.userLeftHand.setX(100)
+    this.userLeftHand.setVisible(true);
+
+    this.handAnimation = this.tweens.add({
+      targets: this.userLeftHand,
+      x: 200,
+      y: 330,
+      angle: 30,
+      alpha: 1,
+      yoyo: true,
+      ease: "Sine.easeInOut",
+      duration: 200,
+      onComplete: () => {
+        this.resetUserHand()
+      },
+    });
   }
 
   getSelectedComponent() {
@@ -427,40 +492,87 @@ export default class Factory extends Phaser.Scene {
     return null;
   }
 
+  resetUserHand() {
+    this.movingHand = false
+    this.userLeftHand.scaleX = 1
+    this.userLeftHand.setAlpha(0);
+    this.userLeftHand.setVisible(false);
+    this.userLeftHand.setRotation(0)
+    this.userLeftHand.setPosition(userLeftHandInitialPosition.x, userLeftHandInitialPosition.y)
+  }
+
   setComponent() {
     if (!this.enableComponentsControl) return;
 
     this.enableComponentsControl = false;
     this.hightLightCommand(this.upText);
 
-    const { image } = this.getSelectedComponent();
-    image.setDepth(1);
+    const selectedComponent = this.getSelectedComponent().image;
+    selectedComponent.setDepth(1);
+    const initialPosition = { x: selectedComponent.x, y: selectedComponent.y };
 
     const validatedComponent = this.getValidatedComponent();
 
+    this.resetUserHand()
+    this.userLeftHand.setVisible(true);
+    const animDuration = 200
+
+    if (this.handAnimation) {
+      this.handAnimation.destroy()
+    }
+
     if (validatedComponent) {
-      const initialPosition = { x: image.x, y: image.y };
       this.tweens.add({
-        targets: image,
+        targets: selectedComponent,
         x: validatedComponent.component.x + 10,
         y: validatedComponent.component.y,
         ease: "Sine.easeInOut",
-        duration: 200,
+        duration: animDuration,
         onComplete: () => {
-          image.x = initialPosition.x;
-          image.y = initialY;
+          selectedComponent.x = initialPosition.x;
+          selectedComponent.y = initialY;
           this.enableComponentsControl = true;
+        },
+      });
+
+      this.handAnimation = this.tweens.add({
+        targets: this.userLeftHand,
+        x: validatedComponent.component.x,
+        y: 230,
+        alpha: 1,
+        angle: (validatedComponent.component.x - 275) / 10,
+        yoyo: true,
+        ease: "Sine.easeInOut",
+        duration: animDuration,
+        onComplete: () => {
+          this.enableComponentsControl = true;
+          this.resetUserHand()
         },
       });
     } else {
       this.tweens.add({
-        targets: image,
+        targets: selectedComponent,
         y: 150,
         yoyo: true,
         ease: "Sine.easeInOut",
-        duration: 200,
+        duration: animDuration,
+        onComplete: () => {
+          selectedComponent.x = initialPosition.x;
+          selectedComponent.y = initialY;
+          this.enableComponentsControl = true;
+        },
+      });
+
+      this.handAnimation = this.tweens.add({
+        targets: this.userLeftHand,
+        y: 230,
+        alpha: 1,
+        yoyo: true,
+        ease: "Sine.easeInOut",
+        duration: animDuration,
         onComplete: () => {
           this.enableComponentsControl = true;
+          this.resetUserHand()
         },
       });
     }
@@ -549,7 +661,6 @@ export default class Factory extends Phaser.Scene {
   }
 
   update() {
-    this.waterBack.emitParticleAt(this.tubeBack.x, this.tubeBack.y);
     this.conveyorBackPosition += 1;
     this.conveyorInBack.setTilePosition(this.conveyorBackPosition, 0);
 
@@ -560,6 +671,10 @@ export default class Factory extends Phaser.Scene {
 
     if (this.isMotherboardValidated) {
       this.water.emitParticleAt(this.tube.x, this.tube.y);
+    }
+
+    if (Math.random() > 0.5) {
+      this.waterBack.emitParticleAt(this.tubeBack.x, this.tubeBack.y);
     }
 
     const speed = this.isMotherboardValidated
