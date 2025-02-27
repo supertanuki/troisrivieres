@@ -122,14 +122,14 @@ export default class Game extends Phaser.Scene {
       .addKey(Phaser.Input.Keyboard.KeyCodes.M)
       .on("down", () => {
         console.log("MINUS");
-        this.cameras.main.zoomTo(this.cameras.main.zoom === 2 ? 1 : 0.6, 100);
+        this.cameras.main.zoomTo(this.cameras.main.zoom === 1.4 ? 1 : 0.6, 100);
       });
 
     this.input.keyboard
       .addKey(Phaser.Input.Keyboard.KeyCodes.P)
       .on("down", () => {
         console.log("PLUS");
-        this.cameras.main.zoomTo(this.cameras.main.zoom === 0.6 ? 1 : 2, 100);
+        this.cameras.main.zoomTo(this.cameras.main.zoom === 0.6 ? 1 : 1.4, 100);
       });
 
     const ctrlR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
@@ -268,6 +268,11 @@ export default class Game extends Phaser.Scene {
 
     this.bridgesTop = map.createLayer("bridgesTop", tileset);
 
+    this.obstacles = map
+      .createLayer("obstacles", tileset)
+      .setCollisionByProperty({ collide: true })
+      .setVisible(false);
+
     this.topObjects = map
       .createLayer("top", tileset)
       .setCollisionByProperty({ collide: true });
@@ -301,6 +306,9 @@ export default class Game extends Phaser.Scene {
           .setVisible(false)
       );
     });
+
+    map.createLayer("bottomStaticTrees", tileset)
+    map.createLayer("staticTrees", tileset)
 
     map.getObjectLayer("birds").objects.forEach((birdPosition) => {
       this.birds.push(this.add.bird(birdPosition.x, birdPosition.y));
@@ -492,6 +500,7 @@ export default class Game extends Phaser.Scene {
 
     this.physics.add.collider(this.hero, this.water);
     this.physics.add.collider(this.hero, this.land);
+    this.physics.add.collider(this.hero, this.obstacles);
     this.physics.add.collider(this.hero, this.topObjects);
     this.physics.add.collider(this.hero, this.topObjects2);
     this.physics.add.collider(this.hero, this.bottomObjects);
