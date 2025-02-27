@@ -1,12 +1,12 @@
 import Phaser from "phaser";
 import { sceneEventsEmitter, sceneEvents } from "./Events/EventsCenter";
 import isMobileOrTablet from "./Utils/isMobileOrTablet";
+import { isCable, isFactory, isMine, isScene1, urlParamHas } from "./Utils/isDebug";
 
 import "./Sprites/Hero";
 import "./Sprites/Farmer";
 import "./Sprites/Miner";
 import "./Sprites/Bird";
-import { isCable, isFactory, isMine, isScene1 } from "./Utils/isDebug";
 
 const DiscussionStatus = {
   NONE: "NONE",
@@ -71,13 +71,23 @@ export default class Game extends Phaser.Scene {
   }
 
   create() {
+    if (urlParamHas('nostart')) {
+      this.start();
+      return
+    }
+
     const text = this.add
       .text(275, 150, "Start", { font: "32px Courier", fill: "#ffffff" })
       .setOrigin(0.5, 0.5);
     text.setInteractive({ useHandCursor: true });
     text.on("pointerdown", () => {
-      text.destroy();
-      this.start();
+      text.setText("Loading...")
+      text.disableInteractive(true);
+
+      this.time.delayedCall(100, () => {
+        text.destroy();
+        this.start();
+      });
     });
   }
 
@@ -197,8 +207,26 @@ export default class Game extends Phaser.Scene {
       .createLayer("bottom", tileset)
       .setCollisionByProperty({ collide: true });
 
+    this.bottomObjects2 = map
+      .createLayer("bottom2", tileset)
+      .setCollisionByProperty({ collide: true });
+
     this.sprites = map.createLayer("sprites", tileset);
     this.sprites.setCollisionByProperty({ collide: true });
+
+    // Add trees base
+    this.anims.create({
+      key: 'sapin',
+      frames: this.anims.generateFrameNames('trees', { start: 1, end: 2, prefix: 'sapin-' }),
+      repeat: -1,
+      frameRate: 1
+    });
+    const treesLayer = map.getObjectLayer('trees')
+    // sort tress in order to draw trees from top to down
+    treesLayer.objects.sort((a, b) => a.y - b.y);
+    treesLayer.objects.forEach(treeObject => {
+      this.add.image(treeObject.x, treeObject.y - 8, "trees", `${treeObject.name}-base`);
+    });
 
     map.getObjectLayer("hero").objects.forEach((heroPosition) => {
       this.hero = this.add.hero(
@@ -235,10 +263,16 @@ export default class Game extends Phaser.Scene {
     this.miner.addFuturePosition(futurePosition);
     */
 
+
+
+
     this.bridgesTop = map.createLayer("bridgesTop", tileset);
+
     this.topObjects = map
       .createLayer("top", tileset)
       .setCollisionByProperty({ collide: true });
+
+    // smooth collision management (barrière...)
     this.topObjects.forEachTile((tile) => {
       if (tile.properties?.pointCollide === true) {
         this.pointsCollider.push(
@@ -251,8 +285,45 @@ export default class Game extends Phaser.Scene {
       }
     });
 
+    this.topObjects2 = map
+    .createLayer("top2", tileset)
+    .setCollisionByProperty({ collide: true });
+
+    // Add trees top after hero was created
+    treesLayer.objects.forEach(treeObject => {
+      const tree = this.physics.add.sprite(treeObject.x, treeObject.y - 40, "trees", `${treeObject.name}-1`)
+      tree.anims.play(treeObject.name);
+      this.pointsCollider.push(
+        this.physics.add
+          .sprite(treeObject.x, treeObject.y - 16, null)
+          .setSize(16, 1)
+          .setImmovable(true)
+          .setVisible(false)
+      );
+    });
+
     map.getObjectLayer("birds").objects.forEach((birdPosition) => {
       this.birds.push(this.add.bird(birdPosition.x, birdPosition.y));
+    });
+
+    const ctrlV = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.V);
+    ctrlV.on("down", () => {
+      map.getObjectLayer("heroInVillage").objects.forEach((heroPositionInVillage) => {
+        this.hero.setPosition(
+          heroPositionInVillage.x,
+          heroPositionInVillage.y
+        );
+      });
+    });
+
+    const ctrlF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
+    ctrlF.on("down", () => {
+      map.getObjectLayer("hero").objects.forEach((heroPosition) => {
+        this.hero.setPosition(
+          heroPosition.x,
+          heroPosition.y
+        );
+      });
     });
 
     this.addNightMode()
@@ -400,16 +471,6 @@ export default class Game extends Phaser.Scene {
   }
 
   addCollisionManagement() {
-    this.physics.add.collider(this.farmer, this.land, () => {
-      this.farmer.changeDirection();
-    });
-    this.physics.add.collider(this.farmer, this.topObjects, () => {
-      this.farmer.changeDirection();
-    });
-    this.physics.add.collider(this.farmer, this.water, () => {
-      this.farmer.changeDirection();
-    });
-
     this.physics.add.collider(this.farmer, this.hero, () => {
       sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "farmer");
       this.farmer.readyToChat();
@@ -432,7 +493,9 @@ export default class Game extends Phaser.Scene {
     this.physics.add.collider(this.hero, this.water);
     this.physics.add.collider(this.hero, this.land);
     this.physics.add.collider(this.hero, this.topObjects);
+    this.physics.add.collider(this.hero, this.topObjects2);
     this.physics.add.collider(this.hero, this.bottomObjects);
+    this.physics.add.collider(this.hero, this.bottomObjects2);
     this.physics.add.collider(this.hero, this.sprites);
     this.physics.add.collider(this.hero, this.pointsCollider);
   }

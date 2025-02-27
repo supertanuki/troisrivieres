@@ -1,0 +1,82 @@
+{
+	"textures": [
+		{
+			"image": "trees",
+			"format": "RGBA8888",
+			"size": {
+				"w": 37,
+				"h": 110
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "sapin-1",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 48,
+						"h": 48
+					},
+					"spriteSourceSize": {
+						"x": 6,
+						"y": 1,
+						"w": 37,
+						"h": 47
+					},
+					"frame": {
+						"x": 0,
+						"y": 0,
+						"w": 37,
+						"h": 47
+					}
+				},
+				{
+					"filename": "sapin-2",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 48,
+						"h": 48
+					},
+					"spriteSourceSize": {
+						"x": 6,
+						"y": 1,
+						"w": 37,
+						"h": 47
+					},
+					"frame": {
+						"x": 0,
+						"y": 47,
+						"w": 37,
+						"h": 47
+					}
+				},
+				{
+					"filename": "sapin-base",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 48,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 12,
+						"y": 0,
+						"w": 26,
+						"h": 16
+					},
+					"frame": {
+						"x": 0,
+						"y": 94,
+						"w": 26,
+						"h": 16
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "http://free-tex-packer.com",
+		"version": "0.6.7"
+	}
+}

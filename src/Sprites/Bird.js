@@ -69,7 +69,8 @@ export default class Bird extends Phaser.Physics.Arcade.Sprite {
       const mainCamera = this.scene.cameras.main
       const hero = this.scene.hero
 
-      if (this.initialX < hero.x - mainCamera.width / 2 || this.initialX > hero.x + mainCamera.width / 2) {
+      if (this.initialX < hero.x - mainCamera.width / 2 || this.initialX > hero.x + mainCamera.width / 2 
+        || this.initialY < hero.y - mainCamera.height / 2 || this.initialY > hero.y + mainCamera.height / 2) {
         this.reset()
       }
 

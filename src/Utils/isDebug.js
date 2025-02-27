@@ -20,6 +20,10 @@ export function isCable() {
   return params.has("cable");
 }
 
+export function urlParamHas(param) {
+  return params.has(param);
+}
+
 export function getUrlParam(name, defaultValue) {
   return Number(params.get(name)) || defaultValue
 }

@@ -41,17 +41,17 @@ export default class Preloader extends Phaser.Scene {
 
     this.load.atlas("mai", "sprites/mai.png", "sprites/mai.json");
     this.load.atlas("farmer", "sprites/farmer.png", "sprites/farmer.json");
-
-    this.load.atlas("tree", "sprites/tree-top.png", "sprites/tree.json");
+    this.load.atlas("trees", "sprites/trees.png", "sprites/trees.json");
 
     this.load.image("ui-chat", "img/ui/chat.png");
-
     this.load.image("waitingbird", "sprites/waitingbird.png");
     this.load.image("flyingbird", "sprites/flyingbird.png");
 
+    /*
     this.load.image("background-middle", "img/Parallax/Middle.png");
     this.load.image("background-mountains", "img/Parallax/Mountains.png");
     this.load.image("background-sky", "img/Parallax/Sky.png");
+    */
 
     this.load.plugin(
       "AnimatedTiles",
