@@ -1,7 +1,7 @@
-import isMobileOrTablet from "../Utils/isMobileOrTablet";
+import Chat from "../UI/Chat";
 import { Direction, randomDirection } from "../Utils/randomDirection";
 
-class Farmer extends Phaser.Physics.Arcade.Sprite {
+class Farmer extends Chat {
   constructor(scene, x, y, texture, frame) {
     super(scene, x, y, texture, frame);
 
@@ -56,19 +56,6 @@ class Farmer extends Phaser.Physics.Arcade.Sprite {
       },
       loop: true,
     });*/
-
-    this.chatImageUi = scene.add.image(0, 0, 'ui-chat');
-    this.chatImageUi.setVisible(true)
-    this.chatImageUi.setDepth(1000)
-
-    this.chatTextUi = scene.add.text(0, 2, isMobileOrTablet() ? 'Appuyer pour continuer': 'Appuyer sur espace', {
-			font: '12px Arial',
-			color: '#fff',
-      backgroundColor: '#000',
-      padding: 2
-		})
-    this.chatTextUi.setVisible(false)
-    this.chatTextUi.setDepth(1000)
   }
 
   changeDirection() {
@@ -78,21 +65,6 @@ class Farmer extends Phaser.Physics.Arcade.Sprite {
 
   move() {
     //this.isMoving = true
-  }
-
-  stopChatting() {
-    this.chatTextUi.setVisible(false)
-  }
-
-  readyToChat() {
-    this.stopMoving()
-    this.chatImageUi.x = this.x
-    this.chatImageUi.y = this.y - 20
-    this.chatImageUi.setVisible(true)
-
-    this.chatTextUi.x = this.x - 50
-    this.chatTextUi.y = this.y - 48
-    this.chatTextUi.setVisible(true)
   }
 
   stopMoving() {

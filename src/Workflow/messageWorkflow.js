@@ -1,9 +1,23 @@
 const spriteNames = {
   farmer: 'Jojo',
   miner: 'Kolo',
+  bino: 'Bino',
 }
 
 const messageWorkflow = {
+  bino: [
+    {
+      messages: [
+        "... ►",
+        "Je m'occupe de mon petit potager",
+      ],
+    },
+    {
+      messages: [
+        "J'adore mon potager...",
+      ],
+    },
+  ],
   farmer: [
     {
       messages: [

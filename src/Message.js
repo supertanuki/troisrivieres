@@ -8,7 +8,7 @@ export default class Message extends Phaser.Scene {
     this.textObject = null
     this.spriteNameObject = null
     this.currentText = ''
-    this.delay = 1
+    this.delay = 10
   }
 
   create() {

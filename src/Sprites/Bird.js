@@ -23,10 +23,12 @@ export default class Bird extends Phaser.Physics.Arcade.Sprite {
     this.initialX = x;
     this.initialY = y;
 
-    this.scene.anims
+    const anims = scene.anims;
+
+    anims
       .create({
         key: "bird-idle-anim-1",
-        frames: this.anims.generateFrameNames("sprites", {
+        frames: anims.generateFrameNames("sprites", {
           start: 1,
           end: 4,
           prefix: "bird-idle-",
@@ -34,16 +36,13 @@ export default class Bird extends Phaser.Physics.Arcade.Sprite {
         repeat: -1,
         frameRate: 1,
       })
-      .addFrame({
-        key: "sprites",
-        frame: "bird-idle-3",
-      })
-      .addFrame({
-        key: "sprites",
-        frame: "bird-idle-2",
-      });
+      .addFrame(anims.generateFrameNames("sprites", {
+        start: 3,
+        end: 2,
+        prefix: "bird-idle-",
+      }));
 
-    this.scene.anims.create({
+    anims.create({
       key: "bird-idle-anim-1",
       frames: [
         {
@@ -71,7 +70,7 @@ export default class Bird extends Phaser.Physics.Arcade.Sprite {
       frameRate: 1,
     });
 
-    this.scene.anims.create({
+    anims.create({
       key: "bird-idle-anim-3",
       frames: [
         {
@@ -99,20 +98,16 @@ export default class Bird extends Phaser.Physics.Arcade.Sprite {
       frameRate: 1,
     });
 
-    this.scene.anims
+    anims
       .create({
         key: "bird-flying",
-        frames: this.anims.generateFrameNames("sprites", {
+        frames: anims.generateFrameNames("sprites", {
           start: 1,
           end: 3,
           prefix: "bird-flying-",
         }),
         repeat: -1,
         frameRate: 10,
-      })
-      .addFrame({
-        key: "sprites",
-        frame: "bird-flying-2",
       });
   }
 

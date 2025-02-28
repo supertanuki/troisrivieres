@@ -15,6 +15,10 @@ export default class Workflow {
         currentThread: -1,
         currentMessagePosition: 0,
       },
+      bino: {
+        currentThread: -1,
+        currentMessagePosition: 0,
+      },
     };
 
     sceneEventsEmitter.on(

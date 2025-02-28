@@ -14,10 +14,11 @@ export const createHeroAnims = function (anims) {
       repeat: -1,
       frameRate: moveframerate,
     })
-    .addFrame({
-      key: "mai",
-      frame: "walk-down-2",
-    });
+    .addFrame(anims.generateFrameNames("mai", {
+      start: 2,
+      end: 2,
+      prefix: "walk-down-",
+    }));
 
   anims
     .create({
@@ -30,10 +31,11 @@ export const createHeroAnims = function (anims) {
       repeat: -1,
       frameRate: moveframerate,
     })
-    .addFrame({
-      key: "mai",
-      frame: "walk-up-2",
-    });
+    .addFrame(anims.generateFrameNames("mai", {
+      start: 2,
+      end: 2,
+      prefix: "walk-up-",
+    }));
 
   anims
     .create({
@@ -46,10 +48,11 @@ export const createHeroAnims = function (anims) {
       repeat: -1,
       frameRate: moveframerate,
     })
-    .addFrame({
-      key: "mai",
-      frame: "walk-right-2",
-    });
+    .addFrame(anims.generateFrameNames("mai", {
+      start: 2,
+      end: 2,
+      prefix: "walk-right-",
+    }));
 
   anims
     .create({
@@ -62,10 +65,11 @@ export const createHeroAnims = function (anims) {
       repeat: -1,
       frameRate: idleframerate,
     })
-    .addFrame({
-      key: "mai",
-      frame: "idle-down-2",
-    });
+    .addFrame(anims.generateFrameNames("mai", {
+        start: 2,
+        end: 2,
+        prefix: "idle-down-",
+      }));
 
   anims
     .create({
@@ -78,10 +82,11 @@ export const createHeroAnims = function (anims) {
       repeat: -1,
       frameRate: idleframerate,
     })
-    .addFrame({
-      key: "mai",
-      frame: "idle-up-2",
-    });
+    .addFrame(anims.generateFrameNames("mai", {
+      start: 2,
+      end: 2,
+      prefix: "walk-up-",
+    }));
 
   anims
     .create({
@@ -94,8 +99,9 @@ export const createHeroAnims = function (anims) {
       repeat: -1,
       frameRate: idleframerate,
     })
-    .addFrame({
-      key: "mai",
-      frame: "idle-right-2",
-    });
+    .addFrame(anims.generateFrameNames("mai", {
+      start: 2,
+      end: 2,
+      prefix: "idle-right-",
+    }));
 };

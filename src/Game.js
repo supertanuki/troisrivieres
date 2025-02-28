@@ -4,6 +4,7 @@ import isMobileOrTablet from "./Utils/isMobileOrTablet";
 import { isCable, isFactory, isMine, isScene1, urlParamHas } from "./Utils/isDebug";
 
 import "./Sprites/Hero";
+import "./Sprites/Bino";
 import "./Sprites/Farmer";
 import "./Sprites/Miner";
 import "./Sprites/Bird";
@@ -265,13 +266,24 @@ export default class Game extends Phaser.Scene {
       this.hero.stopAndWait();
     });
 
-    map.getObjectLayer("farmer").objects.forEach((farmerPosition) => {
-      this.farmer = this.add.farmer(
-        farmerPosition.x,
-        farmerPosition.y,
-        "farmer"
-      );
-      this.farmer.on("pointerdown", this.handleAction, this);
+    map.getObjectLayer("sprites").objects.forEach((spriteObject) => {
+      if (spriteObject.name === "farmer") {
+        this.farmer = this.add.farmer(
+          spriteObject.x,
+          spriteObject.y,
+          "farmer"
+        );
+        this.farmer.on("pointerdown", this.handleAction, this);
+      }
+
+      if (spriteObject.name === "bino") {
+        this.bino = this.add.bino(
+          spriteObject.x,
+          spriteObject.y,
+        );
+        this.bino.on("pointerdown", this.handleAction, this);
+        
+      }
     });
 
     /*
@@ -509,6 +521,12 @@ export default class Game extends Phaser.Scene {
       this.farmer.readyToChat();
     });
 
+    this.physics.add.collider(this.bino, this.hero, () => {
+      sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "bino");
+      this.bino.readyToChat();
+    });
+
+
     /*
     this.physics.add.collider(this.miner, this.hero, () => {
       sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "miner");
@@ -517,9 +535,6 @@ export default class Game extends Phaser.Scene {
     */
 
     this.physics.add.collider(this.birds, this.hero, (bird) => {
-      bird.fly();
-    });
-    this.physics.add.collider(this.birds, this.farmer, (bird) => {
       bird.fly();
     });
 
