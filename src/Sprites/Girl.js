@@ -1,50 +1,41 @@
 import Phaser from "phaser";
 import Chat from "../UI/Chat";
 
-export default class Bino extends Chat {
+export default class Girl extends Chat {
   constructor(scene, x, y) {
-    super(scene, x, y, "sprites", "bino-1");
+    super(scene, x, y, "sprites", "girl-water-1", 0, 0, true);
     this.scene = scene;
 
     this.scene.anims
       .create({
-        key: "bino-idle",
+        key: "girl-water",
         frames: this.anims.generateFrameNames("sprites", {
           start: 1,
-          end: 4,
-          prefix: "bino-",
+          end: 3,
+          prefix: "girl-water-",
         }),
         repeat: -1,
         frameRate: 3,
       })
-      .addFrame(
-        this.anims.generateFrameNames("sprites", {
-          start: 3,
-          end: 3,
-          prefix: "bino-",
-        })
-      )
+      
       .addFrame(
         this.anims.generateFrameNames("sprites", {
           start: 2,
           end: 2,
-          prefix: "bino-",
+          prefix: "girl-water-",
         })
       );
+
+    this.anims.play("girl-water", true);
   }
 
   move() {
     // nothing
   }
-
-  preUpdate(time, delta) {
-    super.preUpdate(time, delta);
-    this.anims.play("bino-idle", true);
-  }
 }
 
-Phaser.GameObjects.GameObjectFactory.register("bino", function (x, y) {
-  const sprite = new Bino(this.scene, x, y);
+Phaser.GameObjects.GameObjectFactory.register("girl", function (x, y) {
+  const sprite = new Girl(this.scene, x, y);
 
   this.scene.physics.world.enableBody(
     sprite,

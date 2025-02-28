@@ -5,6 +5,7 @@ export default class Workflow {
   constructor() {
     this.currentSprite = null;
     this.unlockedEvents = [];
+
     // to improve : create data on first use
     this.spritePosition = {
       farmer: {
@@ -16,6 +17,26 @@ export default class Workflow {
         currentMessagePosition: 0,
       },
       bino: {
+        currentThread: -1,
+        currentMessagePosition: 0,
+      },
+      fisherman: {
+        currentThread: -1,
+        currentMessagePosition: 0,
+      },
+      cat: {
+        currentThread: -1,
+        currentMessagePosition: 0,
+      },
+      dog: {
+        currentThread: -1,
+        currentMessagePosition: 0,
+      },
+      cow: {
+        currentThread: -1,
+        currentMessagePosition: 0,
+      },
+      boy: {
         currentThread: -1,
         currentMessagePosition: 0,
       },

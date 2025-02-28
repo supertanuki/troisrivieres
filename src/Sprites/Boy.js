@@ -1,57 +1,48 @@
 import Phaser from "phaser";
 import Chat from "../UI/Chat";
 
-export default class Bino extends Chat {
+export default class Boy extends Chat {
   constructor(scene, x, y) {
-    super(scene, x, y, "sprites", "bino-1");
+    super(scene, x, y, "sprites", "boy-water-1", 0, 0, true);
     this.scene = scene;
 
     this.scene.anims
       .create({
-        key: "bino-idle",
+        key: "boy-water",
         frames: this.anims.generateFrameNames("sprites", {
           start: 1,
-          end: 4,
-          prefix: "bino-",
+          end: 3,
+          prefix: "boy-water-",
         }),
         repeat: -1,
         frameRate: 3,
       })
-      .addFrame(
-        this.anims.generateFrameNames("sprites", {
-          start: 3,
-          end: 3,
-          prefix: "bino-",
-        })
-      )
+      
       .addFrame(
         this.anims.generateFrameNames("sprites", {
           start: 2,
           end: 2,
-          prefix: "bino-",
+          prefix: "boy-water-",
         })
       );
+
+    this.anims.play("boy-water", true);
   }
 
   move() {
     // nothing
   }
-
-  preUpdate(time, delta) {
-    super.preUpdate(time, delta);
-    this.anims.play("bino-idle", true);
-  }
 }
 
-Phaser.GameObjects.GameObjectFactory.register("bino", function (x, y) {
-  const sprite = new Bino(this.scene, x, y);
+Phaser.GameObjects.GameObjectFactory.register("boy", function (x, y) {
+  const sprite = new Boy(this.scene, x, y);
 
   this.scene.physics.world.enableBody(
     sprite,
     Phaser.Physics.Arcade.DYNAMIC_BODY
   );
 
-  sprite.body.setSize(sprite.width + 2, sprite.height + 10);
+  sprite.body.setSize(sprite.width + 22, sprite.height + 20);
   sprite.setImmovable(true);
   sprite.setInteractive();
 

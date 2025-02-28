@@ -1,30 +1,12 @@
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
+import Chat from "../UI/Chat";
 import isMobileOrTablet from "../Utils/isMobileOrTablet";
 
-class Miner extends Phaser.Physics.Arcade.Sprite {
+class Miner extends Chat {
   constructor(scene, x, y, texture, frame) {
-    super(scene, x, y, texture, frame);
+    super(scene, x, y, "sprites", "miner", 0, -5);
     this.futureMinerPosition = null
     this.initialY = y;
-
-    scene.anims.create({
-      key: "farmer-idle",
-      frames: [{ key: "farmer", frame: "walk-down-2" }],
-    });
-
-    this.chatImageUi = scene.add.image(this.x, this.y - 20, 'ui-chat');
-    this.chatImageUi.setVisible(true)
-    this.chatImageUi.setDepth(1000)
-
-    this.chatTextUi = scene.add.text(0, 2, isMobileOrTablet() ? 'Appuyer pour continuer': 'Appuyer sur espace', {
-			font: '12px Arial',
-			color: '#fff',
-      backgroundColor: '#000',
-      padding: 2
-		})
-    this.chatTextUi.setVisible(false)
-    this.chatTextUi.setDepth(1000)
-    this.setImmobile()
 
     sceneEventsEmitter.on(
       sceneEvents.EventsUnlocked,
@@ -51,26 +33,6 @@ class Miner extends Phaser.Physics.Arcade.Sprite {
     // nothing
   }
 
-  stopChatting() {
-    this.chatTextUi.setVisible(false)
-  }
-
-  readyToChat() {
-    this.stopMoving()
-
-    this.chatTextUi.x = this.x - 50
-    this.chatTextUi.y = this.y - 48
-    this.chatTextUi.setVisible(true)
-  }
-
-  stopMoving() {
-    this.setImmobile()
-  }
-
-  setImmobile() {
-    this.play("farmer-idle");
-  }
-
   addFuturePosition(futureMinerPosition) {
     this.futureMinerPosition = futureMinerPosition
   }
@@ -85,6 +47,12 @@ Phaser.GameObjects.GameObjectFactory.register(
       sprite,
       Phaser.Physics.Arcade.DYNAMIC_BODY
     );
+
+    sprite.body.setSize(sprite.width + 10, sprite.height + 10);
+    sprite.setImmovable(true);
+    sprite.setInteractive();
+    sprite.scaleX = -1
+    sprite.setOffset(sprite.width*1.5, -5)
 
     this.displayList.add(sprite);
     this.updateList.add(sprite);

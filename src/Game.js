@@ -5,9 +5,15 @@ import { isCable, isFactory, isMine, isScene1, urlParamHas } from "./Utils/isDeb
 
 import "./Sprites/Hero";
 import "./Sprites/Bino";
-import "./Sprites/Farmer";
+import "./Sprites/Cat";
+import "./Sprites/Dog";
+import "./Sprites/Cow";
+import "./Sprites/Fisherman";
 import "./Sprites/Miner";
 import "./Sprites/Bird";
+import "./Sprites/Ball";
+import "./Sprites/Girl";
+import "./Sprites/Boy";
 
 const DiscussionStatus = {
   NONE: "NONE",
@@ -267,22 +273,50 @@ export default class Game extends Phaser.Scene {
     });
 
     map.getObjectLayer("sprites").objects.forEach((spriteObject) => {
-      if (spriteObject.name === "farmer") {
-        this.farmer = this.add.farmer(
-          spriteObject.x,
-          spriteObject.y,
-          "farmer"
-        );
-        this.farmer.on("pointerdown", this.handleAction, this);
-      }
-
       if (spriteObject.name === "bino") {
         this.bino = this.add.bino(
           spriteObject.x,
           spriteObject.y,
         );
-        this.bino.on("pointerdown", this.handleAction, this);
-        
+        this.bino.on("pointerdown", this.handleAction, this); 
+      }
+
+      if (spriteObject.name === "mino") {
+        this.fisherman = this.add.fisherman(spriteObject.x, spriteObject.y);
+        this.fisherman.on("pointerdown", this.handleAction, this); 
+      }
+
+      if (spriteObject.name === "cat") {
+        this.cat = this.add.cat(spriteObject.x, spriteObject.y);
+        this.cat.on("pointerdown", this.handleAction, this); 
+      }
+
+      if (spriteObject.name === "dog") {
+        this.dog = this.add.dog(spriteObject.x, spriteObject.y);
+        this.dog.on("pointerdown", this.handleAction, this); 
+      }
+
+      if (spriteObject.name === "cow") {
+        this.cow = this.add.cow(spriteObject.x, spriteObject.y);
+        this.cow.on("pointerdown", this.handleAction, this); 
+      }
+
+      if (spriteObject.name === "miner") {
+        this.miner = this.add.miner(spriteObject.x, spriteObject.y);
+        this.miner.on("pointerdown", this.handleAction, this); 
+      }
+
+      if (spriteObject.name === "ball") {
+        this.add.ball(spriteObject.x, spriteObject.y);
+      }
+
+      if (spriteObject.name === "girl") {
+        this.add.girl(spriteObject.x, spriteObject.y);
+      }
+
+      if (spriteObject.name === "boy") {
+        this.boy = this.add.boy(spriteObject.x, spriteObject.y);
+        this.boy.on("pointerdown", this.handleAction, this); 
       }
     });
 
@@ -300,9 +334,6 @@ export default class Game extends Phaser.Scene {
     });
     this.miner.addFuturePosition(futurePosition);
     */
-
-
-
 
     this.bridgesTop = map.createLayer("bridgesTop", tileset);
 
@@ -516,9 +547,9 @@ export default class Game extends Phaser.Scene {
   }
 
   addCollisionManagement() {
-    this.physics.add.collider(this.farmer, this.hero, () => {
-      sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "farmer");
-      this.farmer.readyToChat();
+    this.physics.add.collider(this.miner, this.hero, () => {
+      sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "miner");
+      this.miner.readyToChat();
     });
 
     this.physics.add.collider(this.bino, this.hero, () => {
@@ -526,13 +557,30 @@ export default class Game extends Phaser.Scene {
       this.bino.readyToChat();
     });
 
-
-    /*
-    this.physics.add.collider(this.miner, this.hero, () => {
-      sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "miner");
-      this.miner.readyToChat();
+    this.physics.add.collider(this.fisherman, this.hero, () => {
+      sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "fisherman");
+      this.fisherman.readyToChat();
     });
-    */
+
+    this.physics.add.collider(this.cat, this.hero, () => {
+      sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "cat");
+      this.cat.readyToChat();
+    });
+
+    this.physics.add.collider(this.dog, this.hero, () => {
+      sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "dog");
+      this.dog.readyToChat();
+    });
+
+    this.physics.add.collider(this.cow, this.hero, () => {
+      sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "cow");
+      this.cow.readyToChat();
+    });
+
+    this.physics.add.collider(this.boy, this.hero, () => {
+      sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "boy");
+      this.boy.readyToChat();
+    });
 
     this.physics.add.collider(this.birds, this.hero, (bird) => {
       bird.fly();

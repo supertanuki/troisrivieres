@@ -2,11 +2,15 @@ import Phaser from "phaser";
 import isMobileOrTablet from "../Utils/isMobileOrTablet";
 
 export default class Chat extends Phaser.Physics.Arcade.Sprite {
-  constructor(scene, x, y, texture, frame) {
+  constructor(scene, x, y, texture, frame, chatIconDeltaX, chatIconDeltaY, disableChatIcon) {
     super(scene, x, y, texture, frame);
 
-    this.chatImageUi = scene.add.image(this.x, this.y - 13, 'sprites', 'exclam-3');
-    this.chatImageUi.setVisible(true)
+    this.chatIconDeltaX = chatIconDeltaX || 0
+    this.chatIconDeltaY = chatIconDeltaY || 0
+    this.disableChatIcon = disableChatIcon
+
+    this.chatImageUi = scene.add.image(this.x + this.chatIconDeltaX, this.y - 13 + this.chatIconDeltaY, 'sprites', 'exclam-3');
+    this.chatImageUi.setVisible(!this.disableChatIcon)
     this.chatImageUi.setDepth(1000)
 
     this.chatTextUi = scene.add.text(this.x, this.y, isMobileOrTablet() ? 'Appuyer pour continuer': 'Appuyer sur espace', {
@@ -24,7 +28,7 @@ export default class Chat extends Phaser.Physics.Arcade.Sprite {
   }
 
   readyToChat() {
-    this.chatImageUi.setVisible(true)
+    if(!this.disableChatIcon) this.chatImageUi.setVisible(true)
 
     this.chatTextUi.x = this.x - 50
     this.chatTextUi.y = this.y - 48

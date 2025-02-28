@@ -2,6 +2,11 @@ const spriteNames = {
   farmer: 'Jojo',
   miner: 'Kolo',
   bino: 'Bino',
+  fisherman: "Mino",
+  cat: "Le chat",
+  dog: "Le chien",
+  cow: "La vache",
+  boy: "La fille et le garçon",
 }
 
 const messageWorkflow = {
@@ -15,6 +20,41 @@ const messageWorkflow = {
     {
       messages: [
         "J'adore mon potager...",
+      ],
+    },
+  ],
+  fisherman: [
+    {
+      messages: [
+        "Pas un bruit, j'ai une touche !",
+      ],
+    },
+  ],
+  cat: [
+    {
+      messages: [
+        "Meow...",
+      ],
+    },
+  ],
+  dog: [
+    {
+      messages: [
+        "Wof, wof...",
+      ],
+    },
+  ],
+  cow: [
+    {
+      messages: [
+        "Meuh...",
+      ],
+    },
+  ],
+  boy: [
+    {
+      messages: [
+        "Trop bien, on peut se baigner quand on veut !",
       ],
     },
   ],
