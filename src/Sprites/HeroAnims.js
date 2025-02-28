@@ -30,9 +30,10 @@ export const createHeroAnims = function (anims) {
       repeat: -1,
       frameRate: moveframerate,
     })
-    .addFrame(
-      anims.generateFrameNames("mai", { start: 2, end: 2, prefix: "walk-up-" })
-    );
+    .addFrame({
+      key: "mai",
+      frame: "walk-up-2",
+    });
 
   anims
     .create({

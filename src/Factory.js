@@ -43,6 +43,8 @@ export default class Factory extends Phaser.Scene {
   }
 
   create() {
+    this.scale.setGameSize(550, 300);
+
     // @to remove
     this.input.on("pointerdown", (pointer) =>
       console.log(pointer.x, pointer.y)

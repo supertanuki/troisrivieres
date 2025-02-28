@@ -1,3 +1,7 @@
+// TO REMOVE
+
+
+
 import Phaser from "phaser";
 import { isDebug } from "./Utils/isDebug";
 
@@ -28,6 +32,7 @@ export default class Cable extends Phaser.Scene {
   }
 
   create() {
+    this.scale.setGameSize(550, 300);
     this.matter.world.setBounds(0, 0, 550, 300);
     this.add.image(200, 150, "mine-background");
     const text = this.add.text(10, 10, 'Click to play and run music', { font: '32px Courier', fill: '#ffffff' });

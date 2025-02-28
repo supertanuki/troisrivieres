@@ -47,6 +47,7 @@ export default class Mine extends Phaser.Scene {
   }
 
   create() {
+    this.scale.setGameSize(550, 300);
     this.add.image(0, -180, "tapis").setOrigin(0, 0);
     this.createControls();
 

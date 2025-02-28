@@ -14,8 +14,8 @@ const config = {
   type: Phaser.AUTO,
   parent: "game",
   pixelArt: true,
-  width: 550,
-  height: 300,
+  width: 450,
+  height: 250,
   backgroundColor: '#37b0be',
   physics: {
     default: "arcade",
@@ -26,7 +26,6 @@ const config = {
   },
   scene: [Preloader, Game, Cable, Mine, Factory, DreamMine, Message, Workflow],
   scale: {
-    zoom: 2,
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH,
   },

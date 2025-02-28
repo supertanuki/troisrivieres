@@ -16,6 +16,8 @@ const DiscussionStatus = {
   INPROGRESS: "INPROGRESS",
 };
 
+const nightColor = 0x000055;
+
 export default class Game extends Phaser.Scene {
   constructor() {
     super("game");
@@ -76,17 +78,19 @@ export default class Game extends Phaser.Scene {
   }
 
   create() {
+    this.scale.setGameSize(450, 250);
+
     if (urlParamHas('nostart')) {
       this.start();
       return
     }
 
     const text = this.add
-      .text(275, 150, "Start", { font: "32px Courier", fill: "#ffffff" })
+      .text(225, 125, "Démarrer", { font: "32px Courier", fill: "#ffffff" })
       .setOrigin(0.5, 0.5);
     text.setInteractive({ useHandCursor: true });
     text.on("pointerdown", () => {
-      text.setText("Loading...")
+      text.setText("Chargement...")
       text.disableInteractive(true);
 
       this.time.delayedCall(100, () => {
@@ -128,6 +132,8 @@ export default class Game extends Phaser.Scene {
     this.cameras.main.fadeOut(0, 0, 0, 0);
     this.cameras.main.fadeIn(1000, 0, 0, 0);
 
+    //this.cameras.main.zoomTo(1.4)
+
     this.input.keyboard
       .addKey(Phaser.Input.Keyboard.KeyCodes.M)
       .on("down", () => {
@@ -163,6 +169,16 @@ export default class Game extends Phaser.Scene {
       this.cameras.main.once(
         Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE,
         (cam, effect) => {
+          this.gotoFactory();
+        }
+      );
+    });
+
+    this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.U).on("down", () => {
+      this.cameras.main.fadeOut(200, 0, 0, 0);
+      this.cameras.main.once(
+        Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE,
+        () => {
           this.gotoFactory();
         }
       );
@@ -390,14 +406,14 @@ export default class Game extends Phaser.Scene {
 
   addNightCircle(radius) {
     const nightOverlay = this.add.graphics();
-    nightOverlay.fillStyle(0x000000, 0.3);
+    nightOverlay.fillStyle(nightColor, 0.3);
     nightOverlay.fillRect(0, 0, this.scale.width, this.scale.height);
     nightOverlay.setScrollFactor(0, 0);
     nightOverlay.setVisible(false);
 
     const maskGraphics = this.make.graphics();
     maskGraphics.fillStyle(0xffffff);
-    maskGraphics.fillCircle(275, 150, radius);
+    maskGraphics.fillCircle(225, 125, radius);
     maskGraphics.setScrollFactor(0, 0);
     
     const mask = maskGraphics.createGeometryMask();
@@ -413,11 +429,10 @@ export default class Game extends Phaser.Scene {
     this.nightOverlay3 = this.addNightCircle(90)
 
     const darkOverlay = this.add
-      .rectangle(275, 150, 550, 300, 0x000000)
+      .rectangle(this.scale.width/2, this.scale.height/2, this.scale.width, this.scale.height, nightColor)
       .setOrigin(0.5, 0.5)
       .setScrollFactor(0, 0)
       .setAlpha(0)
-      //.setAlpha(0.4)
       .setVisible(true)
 
     let night = false;
@@ -438,7 +453,7 @@ export default class Game extends Phaser.Scene {
         darkOverlay.setVisible(true);
         this.tweens.add({
           targets: darkOverlay,
-          alpha: 0.4,
+          alpha: 0.3,
           duration: 3000,
           ease: "Sine.easeInOut",
         });

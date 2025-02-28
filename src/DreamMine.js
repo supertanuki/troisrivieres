@@ -24,6 +24,7 @@ export default class DreamMine extends Phaser.Scene {
   }
 
   create() {
+    this.scale.setGameSize(550, 300);
     this.cameras.main.setBackgroundColor("#ffffff");
 
     this.hero = this.add.hero(275, 150, "mai", "idle-down-1");
