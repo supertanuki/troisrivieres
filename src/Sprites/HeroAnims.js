@@ -46,15 +46,11 @@ export const createHeroAnims = function (anims) {
       repeat: -1,
       frameRate: moveframerate,
     })
-    .addFrame(
-      anims.generateFrameNames("mai", {
-        start: 2,
-        end: 2,
-        prefix: "walk-right-",
-      })
-    );
+    .addFrame({
+      key: "mai",
+      frame: "walk-right-2",
+    });
 
-  // todo : yoyo
   anims
     .create({
       key: "mai-idle-down",
@@ -66,13 +62,10 @@ export const createHeroAnims = function (anims) {
       repeat: -1,
       frameRate: idleframerate,
     })
-    .addFrame(
-      anims.generateFrameNames("mai", {
-        start: 2,
-        end: 2,
-        prefix: "idle-down-",
-      })
-    );
+    .addFrame({
+      key: "mai",
+      frame: "idle-down-2",
+    });
 
   anims
     .create({
@@ -85,13 +78,10 @@ export const createHeroAnims = function (anims) {
       repeat: -1,
       frameRate: idleframerate,
     })
-    .addFrame(
-      anims.generateFrameNames("mai", {
-        start: 2,
-        end: 2,
-        prefix: "idle-up-",
-      })
-    );
+    .addFrame({
+      key: "mai",
+      frame: "idle-up-2",
+    });
 
   anims
     .create({
@@ -104,11 +94,8 @@ export const createHeroAnims = function (anims) {
       repeat: -1,
       frameRate: idleframerate,
     })
-    .addFrame(
-      anims.generateFrameNames("mai", {
-        start: 2,
-        end: 2,
-        prefix: "idle-right-",
-      })
-    );
+    .addFrame({
+      key: "mai",
+      frame: "idle-right-2",
+    });
 };
