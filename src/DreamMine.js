@@ -13,22 +13,27 @@ export default class DreamMine extends Phaser.Scene {
         },
       },
     });
+
+    this.stopWater = true
   }
 
   preload() {
     this.load.image("rock", "img/rock.png");
-    this.load.image("water", "img/water-maroon.png");
+    this.load.image("water", "img/rain.png");
+    this.load.image("maroon-water", "img/water-maroon.png");
   }
 
   create() {
     this.cameras.main.setBackgroundColor("#ffffff");
 
     this.hero = this.add.hero(275, 150, "mai", "idle-down-1");
+    this.hero.setAlpha(0)
 
     this.tweens.add({
       targets: this.hero,
       angle: 360,
       scale: 2,
+      alpha: 1,
       ease: "Sine.linear",
       duration: 10000,
       onComplete: () => {
@@ -49,7 +54,7 @@ export default class DreamMine extends Phaser.Scene {
     this.createRock(100, 200, 300, 20);
 
     this.tube = this.add
-        .rectangle(50, 50, 12, 400, 0x115555)
+        .rectangle(50, 50, 12, 50, 0x115555)
         .setOrigin(0.5, 1)
         .setDepth(3)
         .setAlpha(0)
@@ -60,11 +65,26 @@ export default class DreamMine extends Phaser.Scene {
         alpha: 1,
         x: 500,
         y: 250,
-        ease: "Sine.easeIn",
-        duration: 7000,
-        yoyo: true,
+        ease: "Sine.linear",
+        duration: 4500,
         onUpdate: (event) => {
-            if (event.progress > 0.8) this.stopWater = true
+            this.stopWater = event.progress < 0.2
+
+            if (event.progress > 0.8) this.water.setTexture("maroon-water")
+        },
+        onComplete: () => {
+          this.tweens.add({
+            targets: this.tube,
+            angle: 180,
+            alpha: 0,
+            x: 300,
+            y: 10,
+            ease: "Sine.linear",
+            duration: 4500,
+            onUpdate: (event) => {
+              this.stopWater = event.progress > 0.8
+            },
+          });
         }
     });
 
@@ -124,7 +144,7 @@ export default class DreamMine extends Phaser.Scene {
     if (!this.stopWater) {
         this.water.emitParticleAt(this.tube.x, this.tube.y);
         this.water.updateConfig({
-            angle: { min: this.tube.angle + 100, max: this.tube.angle + 80 }
+            angle: { min: this.tube.angle + 100, max: this.tube.angle + 80 },
         })
     }
   }
