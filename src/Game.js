@@ -50,6 +50,11 @@ export default class Game extends Phaser.Scene {
     );
   }
 
+  gotoScene(scene) {
+    this.scene.pause("game");
+    this.scene.start(scene);
+  }
+
   gotoScene1() {
     this.scene.pause("game");
     this.scene.start("cable-game");
@@ -92,6 +97,11 @@ export default class Game extends Phaser.Scene {
   }
 
   start() {
+    if (urlParamHas('dreamMine')) {
+      this.gotoScene('dream-mine');
+      return;
+    }
+
     if (isScene1()) {
       this.gotoScene1();
       return;
