@@ -1,12 +1,14 @@
 const spriteNames = {
-  farmer: 'Jojo',
-  miner: 'Kolo',
+  django: "Django",
+  miner: 'Bleurk',
   bino: 'Bino',
   fisherman: "Mino",
   cat: "Le chat",
   dog: "Le chien",
   cow: "La vache",
   boy: "La fille et le garçon",
+  koko: "Koko",
+  nono: "Nono",
 }
 
 const messageWorkflow = {
@@ -20,6 +22,20 @@ const messageWorkflow = {
     {
       messages: [
         "J'adore mon potager...",
+      ],
+    },
+  ],
+  koko: [
+    {
+      messages: [
+        "Salut !",
+      ],
+    },
+  ],
+  nono: [
+    {
+      messages: [
+        "Salut !",
       ],
     },
   ],
@@ -55,6 +71,19 @@ const messageWorkflow = {
     {
       messages: [
         "Trop bien, on peut se baigner quand on veut !",
+      ],
+    },
+  ],
+  django: [
+    {
+      messages: [
+        "Salut ! Moi c'est Django. ►",
+        "Maï ? Joli prénom ! Tu es la bienvenue dans notre village. ►",
+        "Si tu cherches un hébergement pour la nuit, tu es aussi la bienvenue chez moi !",
+      ],
+    },    {
+      messages: [
+        "Tu es la bienvenue chez moi.",
       ],
     },
   ],
@@ -106,12 +135,7 @@ const messageWorkflow = {
   miner: [
     {
       messages: [
-        "Stop ! On ne passe pas. ►",
-        "Veux-tu travailler à la mine et te faire un peu d'argent ? ►",
-        "Oh, c'est pas un travail pour une femme... ►",
-        "Mais qu'importe ! On a besoin de beaucoup d'ouvriers. ►",
-        "Mais tu n'es pas habillée correctement pour travailler... ►",
-        "Vas voir au village pour trouver une tenue adaptée.",
+        "Stop ! On ne passe pas."
       ],
       unlockEvents: [
         'miner_met',
@@ -119,7 +143,7 @@ const messageWorkflow = {
     },
     {
       messages: [
-        "As-tu demandé à un villageois une tenue adaptée pour travailler à la mine ?",
+        "J'ai dit qu'on ne passe pas."
       ],
     },
     {

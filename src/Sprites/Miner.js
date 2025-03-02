@@ -1,6 +1,5 @@
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import Chat from "../UI/Chat";
-import isMobileOrTablet from "../Utils/isMobileOrTablet";
 
 class Miner extends Chat {
   constructor(scene, x, y, texture, frame) {
@@ -48,11 +47,11 @@ Phaser.GameObjects.GameObjectFactory.register(
       Phaser.Physics.Arcade.DYNAMIC_BODY
     );
 
-    sprite.body.setSize(sprite.width + 10, sprite.height + 10);
+    sprite.body.setSize(sprite.width + 6, sprite.height + 10);
     sprite.setImmovable(true);
     sprite.setInteractive();
     sprite.scaleX = -1
-    sprite.setOffset(sprite.width*1.5, -5)
+    sprite.setOffset(sprite.width, -5)
 
     this.displayList.add(sprite);
     this.updateList.add(sprite);

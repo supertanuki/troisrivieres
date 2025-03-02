@@ -4,6 +4,9 @@ import isMobileOrTablet from "./Utils/isMobileOrTablet";
 import { isCable, isFactory, isMine, isScene1, urlParamHas } from "./Utils/isDebug";
 
 import "./Sprites/Hero";
+import "./Sprites/Django";
+import "./Sprites/Koko";
+import "./Sprites/Nono";
 import "./Sprites/Bino";
 import "./Sprites/Cat";
 import "./Sprites/Dog";
@@ -273,6 +276,30 @@ export default class Game extends Phaser.Scene {
     });
 
     map.getObjectLayer("sprites").objects.forEach((spriteObject) => {
+      if (spriteObject.name === "django") {
+        this.django = this.add.django(
+          spriteObject.x,
+          spriteObject.y,
+        );
+        this.django.on("pointerdown", this.handleAction, this); 
+      }
+
+      if (spriteObject.name === "koko") {
+        this.koko = this.add.koko(
+          spriteObject.x,
+          spriteObject.y,
+        );
+        this.koko.on("pointerdown", this.handleAction, this); 
+      }
+
+      if (spriteObject.name === "nono") {
+        this.nono = this.add.nono(
+          spriteObject.x,
+          spriteObject.y,
+        );
+        this.nono.on("pointerdown", this.handleAction, this); 
+      }
+
       if (spriteObject.name === "bino") {
         this.bino = this.add.bino(
           spriteObject.x,
@@ -555,6 +582,21 @@ export default class Game extends Phaser.Scene {
     this.physics.add.collider(this.bino, this.hero, () => {
       sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "bino");
       this.bino.readyToChat();
+    });
+
+    this.physics.add.collider(this.django, this.hero, () => {
+      sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "django");
+      this.django.readyToChat();
+    });
+
+    this.physics.add.collider(this.koko, this.hero, () => {
+      sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "koko");
+      this.koko.readyToChat();
+    });
+
+    this.physics.add.collider(this.nono, this.hero, () => {
+      sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "nono");
+      this.nono.readyToChat();
     });
 
     this.physics.add.collider(this.fisherman, this.hero, () => {

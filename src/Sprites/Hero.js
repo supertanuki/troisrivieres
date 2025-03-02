@@ -20,31 +20,25 @@ class Hero extends Phaser.Physics.Arcade.Sprite {
   goLeft() {
     this.setVelocityX(-SPEED)
     this.scaleX = -1
-    this.body.setSize(10, this.height)
     this.body.offset.x = this.width
   }
 
   goRight() {
     this.setVelocityX(SPEED)
     this.scaleX = 1
-    this.body.setSize(10, this.height)
-    this.body.offset.x = 5
-    //console.log(this.width, this.height)
+    this.body.offset.x = 2
   }
 
   goUp() {
     this.setVelocityY(-SPEED)
     this.scaleX = 1
-    this.body.setSize(this.width, this.height)
-    //console.log(this.width, this.height)
-    this.body.offset.x = 0
+    this.body.offset.x = -2
   }
 
   goDown() {
     this.setVelocityY(SPEED);
     this.scaleX = 1
-    this.body.setSize(this.width, this.height)
-    this.body.offset.x = 0
+    this.body.offset.x = -2
   }
 
   animateToLeft() {
@@ -85,7 +79,7 @@ Phaser.GameObjects.GameObjectFactory.register(
       Phaser.Physics.Arcade.DYNAMIC_BODY
     );
 
-    sprite.body.setSize(sprite.width , sprite.height)
+    sprite.body.setSize(14, 22)
 
     this.displayList.add(sprite);
     this.updateList.add(sprite);

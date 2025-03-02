@@ -8,7 +8,21 @@ export default class Workflow {
 
     // to improve : create data on first use
     this.spritePosition = {
+      // to delete
       farmer: {
+        currentThread: -1,
+        currentMessagePosition: 0,
+      },
+
+      django: {
+        currentThread: -1,
+        currentMessagePosition: 0,
+      },
+      koko: {
+        currentThread: -1,
+        currentMessagePosition: 0,
+      },
+      nono: {
         currentThread: -1,
         currentMessagePosition: 0,
       },
