@@ -1,7 +1,13 @@
 import Phaser from "phaser";
 import { sceneEventsEmitter, sceneEvents } from "./Events/EventsCenter";
 import isMobileOrTablet from "./Utils/isMobileOrTablet";
-import { isCable, isFactory, isMine, isScene1, urlParamHas } from "./Utils/isDebug";
+import {
+  isCable,
+  isFactory,
+  isMine,
+  isScene1,
+  urlParamHas,
+} from "./Utils/isDebug";
 
 import "./Sprites/Hero";
 import "./Sprites/Django";
@@ -28,6 +34,9 @@ const DiscussionStatus = {
 
 const nightColor = 0x000055;
 
+const eventsHas = (data, eventName) =>
+  data.newUnlockedEvents.includes(eventName);
+
 export default class Game extends Phaser.Scene {
   constructor() {
     super("game");
@@ -51,6 +60,8 @@ export default class Game extends Phaser.Scene {
 
     this.backgrounds = [];
     this.pointsCollider = [];
+
+    this.heroPositions = {};
   }
 
   preload() {
@@ -90,9 +101,9 @@ export default class Game extends Phaser.Scene {
   create() {
     this.scale.setGameSize(450, 250);
 
-    if (urlParamHas('nostart')) {
+    if (urlParamHas("nostart")) {
       this.start();
-      return
+      return;
     }
 
     const text = this.add
@@ -100,7 +111,7 @@ export default class Game extends Phaser.Scene {
       .setOrigin(0.5, 0.5);
     text.setInteractive({ useHandCursor: true });
     text.on("pointerdown", () => {
-      text.setText("Chargement...")
+      text.setText("Chargement...");
       text.disableInteractive(true);
 
       this.time.delayedCall(100, () => {
@@ -111,8 +122,8 @@ export default class Game extends Phaser.Scene {
   }
 
   start() {
-    if (urlParamHas('dreamMine')) {
-      this.gotoScene('dream-mine');
+    if (urlParamHas("dreamMine")) {
+      this.gotoScene("dream-mine");
       return;
     }
 
@@ -139,59 +150,8 @@ export default class Game extends Phaser.Scene {
     this.scene.run("message");
 
     // Fade init
-    this.cameras.main.fadeOut(0, 0, 0, 0);
-    this.cameras.main.fadeIn(1000, 0, 0, 0);
-
-    //this.cameras.main.zoomTo(1.4)
-
-    this.input.keyboard
-      .addKey(Phaser.Input.Keyboard.KeyCodes.M)
-      .on("down", () => {
-        console.log("MINUS");
-        this.cameras.main.zoomTo(this.cameras.main.zoom === 1.4 ? 1 : 0.6, 100);
-      });
-
-    this.input.keyboard
-      .addKey(Phaser.Input.Keyboard.KeyCodes.P)
-      .on("down", () => {
-        console.log("PLUS");
-        this.cameras.main.zoomTo(this.cameras.main.zoom === 0.6 ? 1 : 1.4, 100);
-      });
-
-    const ctrlR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
-    ctrlR.on("down", () => {
-      const enabled = this.roads.visible;
-      this.roads.setVisible(!enabled);
-      this.roadsBottom.setVisible(!enabled);
-
-      this.bridgesShadow.setVisible(enabled);
-      this.bridges.setVisible(enabled);
-      this.bridgesTop.setVisible(enabled);
-    });
-
-    const ctrlA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-    ctrlA.on("down", () => {
-      this.landLessWater.setVisible(!this.landLessWater.visible);
-      this.landLessWater.setActive(!this.landLessWater.visible);
-      return;
-
-      this.cameras.main.fadeOut(200, 0, 0, 0);
-      this.cameras.main.once(
-        Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE,
-        (cam, effect) => {
-          this.gotoFactory();
-        }
-      );
-    });
-
-    this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.U).on("down", () => {
-      this.cameras.main.fadeOut(200, 0, 0, 0);
-      this.cameras.main.once(
-        Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE,
-        () => {
-          this.gotoFactory();
-        }
-      );
+    this.cameras.main.fadeOut(1000, 0, 0, 0, () => {
+      this.cameras.main.fadeIn(1000, 0, 0, 0);
     });
 
     // parallax backgrounds
@@ -218,132 +178,141 @@ export default class Game extends Phaser.Scene {
     });
     */
 
-    const map = this.make.tilemap({ key: "map" });
-    const tileset = map.addTilesetImage("Atlas_01", "tiles");
-    map.createLayer("waterUp", tileset);
+    this.map = this.make.tilemap({ key: "map" });
+    this.tileset = this.map.addTilesetImage("Atlas_01", "tiles");
+    this.map.createLayer("waterUp", this.tileset).setDepth(10);
 
-    this.land = map.createLayer("land", tileset);
-    this.land.setCollisionByProperty({ collide: true });
+    this.land = this.map
+      .createLayer("land", this.tileset)
+      .setDepth(20)
+      .setCollisionByProperty({ collide: true });
 
-    this.landLessWater = map.createLayer("landLessWater", tileset);
-    this.landLessWater.setCollisionByProperty({ collide: true });
-    this.landLessWater.setVisible(false);
-    this.landLessWater.setActive(false);
-
-    map.createLayer("landUp", tileset);
-    this.bridgesShadow = map.createLayer("bridgesShadow", tileset);
-    this.bridges = map.createLayer("bridges", tileset);
-
-    this.roadsBottom = map
-      .createLayer("roadsBottom", tileset)
+    this.landLessWater = this.map
+      .createLayer("landLessWater", this.tileset)
+      .setDepth(30)
+      .setCollisionByProperty({ collide: true })
       .setVisible(false);
-    this.roads = map.createLayer("roads", tileset).setVisible(false);
 
-    this.bottomObjects = map
-      .createLayer("bottom", tileset)
+    this.map.createLayer("landUp", this.tileset).setDepth(40);
+    this.bridgesShadow = this.map
+      .createLayer("bridgesShadow", this.tileset)
+      .setDepth(50);
+    this.bridges = this.map.createLayer("bridges", this.tileset).setDepth(60);
+
+    this.bottomObjects = this.map
+      .createLayer("bottom", this.tileset)
+      .setDepth(70)
       .setCollisionByProperty({ collide: true });
 
-    this.bottomObjects2 = map
-      .createLayer("bottom2", tileset)
-      .setCollisionByProperty({ collide: true });
-
-    this.sprites = map.createLayer("sprites", tileset);
-    this.sprites.setCollisionByProperty({ collide: true });
+    this.potagerBottom = this.map
+      .createLayer("potagerBottom", this.tileset)
+      .setDepth(80);
 
     // Add trees base
     this.anims.create({
-      key: 'sapin',
-      frames: this.anims.generateFrameNames('trees', { start: 1, end: 2, prefix: 'sapin-' }),
+      key: "sapin",
+      frames: this.anims.generateFrameNames("trees", {
+        start: 1,
+        end: 2,
+        prefix: "sapin-",
+      }),
       repeat: -1,
-      frameRate: 1
+      frameRate: 1,
     });
-    const treesLayer = map.getObjectLayer('trees')
+    const treesLayer = this.map.getObjectLayer("trees");
     // sort tress in order to draw trees from top to down
     treesLayer.objects.sort((a, b) => a.y - b.y);
-    treesLayer.objects.forEach(treeObject => {
-      this.add.image(treeObject.x, treeObject.y - 8, "trees", `${treeObject.name}-base`);
+    treesLayer.objects.forEach((treeObject) => {
+      this.add
+        .image(
+          treeObject.x,
+          treeObject.y - 8,
+          "trees",
+          `${treeObject.name}-base`
+        )
+        .setDepth(90);
     });
 
-    map.getObjectLayer("hero").objects.forEach((heroPosition) => {
-      this.hero = this.add.hero(
-        heroPosition.x,
-        heroPosition.y,
-        "mai",
-        "idle-down-1"
-      );
+    this.map.getObjectLayer("hero").objects.forEach((heroPosition) => {
+      this.heroPositions[heroPosition.name] = {
+        x: heroPosition.x,
+        y: heroPosition.y,
+      };
+
+      if (heroPosition.name !== "hero") {
+        return;
+      }
+
+      this.hero = this.add.hero(heroPosition.x, heroPosition.y).setDepth(100);
       this.hero.animateToDown();
       this.hero.stopAndWait();
     });
 
-    map.getObjectLayer("sprites").objects.forEach((spriteObject) => {
+    this.map.getObjectLayer("sprites").objects.forEach((spriteObject) => {
       if (spriteObject.name === "django") {
-        this.django = this.add.django(
-          spriteObject.x,
-          spriteObject.y,
-        );
-        this.django.on("pointerdown", this.handleAction, this); 
+        this.django = this.add
+          .django(spriteObject.x, spriteObject.y)
+          .setDepth(100);
+        this.django.on("pointerdown", this.handleAction, this);
       }
 
       if (spriteObject.name === "koko") {
-        this.koko = this.add.koko(
-          spriteObject.x,
-          spriteObject.y,
-        );
-        this.koko.on("pointerdown", this.handleAction, this); 
+        this.koko = this.add.koko(spriteObject.x, spriteObject.y).setDepth(100);
+        this.koko.on("pointerdown", this.handleAction, this);
       }
 
       if (spriteObject.name === "nono") {
-        this.nono = this.add.nono(
-          spriteObject.x,
-          spriteObject.y,
-        );
-        this.nono.on("pointerdown", this.handleAction, this); 
+        this.nono = this.add.nono(spriteObject.x, spriteObject.y).setDepth(100);
+        this.nono.on("pointerdown", this.handleAction, this);
+        this.nono.setVisible(false);
+        this.nono.body.checkCollision.none = true;
       }
 
       if (spriteObject.name === "bino") {
-        this.bino = this.add.bino(
-          spriteObject.x,
-          spriteObject.y,
-        );
-        this.bino.on("pointerdown", this.handleAction, this); 
+        this.bino = this.add.bino(spriteObject.x, spriteObject.y).setDepth(100);
+        this.bino.on("pointerdown", this.handleAction, this);
       }
 
       if (spriteObject.name === "mino") {
-        this.fisherman = this.add.fisherman(spriteObject.x, spriteObject.y);
-        this.fisherman.on("pointerdown", this.handleAction, this); 
+        this.fisherman = this.add
+          .fisherman(spriteObject.x, spriteObject.y)
+          .setDepth(100);
+        this.fisherman.on("pointerdown", this.handleAction, this);
       }
 
       if (spriteObject.name === "cat") {
-        this.cat = this.add.cat(spriteObject.x, spriteObject.y);
-        this.cat.on("pointerdown", this.handleAction, this); 
+        this.cat = this.add.cat(spriteObject.x, spriteObject.y).setDepth(100);
+        this.cat.on("pointerdown", this.handleAction, this);
       }
 
       if (spriteObject.name === "dog") {
-        this.dog = this.add.dog(spriteObject.x, spriteObject.y);
-        this.dog.on("pointerdown", this.handleAction, this); 
+        this.dog = this.add.dog(spriteObject.x, spriteObject.y).setDepth(100);
+        this.dog.on("pointerdown", this.handleAction, this);
       }
 
       if (spriteObject.name === "cow") {
-        this.cow = this.add.cow(spriteObject.x, spriteObject.y);
-        this.cow.on("pointerdown", this.handleAction, this); 
+        this.cow = this.add.cow(spriteObject.x, spriteObject.y).setDepth(100);
+        this.cow.on("pointerdown", this.handleAction, this);
       }
 
       if (spriteObject.name === "miner") {
-        this.miner = this.add.miner(spriteObject.x, spriteObject.y);
-        this.miner.on("pointerdown", this.handleAction, this); 
+        this.miner = this.add
+          .miner(spriteObject.x, spriteObject.y)
+          .setDepth(100);
+        this.miner.on("pointerdown", this.handleAction, this);
       }
 
       if (spriteObject.name === "ball") {
-        this.add.ball(spriteObject.x, spriteObject.y);
+        this.ball = this.add.ball(spriteObject.x, spriteObject.y).setDepth(100);
       }
 
       if (spriteObject.name === "girl") {
-        this.add.girl(spriteObject.x, spriteObject.y);
+        this.girl = this.add.girl(spriteObject.x, spriteObject.y).setDepth(100);
       }
 
       if (spriteObject.name === "boy") {
-        this.boy = this.add.boy(spriteObject.x, spriteObject.y);
-        this.boy.on("pointerdown", this.handleAction, this); 
+        this.boy = this.add.boy(spriteObject.x, spriteObject.y).setDepth(100);
+        this.boy.on("pointerdown", this.handleAction, this);
       }
     });
 
@@ -362,16 +331,17 @@ export default class Game extends Phaser.Scene {
     this.miner.addFuturePosition(futurePosition);
     */
 
-    this.bridgesTop = map.createLayer("bridgesTop", tileset);
+    this.bridgesTop = this.map.createLayer("bridgesTop", this.tileset).setDepth(110)
 
-    this.obstacles = map
-      .createLayer("obstacles", tileset)
+    this.obstacles = this.map
+      .createLayer("obstacles", this.tileset)
       .setCollisionByProperty({ collide: true })
       .setVisible(false);
-
-    this.topObjects = map
-      .createLayer("top", tileset)
-      .setCollisionByProperty({ collide: true });
+ 
+    this.topObjects = this.map
+      .createLayer("top", this.tileset)
+      .setDepth(120)
+      .setCollisionByProperty({ collide: true })
 
     // smooth collision management (barrière...)
     this.topObjects.forEachTile((tile) => {
@@ -386,13 +356,18 @@ export default class Game extends Phaser.Scene {
       }
     });
 
-    this.topObjects2 = map
-    .createLayer("top2", tileset)
-    .setCollisionByProperty({ collide: true });
+    //this.map.createLayer("bottomTrees", this.tileset).setDepth(120);
 
     // Add trees top after hero was created
-    treesLayer.objects.forEach(treeObject => {
-      const tree = this.physics.add.sprite(treeObject.x, treeObject.y - 40, "trees", `${treeObject.name}-1`)
+    treesLayer.objects.forEach((treeObject) => {
+      const tree = this.physics.add
+        .sprite(
+          treeObject.x,
+          treeObject.y - 40,
+          "trees",
+          `${treeObject.name}-1`
+        )
+        .setDepth(130);
       tree.anims.play(treeObject.name);
       this.pointsCollider.push(
         this.physics.add
@@ -403,36 +378,18 @@ export default class Game extends Phaser.Scene {
       );
     });
 
-    map.createLayer("bottomStaticTrees", tileset)
-    map.createLayer("staticTrees", tileset)
+    this.map.createLayer("bottomStaticTrees", this.tileset).setDepth(140);
+    this.map.createLayer("staticTrees", this.tileset).setDepth(150);
 
-    map.getObjectLayer("birds").objects.forEach((birdPosition) => {
-      this.birds.push(this.add.bird(birdPosition.x, birdPosition.y));
+    this.map.getObjectLayer("birds").objects.forEach((birdPosition) => {
+      this.birds.push(
+        this.add.bird(birdPosition.x, birdPosition.y).setDepth(160)
+      );
     });
 
-    const ctrlV = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.V);
-    ctrlV.on("down", () => {
-      map.getObjectLayer("heroInVillage").objects.forEach((heroPositionInVillage) => {
-        this.hero.setPosition(
-          heroPositionInVillage.x,
-          heroPositionInVillage.y
-        );
-      });
-    });
+    this.animatedTiles.init(this.map);
 
-    const ctrlF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
-    ctrlF.on("down", () => {
-      map.getObjectLayer("hero").objects.forEach((heroPosition) => {
-        this.hero.setPosition(
-          heroPosition.x,
-          heroPosition.y
-        );
-      });
-    });
-
-    this.addNightMode()
-
-    this.animatedTiles.init(map);
+    this.addDebugControls();
 
     this.addCollisionManagement();
 
@@ -474,107 +431,273 @@ export default class Game extends Phaser.Scene {
     this.music.play();
   }
 
+  addDebugControls() {
+    this.input.keyboard
+      .addKey(Phaser.Input.Keyboard.KeyCodes.F)
+      .on("down", () => {
+        this.setHeroPosition("hero");
+      });
+
+    this.input.keyboard
+      .addKey(Phaser.Input.Keyboard.KeyCodes.K)
+      .on("down", () => {
+        this.setHeroPosition("heroKoko");
+      });
+
+    this.input.keyboard
+      .addKey(Phaser.Input.Keyboard.KeyCodes.B)
+      .on("down", () => {
+        this.setHeroPosition("heroMiner");
+      });
+
+    this.input.keyboard
+      .addKey(Phaser.Input.Keyboard.KeyCodes.D)
+      .on("down", () => {
+        this.setHeroPosition("heroDjango");
+      });
+
+    this.input.keyboard
+      .addKey(Phaser.Input.Keyboard.KeyCodes.S)
+      .on("down", () => {
+        this.endFirstSleep();
+      });
+
+    this.input.keyboard
+      .addKey(Phaser.Input.Keyboard.KeyCodes.M)
+      .on("down", () => {
+        console.log("MINUS");
+        this.cameras.main.zoomTo(this.cameras.main.zoom === 1.4 ? 1 : 0.6, 100);
+      });
+
+    this.input.keyboard
+      .addKey(Phaser.Input.Keyboard.KeyCodes.P)
+      .on("down", () => {
+        console.log("PLUS");
+        this.cameras.main.zoomTo(this.cameras.main.zoom === 0.6 ? 1 : 1.4, 100);
+      });
+
+    const ctrlR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
+    ctrlR.on("down", () => {
+      if (!this.roads) {
+        this.roadsBottom = this.map
+          .createLayer("roadsBottom", this.tileset)
+          .setDepth(95)
+          .setVisible(false);
+        this.roads = this.map
+          .createLayer("roads", this.tileset)
+          .setDepth(96)
+          .setVisible(false);
+      }
+
+      const enabled = this.roads.visible;
+      this.roads.setVisible(!enabled);
+      this.roadsBottom.setVisible(!enabled);
+      this.bridgesShadow.setVisible(enabled);
+      this.bridges.setVisible(enabled);
+      this.bridgesTop.setVisible(enabled);
+    });
+
+    this.input.keyboard
+      .addKey(Phaser.Input.Keyboard.KeyCodes.A)
+      .on("down", () => {
+        this.landLessWater.setVisible(!this.landLessWater.visible);
+        this.landLessWater.setActive(!this.landLessWater.visible);
+      });
+
+    this.input.keyboard
+      .addKey(Phaser.Input.Keyboard.KeyCodes.U)
+      .on("down", () => {
+        this.cameras.main.fadeOut(200, 0, 0, 0);
+        this.cameras.main.once(
+          Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE,
+          () => {
+            this.gotoFactory();
+          }
+        );
+      });
+
+    this.input.keyboard
+      .addKey(Phaser.Input.Keyboard.KeyCodes.N)
+      .on("down", () => this.switchNight());
+  }
+
+  setHeroPosition(positionName) {
+    const position = this.heroPositions[positionName];
+    this.hero.setPosition(position.x, position.y);
+  }
+
   addNightCircle(radius) {
     const nightOverlay = this.add.graphics();
     nightOverlay.fillStyle(nightColor, 0.3);
     nightOverlay.fillRect(0, 0, this.scale.width, this.scale.height);
     nightOverlay.setScrollFactor(0, 0);
     nightOverlay.setVisible(false);
+    nightOverlay.setDepth(1000);
 
     const maskGraphics = this.make.graphics();
     maskGraphics.fillStyle(0xffffff);
     maskGraphics.fillCircle(225, 125, radius);
     maskGraphics.setScrollFactor(0, 0);
-    
+
     const mask = maskGraphics.createGeometryMask();
     mask.invertAlpha = true;
     nightOverlay.setMask(mask);
 
-    return nightOverlay
+    return nightOverlay;
   }
 
-  addNightMode() {
-    this.nightOverlay1 = this.addNightCircle(50)
-    this.nightOverlay2 = this.addNightCircle(70)
-    this.nightOverlay3 = this.addNightCircle(90)
+  switchNight() {
+    this.nightOverlay1 = this.nightOverlay1 || this.addNightCircle(50);
+    this.nightOverlay2 = this.nightOverlay2 || this.addNightCircle(70);
+    this.nightOverlay3 = this.nightOverlay3 || this.addNightCircle(90);
 
-    const darkOverlay = this.add
-      .rectangle(this.scale.width/2, this.scale.height/2, this.scale.width, this.scale.height, nightColor)
-      .setOrigin(0.5, 0.5)
-      .setScrollFactor(0, 0)
-      .setAlpha(0)
-      .setVisible(true)
+    this.darkOverlay =
+      this.darkOverlay ||
+      this.add
+        .rectangle(
+          this.scale.width / 2,
+          this.scale.height / 2,
+          this.scale.width,
+          this.scale.height,
+          nightColor
+        )
+        .setOrigin(0.5, 0.5)
+        .setScrollFactor(0, 0)
+        .setVisible(false)
+        .setDepth(1000);
 
-    let night = false;
-    this.input.keyboard
-      .addKey(Phaser.Input.Keyboard.KeyCodes.N)
-      .on("down", () => {
-        if (night) {
-          night = false;
-          darkOverlay.setVisible(false);
-          this.nightOverlay1.setVisible(false);
-          this.nightOverlay2.setVisible(false);
-          this.nightOverlay3.setVisible(false);
-          return;
-        }
+    if (this.night) {
+      this.night = false;
+      this.darkOverlay.setVisible(false);
+      this.nightOverlay1.setVisible(false);
+      this.nightOverlay2.setVisible(false);
+      this.nightOverlay3.setVisible(false);
+      return;
+    }
 
-        night = true;
-        darkOverlay.setAlpha(0);
-        darkOverlay.setVisible(true);
-        this.tweens.add({
-          targets: darkOverlay,
-          alpha: 0.3,
-          duration: 3000,
-          ease: "Sine.easeInOut",
+    this.night = true;
+    this.darkOverlay.setAlpha(0);
+    this.darkOverlay.setVisible(true);
+    this.tweens.add({
+      targets: this.darkOverlay,
+      alpha: 0.3,
+      duration: 3000,
+      ease: "Sine.easeInOut",
+    });
+
+    this.nightOverlay1.setAlpha(0);
+    this.nightOverlay1.setVisible(true);
+    this.tweens.add({
+      targets: this.nightOverlay1,
+      alpha: 1,
+      duration: 3000,
+      ease: "Sine.easeInOut",
+    });
+
+    this.nightOverlay2.setAlpha(0);
+    this.nightOverlay2.setVisible(true);
+    this.tweens.add({
+      targets: this.nightOverlay2,
+      alpha: 1,
+      duration: 3000,
+      ease: "Sine.easeInOut",
+    });
+
+    this.nightOverlay3.setAlpha(0);
+    this.nightOverlay3.setVisible(true);
+    this.tweens.add({
+      targets: this.nightOverlay3,
+      alpha: 1,
+      duration: 3000,
+      ease: "Sine.easeInOut",
+    });
+  }
+
+  fadeOutAndFadeIn(callback) {
+    this.cameras.main.fadeOut(1000, 0, 0, 0);
+
+    this.cameras.main.once(
+      Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE,
+      (cam, effect) => {
+        callback();
+        this.time.delayedCall(1000, () => {
+          this.cameras.main.fadeIn(1000, 0, 0, 0);
         });
+      }
+    );
+  }
 
-        this.nightOverlay1.setAlpha(0);
-        this.nightOverlay1.setVisible(true);
-        this.tweens.add({
-          targets: this.nightOverlay1,
-          alpha: 1,
-          duration: 3000,
-          ease: "Sine.easeInOut",
-        });
+  toggleSprites(state) {
+    [
+      this.koko,
+      this.bino,
+      this.fisherman,
+      this.dog,
+      this.cat,
+      this.boy,
+      this.girl,
+      this.ball,
+    ].forEach((sprite) => {
+      sprite.setVisible(state);
+      sprite.setActive(state);
+      sprite.body.checkCollision.none = !state;
+    });
 
-        this.nightOverlay2.setAlpha(0);
-        this.nightOverlay2.setVisible(true);
-        this.tweens.add({
-          targets: this.nightOverlay2,
-          alpha: 1,
-          duration: 3000,
-          ease: "Sine.easeInOut",
-        });
+    this.birds.forEach((bird) => {
+      bird.setVisible(state);
+      bird.setActive(state);
+      bird.body.checkCollision.none = !state;
+    });
+  }
 
-        this.nightOverlay3.setAlpha(0);
-        this.nightOverlay3.setVisible(true);
-        this.tweens.add({
-          targets: this.nightOverlay3,
-          alpha: 1,
-          duration: 3000,
-          ease: "Sine.easeInOut",
-        });
-      });
+  endFirstSleep() {
+    this.goingRight = true;
+    this.goingLeft = false;
+    this.hero.stopAndWait();
+
+    this.map.createLayer("riverPolluted", this.tileset).setDepth(45);
+    this.map.createLayer("landUpRiverPolluted", this.tileset).setDepth(46);
+    this.map.createLayer("bridgesShadowPolluted", this.tileset).setDepth(51);
+
+    this.switchNight();
+    this.toggleSprites(true);
+    [this.boy, this.girl].forEach((sprite) => {
+      sprite.setVisible(false);
+      sprite.setActive(false);
+      sprite.body.checkCollision.none = true;
+    });
+
+    this.nono.setVisible(true);
+    this.nono.body.checkCollision.none = false;
+
+    this.setHeroPosition("heroDjango");
+
+    sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "django");
+    this.django.readyToChat();
+
+    this.time.delayedCall(500, () => {
+      this.handleAction();
+    });
   }
 
   listenEvents(data) {
-    if (data.newUnlockedEvents.includes("mine_clothes_found")) {
-      //this.landUpdated.setVisible(true);
-      this.cameras.main.fadeOut(200, 0, 0, 0);
+    if (eventsHas(data, "miner_first_met")) {
+      this.toggleSprites(false);
+      this.switchNight();
+    }
 
-      this.cameras.main.once(
-        Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE,
-        (cam, effect) => {
-          this.time.delayedCall(500, () => {
-            this.cameras.main.fadeIn(200, 0, 0, 0);
-          });
-        }
-      );
+    if (eventsHas(data, "first_sleep")) {
+      this.fadeOutAndFadeIn(this.endFirstSleep.bind(this));
+    }
+
+    if (eventsHas(data, "mine_access_validation")) {
+      this.fadeOutAndFadeIn(this.gotoMine.bind(this));
     }
   }
 
   addCollisionManagement() {
     this.physics.add.collider(this.miner, this.hero, () => {
+      // sceneEventsEmitter in sprite ?
       sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "miner");
       this.miner.readyToChat();
     });
@@ -632,10 +755,7 @@ export default class Game extends Phaser.Scene {
     this.physics.add.collider(this.hero, this.land);
     this.physics.add.collider(this.hero, this.obstacles);
     this.physics.add.collider(this.hero, this.topObjects);
-    this.physics.add.collider(this.hero, this.topObjects2);
     this.physics.add.collider(this.hero, this.bottomObjects);
-    this.physics.add.collider(this.hero, this.bottomObjects2);
-    this.physics.add.collider(this.hero, this.sprites);
     this.physics.add.collider(this.hero, this.pointsCollider);
   }
 

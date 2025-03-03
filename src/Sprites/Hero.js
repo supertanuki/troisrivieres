@@ -1,12 +1,12 @@
 import { createHeroAnims } from "./HeroAnims";
 
-const SPEED = 80
+const SPEED = 80;
 
 class Hero extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y, texture, frame) {
     super(scene, x, y, texture, frame);
-    this.scene = scene
-    createHeroAnims(this.scene.anims)
+    this.scene = scene;
+    createHeroAnims(this.scene.anims);
   }
 
   preUpdate(time, delta) {
@@ -18,27 +18,27 @@ class Hero extends Phaser.Physics.Arcade.Sprite {
   }
 
   goLeft() {
-    this.setVelocityX(-SPEED)
-    this.scaleX = -1
-    this.body.offset.x = this.width
+    this.setVelocityX(-SPEED);
+    this.scaleX = -1;
+    this.body.offset.x = this.width;
   }
 
   goRight() {
-    this.setVelocityX(SPEED)
-    this.scaleX = 1
-    this.body.offset.x = 2
+    this.setVelocityX(SPEED);
+    this.scaleX = 1;
+    this.body.offset.x = 2;
   }
 
   goUp() {
-    this.setVelocityY(-SPEED)
-    this.scaleX = 1
-    this.body.offset.x = -2
+    this.setVelocityY(-SPEED);
+    this.scaleX = 1;
+    this.body.offset.x = -2;
   }
 
   goDown() {
     this.setVelocityY(SPEED);
-    this.scaleX = 1
-    this.body.offset.x = -2
+    this.scaleX = 1;
+    this.body.offset.x = -2;
   }
 
   animateToLeft() {
@@ -59,7 +59,7 @@ class Hero extends Phaser.Physics.Arcade.Sprite {
 
   stopAndWait() {
     if (null === this.anims.currentAnim) {
-      return
+      return;
     }
 
     const parts = this.anims.currentAnim.key.split("-");
@@ -72,14 +72,14 @@ class Hero extends Phaser.Physics.Arcade.Sprite {
 Phaser.GameObjects.GameObjectFactory.register(
   "hero",
   function (x, y, texture, frame) {
-    const sprite = new Hero(this.scene, x, y, texture, frame);
+    const sprite = new Hero(this.scene, x, y, "mai", "idle-down-1");
 
     this.scene.physics.world.enableBody(
       sprite,
       Phaser.Physics.Arcade.DYNAMIC_BODY
     );
 
-    sprite.body.setSize(14, 22)
+    sprite.body.setSize(14, 22);
 
     this.displayList.add(sprite);
     this.updateList.add(sprite);
