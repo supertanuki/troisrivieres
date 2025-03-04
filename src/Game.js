@@ -107,11 +107,11 @@ export default class Game extends Phaser.Scene {
     }
 
     const text = this.add
-      .text(225, 125, "Démarrer", { font: "32px Courier", fill: "#ffffff" })
+      .text(225, 125, "Démarrer", { font: "16px Courier", fill: "#ffffff" })
       .setOrigin(0.5, 0.5);
     text.setInteractive({ useHandCursor: true });
     text.on("pointerdown", () => {
-      text.setText("Chargement...");
+      text.setText("Dans une forêt paisible,\nloin du fracas des villes...");
       text.disableInteractive(true);
 
       this.time.delayedCall(100, () => {

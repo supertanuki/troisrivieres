@@ -80,12 +80,12 @@ const messageWorkflow = {
       messages: [
         "Salut Maï !",
         "Comment je connais ton prénom ? C'est Koko qui me l'a dit.",
-        "Elle aime bien tout savoir et que tout se sache ici !",
+        "Elle aime bien tout savoir et que tout se sache ici !",
         "Je suis dans un sale état, car j'ai eu un accident de travail.",
-        "J'étais à la mine et paf, un effondrement de roches...",
-        "Je m'en sors plutôt pas trop mal, finalement.",
-        "La rivière polluée ? Oui j'ai appris la nouvelle...",
-        "Mais je ne sais pas d'où ça vient."
+        "Je travaillais à la mine, à l'est du village...",
+        "Et pas de bol, un effondrement de roches...",
+        "Je m'en sors plutôt pas trop mal, j'aurais pu y laisser ma peau.",
+        "La rivière polluée ? Oui j'ai appris la mauvaise nouvelle...",
       ],
       unlockEvents: [
         'nono_first_met',
@@ -93,7 +93,7 @@ const messageWorkflow = {
     },
     {
       messages: [
-        "Je dois me reposer un moment, fini le travail à la mine pour l'instant.",
+        "Je dois me reposer, fini le travail à la mine pour l'instant.",
       ],
     },
     {
@@ -101,7 +101,7 @@ const messageWorkflow = {
         "Quoi ? Tu veux aller voir la mine ?",
         "Pour chercher l'origine de la pollution de la rivière ?",
         "Ok, pourquoi pas, je te prête mon laisser-passer pour la mine...",
-        "Sois très prudente, reste discrète et reviens vite !",
+        "Sois très prudente, reste discrète et reviens vite !",
       ],
       dependingOn: [
         'nono_first_met',
