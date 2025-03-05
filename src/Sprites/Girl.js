@@ -17,7 +17,7 @@ export default class Girl extends Chat {
         repeat: -1,
         frameRate: 3,
       })
-      
+
       .addFrame(
         this.anims.generateFrameNames("sprites", {
           start: 2,
@@ -27,10 +27,22 @@ export default class Girl extends Chat {
       );
 
     this.anims.play("girl-water", true);
+
+    this.sadPosition = { x: 0, y: 0 };
   }
 
   move() {
     // nothing
+  }
+
+  setSadPosition(x, y) {
+    this.sadPosition = { x, y };
+  }
+
+  setSad() {
+    this.setPosition(this.sadPosition.x, this.sadPosition.y);
+    this.anims.stop();
+    this.setTexture("sprites", "girl-sad");
   }
 }
 
@@ -44,7 +56,6 @@ Phaser.GameObjects.GameObjectFactory.register("girl", function (x, y) {
 
   sprite.body.setSize(sprite.width + 2, sprite.height + 10);
   sprite.setImmovable(true);
-  sprite.setInteractive();
 
   this.displayList.add(sprite);
   this.updateList.add(sprite);

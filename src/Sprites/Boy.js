@@ -17,7 +17,6 @@ export default class Boy extends Chat {
         repeat: -1,
         frameRate: 3,
       })
-      
       .addFrame(
         this.anims.generateFrameNames("sprites", {
           start: 2,
@@ -27,10 +26,26 @@ export default class Boy extends Chat {
       );
 
     this.anims.play("boy-water", true);
+
+    this.sadPosition = { x: 0, y: 0 };
   }
 
   move() {
     // nothing
+  }
+
+  setSadPosition(x, y) {
+    this.sadPosition = { x, y };
+  }
+
+  setSad() {
+    this.setPosition(this.sadPosition.x, this.sadPosition.y);
+    this.anims.stop();
+    this.setTexture("sprites", "boy-sad");
+
+    // group boy and girl
+    this.body.setSize(this.width + 2, this.height + 18);
+    this.body.setOffset(0, 0)
   }
 }
 
@@ -42,6 +57,7 @@ Phaser.GameObjects.GameObjectFactory.register("boy", function (x, y) {
     Phaser.Physics.Arcade.DYNAMIC_BODY
   );
 
+  // group boy and girl
   sprite.body.setSize(sprite.width + 18, sprite.height + 20);
   sprite.setImmovable(true);
   sprite.setInteractive();

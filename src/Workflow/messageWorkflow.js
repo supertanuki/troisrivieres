@@ -264,6 +264,14 @@ const messageWorkflow = {
         "Trop bien, on peut se baigner quand on veut !",
       ],
     },
+    {
+      messages: [
+        "Oh non, on ne peut plus se baigner...",
+      ],
+      dependingOn: [
+        'first_sleep',
+      ],
+    },
   ],
 };
 

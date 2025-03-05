@@ -71,6 +71,11 @@ export default class Workflow {
       this.unlockMessages,
       this
     );
+    sceneEventsEmitter.on(
+      sceneEvents.MessageEventsUnlocked,
+      this.unlockMessages,
+      this
+    );
   }
 
   getCurrentThread() {

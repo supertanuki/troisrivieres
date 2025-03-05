@@ -111,9 +111,9 @@ export default class Game extends Phaser.Scene {
       .setOrigin(0.5, 0.5);
     text.setInteractive({ useHandCursor: true });
     text.on("pointerdown", () => {
-      text.setText("Dans une forêt paisible,\nloin du fracas des villes...");
       text.disableInteractive(true);
-
+      text.setText("Dans une forêt paisible,\nloin du fracas des villes...");
+      
       this.time.delayedCall(100, () => {
         text.destroy();
         this.start();
@@ -314,6 +314,14 @@ export default class Game extends Phaser.Scene {
         this.boy = this.add.boy(spriteObject.x, spriteObject.y).setDepth(100);
         this.boy.on("pointerdown", this.handleAction, this);
       }
+
+      if (spriteObject.name === "boySad") {
+        this.boy.setSadPosition(spriteObject.x, spriteObject.y)
+      }
+
+      if (spriteObject.name === "girlSad") {
+        this.girl.setSadPosition(spriteObject.x, spriteObject.y)
+      }
     });
 
     /*
@@ -433,6 +441,14 @@ export default class Game extends Phaser.Scene {
 
   addDebugControls() {
     this.input.keyboard
+    .addKey(Phaser.Input.Keyboard.KeyCodes.T)
+    .on("down", () => {
+      this.add.text(this.hero.x, this.hero.y + 100, "Trois-Rivières", { font: "28px bold Courier", fill: "#000000" })
+      .setOrigin(0.5, 0.5)
+      .setDepth(1000)
+    });
+
+    this.input.keyboard
       .addKey(Phaser.Input.Keyboard.KeyCodes.F)
       .on("down", () => {
         this.setHeroPosition("hero");
@@ -459,7 +475,11 @@ export default class Game extends Phaser.Scene {
     this.input.keyboard
       .addKey(Phaser.Input.Keyboard.KeyCodes.S)
       .on("down", () => {
-        this.endFirstSleep();
+        this.switchNight();
+        sceneEventsEmitter.emit(sceneEvents.EventsUnlocked, {
+          newUnlockedEvents: 'first_sleep',
+        });
+        
       });
 
     this.input.keyboard
@@ -661,11 +681,16 @@ export default class Game extends Phaser.Scene {
 
     this.switchNight();
     this.toggleSprites(true);
+
+    this.boy.setSad();
+    this.girl.setSad();
+    /*
     [this.boy, this.girl].forEach((sprite) => {
       sprite.setVisible(false);
       sprite.setActive(false);
       sprite.body.checkCollision.none = true;
     });
+    */
 
     this.nono.setVisible(true);
     this.nono.body.checkCollision.none = false;
