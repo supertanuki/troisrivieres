@@ -1,11 +1,11 @@
 import Phaser from "phaser";
-import "./Sprites/Hero";
-import { isDebug } from "./Utils/isDebug";
+import "../Sprites/Hero";
+import { isDebug } from "../Utils/isDebug";
 
-export default class DreamMine extends Phaser.Scene {
+export default class MineNightmare extends Phaser.Scene {
   constructor() {
     super({
-      key: "dream-mine",
+      key: "mine-nightmare",
       physics: {
         matter: {
           debug: isDebug(),

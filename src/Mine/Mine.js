@@ -1,23 +1,33 @@
 import Phaser from "phaser";
-import isMobileOrTablet from "./Utils/isMobileOrTablet";
-import { getUrlParam, isDebug } from "./Utils/isDebug";
+import isMobileOrTablet from "../Utils/isMobileOrTablet";
+import { getUrlParam, isDebug } from "../Utils/isDebug";
 
-const rockPositions = [150, 190, 230];
+const rockPositions = [110, 175, 237];
+const waterDeltaY = 50;
 
-const conveyorInitialSpeed = getUrlParam('conveyorInitialSpeed', 1)
-const conveyorSpeedIncrement = getUrlParam('conveyorSpeedIncrement', 0.5)
-const numberRockValidatedBeforeSpeedIncrement = getUrlParam('numberRockValidatedBeforeSpeedIncrement', 3)
+const conveyorInitialSpeed = getUrlParam("conveyorInitialSpeed", 1);
+const conveyorSpeedIncrement = getUrlParam("conveyorSpeedIncrement", 0.5);
+const numberRockValidatedBeforeSpeedIncrement = getUrlParam(
+  "numberRockValidatedBeforeSpeedIncrement",
+  3
+);
 
-const waterReductionFactor = getUrlParam('waterReductionFactor', 0.2)
-const waterRefillFactor = getUrlParam('waterRefillFactor', 0.5)
+const waterReductionFactor = getUrlParam("waterReductionFactor", 0.2);
+const waterRefillFactor = getUrlParam("waterRefillFactor", 0.5);
 
-const numberRockValidatedToHaveMoreMaterials = getUrlParam('numberRockValidatedToHaveMoreMaterials', 12)
-const timeBetweenRocks = getUrlParam('timeBetweenRocks', 2000)
-const moreMaterialsTimeBetweenRocks = getUrlParam('moreMaterialsTimeBetweenRocks', 1000)
-const numberIsRefined = getUrlParam('numberIsRefined', 60);
+const numberRockValidatedToHaveMoreMaterials = getUrlParam(
+  "numberRockValidatedToHaveMoreMaterials",
+  12
+);
+const timeBetweenRocks = getUrlParam("timeBetweenRocks", 2000);
+const moreMaterialsTimeBetweenRocks = getUrlParam(
+  "moreMaterialsTimeBetweenRocks",
+  1000
+);
+const numberIsRefined = getUrlParam("numberIsRefined", 60);
 
-const tubeSpeed = getUrlParam('tubeSpeed', 5);
-const tubeDeltaEffect = getUrlParam('tubeDeltaEffect', 40);
+const tubeSpeed = getUrlParam("tubeSpeed", 5);
+const tubeDeltaEffect = getUrlParam("tubeDeltaEffect", 40);
 
 export default class Mine extends Phaser.Scene {
   constructor() {
@@ -38,36 +48,95 @@ export default class Mine extends Phaser.Scene {
     this.control = "none";
     this.waterStockPercentage = 100;
     this.rechargeWater = false;
+    this.conveyorPosition = 0;
   }
 
   preload() {
-    this.load.image("rock", "img/rock.png");
+    this.load.atlas("mine", "sprites/mine.png", "sprites/mine.json");
     this.load.image("water", "img/rain.png");
-    this.load.image("tapis", "img/factory/tapisroulant.jpg");
   }
 
   create() {
+    this.cameras.main.setBackgroundColor(0x30221e);
     this.scale.setGameSize(550, 300);
-    this.add.image(0, -180, "tapis").setOrigin(0, 0);
-    this.createControls();
 
-    const config = this.sys.game.config;
-    this.scoreObject = this.add.text(10, 20, "0", {
-      font: "14px Arial",
+    this.add.image(275, 0, "mine", "background").setOrigin(0.5, 0);
+    this.add.image(337, 46, "mine", "water-tank")
+    const mask = this.add.bitmapMask(null, 354, 35, "mine", "water-tank-mask");
+    this.waterStock = this.add.image(354, 46, "mine", "water")
+    this.waterStock.setMask(mask);
+    this.add.image(354, 46, "mine", "water-glass")
+    this.add.image(354, 18, "mine", "water-tank-top")
+
+    this.conveyor1 = this.add
+      .tileSprite(0, 92, 550, 48, "mine", "conveyor")
+      .setOrigin(0, 0)
+      .setScrollFactor(0, 0);
+
+    this.conveyor2 = this.add
+      .tileSprite(0, 156, 550, 48, "mine", "conveyor")
+      .setOrigin(0, 0)
+      .setScrollFactor(0, 0);
+
+    this.conveyor3 = this.add
+      .tileSprite(0, 220, 550, 48, "mine", "conveyor")
+      .setOrigin(0, 0)
+      .setScrollFactor(0, 0);
+
+    // right block
+    this.add
+      .image(509, 169, "mine", "right-block")
+      .setOrigin(0.5, 0.5)
+      .setDepth(1000);
+    this.add.image(474, 69, "mine", "block-bottom").setOrigin(0.5, 0.5).setDepth(1)
+    this.add.image(474, 133, "mine", "block-bottom").setOrigin(0.5, 0.5).setDepth(10)
+    this.add.image(474, 197, "mine", "block-bottom").setOrigin(0.5, 0.5).setDepth(20)
+    this.add.image(515, 257, "mine", "right-glass").setOrigin(0.5, 0.5).setDepth(1000);
+
+    // left block
+    this.add
+      .image(40, 169, "mine", "right-block")
+      .setOrigin(0.5, 0.5)
+      .setScale(-1, 1)
+      .setDepth(1000);
+    this.add.image(75, 69, "mine", "block-bottom").setOrigin(0.5, 0.5).setScale(-1, 1).setDepth(1)
+    this.add.image(75, 133, "mine", "block-bottom").setOrigin(0.5, 0.5).setScale(-1, 1).setDepth(10)
+    this.add.image(75, 197, "mine", "block-bottom").setOrigin(0.5, 0.5).setScale(-1, 1).setDepth(20)
+    this.add.image(35, 257, "mine", "left-glass").setOrigin(0.5, 0.5).setDepth(1000);
+
+    this.anims.create({
+      key: "particules",
+      frames: this.anims.generateFrameNames("mine", {
+        start: 1,
+        end: 4,
+        prefix: "particules-",
+      }),
+      repeat: -1,
+      frameRate: 10,
+    });
+
+    this.rockParticles = this.add
+      .sprite(275, 202, "mine", "particules-1")
+      .setOrigin(0.5, 0.5)
+      .setVisible(false);
+    this.rockParticles.anims.play("particules", true)
+
+    this.scoreObject = this.add.text(5, 5, "0", {
+      font: "8px Arial",
       fill: "#ffffff",
       backgroundColor: "rgba(0,0,0,0.9)",
       padding: 6,
-      alpha: 0,
-    })
+    });
     this.scoreObject
       .setScrollFactor(0)
       .setDepth(1000)
+      .setAlpha(0.5)
       .setWordWrapWidth(300)
       .setActive(true)
       .setVisible(false);
 
-    this.textObject = this.add.text(config.width / 2, 100, "hello", {
-      font: "14px Arial",
+    this.textObject = this.add.text(205, 30, "Hello", {
+      font: "12px Arial",
       fill: "#ffffff",
       backgroundColor: "rgba(100,100,0,0.9)",
       padding: 6,
@@ -76,34 +145,23 @@ export default class Mine extends Phaser.Scene {
     this.textObject
       .setOrigin(0.5, 1)
       .setScrollFactor(0)
-      .setDepth(1000)
+      .setDepth(2000)
       .setWordWrapWidth(300)
-      .setActive(false)
       .setVisible(false);
 
     // Fade init
     this.cameras.main.fadeOut(0, 0, 0, 0);
     this.cameras.main.fadeIn(1000, 0, 0, 0);
-    this.matter.world.setBounds(0, 0, 550, 300);
-    this.targetV = this.add.rectangle(100, 100, 20, 4, 0x2244ff);
-    this.targetH = this.add.rectangle(100, 100, 4, 16, 0x2244ff);
-
-    this.add.rectangle(0, 29, 550, 10, 0x115555).setOrigin(0, 0);
-
-    this.waterStockAlert = this.add
-      .rectangle(275, 0, 550, 29, 0xff0000)
-      .setOrigin(0.5, 0)
-      .setVisible(false);
-
-    this.waterStock = this.add
-      .rectangle(275, 29, 550, 29, 0x66aaff)
-      .setOrigin(0.5, 0)
-      .setDepth(10);
 
     this.tube = this.add
-      .rectangle(275, 100, 12, 200, 0x115555)
+      .tileSprite(0, 0, 22, 1000, "mine", "tube")
       .setOrigin(0.5, 1)
-      .setDepth(3);
+      .setDepth(1000);
+
+    this.tubeEnd = this.add
+      .image(275, 100, "mine", "tube-end")
+      .setOrigin(0.43, 1)
+      .setDepth(1000);
 
     this.water = this.add.particles(0, 0, "water", {
       speed: { min: 200, max: 300 },
@@ -116,18 +174,16 @@ export default class Mine extends Phaser.Scene {
     });
     this.water.setDepth(1);
 
-    this.particlesBound = this.water.addParticleBounds(0, 0, 550, 200)
+    this.particlesBound = this.water.addParticleBounds(0, 0, 550, 200);
 
     this.events.on("update", () => {
       if (!this.rechargeWater && this.action && this.waterStockPercentage > 0) {
-        this.water.emitParticleAt(this.tube.x, this.tube.y);
+        this.water.emitParticleAt(this.tubeEnd.x, this.tubeEnd.y);
         this.waterStockPercentage -= waterReductionFactor;
 
-        if (this.waterStockPercentage < 0) {
+        if (this.waterStockPercentage <= 0) {
           this.waterStockPercentage = 0;
           this.rechargeWater = true;
-          this.targetV.setVisible(false);
-          this.targetH.setVisible(false);
           this.updateMessage("Réserve d'eau vide !");
         }
       } else {
@@ -139,21 +195,21 @@ export default class Mine extends Phaser.Scene {
 
         if (this.rechargeWater && this.waterStockPercentage === 100) {
           this.rechargeWater = false;
-          this.targetV.setVisible(true);
-          this.targetH.setVisible(true);
-          this.waterStockAlert.setVisible(false);
+          //this.waterStockAlert.setVisible(false);
           this.updateMessage("Réserve d'eau rechargée !");
         }
       }
 
+      /*
       this.waterStockAlert.setVisible(
         this.rechargeWater || this.waterStockPercentage < 30
       );
-
-      this.waterStock.height = (29 * this.waterStockPercentage) / 100;
-      this.waterStock.y = 29 - this.waterStock.height;
+      */
+      this.waterStock.y = 46 + (100 - 46) * (100 - this.waterStockPercentage) / 100;
+      this.waterStock.setVisible(this.waterStockPercentage > 5)
     });
 
+    this.createControls();
     this.startGame();
   }
 
@@ -219,7 +275,7 @@ export default class Mine extends Phaser.Scene {
         inputEnable: true,
         fixed: true,
       });
-  
+
       // Make floating joystick
       this.input.on(
         "pointerdown",
@@ -229,16 +285,16 @@ export default class Mine extends Phaser.Scene {
         },
         this
       );
-  
+
       this.joystick.on(
         "update",
         function () {
           this.goingAngle = this.joystick.angle;
-  
+
           if (this.joystick.left) {
             this.goingLeft = true;
             this.goingRight = false;
-  
+
             if (177.5 < this.goingAngle || -177.5 > this.goingAngle) {
               this.goingUp = false;
               this.goingDown = false;
@@ -246,17 +302,17 @@ export default class Mine extends Phaser.Scene {
           } else if (this.joystick.right) {
             this.goingRight = true;
             this.goingLeft = false;
-  
+
             if (22.5 > this.goingAngle && -22.5 < this.goingAngle) {
               this.goingUp = false;
               this.goingDown = false;
             }
           }
-  
+
           if (this.joystick.up) {
             this.goingUp = true;
             this.goingDown = false;
-  
+
             if (-67.5 > this.goingAngle && -112.5 < this.goingAngle) {
               this.goingRight = false;
               this.goingLeft = false;
@@ -264,7 +320,7 @@ export default class Mine extends Phaser.Scene {
           } else if (this.joystick.down) {
             this.goingDown = true;
             this.goingUp = false;
-  
+
             if (67.5 < this.goingAngle && 112.5 > this.goingAngle) {
               this.goingRight = false;
               this.goingLeft = false;
@@ -273,7 +329,7 @@ export default class Mine extends Phaser.Scene {
         },
         this
       );
-  
+
       this.joystick.on(
         "pointerup",
         () => {
@@ -286,10 +342,14 @@ export default class Mine extends Phaser.Scene {
         },
         this
       );
-  
-      this.joystick.on("pointerdown", () => {
-        this.action = true;
-      }, this);
+
+      this.joystick.on(
+        "pointerdown",
+        () => {
+          this.action = true;
+        },
+        this
+      );
     }
   }
 
@@ -301,11 +361,9 @@ export default class Mine extends Phaser.Scene {
     const initX = 600;
     const index = Phaser.Math.Between(0, 2);
     const selectedY = rockPositions[index];
-    const rock = this.add.image(initX, selectedY, "rock");
-    const scale = Math.random() + 0.5;
-    rock.setScale(scale > 1 ? 1 : scale);
-    rock.setDepth(index * 10);
-    const refined = Math.round(numberIsRefined / 3 / scale)
+    const rock = this.add.sprite(initX, selectedY, "mine", "rock-1");
+    rock.setDepth(1 + index * 10);
+    const refined = 0; //Math.round(numberIsRefined / 3 / scale)
     this.rocks.push({ rock, index, refined });
 
     this.time.addEvent({
@@ -315,20 +373,20 @@ export default class Mine extends Phaser.Scene {
           this.updateMessage("Plus de matières à traiter !");
         }
       },
-      delay: this.rockValidated > numberRockValidatedToHaveMoreMaterials ? moreMaterialsTimeBetweenRocks : timeBetweenRocks,
+      delay:
+        this.rockValidated > numberRockValidatedToHaveMoreMaterials
+          ? moreMaterialsTimeBetweenRocks
+          : timeBetweenRocks,
     });
   }
 
   updateScore() {
-    const total = this.rockValidated + this.rockNotValidated
-    const percent = Math.round(100 * this.rockValidated / (total || 1))
+    const total = this.rockValidated + this.rockNotValidated;
+    const percent = Math.round((100 * this.rockValidated) / (total || 1));
     this.scoreObject.setText(
-      percent + " %\n" +
-      this.rockValidated +
-        " / " +
-        total
+      percent + " %\n" + this.rockValidated + " / " + total
     );
-    this.scoreObject.setVisible(true)
+    this.scoreObject.setVisible(true);
   }
 
   updateMessage(message) {
@@ -340,28 +398,43 @@ export default class Mine extends Phaser.Scene {
   }
 
   update() {
-    if (this.goingUp) {
-      if (this.tube.y > 50) this.tube.y -= tubeSpeed;
-    } else if (this.goingDown) {
-      if (this.tube.y < 150) this.tube.y += tubeSpeed;
+    this.rockParticles.setVisible(false)
+
+    if (this.goingUp && this.tubeEnd.y > 50) {
+      this.tubeEnd.y -= tubeSpeed;
+    } else if (this.goingDown && this.tubeEnd.y < 200) {
+      this.tubeEnd.y += tubeSpeed;
     }
+
+    const waterEndY = this.tubeEnd.y + waterDeltaY
 
     if (this.goingDown || this.goingUp) {
-      this.particlesBound.active = false
-      this.particlesBound = this.water.addParticleBounds(0, 0, 550, this.tube.y + 100)
+      this.particlesBound.active = false;
+      this.particlesBound = this.water.addParticleBounds(
+        0,
+        0,
+        550,
+        waterEndY
+      );
     }
 
-    const depth = this.tube.y < 100 ? 1 : this.tube.y < 120 ? 11 : 21
+    //const rockPositions = [110, 175, 237];
+    const depth = waterEndY < rockPositions[0] ? 0 : (waterEndY < rockPositions[1] ? 10 : (waterEndY < rockPositions[2] ? 20 : 22));
     this.water.setDepth(depth);
 
     if (this.goingLeft) {
-      if (this.tube.x > 100) this.tube.x -= tubeSpeed;
+      if (this.tubeEnd.x > 100) this.tubeEnd.x -= tubeSpeed;
     } else if (this.goingRight) {
-      if (this.tube.x < 450) this.tube.x += tubeSpeed;
+      if (this.tubeEnd.x < 450) this.tubeEnd.x += tubeSpeed;
     }
 
-    this.targetV.setPosition(this.tube.x, this.tube.y + 100);
-    this.targetH.setPosition(this.tube.x, this.tube.y + 100);
+    this.tube.x = this.tubeEnd.x;
+    this.tube.y = this.tubeEnd.y - 34;
+
+    this.conveyorPosition += this.speed;
+    this.conveyor1.setTilePosition(this.conveyorPosition, 0);
+    this.conveyor2.setTilePosition(this.conveyorPosition, 0);
+    this.conveyor3.setTilePosition(this.conveyorPosition, 0);
 
     for (const index in this.rocks) {
       const element = this.rocks[index];
@@ -382,41 +455,31 @@ export default class Mine extends Phaser.Scene {
         continue;
       }
 
-      if (rock.y < this.tube.y + 125 && rock.y > this.tube.y + 75) {
-        if (
-          !this.rechargeWater &&
-          this.action &&
-          rock.x > this.tube.x - tubeDeltaEffect &&
-          rock.x < this.tube.x + tubeDeltaEffect
-        ) {
-          rock.scale = rock.scale * 0.995;
-          rock.setTint(element.refined % 2 ? 0xffffff : 0x555555);
-          element.refined++;
+      if (
+        rock.y < this.tubeEnd.y + waterDeltaY + 25 &&
+        rock.y > this.tubeEnd.y + waterDeltaY - 25 &&
+        this.action &&
+        !this.rechargeWater &&
+        rock.x > this.tubeEnd.x - tubeDeltaEffect &&
+        rock.x < this.tubeEnd.x + tubeDeltaEffect
+      ) {
+        element.refined++;
+        this.rockParticles.setVisible(true)
+        this.rockParticles.setDepth(rock.depth)
+        this.rockParticles.setPosition(rock.x, rock.y - 20)
 
-          if (element.refined > numberIsRefined) {
-            rock.setTint(0xff5555);
-            this.rockValidated++;
-            this.updateScore();
+        const rockTextureId = Math.round(
+          (element.refined * 6) / numberIsRefined
+        );
+        rock.setTexture("mine", "rock-" + (rockTextureId || 1));
 
-            if (this.rockValidated === numberRockValidatedBeforeSpeedIncrement) {
-              this.speed += conveyorSpeedIncrement;
-              this.updateMessage("Plus vite maintenant !!!");
-            }
+        if (element.refined > numberIsRefined) {
+          this.rockValidated++;
+          this.updateScore();
 
-            const copiedRock = this.add.image(rock.x, rock.y, "rock");
-            copiedRock.scale = rock.scale;
-            copiedRock.setTint(0xff5555);
-            this.tweens.add({
-              targets: copiedRock,
-              x: 20,
-              y: 30,
-              alpha: 0.2,
-              ease: "Sine.easeInOut",
-              duration: 500,
-              onComplete: () => {
-                copiedRock.destroy();
-              },
-            });
+          if (this.rockValidated === numberRockValidatedBeforeSpeedIncrement) {
+            this.speed += conveyorSpeedIncrement;
+            this.updateMessage("Plus vite maintenant !!!");
           }
         }
       }

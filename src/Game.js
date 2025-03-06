@@ -123,7 +123,7 @@ export default class Game extends Phaser.Scene {
 
   start() {
     if (urlParamHas("dreamMine")) {
-      this.gotoScene("dream-mine");
+      this.gotoScene("mine-nightmare");
       return;
     }
 
