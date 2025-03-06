@@ -18,7 +18,7 @@ export default class MineNightmare extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image("rock", "img/rock.png");
+    this.load.atlas("mine", "sprites/mine.png", "sprites/mine.json");
     this.load.image("water", "img/rain.png");
     this.load.image("maroon-water", "img/water-maroon.png");
   }
@@ -54,18 +54,26 @@ export default class MineNightmare extends Phaser.Scene {
     this.createRock(50, 50, 500, 250);
     this.createRock(100, 200, 300, 20);
 
-    this.tube = this.add
-        .rectangle(50, 50, 12, 50, 0x115555)
-        .setOrigin(0.5, 1)
-        .setDepth(3)
-        .setAlpha(0)
+    this.tube = this.add.container();
+
+    this.tube.add(this.add
+    .tileSprite(0, -33, 22, 1000, "mine", "tube")
+    .setOrigin(0.5, 1)
+    );
+
+    this.tube.add(this.add
+      .image(0, 0, "mine", "tube-end")
+      .setOrigin(0.43, 1)
+    );
+
+    this.tube.setDepth(1000).setAlpha(0)
 
     this.tweens.add({
         targets: this.tube,
         angle: 180,
         alpha: 1,
         x: 500,
-        y: 250,
+        y: 216,
         ease: "Sine.linear",
         duration: 4500,
         onUpdate: (event) => {
@@ -83,7 +91,7 @@ export default class MineNightmare extends Phaser.Scene {
             ease: "Sine.linear",
             duration: 4500,
             onUpdate: (event) => {
-              this.stopWater = event.progress > 0.8
+              this.stopWater = event.progress > 0.9
             },
           });
         }
@@ -102,7 +110,7 @@ export default class MineNightmare extends Phaser.Scene {
   }
 
   createRock(initX, initY, finalX, finalY) {
-    const rock = this.add.image(finalX, finalY, "rock");
+    const rock = this.add.image(finalX, finalY, "mine", "rock-1");
     const scale = Math.random() + 0.5;
     rock.setScale(scale > 1 ? 1 : scale);
 
