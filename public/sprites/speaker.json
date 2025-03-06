@@ -1,0 +1,145 @@
+{
+	"textures": [
+		{
+			"image": "speaker",
+			"format": "RGBA8888",
+			"size": {
+				"w": 1223,
+				"h": 68
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "dialog-2",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 256,
+						"h": 48
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 256,
+						"h": 48
+					},
+					"frame": {
+						"x": 0,
+						"y": 0,
+						"w": 256,
+						"h": 48
+					}
+				},
+				{
+					"filename": "speaker-off",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 80,
+						"h": 64
+					},
+					"spriteSourceSize": {
+						"x": 11,
+						"y": 0,
+						"w": 69,
+						"h": 54
+					},
+					"frame": {
+						"x": 256,
+						"y": 0,
+						"w": 69,
+						"h": 54
+					}
+				},
+				{
+					"filename": "speaker-on",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 80,
+						"h": 64
+					},
+					"spriteSourceSize": {
+						"x": 6,
+						"y": 0,
+						"w": 74,
+						"h": 59
+					},
+					"frame": {
+						"x": 325,
+						"y": 0,
+						"w": 74,
+						"h": 59
+					}
+				},
+				{
+					"filename": "dialog-1",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 276,
+						"h": 66
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 276,
+						"h": 66
+					},
+					"frame": {
+						"x": 399,
+						"y": 0,
+						"w": 276,
+						"h": 66
+					}
+				},
+				{
+					"filename": "dialog-shout-1",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 276,
+						"h": 66
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 276,
+						"h": 66
+					},
+					"frame": {
+						"x": 675,
+						"y": 0,
+						"w": 276,
+						"h": 66
+					}
+				},
+				{
+					"filename": "dialog-shout-2",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 272,
+						"h": 68
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 272,
+						"h": 68
+					},
+					"frame": {
+						"x": 951,
+						"y": 0,
+						"w": 272,
+						"h": 68
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "http://free-tex-packer.com",
+		"version": "0.6.7"
+	}
+}

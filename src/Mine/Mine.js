@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import isMobileOrTablet from "../Utils/isMobileOrTablet";
 import { getUrlParam, isDebug } from "../Utils/isDebug";
+import MiniGameUi from "../UI/MiniGameUi";
 
 const rockPositions = [110, 175, 237];
 const waterDeltaY = 50;
@@ -29,7 +30,7 @@ const numberIsRefined = getUrlParam("numberIsRefined", 60);
 const tubeSpeed = getUrlParam("tubeSpeed", 5);
 const tubeDeltaEffect = getUrlParam("tubeDeltaEffect", 40);
 
-export default class Mine extends Phaser.Scene {
+export default class Mine extends MiniGameUi {
   constructor() {
     super({
       key: "mine",
@@ -52,11 +53,14 @@ export default class Mine extends Phaser.Scene {
   }
 
   preload() {
+    super.preload();
     this.load.atlas("mine", "sprites/mine.png", "sprites/mine.json");
     this.load.image("water", "img/rain.png");
   }
 
   create() {
+    super.create();
+
     this.cameras.main.setBackgroundColor(0x30221e);
     this.scale.setGameSize(550, 300);
 
@@ -124,7 +128,7 @@ export default class Mine extends Phaser.Scene {
     this.scoreObject = this.add.text(5, 5, "0", {
       font: "8px Arial",
       fill: "#ffffff",
-      backgroundColor: "rgba(0,0,0,0.9)",
+      backgroundColor: "rgba(255,100,100,0.9)",
       padding: 6,
     });
     this.scoreObject
@@ -133,20 +137,6 @@ export default class Mine extends Phaser.Scene {
       .setAlpha(0.5)
       .setWordWrapWidth(300)
       .setActive(true)
-      .setVisible(false);
-
-    this.textObject = this.add.text(205, 30, "Hello", {
-      font: "12px Arial",
-      fill: "#ffffff",
-      backgroundColor: "rgba(100,100,0,0.9)",
-      padding: 6,
-      alpha: 0,
-    });
-    this.textObject
-      .setOrigin(0.5, 1)
-      .setScrollFactor(0)
-      .setDepth(2000)
-      .setWordWrapWidth(300)
       .setVisible(false);
 
     // Fade init
@@ -387,14 +377,6 @@ export default class Mine extends Phaser.Scene {
       percent + " %\n" + this.rockValidated + " / " + total
     );
     this.scoreObject.setVisible(true);
-  }
-
-  updateMessage(message) {
-    this.textObject.text = message;
-    this.textObject.setVisible(true);
-    this.time.delayedCall(2000, () => {
-      this.textObject.setVisible(false);
-    });
   }
 
   update() {

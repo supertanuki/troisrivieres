@@ -1,5 +1,6 @@
 import Phaser from "phaser";
 import isMobileOrTablet from "./Utils/isMobileOrTablet";
+import MiniGameUi from "./UI/MiniGameUi";
 
 const COMPONENTS = {
   blue: "component-blue",
@@ -19,7 +20,7 @@ const initialSpeed = 0.75;
 const acceleration = 0.5;
 const userLeftHandInitialPosition = { x: 255, y: 310 };
 
-export default class Factory extends Phaser.Scene {
+export default class Factory extends MiniGameUi {
   constructor() {
     super({
       key: "factory",
@@ -38,44 +39,14 @@ export default class Factory extends Phaser.Scene {
   }
 
   preload() {
+    super.preload();
     this.load.atlas("firm", "sprites/firm.png", "sprites/firm.json");
     this.load.image("water", "img/rain.png");
   }
 
   create() {
+    super.create();
     this.scale.setGameSize(550, 300);
-
-    // @to remove
-    this.input.on("pointerdown", (pointer) =>
-      console.log(pointer.x, pointer.y)
-    );
-
-    this.anims.create({
-      key: "speaker-off",
-      frames: [
-        {
-          key: "firm",
-          frame: "hautparleur-off",
-        },
-      ],
-      repeat: -1,
-      frameRate: 1,
-    });
-    this.anims.create({
-      key: "speaker-on",
-      frames: [
-        {
-          key: "firm",
-          frame: "hautparleur-off",
-        },
-        {
-          key: "firm",
-          frame: "hautparleur-on",
-        },
-      ],
-      repeat: -1,
-      frameRate: 8,
-    });
 
     this.anims.create({
       key: "rolling",
@@ -159,10 +130,6 @@ export default class Factory extends Phaser.Scene {
       .setDepth(1);
     this.water.addParticleBounds(0, 0, 550, 150);
 
-    this.speaker = this.add
-      .sprite(470, 0, "firm", "hautparleur-off")
-      .setOrigin(0, 0);
-
     for (let i = 0; i < 50; i++) {
       this.conveyorRollings.push(
         this.add
@@ -186,27 +153,6 @@ export default class Factory extends Phaser.Scene {
       .setOrigin(0, 0);
     this.userLeftHand.scaleY = -1;
     this.userLeftHand.setDepth(10).setVisible(false);
-
-    const config = this.sys.game.config;
-    this.textObject = this.add.text(
-      350,
-      80,
-      "une super longue phrase qui veut rien dire",
-      {
-        font: "14px Arial",
-        fill: "#ffffff",
-        backgroundColor: "rgba(20,20,20,0.8)",
-        padding: 6,
-        alpha: 0,
-      }
-    );
-    this.textObject
-      .setOrigin(0.5, 1)
-      .setScrollFactor(0)
-      .setDepth(1000)
-      .setWordWrapWidth(200)
-      .setActive(false)
-      .setVisible(false);
 
     // Fade init
     this.cameras.main.fadeOut(0, 0, 0, 0);
@@ -586,17 +532,6 @@ export default class Factory extends Phaser.Scene {
         }
       });
     }
-  }
-
-  updateMessage(message) {
-    this.speaker.anims.play("speaker-on", true);
-
-    this.textObject.text = message;
-    this.textObject.setVisible(true);
-    this.time.delayedCall(2000, () => {
-      this.textObject.setVisible(false);
-      this.speaker.anims.play("speaker-off");
-    });
   }
 
   validateMotherboard() {

@@ -27,3 +27,10 @@ export function urlParamHas(param) {
 export function getUrlParam(name, defaultValue) {
   return Number(params.get(name)) || defaultValue
 }
+
+/*
+// @to remove
+this.input.on("pointerdown", (pointer) =>
+  console.log(pointer.x, pointer.y)
+);
+*/
