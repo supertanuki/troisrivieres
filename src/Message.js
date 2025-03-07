@@ -29,12 +29,13 @@ export default class Message extends Phaser.Scene {
       .line(
         0,
         0,
-        config.width / 2 - 75,
-        config.height - 14,
-        config.width / 2 + 75,
-        config.height - 14,
+        config.width / 2 - 60,
+        config.height - 12,
+        config.width / 2 + 60,
+        config.height - 12,
         0x000000
       )
+      .setLineWidth(4)
       .setAlpha(0.5)
       .setScrollFactor(0)
       .setOrigin(0, 0)

@@ -31,15 +31,21 @@ export default class Fisherman extends Chat {
           prefix: "mino-",
         })
       );
+
+    this.anims.play("mino-idle", true);
+  }
+
+  setSad() {
+    this.anims.stop();
+    this.setTexture("sprites", "mino-sad");
+    this.body.setSize(this.width, this.height);
+    this.x -= 12
+    this.chatIconDeltaX = 0
+    this.chatIconDeltaY = -2
   }
 
   move() {
     // nothing
-  }
-
-  preUpdate(time, delta) {
-    super.preUpdate(time, delta);
-    this.anims.play("mino-idle", true);
   }
 }
 

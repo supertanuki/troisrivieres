@@ -698,6 +698,7 @@ export default class Game extends Phaser.Scene {
 
     this.boy.setSad();
     this.girl.setSad();
+    this.fisherman.setSad();
     /*
     [this.boy, this.girl].forEach((sprite) => {
       sprite.setVisible(false);
@@ -711,11 +712,11 @@ export default class Game extends Phaser.Scene {
 
     this.setHeroPosition("heroDjango");
 
-    sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "django");
-    this.django.readyToChat();
+    //sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "django");
+    //this.django.readyToChat();
 
     this.time.delayedCall(500, () => {
-      this.handleAction();
+      //this.handleAction();
     });
   }
 

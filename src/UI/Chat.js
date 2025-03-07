@@ -29,12 +29,7 @@ export default class Chat extends Phaser.Physics.Arcade.Sprite {
     this.disableChatIcon = disableChatIcon;
 
     this.chatImageUi = scene.add
-      .sprite(
-        this.x + this.chatIconDeltaX,
-        this.y - 13 + this.chatIconDeltaY,
-        "sprites",
-        "exclam-3"
-      )
+      .sprite(0, 0, "sprites", "exclam-3")
       .setDepth(1000)
       .setVisible(false);
     this.chatImageUi.anims.play("exclam", true);
@@ -45,6 +40,10 @@ export default class Chat extends Phaser.Physics.Arcade.Sprite {
   }
 
   readyToChat() {
+    this.chatImageUi.setPosition(
+      this.x + this.chatIconDeltaX,
+      this.y - 13 + this.chatIconDeltaY
+    );
     this.chatImageUi.setVisible(!this.disableChatIcon);
   }
 }
