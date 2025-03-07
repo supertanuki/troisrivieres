@@ -50,6 +50,7 @@ export default class Mine extends MiniGameUi {
     this.waterStockPercentage = 100;
     this.rechargeWater = false;
     this.conveyorPosition = 0;
+    this.tubeRollings = [];
   }
 
   preload() {
@@ -60,20 +61,33 @@ export default class Mine extends MiniGameUi {
 
   create() {
     super.create();
+    // Fade init
+    this.cameras.main.fadeOut(0, 0, 0, 0);
+    this.cameras.main.fadeIn(1000, 0, 0, 0);
+
+    this.goingDown = true;
 
     this.cameras.main.setBackgroundColor(0x30221e);
     this.scale.setGameSize(550, 300);
 
-    this.add.image(275, 0, "mine", "background").setOrigin(0.5, 0);
-    this.add.image(337, 46, "mine", "water-tank")
-    const mask = this.add.bitmapMask(null, 354, 35, "mine", "water-tank-mask");
-    this.waterStock = this.add.image(354, 46, "mine", "water")
+    this.add
+      .image(275, 0, "mine", "background")
+      .setOrigin(0.5, 0)
+      .setScale(-1, 1);
+    this.add.image(180, 46, "mine", "water-tank"); // 156
+    const mask = this.add.bitmapMask(null, 197, 35, "mine", "water-tank-mask");
+    this.waterStock = this.add.image(197, 46, "mine", "water");
     this.waterStock.setMask(mask);
-    this.add.image(354, 46, "mine", "water-glass")
-    this.add.image(354, 18, "mine", "water-tank-top")
+    this.add.image(197, 46, "mine", "water-glass");
+    this.add.image(197, 18, "mine", "water-tank-top");
 
     this.conveyor1 = this.add
       .tileSprite(0, 92, 550, 48, "mine", "conveyor")
+      .setOrigin(0, 0)
+      .setScrollFactor(0, 0);
+
+    this.add
+      .tileSprite(0, 140, 550, 19, "mine", "conveyor-bottom")
       .setOrigin(0, 0)
       .setScrollFactor(0, 0);
 
@@ -82,8 +96,18 @@ export default class Mine extends MiniGameUi {
       .setOrigin(0, 0)
       .setScrollFactor(0, 0);
 
+    this.add
+      .tileSprite(10, 204, 550, 19, "mine", "conveyor-bottom")
+      .setOrigin(0, 0)
+      .setScrollFactor(0, 0);
+
     this.conveyor3 = this.add
       .tileSprite(0, 220, 550, 48, "mine", "conveyor")
+      .setOrigin(0, 0)
+      .setScrollFactor(0, 0);
+
+    this.add
+      .tileSprite(5, 268, 550, 19, "mine", "conveyor-bottom")
       .setOrigin(0, 0)
       .setScrollFactor(0, 0);
 
@@ -92,10 +116,22 @@ export default class Mine extends MiniGameUi {
       .image(509, 169, "mine", "right-block")
       .setOrigin(0.5, 0.5)
       .setDepth(1000);
-    this.add.image(474, 69, "mine", "block-bottom").setOrigin(0.5, 0.5).setDepth(1)
-    this.add.image(474, 133, "mine", "block-bottom").setOrigin(0.5, 0.5).setDepth(10)
-    this.add.image(474, 197, "mine", "block-bottom").setOrigin(0.5, 0.5).setDepth(20)
-    this.add.image(515, 257, "mine", "right-glass").setOrigin(0.5, 0.5).setDepth(1000);
+    this.add
+      .image(474, 69, "mine", "block-bottom")
+      .setOrigin(0.5, 0.5)
+      .setDepth(1);
+    this.add
+      .image(474, 133, "mine", "block-bottom")
+      .setOrigin(0.5, 0.5)
+      .setDepth(10);
+    this.add
+      .image(474, 197, "mine", "block-bottom")
+      .setOrigin(0.5, 0.5)
+      .setDepth(20);
+    this.add
+      .image(515, 257, "mine", "right-glass")
+      .setOrigin(0.5, 0.5)
+      .setDepth(1000);
 
     // left block
     this.add
@@ -103,10 +139,25 @@ export default class Mine extends MiniGameUi {
       .setOrigin(0.5, 0.5)
       .setScale(-1, 1)
       .setDepth(1000);
-    this.add.image(75, 69, "mine", "block-bottom").setOrigin(0.5, 0.5).setScale(-1, 1).setDepth(1)
-    this.add.image(75, 133, "mine", "block-bottom").setOrigin(0.5, 0.5).setScale(-1, 1).setDepth(10)
-    this.add.image(75, 197, "mine", "block-bottom").setOrigin(0.5, 0.5).setScale(-1, 1).setDepth(20)
-    this.add.image(35, 257, "mine", "left-glass").setOrigin(0.5, 0.5).setDepth(1000);
+    this.add
+      .image(75, 69, "mine", "block-bottom")
+      .setOrigin(0.5, 0.5)
+      .setScale(-1, 1)
+      .setDepth(1);
+    this.add
+      .image(75, 133, "mine", "block-bottom")
+      .setOrigin(0.5, 0.5)
+      .setScale(-1, 1)
+      .setDepth(10);
+    this.add
+      .image(75, 197, "mine", "block-bottom")
+      .setOrigin(0.5, 0.5)
+      .setScale(-1, 1)
+      .setDepth(20);
+    this.add
+      .image(35, 257, "mine", "left-glass")
+      .setOrigin(0.5, 0.5)
+      .setDepth(1000);
 
     this.anims.create({
       key: "particules",
@@ -123,10 +174,10 @@ export default class Mine extends MiniGameUi {
       .sprite(275, 202, "mine", "particules-1")
       .setOrigin(0.5, 0.5)
       .setVisible(false);
-    this.rockParticles.anims.play("particules", true)
+    this.rockParticles.anims.play("particules", true);
 
-    this.scoreObject = this.add.text(5, 5, "0", {
-      font: "8px Arial",
+    this.scoreObject = this.add.text(5, 75, "0", {
+      font: "9px Arial",
       fill: "#ffffff",
       backgroundColor: "rgba(255,100,100,0.9)",
       padding: 6,
@@ -139,19 +190,36 @@ export default class Mine extends MiniGameUi {
       .setActive(true)
       .setVisible(false);
 
-    // Fade init
-    this.cameras.main.fadeOut(0, 0, 0, 0);
-    this.cameras.main.fadeIn(1000, 0, 0, 0);
-
     this.tube = this.add
       .tileSprite(0, 0, 22, 1000, "mine", "tube")
       .setOrigin(0.5, 1)
       .setDepth(1000);
 
     this.tubeEnd = this.add
-      .image(275, 100, "mine", "tube-end")
+      .image(275, 50, "mine", "tube-end")
       .setOrigin(0.43, 1)
       .setDepth(1000);
+
+    this.add.image(64, 0, "mine", "tube-top").setOrigin(0, 0).setDepth(1000);
+    this.anims.create({
+      key: "tube-rolling",
+      frames: this.anims.generateFrameNames("mine", {
+        start: 1,
+        end: 3,
+        prefix: "tube-rolling-",
+      }),
+      repeat: -1,
+      frameRate: 10,
+    });
+
+    for (let i = 0; i <= 29; i++) {
+      this.tubeRollings.push(
+        this.add
+          .sprite(80 + 13 * i, 2, "mine", "tube-rolling-1")
+          .setOrigin(0, 0)
+          .setDepth(1000)
+      );
+    }
 
     this.water = this.add.particles(0, 0, "water", {
       speed: { min: 200, max: 300 },
@@ -185,18 +253,13 @@ export default class Mine extends MiniGameUi {
 
         if (this.rechargeWater && this.waterStockPercentage === 100) {
           this.rechargeWater = false;
-          //this.waterStockAlert.setVisible(false);
           this.updateMessage("Réserve d'eau rechargée !");
         }
       }
 
-      /*
-      this.waterStockAlert.setVisible(
-        this.rechargeWater || this.waterStockPercentage < 30
-      );
-      */
-      this.waterStock.y = 46 + (100 - 46) * (100 - this.waterStockPercentage) / 100;
-      this.waterStock.setVisible(this.waterStockPercentage > 5)
+      this.waterStock.y =
+        46 + ((100 - 46) * (100 - this.waterStockPercentage)) / 100;
+      this.waterStock.setVisible(this.waterStockPercentage > 5);
     });
 
     this.createControls();
@@ -257,8 +320,8 @@ export default class Mine extends MiniGameUi {
         x: 100,
         y: 200,
         radius: 100,
-        base: this.add.circle(0, 0, 50, 0xff5544, 0.4),
-        thumb: this.add.circle(0, 0, 30, 0xcccccc, 0.3),
+        base: this.add.circle(0, 0, 50, 0xff5544, 0.4).setDepth(10000),
+        thumb: this.add.circle(0, 0, 30, 0xcccccc, 0.3).setDepth(10000),
         dir: "8dir",
         forceMin: 16,
         enable: true,
@@ -360,7 +423,7 @@ export default class Mine extends MiniGameUi {
       callback: () => {
         this.createRock();
         if (this.rockValidated === numberRockValidatedToHaveMoreMaterials) {
-          this.updateMessage("Plus de matières à traiter !");
+          this.updateMessage("Attention, gros arrivage de roches ! On accélère la production !");
         }
       },
       delay:
@@ -379,8 +442,18 @@ export default class Mine extends MiniGameUi {
     this.scoreObject.setVisible(true);
   }
 
+  animateTubeRollings() {
+    this.tubeRollings.forEach((tubeRolling) =>
+      tubeRolling.anims.play("tube-rolling", true)
+    );
+  }
+
+  stopTubeRollings() {
+    this.tubeRollings.forEach((tubeRolling) => tubeRolling.anims.stop());
+  }
+
   update() {
-    this.rockParticles.setVisible(false)
+    this.rockParticles.setVisible(false);
 
     if (this.goingUp && this.tubeEnd.y > 50) {
       this.tubeEnd.y -= tubeSpeed;
@@ -388,27 +461,33 @@ export default class Mine extends MiniGameUi {
       this.tubeEnd.y += tubeSpeed;
     }
 
-    const waterEndY = this.tubeEnd.y + waterDeltaY
+    if (this.goingLeft && this.tubeEnd.x > 100) {
+      this.tubeEnd.x -= tubeSpeed;
+      this.animateTubeRollings();
+    } else if (this.goingRight && this.tubeEnd.x < 450) {
+      this.tubeEnd.x += tubeSpeed;
+      this.animateTubeRollings();
+    } else {
+      this.stopTubeRollings();
+    }
+
+    const waterEndY = this.tubeEnd.y + waterDeltaY;
 
     if (this.goingDown || this.goingUp) {
       this.particlesBound.active = false;
-      this.particlesBound = this.water.addParticleBounds(
-        0,
-        0,
-        550,
-        waterEndY
-      );
+      this.particlesBound.destroy();
+      this.particlesBound = this.water.addParticleBounds(0, 0, 550, waterEndY);
     }
 
-    //const rockPositions = [110, 175, 237];
-    const depth = waterEndY < rockPositions[0] ? 0 : (waterEndY < rockPositions[1] ? 10 : (waterEndY < rockPositions[2] ? 20 : 22));
+    const depth =
+      waterEndY < rockPositions[0]
+        ? 0
+        : waterEndY < rockPositions[1]
+        ? 10
+        : waterEndY < rockPositions[2]
+        ? 20
+        : 22;
     this.water.setDepth(depth);
-
-    if (this.goingLeft) {
-      if (this.tubeEnd.x > 100) this.tubeEnd.x -= tubeSpeed;
-    } else if (this.goingRight) {
-      if (this.tubeEnd.x < 450) this.tubeEnd.x += tubeSpeed;
-    }
 
     this.tube.x = this.tubeEnd.x;
     this.tube.y = this.tubeEnd.y - 34;
@@ -446,9 +525,9 @@ export default class Mine extends MiniGameUi {
         rock.x < this.tubeEnd.x + tubeDeltaEffect
       ) {
         element.refined++;
-        this.rockParticles.setVisible(true)
-        this.rockParticles.setDepth(rock.depth)
-        this.rockParticles.setPosition(rock.x, rock.y - 20)
+        this.rockParticles.setVisible(true);
+        this.rockParticles.setDepth(rock.depth);
+        this.rockParticles.setPosition(rock.x, rock.y - 25);
 
         const rockTextureId = Math.round(
           (element.refined * 6) / numberIsRefined

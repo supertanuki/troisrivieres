@@ -59,6 +59,7 @@ export default class MiniGameUi extends Phaser.Scene {
       .sprite(325, 50, "speaker", "dialog-shout-1")
       .setOrigin(0.5, 0.5)
       .setDepth(2000)
+      .setAlpha(0.8)
       .setVisible(false);
 
     this.dialogBackground.anims.play('dialog-shout-anim', true)

@@ -5,7 +5,7 @@
 			"format": "RGBA8888",
 			"size": {
 				"w": 572,
-				"h": 279
+				"h": 276
 			},
 			"scale": 1,
 			"frames": [
@@ -52,6 +52,27 @@
 					}
 				},
 				{
+					"filename": "tube-top",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 420,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 420,
+						"h": 16
+					},
+					"frame": {
+						"x": 0,
+						"y": 260,
+						"w": 420,
+						"h": 16
+					}
+				},
+				{
 					"filename": "water-tank",
 					"rotated": false,
 					"trimmed": false,
@@ -73,27 +94,6 @@
 					}
 				},
 				{
-					"filename": "water-tank-mask",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 84,
-						"h": 100
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 84,
-						"h": 100
-					},
-					"frame": {
-						"x": 124,
-						"y": 98,
-						"w": 84,
-						"h": 100
-					}
-				},
-				{
 					"filename": "water",
 					"rotated": false,
 					"trimmed": false,
@@ -108,8 +108,8 @@
 						"h": 88
 					},
 					"frame": {
-						"x": 0,
-						"y": 191,
+						"x": 124,
+						"y": 98,
 						"w": 86,
 						"h": 88
 					}
@@ -129,157 +129,31 @@
 						"h": 77
 					},
 					"frame": {
-						"x": 208,
+						"x": 210,
 						"y": 98,
 						"w": 86,
 						"h": 77
 					}
 				},
 				{
-					"filename": "water-tank-top",
+					"filename": "water-tank-mask",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
-						"w": 86,
-						"h": 37
+						"w": 84,
+						"h": 100
 					},
 					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
-						"w": 86,
-						"h": 37
+						"w": 84,
+						"h": 100
 					},
 					"frame": {
-						"x": 294,
+						"x": 296,
 						"y": 98,
-						"w": 86,
-						"h": 37
-					}
-				},
-				{
-					"filename": "left-glass",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 70,
-						"h": 18
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 70,
-						"h": 18
-					},
-					"frame": {
-						"x": 380,
-						"y": 98,
-						"w": 70,
-						"h": 18
-					}
-				},
-				{
-					"filename": "particules-2",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 80,
-						"h": 16
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 1,
-						"w": 70,
-						"h": 15
-					},
-					"frame": {
-						"x": 380,
-						"y": 116,
-						"w": 70,
-						"h": 15
-					}
-				},
-				{
-					"filename": "right-glass",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 70,
-						"h": 18
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 70,
-						"h": 18
-					},
-					"frame": {
-						"x": 380,
-						"y": 131,
-						"w": 70,
-						"h": 18
-					}
-				},
-				{
-					"filename": "particules-3",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 80,
-						"h": 16
-					},
-					"spriteSourceSize": {
-						"x": 9,
-						"y": 2,
-						"w": 69,
-						"h": 10
-					},
-					"frame": {
-						"x": 294,
-						"y": 135,
-						"w": 69,
-						"h": 10
-					}
-				},
-				{
-					"filename": "particules-4",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 80,
-						"h": 26
-					},
-					"spriteSourceSize": {
-						"x": 5,
-						"y": 2,
-						"w": 67,
-						"h": 23
-					},
-					"frame": {
-						"x": 294,
-						"y": 145,
-						"w": 67,
-						"h": 23
-					}
-				},
-				{
-					"filename": "particules-1",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 80,
-						"h": 15
-					},
-					"spriteSourceSize": {
-						"x": 13,
-						"y": 1,
-						"w": 65,
-						"h": 14
-					},
-					"frame": {
-						"x": 361,
-						"y": 149,
-						"w": 65,
-						"h": 14
+						"w": 84,
+						"h": 100
 					}
 				},
 				{
@@ -297,8 +171,8 @@
 						"h": 48
 					},
 					"frame": {
-						"x": 426,
-						"y": 149,
+						"x": 210,
+						"y": 175,
 						"w": 62,
 						"h": 48
 					}
@@ -318,31 +192,10 @@
 						"h": 47
 					},
 					"frame": {
-						"x": 361,
-						"y": 163,
+						"x": 124,
+						"y": 186,
 						"w": 61,
 						"h": 47
-					}
-				},
-				{
-					"filename": "rock-3",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 51,
-						"h": 41
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 51,
-						"h": 41
-					},
-					"frame": {
-						"x": 294,
-						"y": 168,
-						"w": 51,
-						"h": 41
 					}
 				},
 				{
@@ -360,30 +213,30 @@
 						"h": 48
 					},
 					"frame": {
-						"x": 450,
-						"y": 98,
+						"x": 185,
+						"y": 186,
 						"w": 20,
 						"h": 48
 					}
 				},
 				{
-					"filename": "rock-4",
+					"filename": "water-tank-top",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
-						"w": 47,
+						"w": 86,
 						"h": 37
 					},
 					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
-						"w": 47,
+						"w": 86,
 						"h": 37
 					},
 					"frame": {
-						"x": 422,
-						"y": 197,
-						"w": 47,
+						"x": 0,
+						"y": 191,
+						"w": 86,
 						"h": 37
 					}
 				},
@@ -402,10 +255,241 @@
 						"h": 45
 					},
 					"frame": {
-						"x": 470,
-						"y": 98,
+						"x": 86,
+						"y": 191,
 						"w": 7,
 						"h": 45
+					}
+				},
+				{
+					"filename": "left-glass",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 70,
+						"h": 18
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 70,
+						"h": 18
+					},
+					"frame": {
+						"x": 0,
+						"y": 228,
+						"w": 70,
+						"h": 18
+					}
+				},
+				{
+					"filename": "tube-rolling-1",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 12,
+						"h": 14
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 12,
+						"h": 14
+					},
+					"frame": {
+						"x": 70,
+						"y": 228,
+						"w": 12,
+						"h": 14
+					}
+				},
+				{
+					"filename": "right-glass",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 70,
+						"h": 18
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 70,
+						"h": 18
+					},
+					"frame": {
+						"x": 93,
+						"y": 233,
+						"w": 70,
+						"h": 18
+					}
+				},
+				{
+					"filename": "tube",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 22,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 22,
+						"h": 16
+					},
+					"frame": {
+						"x": 70,
+						"y": 242,
+						"w": 22,
+						"h": 16
+					}
+				},
+				{
+					"filename": "particules-3",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 80,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 9,
+						"y": 2,
+						"w": 69,
+						"h": 10
+					},
+					"frame": {
+						"x": 0,
+						"y": 246,
+						"w": 69,
+						"h": 10
+					}
+				},
+				{
+					"filename": "tube-end",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 28,
+						"h": 34
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 28,
+						"h": 34
+					},
+					"frame": {
+						"x": 93,
+						"y": 191,
+						"w": 28,
+						"h": 34
+					}
+				},
+				{
+					"filename": "tube-rolling-2",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 12,
+						"h": 14
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 12,
+						"h": 14
+					},
+					"frame": {
+						"x": 163,
+						"y": 233,
+						"w": 12,
+						"h": 14
+					}
+				},
+				{
+					"filename": "tube-rolling-3",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 12,
+						"h": 14
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 12,
+						"h": 14
+					},
+					"frame": {
+						"x": 272,
+						"y": 175,
+						"w": 12,
+						"h": 14
+					}
+				},
+				{
+					"filename": "rock-3",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 51,
+						"h": 41
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 51,
+						"h": 41
+					},
+					"frame": {
+						"x": 380,
+						"y": 98,
+						"w": 51,
+						"h": 41
+					}
+				},
+				{
+					"filename": "rock-4",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 47,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 47,
+						"h": 37
+					},
+					"frame": {
+						"x": 380,
+						"y": 139,
+						"w": 47,
+						"h": 37
+					}
+				},
+				{
+					"filename": "particules-4",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 80,
+						"h": 26
+					},
+					"spriteSourceSize": {
+						"x": 5,
+						"y": 2,
+						"w": 67,
+						"h": 23
+					},
+					"frame": {
+						"x": 380,
+						"y": 176,
+						"w": 67,
+						"h": 23
 					}
 				},
 				{
@@ -423,8 +507,8 @@
 						"h": 31
 					},
 					"frame": {
-						"x": 86,
-						"y": 191,
+						"x": 427,
+						"y": 139,
 						"w": 36,
 						"h": 31
 					}
@@ -444,52 +528,73 @@
 						"h": 27
 					},
 					"frame": {
-						"x": 208,
-						"y": 175,
+						"x": 431,
+						"y": 98,
 						"w": 34,
 						"h": 27
 					}
 				},
 				{
-					"filename": "tube-end",
+					"filename": "conveyor-bottom",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
-						"w": 28,
-						"h": 34
+						"w": 26,
+						"h": 19
 					},
 					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
-						"w": 28,
-						"h": 34
+						"w": 26,
+						"h": 19
 					},
 					"frame": {
-						"x": 242,
-						"y": 175,
-						"w": 28,
-						"h": 34
+						"x": 463,
+						"y": 125,
+						"w": 26,
+						"h": 19
 					}
 				},
 				{
-					"filename": "tube",
+					"filename": "particules-2",
 					"rotated": false,
-					"trimmed": false,
+					"trimmed": true,
 					"sourceSize": {
-						"w": 22,
+						"w": 80,
 						"h": 16
 					},
 					"spriteSourceSize": {
 						"x": 0,
-						"y": 0,
-						"w": 22,
-						"h": 16
+						"y": 1,
+						"w": 70,
+						"h": 15
 					},
 					"frame": {
-						"x": 469,
-						"y": 197,
-						"w": 22,
-						"h": 16
+						"x": 272,
+						"y": 198,
+						"w": 70,
+						"h": 15
+					}
+				},
+				{
+					"filename": "particules-1",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 80,
+						"h": 15
+					},
+					"spriteSourceSize": {
+						"x": 13,
+						"y": 1,
+						"w": 65,
+						"h": 14
+					},
+					"frame": {
+						"x": 342,
+						"y": 199,
+						"w": 65,
+						"h": 14
 					}
 				}
 			]
