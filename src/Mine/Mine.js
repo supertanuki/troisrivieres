@@ -203,11 +203,17 @@ export default class Mine extends MiniGameUi {
     this.add.image(64, 0, "mine", "tube-top").setOrigin(0, 0).setDepth(1000);
     this.anims.create({
       key: "tube-rolling",
-      frames: this.anims.generateFrameNames("mine", {
-        start: 1,
-        end: 3,
-        prefix: "tube-rolling-",
-      }),
+      frames: [
+        ...this.anims.generateFrameNames("mine", {
+          start: 1,
+          end: 3,
+          prefix: "tube-rolling-",
+        }),
+        {
+          key: "mine",
+          frame: "tube-rolling-2",
+        },
+      ],
       repeat: -1,
       frameRate: 10,
     });
@@ -423,7 +429,9 @@ export default class Mine extends MiniGameUi {
       callback: () => {
         this.createRock();
         if (this.rockValidated === numberRockValidatedToHaveMoreMaterials) {
-          this.updateMessage("Attention, gros arrivage de roches ! On accélère la production !");
+          this.updateMessage(
+            "Attention, gros arrivage de roches ! On accélère la production !"
+          );
         }
       },
       delay:

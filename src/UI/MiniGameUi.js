@@ -56,7 +56,7 @@ export default class MiniGameUi extends Phaser.Scene {
       .setDepth(2000);
 
     this.dialogBackground = this.add
-      .sprite(325, 50, "speaker", "dialog-shout-1")
+      .sprite(345, 50, "speaker", "dialog-shout-1")
       .setOrigin(0.5, 0.5)
       .setDepth(2000)
       .setAlpha(0.8)
@@ -65,7 +65,7 @@ export default class MiniGameUi extends Phaser.Scene {
     this.dialogBackground.anims.play('dialog-shout-anim', true)
 
     this.textObject = this.add
-      .text(325, 50, "une courte qmkds klq sdmlqks dlmkqs dlkmqslm dklmkq sdlmkq skd", {
+      .text(345, 50, "une longue phrase pour tester la longueur du dialogue", {
         font: "14px Arial",
         fill: "#ffffff",
         alpha: 0,
