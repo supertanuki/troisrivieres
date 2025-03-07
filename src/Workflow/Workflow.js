@@ -1,5 +1,5 @@
-import { sceneEvents, sceneEventsEmitter } from "./Events/EventsCenter";
-import { messageWorkflow } from "./Workflow/messageWorkflow";
+import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
+import { messageWorkflow } from "./messageWorkflow";
 
 export default class Workflow {
   constructor() {
@@ -47,6 +47,10 @@ export default class Workflow {
         currentMessagePosition: 0,
       },
       cow: {
+        currentThread: -1,
+        currentMessagePosition: 0,
+      },
+      escargot: {
         currentThread: -1,
         currentMessagePosition: 0,
       },

@@ -4,7 +4,7 @@ import { isDebug } from "./Utils/isDebug";
 import Preloader from "./Preloader";
 import Game from "./Game";
 import Message from "./Message";
-import Workflow from "./Workflow";
+import Workflow from "./Workflow/Workflow";
 import Cable from "./Cable";
 import Factory from "./Factory";
 import MineNightmare from "./Mine/MineNightmare";

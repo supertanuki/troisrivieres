@@ -16,6 +16,7 @@ import "./Sprites/Nono";
 import "./Sprites/Bino";
 import "./Sprites/Cat";
 import "./Sprites/Dog";
+import "./Sprites/Escargot";
 import "./Sprites/Cow";
 import "./Sprites/Fisherman";
 import "./Sprites/Miner";
@@ -288,6 +289,11 @@ export default class Game extends Phaser.Scene {
       if (spriteObject.name === "dog") {
         this.dog = this.add.dog(spriteObject.x, spriteObject.y).setDepth(100);
         this.dog.on("pointerdown", this.handleAction, this);
+      }
+
+      if (spriteObject.name === "escargot") {
+        this.escargot = this.add.escargot(spriteObject.x, spriteObject.y).setDepth(100);
+        this.escargot.on("pointerdown", this.handleAction, this);
       }
 
       if (spriteObject.name === "cow") {
@@ -653,6 +659,7 @@ export default class Game extends Phaser.Scene {
       this.bino,
       this.fisherman,
       this.dog,
+      this.escargot,
       this.cat,
       this.boy,
       this.girl,
@@ -760,6 +767,11 @@ export default class Game extends Phaser.Scene {
     this.physics.add.collider(this.dog, this.hero, () => {
       sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "dog");
       this.dog.readyToChat();
+    });
+
+    this.physics.add.collider(this.escargot, this.hero, () => {
+      sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "escargot");
+      this.escargot.readyToChat();
     });
 
     this.physics.add.collider(this.cow, this.hero, () => {

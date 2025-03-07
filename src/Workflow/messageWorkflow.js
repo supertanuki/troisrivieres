@@ -9,6 +9,7 @@ const spriteNames = {
   boy: "La fille et le garçon",
   koko: "Koko",
   nono: "Nono",
+  escargot: "L'escargot",
 }
 
 const messageWorkflow = {
@@ -138,7 +139,7 @@ const messageWorkflow = {
         "Salut ! Moi c'est Django. ►",
         "Maï ? Joli prénom ! Tu es la bienvenue dans notre village. ►",
         "Si tu cherches un hébergement pour la nuit, tu es la bienvenue. ►",
-        "J'ai une chambre pour les amis !",
+        "J'ai une chambre pour les amis, reviens ce soir !",
       ],
       unlockEvents: [
         'django_met',
@@ -147,7 +148,7 @@ const messageWorkflow = {
     {
       messages: [
         "Tu es la bienvenue chez moi ce soir. ►",
-        "J'ai une chambre pour les amis et visiteurs de passage !",
+        "J'ai une chambre pour les amis et visiteurs de passage, reviens ce soir !",
       ],
     },
     {
@@ -237,6 +238,21 @@ const messageWorkflow = {
       ],
     },
   ],
+  boy: [
+    {
+      messages: [
+        "Trop bien, on peut se baigner quand on veut !",
+      ],
+    },
+    {
+      messages: [
+        "Oh non, on ne peut plus se baigner...",
+      ],
+      dependingOn: [
+        'first_sleep',
+      ],
+    },
+  ],
   cat: [
     {
       messages: [
@@ -258,18 +274,10 @@ const messageWorkflow = {
       ],
     },
   ],
-  boy: [
+  escargot: [
     {
       messages: [
-        "Trop bien, on peut se baigner quand on veut !",
-      ],
-    },
-    {
-      messages: [
-        "Oh non, on ne peut plus se baigner...",
-      ],
-      dependingOn: [
-        'first_sleep',
+        "...",
       ],
     },
   ],
