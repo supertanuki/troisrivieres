@@ -25,7 +25,7 @@ import "./Sprites/Ball";
 import "./Sprites/Girl";
 import "./Sprites/Boy";
 
-const DiscussionStatus = {
+export const DiscussionStatus = {
   NONE: "NONE",
   READY: "READY",
   STARTED: "STARTED",
@@ -804,13 +804,18 @@ export default class Game extends Phaser.Scene {
   }
 
   handleDiscussionReady(sprite) {
-    if (this.currentDiscussionStatus !== DiscussionStatus.NONE) {
+    if (this.currentDiscussionStatus === DiscussionStatus.READY &&
+      this.currentDiscussionSprite !== sprite
+    ) {
+      this.handleDiscussionEnded(this.currentDiscussionSprite)
+    } else if (this.currentDiscussionStatus !== DiscussionStatus.NONE) {
       return;
     }
 
     this.currentDiscussionStatus = DiscussionStatus.READY;
     this.currentDiscussionSprite = sprite;
-    this.endWaitingToChatAfterDelay(sprite);
+
+    this.endWaitingToChatAfterDelay();
   }
 
   handleDiscussionInProgress() {
@@ -826,6 +831,8 @@ export default class Game extends Phaser.Scene {
   }
 
   handleDiscussionEnded(sprite) {
+    if (!sprite) return
+
     this.currentDiscussionStatus = DiscussionStatus.NONE;
     this[sprite].stopChatting();
     // move after delay
@@ -839,13 +846,11 @@ export default class Game extends Phaser.Scene {
     });
   }
 
-  endWaitingToChatAfterDelay(sprite) {
+  endWaitingToChatAfterDelay() {
     this.time.addEvent({
       callback: () => {
         if (this.currentDiscussionStatus === DiscussionStatus.READY) {
-          this.currentDiscussionStatus = DiscussionStatus.NONE;
-          this[sprite].stopChatting();
-          this[sprite].move();
+          sceneEventsEmitter.emit(sceneEvents.DiscussionEnded, this.currentDiscussionSprite);
         }
       },
       delay: 2000,
@@ -908,6 +913,7 @@ export default class Game extends Phaser.Scene {
     }
 
     if (this.currentDiscussionStatus === DiscussionStatus.READY) {
+      console.log("handleAction", this.currentDiscussionSprite)
       this.currentDiscussionStatus = DiscussionStatus.STARTED;
       sceneEventsEmitter.emit(
         sceneEvents.DiscussionStarted,

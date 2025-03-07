@@ -6,7 +6,7 @@ const spriteNames = {
   cat: "Le chat",
   dog: "Le chien",
   cow: "La vache",
-  boy: "La fille et le garçon",
+  boy: "Les enfants",
   koko: "Koko",
   nono: "Nono",
   escargot: "L'escargot",
@@ -241,7 +241,7 @@ const messageWorkflow = {
   boy: [
     {
       messages: [
-        "Trop bien, on peut se baigner quand on veut !",
+        "Trop bien, on peut se baigner quand on veut !",
       ],
     },
     {
