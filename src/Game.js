@@ -114,7 +114,7 @@ export default class Game extends Phaser.Scene {
     text.on("pointerdown", () => {
       text.disableInteractive(true);
       text.setText("Dans une forêt paisible,\nloin du fracas des villes...");
-      
+
       this.time.delayedCall(100, () => {
         text.destroy();
         this.start();
@@ -292,7 +292,9 @@ export default class Game extends Phaser.Scene {
       }
 
       if (spriteObject.name === "escargot") {
-        this.escargot = this.add.escargot(spriteObject.x, spriteObject.y).setDepth(100);
+        this.escargot = this.add
+          .escargot(spriteObject.x, spriteObject.y)
+          .setDepth(100);
         this.escargot.on("pointerdown", this.handleAction, this);
       }
 
@@ -322,11 +324,11 @@ export default class Game extends Phaser.Scene {
       }
 
       if (spriteObject.name === "boySad") {
-        this.boy.setSadPosition(spriteObject.x, spriteObject.y)
+        this.boy.setSadPosition(spriteObject.x, spriteObject.y);
       }
 
       if (spriteObject.name === "girlSad") {
-        this.girl.setSadPosition(spriteObject.x, spriteObject.y)
+        this.girl.setSadPosition(spriteObject.x, spriteObject.y);
       }
     });
 
@@ -345,17 +347,19 @@ export default class Game extends Phaser.Scene {
     this.miner.addFuturePosition(futurePosition);
     */
 
-    this.bridgesTop = this.map.createLayer("bridgesTop", this.tileset).setDepth(110)
+    this.bridgesTop = this.map
+      .createLayer("bridgesTop", this.tileset)
+      .setDepth(110);
 
     this.obstacles = this.map
       .createLayer("obstacles", this.tileset)
       .setCollisionByProperty({ collide: true })
       .setVisible(false);
- 
+
     this.topObjects = this.map
       .createLayer("top", this.tileset)
       .setDepth(120)
-      .setCollisionByProperty({ collide: true })
+      .setCollisionByProperty({ collide: true });
 
     // smooth collision management (barrière...)
     this.topObjects.forEachTile((tile) => {
@@ -447,12 +451,16 @@ export default class Game extends Phaser.Scene {
 
   addDebugControls() {
     this.input.keyboard
-    .addKey(Phaser.Input.Keyboard.KeyCodes.T)
-    .on("down", () => {
-      this.add.text(this.hero.x, this.hero.y + 100, "Trois-Rivières", { font: "28px bold Courier", fill: "#000000" })
-      .setOrigin(0.5, 0.5)
-      .setDepth(1000)
-    });
+      .addKey(Phaser.Input.Keyboard.KeyCodes.T)
+      .on("down", () => {
+        this.add
+          .text(this.hero.x, this.hero.y + 100, "Trois-Rivières", {
+            font: "28px bold Courier",
+            fill: "#000000",
+          })
+          .setOrigin(0.5, 0.5)
+          .setDepth(1000);
+      });
 
     this.input.keyboard
       .addKey(Phaser.Input.Keyboard.KeyCodes.F)
@@ -483,9 +491,8 @@ export default class Game extends Phaser.Scene {
       .on("down", () => {
         this.switchNight();
         sceneEventsEmitter.emit(sceneEvents.EventsUnlocked, {
-          newUnlockedEvents: 'first_sleep',
+          newUnlockedEvents: "first_sleep",
         });
-        
       });
 
     this.input.keyboard

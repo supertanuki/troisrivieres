@@ -1,10 +1,6 @@
 import Phaser from "phaser";
 
 export default class MiniGameUi extends Phaser.Scene {
-  preload() {
-    this.load.atlas("speaker", "sprites/speaker.png", "sprites/speaker.json");
-  }
-
   create() {
     this.anims.create({
       key: "speaker-off-anim",
