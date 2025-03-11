@@ -4,11 +4,53 @@
 			"image": "trees",
 			"format": "RGBA8888",
 			"size": {
-				"w": 37,
-				"h": 110
+				"w": 163,
+				"h": 85
 			},
 			"scale": 1,
 			"frames": [
+				{
+					"filename": "pin-1",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 48,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 48,
+						"h": 37
+					},
+					"frame": {
+						"x": 0,
+						"y": 0,
+						"w": 48,
+						"h": 37
+					}
+				},
+				{
+					"filename": "pin-2",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 47,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 47,
+						"h": 37
+					},
+					"frame": {
+						"x": 48,
+						"y": 0,
+						"w": 47,
+						"h": 37
+					}
+				},
 				{
 					"filename": "sapin-1",
 					"rotated": false,
@@ -24,7 +66,7 @@
 						"h": 47
 					},
 					"frame": {
-						"x": 0,
+						"x": 95,
 						"y": 0,
 						"w": 37,
 						"h": 47
@@ -46,9 +88,72 @@
 					},
 					"frame": {
 						"x": 0,
-						"y": 47,
+						"y": 37,
 						"w": 37,
 						"h": 47
+					}
+				},
+				{
+					"filename": "arbre-2",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 54,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 54,
+						"h": 32
+					},
+					"frame": {
+						"x": 37,
+						"y": 37,
+						"w": 54,
+						"h": 32
+					}
+				},
+				{
+					"filename": "arbre-1",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 53,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 53,
+						"h": 32
+					},
+					"frame": {
+						"x": 91,
+						"y": 47,
+						"w": 53,
+						"h": 32
+					}
+				},
+				{
+					"filename": "arbre-base",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 53,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 9,
+						"y": 0,
+						"w": 31,
+						"h": 16
+					},
+					"frame": {
+						"x": 132,
+						"y": 0,
+						"w": 31,
+						"h": 16
 					}
 				},
 				{
@@ -66,9 +171,30 @@
 						"h": 16
 					},
 					"frame": {
-						"x": 0,
-						"y": 94,
+						"x": 132,
+						"y": 16,
 						"w": 26,
+						"h": 16
+					}
+				},
+				{
+					"filename": "pin-base",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 48,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 11,
+						"y": 0,
+						"w": 16,
+						"h": 16
+					},
+					"frame": {
+						"x": 37,
+						"y": 69,
+						"w": 16,
 						"h": 16
 					}
 				}

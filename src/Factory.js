@@ -39,7 +39,6 @@ export default class Factory extends MiniGameUi {
   }
 
   preload() {
-    super.preload();
     this.load.atlas("firm", "sprites/firm.png", "sprites/firm.json");
     this.load.image("water", "img/rain.png");
   }

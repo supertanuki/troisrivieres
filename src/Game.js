@@ -209,7 +209,7 @@ export default class Game extends Phaser.Scene {
       .createLayer("potagerBottom", this.tileset)
       .setDepth(80);
 
-    // Add trees base
+    // Add trees
     this.anims.create({
       key: "sapin",
       frames: this.anims.generateFrameNames("trees", {
@@ -220,9 +220,30 @@ export default class Game extends Phaser.Scene {
       repeat: -1,
       frameRate: 1,
     });
+    this.anims.create({
+      key: "arbre",
+      frames: this.anims.generateFrameNames("trees", {
+        start: 1,
+        end: 2,
+        prefix: "arbre-",
+      }),
+      repeat: -1,
+      frameRate: 1,
+    });
+    this.anims.create({
+      key: "pin",
+      frames: this.anims.generateFrameNames("trees", {
+        start: 1,
+        end: 2,
+        prefix: "pin-",
+      }),
+      repeat: -1,
+      frameRate: 1,
+    });
     const treesLayer = this.map.getObjectLayer("trees");
     // sort tress in order to draw trees from top to down
     treesLayer.objects.sort((a, b) => a.y - b.y);
+    // Add trees base
     treesLayer.objects.forEach((treeObject) => {
       this.add
         .image(
@@ -231,7 +252,19 @@ export default class Game extends Phaser.Scene {
           "trees",
           `${treeObject.name}-base`
         )
-        .setDepth(90);
+        .setDepth(90)
+        .setOrigin(0.5, 1)
+    });
+
+    this.anims.create({
+      key: "tent",
+      frames: this.anims.generateFrameNames("sprites", {
+        start: 1,
+        end: 5,
+        prefix: "tent-",
+      }),
+      repeat: 0,
+      frameRate: 10,
     });
 
     this.map.getObjectLayer("hero").objects.forEach((heroPosition) => {
@@ -244,9 +277,10 @@ export default class Game extends Phaser.Scene {
         return;
       }
 
+      this.tent = this.add.sprite(heroPosition.x + 2, heroPosition.y - 2, "sprites", "tent-1").setDepth(100);
       this.hero = this.add.hero(heroPosition.x, heroPosition.y).setDepth(100);
-      this.hero.animateToDown();
       this.hero.stopAndWait();
+      this.hero.setVisible(false)
     });
 
     this.map.getObjectLayer("sprites").objects.forEach((spriteObject) => {
@@ -332,21 +366,6 @@ export default class Game extends Phaser.Scene {
       }
     });
 
-    /*
-    let futurePosition;
-    map.getObjectLayer("miner").objects.forEach((minerPosition) => {
-      if ("miner_position1" === minerPosition.name) {
-        this.miner = this.add.miner(minerPosition.x, minerPosition.y, "miner");
-        this.miner.setImmovable(true);
-        this.miner.setInteractive();
-        this.miner.on("pointerdown", this.handleAction, this);
-      } else {
-        futurePosition = { x: minerPosition.x, y: minerPosition.y };
-      }
-    });
-    this.miner.addFuturePosition(futurePosition);
-    */
-
     this.bridgesTop = this.map
       .createLayer("bridgesTop", this.tileset)
       .setDepth(110);
@@ -374,23 +393,23 @@ export default class Game extends Phaser.Scene {
       }
     });
 
-    //this.map.createLayer("bottomTrees", this.tileset).setDepth(120);
-
     // Add trees top after hero was created
     treesLayer.objects.forEach((treeObject) => {
       const tree = this.physics.add
         .sprite(
           treeObject.x,
-          treeObject.y - 40,
+          treeObject.y - 24,
           "trees",
           `${treeObject.name}-1`
         )
+        .setOrigin(0.5, 1)
         .setDepth(130);
       tree.anims.play(treeObject.name);
       this.pointsCollider.push(
         this.physics.add
-          .sprite(treeObject.x, treeObject.y - 16, null)
+          .sprite(treeObject.x, treeObject.y - 10, null)
           .setSize(16, 1)
+          .setOrigin(0.5, 1)
           .setImmovable(true)
           .setVisible(false)
       );
@@ -411,6 +430,8 @@ export default class Game extends Phaser.Scene {
 
     this.addCollisionManagement();
 
+
+    this.cameras.main.setBounds(0, 0, 2270, 1512);
     this.cameras.main.startFollow(this.hero, true);
     this.createControls();
     this.addJoystickForMobile();
@@ -447,6 +468,36 @@ export default class Game extends Phaser.Scene {
     this.music = this.sound.add("village-theme");
     this.music.loop = true;
     this.music.play();
+    this.intro()
+  }
+
+  intro() {
+    this.isIntro = true;
+    this.time.addEvent({
+      callback: () => {
+        this.goingDown = true;
+        this.hero.animateToDown();
+        this.hero.setVisible(true)
+      },
+      delay: 1000,
+    });
+
+    this.events.on("update", () => {
+      if (!this.isIntro) return
+
+      if (this.goingDown) {
+        this.hero.slowDown()
+      }
+
+      if (this.hero.y > this.heroPositions['hero'].y + 5) {
+        this.goingDown = false;
+        this.tent.anims.play('tent', true)
+        this.tent.on('animationcomplete', () => {
+          this.tent.destroy();
+          this.isIntro = false
+        });
+      }
+    })
   }
 
   addDebugControls() {
@@ -499,14 +550,14 @@ export default class Game extends Phaser.Scene {
       .addKey(Phaser.Input.Keyboard.KeyCodes.M)
       .on("down", () => {
         console.log("MINUS");
-        this.cameras.main.zoomTo(this.cameras.main.zoom === 1.4 ? 1 : 0.6, 100);
+        this.cameras.main.zoomTo(this.cameras.main.zoom === 1.4 ? 1 : 0.2, 100);
       });
 
     this.input.keyboard
       .addKey(Phaser.Input.Keyboard.KeyCodes.P)
       .on("down", () => {
         console.log("PLUS");
-        this.cameras.main.zoomTo(this.cameras.main.zoom === 0.6 ? 1 : 1.4, 100);
+        this.cameras.main.zoomTo(this.cameras.main.zoom === 0.2 ? 1 : 1.4, 100);
       });
 
     const ctrlR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
@@ -699,24 +750,16 @@ export default class Game extends Phaser.Scene {
     this.boy.setSad();
     this.girl.setSad();
     this.fisherman.setSad();
-    /*
-    [this.boy, this.girl].forEach((sprite) => {
-      sprite.setVisible(false);
-      sprite.setActive(false);
-      sprite.body.checkCollision.none = true;
-    });
-    */
 
     this.nono.setVisible(true);
     this.nono.body.checkCollision.none = false;
 
     this.setHeroPosition("heroDjango");
 
-    //sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "django");
-    //this.django.readyToChat();
-
+    sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "django");
+    this.django.readyToChat();
     this.time.delayedCall(500, () => {
-      //this.handleAction();
+      this.handleAction();
     });
   }
 
@@ -837,14 +880,16 @@ export default class Game extends Phaser.Scene {
     this.currentDiscussionStatus = DiscussionStatus.NONE;
     this[sprite].stopChatting();
     // move after delay
+    /*
     this.time.addEvent({
       callback: () => {
         if (this.currentDiscussionStatus == DiscussionStatus.NONE) {
           this[sprite].move();
         }
       },
-      delay: 2000,
+      delay: 1000,
     });
+    */
   }
 
   endWaitingToChatAfterDelay() {
@@ -854,7 +899,7 @@ export default class Game extends Phaser.Scene {
           sceneEventsEmitter.emit(sceneEvents.DiscussionEnded, this.currentDiscussionSprite);
         }
       },
-      delay: 2000,
+      delay: 1000,
     });
   }
 
@@ -1071,7 +1116,7 @@ export default class Game extends Phaser.Scene {
   }
 
   update(time, delta) {
-    if (!this.cursors || !this.hero) {
+    if (!this.cursors || !this.hero || this.isIntro) {
       return;
     }
 

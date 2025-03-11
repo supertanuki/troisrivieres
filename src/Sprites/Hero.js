@@ -41,6 +41,12 @@ class Hero extends Phaser.Physics.Arcade.Sprite {
     this.body.offset.x = -2;
   }
 
+  slowDown() {
+    this.setVelocityY(40);
+    this.scaleX = 1;
+    this.body.offset.x = -2;
+  }
+
   animateToLeft() {
     this.anims.play("mai-walk-side", true);
   }

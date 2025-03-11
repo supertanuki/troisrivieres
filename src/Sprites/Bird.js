@@ -43,7 +43,7 @@ export default class Bird extends Phaser.Physics.Arcade.Sprite {
       }));
 
     anims.create({
-      key: "bird-idle-anim-1",
+      key: "bird-idle-anim-2",
       frames: [
         {
           key: "sprites",
@@ -136,13 +136,11 @@ export default class Bird extends Phaser.Physics.Arcade.Sprite {
       return;
     }
 
-    console.log("idleId", this.idleId);
     this.status = Status.flying;
     this.body.checkCollision.none = true;
     this.birdDirection = this.scene.goingRight ? 1 : -1;
     this.scaleX = -1 * this.birdDirection;
     this.setOffsetDependingOnDirection();
-    this.anims.stop();
     this.anims.play("bird-flying", true);
   }
 
@@ -156,11 +154,11 @@ export default class Bird extends Phaser.Physics.Arcade.Sprite {
     this.scaleX = this.birdDirection;
     this.setOffsetDependingOnDirection();
     this.idleId = randomIdle();
-    this.anims.stop();
     this.anims.play(`bird-idle-anim-${this.idleId}`, true);
   }
 
   outOfScreen() {
+    this.anims.stop()
     this.status = Status.outOfScreen;
     this.setVelocity(0, 0);
     this.setVisible(false);
@@ -201,7 +199,6 @@ export default class Bird extends Phaser.Physics.Arcade.Sprite {
         this.y > worldView.y + worldView.height ||
         this.y < worldView.y
       ) {
-        this.anims.stop();
         this.outOfScreen();
       }
       return;
