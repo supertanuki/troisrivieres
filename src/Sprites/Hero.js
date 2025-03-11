@@ -2,7 +2,7 @@ import { createHeroAnims } from "./HeroAnims";
 
 const SPEED = 80;
 
-class Hero extends Phaser.Physics.Arcade.Sprite {
+export class Hero extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y, texture, frame) {
     super(scene, x, y, texture, frame);
     this.scene = scene;

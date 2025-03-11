@@ -115,10 +115,12 @@ export default class Workflow {
   }
 
   startDiscussion(sprite) {
+    this.currentSprite = sprite;
     this.spritePosition[sprite].currentThread++;
     this.spritePosition[sprite].currentMessagePosition = 0;
-    this.currentSprite = sprite;
     const message = this.getCurrentMessage();
+
+    console.log(sprite, this.spritePosition[sprite])
 
     if (!message) {
       this.sendLastMessage();

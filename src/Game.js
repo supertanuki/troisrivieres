@@ -9,7 +9,6 @@ import {
   urlParamHas,
 } from "./Utils/isDebug";
 
-import "./Sprites/Hero";
 import "./Sprites/Django";
 import "./Sprites/Koko";
 import "./Sprites/Nono";
@@ -24,6 +23,9 @@ import "./Sprites/Bird";
 import "./Sprites/Ball";
 import "./Sprites/Girl";
 import "./Sprites/Boy";
+
+//import "./Sprites/Hero";
+import { Hero } from "./Sprites/Hero";
 
 export const DiscussionStatus = {
   NONE: "NONE",
@@ -43,6 +45,8 @@ export default class Game extends Phaser.Scene {
     super("game");
     this.controls = null;
     this.cursors = null;
+
+    /** @type {Hero}  */
     this.hero = null;
     this.joystick = null;
 
@@ -280,7 +284,6 @@ export default class Game extends Phaser.Scene {
       this.tent = this.add.sprite(heroPosition.x + 2, heroPosition.y - 2, "sprites", "tent-1").setDepth(100);
       this.hero = this.add.hero(heroPosition.x, heroPosition.y).setDepth(100);
       this.hero.stopAndWait();
-      this.hero.setVisible(false)
     });
 
     this.map.getObjectLayer("sprites").objects.forEach((spriteObject) => {
@@ -430,8 +433,7 @@ export default class Game extends Phaser.Scene {
 
     this.addCollisionManagement();
 
-
-    this.cameras.main.setBounds(0, 0, 2270, 1512);
+    this.cameras.main.setBounds(0, 0, 2032, 1450);
     this.cameras.main.startFollow(this.hero, true);
     this.createControls();
     this.addJoystickForMobile();
@@ -465,14 +467,18 @@ export default class Game extends Phaser.Scene {
 
     sceneEventsEmitter.on(sceneEvents.EventsUnlocked, this.listenEvents, this);
 
-    this.music = this.sound.add("village-theme");
-    this.music.loop = true;
-    this.music.play();
-    this.intro()
+    if (!urlParamHas('nomusic')) {
+      this.music = this.sound.add("village-theme");
+      this.music.loop = true;
+      this.music.play();
+    }
+
+    if (!urlParamHas('nostart')) this.intro()
   }
 
   intro() {
     this.isIntro = true;
+    this.hero.setVisible(false)
     this.time.addEvent({
       callback: () => {
         this.goingDown = true;
@@ -736,9 +742,10 @@ export default class Game extends Phaser.Scene {
   }
 
   endFirstSleep() {
-    this.goingRight = true;
-    this.goingLeft = false;
+    this.hero.goRight();
+    this.hero.animateToRight();
     this.hero.stopAndWait();
+    this.setHeroPosition("heroDjango");
 
     this.map.createLayer("riverPolluted", this.tileset).setDepth(45);
     this.map.createLayer("landUpRiverPolluted", this.tileset).setDepth(46);
@@ -754,11 +761,9 @@ export default class Game extends Phaser.Scene {
     this.nono.setVisible(true);
     this.nono.body.checkCollision.none = false;
 
-    this.setHeroPosition("heroDjango");
-
     sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "django");
-    this.django.readyToChat();
     this.time.delayedCall(500, () => {
+      console.log(this.currentDiscussionSprite, this.currentDiscussionStatus)
       this.handleAction();
     });
   }
