@@ -228,49 +228,16 @@ export default class Mine extends MiniGameUi {
       );
     }
 
-    /*
-    this.waterBack = this.add.particles(0, 0, "water", {
-      speed: { min: 200, max: 300 },
-      angle: { min: 70, max: 110 },
-      gravityY: 300,
-      lifespan: 500,
-      quantity: 50,
-      scale: { start: 0.5, end: 0 },
-      emitting: false,
-    });
-    this.waterBack.setDepth(1);
-
-    this.particlesBoundsBack = [
-      this.waterBack.addParticleBounds(0, 0, 550, rockPositions[0] - 0),
-      this.waterBack.addParticleBounds(0, 0, 550, rockPositions[1] - 0),
-      this.waterBack.addParticleBounds(0, 0, 550, rockPositions[2] - 0),
-    ];
-    this.particlesBoundsBack[1].active = false;
-    this.particlesBoundsBack[2].active = false;
-    */
-
     this.water = this.add.particles(0, 0, "water", {
       speed: { min: 200, max: 300 },
       angle: { min: 70, max: 110 },
       gravityY: 300,
-      lifespan: 500,
+      lifespan: 320,
       quantity: 50,
       scale: { start: 0.5, end: 0 },
       emitting: false,
     });
     this.water.setDepth(1);
-
-    /*
-    this.particlesBoundsFront = [
-      this.water.addParticleBounds(0, 0, 550, rockPositions[0] + 10),
-      this.water.addParticleBounds(0, 0, 550, rockPositions[1] + 10),
-      this.water.addParticleBounds(0, 0, 550, rockPositions[2] + 10),
-    ];
-    this.particlesBoundsFront[1].active = false;
-    this.particlesBoundsFront[2].active = false;
-    */
-
-    //this.particlesBound = this.water.addParticleBounds(0, 0, 550, 200);
 
     this.events.on("update", () => {
       if (!this.rechargeWater && this.action && this.waterStockPercentage > 0) {
@@ -280,7 +247,8 @@ export default class Mine extends MiniGameUi {
           const limit = rockPositions[this.tubeCurrentY] + Phaser.Math.Between(0, 30)
           if (particle.y >= limit) {
               particle.y = limit;
-              particle.velocityY *= -0.2;
+              particle.velocityY *= - Phaser.Math.Between(1, 100) / 100;
+              particle.velocityX *= Phaser.Math.Between(1, 20) / 10;
           }
       });
 
@@ -502,15 +470,8 @@ export default class Mine extends MiniGameUi {
     this.tubeRollings.forEach((tubeRolling) => tubeRolling.anims.stop());
   }
 
-  updateWaterBounds() {
-    /*
-    for (const key in this.particlesBoundsFront) {
-      this.particlesBoundsFront[key].active = key == this.tubeCurrentY;
-      //this.particlesBoundsBack[key].active = key == this.tubeCurrentY;
-    }
-      */
-
-    this.water.setDepth(this.tubeCurrentY * 10 + 1);
+  updateWaterDepth() {
+    this.water.setDepth(this.tubeCurrentY * 10 + 11);
   }
 
   up() {
@@ -519,7 +480,7 @@ export default class Mine extends MiniGameUi {
     if (this.tubeCurrentY > 0) {
       this.tubeCurrentY--;
       this.moveCable();
-      this.updateWaterBounds();
+      this.updateWaterDepth();
     }
   }
 
@@ -529,7 +490,7 @@ export default class Mine extends MiniGameUi {
     if (this.tubeCurrentY < 2) {
       this.tubeCurrentY++;
       this.moveCable();
-      this.updateWaterBounds();
+      this.updateWaterDepth();
     }
   }
 
@@ -567,29 +528,7 @@ export default class Mine extends MiniGameUi {
     } else {
       this.stopTubeRollings();
     }
-
-    const waterEndY = this.tubeEnd.y + waterDeltaY;
-
-    //this.particlesBoundsFront[this.tubeCurrentY].update() = rockPositions[this.tubeCurrentY] + Phaser.Math.Between(0, 10)
-    //console.log(this.particlesBoundsFront[this.tubeCurrentY].y)
-    /*
-    if (this.goingDown || this.goingUp) {
-      this.particlesBound.active = false;
-      this.particlesBound.destroy();
-      this.particlesBound = this.water.addParticleBounds(0, 0, 550, waterEndY);
-    }
-      */
-
-    const depth =
-      waterEndY < rockPositions[0]
-        ? 0
-        : waterEndY < rockPositions[1]
-        ? 10
-        : waterEndY < rockPositions[2]
-        ? 20
-        : 22;
-    this.water.setDepth(depth);
-
+    
     this.tube.x = this.tubeEnd.x;
     this.tube.y = this.tubeEnd.y - 34;
 
