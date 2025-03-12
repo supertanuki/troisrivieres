@@ -1,12 +1,15 @@
 import Phaser from "phaser";
 import Chat from "../UI/Chat";
 
+export const SPRITE_ID = "boy";
+
 export default class Boy extends Chat {
   constructor(scene, x, y) {
     super(scene, x, y, "sprites", "boy-water-1", 0, 0, true);
+    this.spriteId = SPRITE_ID;
     this.scene = scene;
 
-    this.scene.anims
+    scene.anims
       .create({
         key: "boy-water",
         frames: this.anims.generateFrameNames("sprites", {
@@ -30,10 +33,6 @@ export default class Boy extends Chat {
     this.sadPosition = { x: 0, y: 0 };
   }
 
-  move() {
-    // nothing
-  }
-
   setSadPosition(x, y) {
     this.sadPosition = { x, y };
   }
@@ -49,7 +48,7 @@ export default class Boy extends Chat {
   }
 }
 
-Phaser.GameObjects.GameObjectFactory.register("boy", function (x, y) {
+Phaser.GameObjects.GameObjectFactory.register(SPRITE_ID, function (x, y) {
   const sprite = new Boy(this.scene, x, y);
 
   this.scene.physics.world.enableBody(

@@ -1,17 +1,16 @@
 import Phaser from "phaser";
 import Chat from "../UI/Chat";
 
+export const SPRITE_ID = "nono";
+
 export default class Nono extends Chat {
   constructor(scene, x, y) {
     super(scene, x, y, "sprites", "nono", -2, -2);
-  }
-
-  move() {
-    // nothing
+    this.spriteId = SPRITE_ID;
   }
 }
 
-Phaser.GameObjects.GameObjectFactory.register("nono", function (x, y) {
+Phaser.GameObjects.GameObjectFactory.register(SPRITE_ID, function (x, y) {
   const sprite = new Nono(this.scene, x, y);
 
   this.scene.physics.world.enableBody(
@@ -19,7 +18,7 @@ Phaser.GameObjects.GameObjectFactory.register("nono", function (x, y) {
     Phaser.Physics.Arcade.DYNAMIC_BODY
   );
 
-  sprite.body.setSize(sprite.width + 2, sprite.height);
+  sprite.body.setSize(sprite.width + 2, 1);
   sprite.setImmovable(true);
   sprite.setInteractive();
 

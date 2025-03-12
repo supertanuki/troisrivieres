@@ -1,12 +1,14 @@
 import Phaser from "phaser";
 import Chat from "../UI/Chat";
 
+export const SPRITE_ID = "fisherman";
+
 export default class Fisherman extends Chat {
   constructor(scene, x, y) {
     super(scene, x, y, "sprites", "mino-1", -11, -6);
-    this.scene = scene;
+    this.spriteId = SPRITE_ID;
 
-    this.scene.anims
+    scene.anims
       .create({
         key: "mino-idle",
         frames: this.anims.generateFrameNames("sprites", {
@@ -43,13 +45,9 @@ export default class Fisherman extends Chat {
     this.chatIconDeltaX = 0
     this.chatIconDeltaY = -2
   }
-
-  move() {
-    // nothing
-  }
 }
 
-Phaser.GameObjects.GameObjectFactory.register("fisherman", function (x, y) {
+Phaser.GameObjects.GameObjectFactory.register(SPRITE_ID, function (x, y) {
   const sprite = new Fisherman(this.scene, x, y);
 
   this.scene.physics.world.enableBody(
@@ -57,10 +55,11 @@ Phaser.GameObjects.GameObjectFactory.register("fisherman", function (x, y) {
     Phaser.Physics.Arcade.DYNAMIC_BODY
   );
 
-  sprite.body.setSize(sprite.width - 10, sprite.height -10);
+  sprite.setOffset(0.5, 0.5)
+  sprite.body.setSize(sprite.width, 1);
   sprite.setImmovable(true);
   sprite.setInteractive();
-  sprite.setOffset(0, 0)
+
 
   this.displayList.add(sprite);
   this.updateList.add(sprite);

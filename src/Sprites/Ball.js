@@ -17,6 +17,7 @@ export default class Ball extends Phaser.Physics.Arcade.Sprite {
     });
 
     this.anims.play('ball', true)
+    this.setDepth(100)
   }
 }
 

@@ -4,9 +4,8 @@ import Chat from "../UI/Chat";
 export default class Girl extends Chat {
   constructor(scene, x, y) {
     super(scene, x, y, "sprites", "girl-water-1", 0, 0, true);
-    this.scene = scene;
 
-    this.scene.anims
+    scene.anims
       .create({
         key: "girl-water",
         frames: this.anims.generateFrameNames("sprites", {
@@ -29,10 +28,6 @@ export default class Girl extends Chat {
     this.anims.play("girl-water", true);
 
     this.sadPosition = { x: 0, y: 0 };
-  }
-
-  move() {
-    // nothing
   }
 
   setSadPosition(x, y) {

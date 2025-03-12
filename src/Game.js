@@ -26,6 +26,7 @@ import "./Sprites/Boy";
 
 //import "./Sprites/Hero";
 import { Hero } from "./Sprites/Hero";
+import Django from "./Sprites/Django";
 
 export const DiscussionStatus = {
   NONE: "NONE",
@@ -257,7 +258,7 @@ export default class Game extends Phaser.Scene {
           `${treeObject.name}-base`
         )
         .setDepth(90)
-        .setOrigin(0.5, 1)
+        .setOrigin(0.5, 1);
     });
 
     this.anims.create({
@@ -281,82 +282,76 @@ export default class Game extends Phaser.Scene {
         return;
       }
 
-      this.tent = this.add.sprite(heroPosition.x + 2, heroPosition.y - 2, "sprites", "tent-1").setDepth(100);
+      this.tent = this.add
+        .sprite(heroPosition.x + 2, heroPosition.y - 2, "sprites", "tent-1")
+        .setDepth(100);
       this.hero = this.add.hero(heroPosition.x, heroPosition.y).setDepth(100);
       this.hero.stopAndWait();
     });
 
     this.map.getObjectLayer("sprites").objects.forEach((spriteObject) => {
       if (spriteObject.name === "django") {
-        this.django = this.add
-          .django(spriteObject.x, spriteObject.y)
-          .setDepth(100);
+        this.django = this.add.django(spriteObject.x, spriteObject.y);
         this.django.on("pointerdown", this.handleAction, this);
       }
 
       if (spriteObject.name === "koko") {
-        this.koko = this.add.koko(spriteObject.x, spriteObject.y).setDepth(100);
+        this.koko = this.add.koko(spriteObject.x, spriteObject.y);
         this.koko.on("pointerdown", this.handleAction, this);
       }
 
       if (spriteObject.name === "nono") {
-        this.nono = this.add.nono(spriteObject.x, spriteObject.y).setDepth(100);
+        this.nono = this.add.nono(spriteObject.x, spriteObject.y);
         this.nono.on("pointerdown", this.handleAction, this);
         this.nono.setVisible(false);
         this.nono.body.checkCollision.none = true;
       }
 
       if (spriteObject.name === "bino") {
-        this.bino = this.add.bino(spriteObject.x, spriteObject.y).setDepth(100);
+        this.bino = this.add.bino(spriteObject.x, spriteObject.y);
         this.bino.on("pointerdown", this.handleAction, this);
       }
 
       if (spriteObject.name === "mino") {
-        this.fisherman = this.add
-          .fisherman(spriteObject.x, spriteObject.y)
-          .setDepth(100);
+        this.fisherman = this.add.fisherman(spriteObject.x, spriteObject.y);
         this.fisherman.on("pointerdown", this.handleAction, this);
       }
 
       if (spriteObject.name === "cat") {
-        this.cat = this.add.cat(spriteObject.x, spriteObject.y).setDepth(100);
+        this.cat = this.add.cat(spriteObject.x, spriteObject.y);
         this.cat.on("pointerdown", this.handleAction, this);
       }
 
       if (spriteObject.name === "dog") {
-        this.dog = this.add.dog(spriteObject.x, spriteObject.y).setDepth(100);
+        this.dog = this.add.dog(spriteObject.x, spriteObject.y);
         this.dog.on("pointerdown", this.handleAction, this);
       }
 
       if (spriteObject.name === "escargot") {
-        this.escargot = this.add
-          .escargot(spriteObject.x, spriteObject.y)
-          .setDepth(100);
+        this.escargot = this.add.escargot(spriteObject.x, spriteObject.y);
         this.escargot.on("pointerdown", this.handleAction, this);
       }
 
       if (spriteObject.name === "cow") {
-        this.cow = this.add.cow(spriteObject.x, spriteObject.y).setDepth(100);
+        this.cow = this.add.cow(spriteObject.x, spriteObject.y);
         this.cow.on("pointerdown", this.handleAction, this);
       }
 
       if (spriteObject.name === "miner") {
-        this.miner = this.add
-          .miner(spriteObject.x, spriteObject.y)
-          .setDepth(100);
+        this.miner = this.add.miner(spriteObject.x, spriteObject.y);
         this.miner.on("pointerdown", this.handleAction, this);
       }
 
       if (spriteObject.name === "ball") {
-        this.ball = this.add.ball(spriteObject.x, spriteObject.y).setDepth(100);
+        this.ball = this.add.ball(spriteObject.x, spriteObject.y);
       }
 
       if (spriteObject.name === "girl") {
-        this.girl = this.add.girl(spriteObject.x, spriteObject.y).setDepth(100);
+        this.girl = this.add.girl(spriteObject.x, spriteObject.y);
       }
 
       if (spriteObject.name === "boy") {
-        this.boy = this.add.boy(spriteObject.x, spriteObject.y).setDepth(100);
+        this.boy = this.add.boy(spriteObject.x, spriteObject.y);
         this.boy.on("pointerdown", this.handleAction, this);
       }
 
@@ -467,43 +462,43 @@ export default class Game extends Phaser.Scene {
 
     sceneEventsEmitter.on(sceneEvents.EventsUnlocked, this.listenEvents, this);
 
-    if (!urlParamHas('nomusic')) {
+    if (!urlParamHas("nomusic")) {
       this.music = this.sound.add("village-theme");
       this.music.loop = true;
       this.music.play();
     }
 
-    if (!urlParamHas('nostart')) this.intro()
+    if (!urlParamHas("nostart")) this.intro();
   }
 
   intro() {
     this.isIntro = true;
-    this.hero.setVisible(false)
+    this.hero.setVisible(false);
     this.time.addEvent({
       callback: () => {
         this.goingDown = true;
         this.hero.animateToDown();
-        this.hero.setVisible(true)
+        this.hero.setVisible(true);
       },
       delay: 1000,
     });
 
     this.events.on("update", () => {
-      if (!this.isIntro) return
+      if (!this.isIntro) return;
 
       if (this.goingDown) {
-        this.hero.slowDown()
+        this.hero.slowDown();
       }
 
-      if (this.hero.y > this.heroPositions['hero'].y + 5) {
+      if (this.hero.y > this.heroPositions["hero"].y + 5) {
         this.goingDown = false;
-        this.tent.anims.play('tent', true)
-        this.tent.on('animationcomplete', () => {
+        this.tent.anims.play("tent", true);
+        this.tent.on("animationcomplete", () => {
           this.tent.destroy();
-          this.isIntro = false
+          this.isIntro = false;
         });
       }
-    })
+    });
   }
 
   addDebugControls() {
@@ -763,7 +758,6 @@ export default class Game extends Phaser.Scene {
 
     sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "django");
     this.time.delayedCall(500, () => {
-      console.log(this.currentDiscussionSprite, this.currentDiscussionStatus)
       this.handleAction();
     });
   }
@@ -785,29 +779,23 @@ export default class Game extends Phaser.Scene {
 
   addCollisionManagement() {
     this.physics.add.collider(this.miner, this.hero, () => {
-      // sceneEventsEmitter in sprite ?
       sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "miner");
-      this.miner.readyToChat();
     });
 
     this.physics.add.collider(this.bino, this.hero, () => {
       sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "bino");
-      this.bino.readyToChat();
     });
 
     this.physics.add.collider(this.django, this.hero, () => {
       sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "django");
-      this.django.readyToChat();
     });
 
     this.physics.add.collider(this.koko, this.hero, () => {
       sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "koko");
-      this.koko.readyToChat();
     });
 
     this.physics.add.collider(this.nono, this.hero, () => {
       sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "nono");
-      this.nono.readyToChat();
     });
 
     this.physics.add.collider(this.fisherman, this.hero, () => {
@@ -817,27 +805,22 @@ export default class Game extends Phaser.Scene {
 
     this.physics.add.collider(this.cat, this.hero, () => {
       sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "cat");
-      this.cat.readyToChat();
     });
 
     this.physics.add.collider(this.dog, this.hero, () => {
       sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "dog");
-      this.dog.readyToChat();
     });
 
     this.physics.add.collider(this.escargot, this.hero, () => {
       sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "escargot");
-      this.escargot.readyToChat();
     });
 
     this.physics.add.collider(this.cow, this.hero, () => {
       sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "cow");
-      this.cow.readyToChat();
     });
 
     this.physics.add.collider(this.boy, this.hero, () => {
       sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "boy");
-      this.boy.readyToChat();
     });
 
     this.physics.add.collider(this.birds, this.hero, (bird) => {
@@ -853,10 +836,11 @@ export default class Game extends Phaser.Scene {
   }
 
   handleDiscussionReady(sprite) {
-    if (this.currentDiscussionStatus === DiscussionStatus.READY &&
+    if (
+      this.currentDiscussionStatus === DiscussionStatus.READY &&
       this.currentDiscussionSprite !== sprite
     ) {
-      this.handleDiscussionEnded(this.currentDiscussionSprite)
+      this.handleDiscussionEnded(this.currentDiscussionSprite);
     } else if (this.currentDiscussionStatus !== DiscussionStatus.NONE) {
       return;
     }
@@ -864,7 +848,7 @@ export default class Game extends Phaser.Scene {
     this.currentDiscussionStatus = DiscussionStatus.READY;
     this.currentDiscussionSprite = sprite;
 
-    this.endWaitingToChatAfterDelay();
+    //this.endWaitingToChatAfterDelay();
   }
 
   handleDiscussionInProgress() {
@@ -880,7 +864,7 @@ export default class Game extends Phaser.Scene {
   }
 
   handleDiscussionEnded(sprite) {
-    if (!sprite) return
+    if (!sprite) return;
 
     this.currentDiscussionStatus = DiscussionStatus.NONE;
     this[sprite].stopChatting();
@@ -897,16 +881,21 @@ export default class Game extends Phaser.Scene {
     */
   }
 
+  /*
   endWaitingToChatAfterDelay() {
     this.time.addEvent({
       callback: () => {
         if (this.currentDiscussionStatus === DiscussionStatus.READY) {
-          sceneEventsEmitter.emit(sceneEvents.DiscussionEnded, this.currentDiscussionSprite);
+          sceneEventsEmitter.emit(
+            sceneEvents.DiscussionEnded,
+            this.currentDiscussionSprite
+          );
         }
       },
       delay: 1000,
     });
   }
+  */
 
   createControls() {
     this.cursors = this.input.keyboard.addKeys({
@@ -964,7 +953,7 @@ export default class Game extends Phaser.Scene {
     }
 
     if (this.currentDiscussionStatus === DiscussionStatus.READY) {
-      console.log("handleAction", this.currentDiscussionSprite)
+      console.log("handleAction", this.currentDiscussionSprite);
       this.currentDiscussionStatus = DiscussionStatus.STARTED;
       sceneEventsEmitter.emit(
         sceneEvents.DiscussionStarted,

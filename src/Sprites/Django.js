@@ -1,12 +1,14 @@
 import Phaser from "phaser";
 import Chat from "../UI/Chat";
 
+export const SPRITE_ID = "django";
+
 export default class Django extends Chat {
   constructor(scene, x, y) {
     super(scene, x, y, "sprites", "django-1", -2, -2);
-    this.scene = scene;
+    this.spriteId = SPRITE_ID;
 
-    this.scene.anims
+    scene.anims
       .create({
         key: "django-idle",
         frames: this.anims.generateFrameNames("sprites", {
@@ -44,13 +46,9 @@ export default class Django extends Chat {
     super.readyToChat();
     this.anims.stop()
   }
-
-  move() {
-    // nothing
-  }
 }
 
-Phaser.GameObjects.GameObjectFactory.register("django", function (x, y) {
+Phaser.GameObjects.GameObjectFactory.register(SPRITE_ID, function (x, y) {
   const sprite = new Django(this.scene, x, y);
 
   this.scene.physics.world.enableBody(
@@ -58,7 +56,7 @@ Phaser.GameObjects.GameObjectFactory.register("django", function (x, y) {
     Phaser.Physics.Arcade.DYNAMIC_BODY
   );
 
-  sprite.body.setSize(sprite.width + 2, sprite.height + 2);
+  sprite.body.setSize(sprite.width + 2, 1);
   sprite.setImmovable(true);
   sprite.setInteractive();
 

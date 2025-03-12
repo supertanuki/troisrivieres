@@ -1,9 +1,13 @@
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import Chat from "../UI/Chat";
 
+export const SPRITE_ID = "miner";
+
 class Miner extends Chat {
   constructor(scene, x, y, texture, frame) {
     super(scene, x, y, "sprites", "miner", 0, -5);
+    this.spriteId = SPRITE_ID;
+
     this.futureMinerPosition = null
     this.initialY = y;
 
@@ -28,17 +32,13 @@ class Miner extends Chat {
     this.chatImageUi.y = this.y - 20
   }
 
-  move() {
-    // nothing
-  }
-
   addFuturePosition(futureMinerPosition) {
     this.futureMinerPosition = futureMinerPosition
   }
 }
 
 Phaser.GameObjects.GameObjectFactory.register(
-  "miner",
+  SPRITE_ID,
   function (x, y, texture, frame) {
     const sprite = new Miner(this.scene, x, y, texture, frame);
 

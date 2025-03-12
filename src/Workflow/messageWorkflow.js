@@ -16,22 +16,33 @@ const messageWorkflow = {
   bino: [
     {
       messages: [
-        "Je m'occupe de mon petit potager...",
+        "Hey, salut toi ! Moi je m'appelle Bino !",
+        "Fais attention à ne pas marcher sur mes carottes.",
+        "Le village est plutôt calme d'habitude, mais il se trame quelque chose pas loin d'ici.",
+        "J'espère que ça n'aura pas d'impact sur mon potager.",
+        "Si tu peux aller dénicher des infos, ça peut m'intéresser !",
       ],
     },
     {
       messages: [
-        "J'adore mon potager...",
+        "Je suis occupé avec mon potager. Va faire un tour, il se trame quelque chose...",
       ],
     },
     {
       messages: [
-        "Oh la la, mais qu'est-il arrivé à la rivière ? Tu as vu ça ?",
+        "Je travaille, je travaille, mais j'avoue ne pas trop avoir la tête à ça...",
+        "Je suis très inquiet avec toute cette histoire de rivière.",
+        "En remontant la rivière, la cause de la pollution ne semble faire aucun doute...",
       ],
       dependingOn: [
         'first_sleep',
       ],
     },
+    {
+      messages: [
+        "Si tu remontes la rivière, tu trouveras sans doute l'origine du problème.",
+      ],
+    }
   ],
   koko: [
     {
@@ -121,7 +132,13 @@ const messageWorkflow = {
   fisherman: [
     {
       messages: [
-        "Pas un bruit, j'ai une touche !",
+        "...chut, tu vas faire fuir les poissons...",
+        "Et voilà, raté... Va parler aux autres, je suis concentré là.",
+      ],
+    },
+    {
+      messages: [
+        "...",
       ],
     },
     {
@@ -136,10 +153,12 @@ const messageWorkflow = {
   django: [
     {
       messages: [
-        "Salut ! Moi c'est Django. ►",
-        "Maï ? Joli prénom ! Tu es la bienvenue dans notre village. ►",
-        "Si tu cherches un hébergement pour la nuit, tu es la bienvenue. ►",
-        "J'ai une chambre pour les amis, reviens ce soir !",
+        "Ooola, quel bon vent nous amène là !",
+        "... Maï ? Quel joli prénom.",
+        "Et donc tu cherches un lieu où dormir cette nuit ? Tu frappes à la bonne porte !",
+        "Il faut qu'une porte soit ouverte ou fermée, et la mienne sera toujours ouverte !",
+        "Reviens ici au coucher du soleil.",
+        "Et profites-en pour parler aux gens du village, ça leur fera plaisir !",
       ],
       unlockEvents: [
         'django_met',
@@ -147,13 +166,13 @@ const messageWorkflow = {
     },
     {
       messages: [
-        "Tu es la bienvenue chez moi ce soir. ►",
-        "J'ai une chambre pour les amis et visiteurs de passage, reviens ce soir !",
+        "Fais un tour du village et reviens ce soir, je t'attendrai.",
       ],
     },
     {
       messages: [
-        "Il se fait tard ! Je t'ai préparé la chambre d'ami...",
+        "Aah, tu es revenue ! Comme disait ma grand-mère : qui se nourrit d'attente risque de mourir de faim.",
+        "J'espère donc que tu aimes les soupes ! Allez, rentre.",
       ],
       dependingOn: [
         'miner_first_met',
@@ -164,9 +183,10 @@ const messageWorkflow = {
     },
     {
       messages: [
-        "Bonjour Maï ! Bien dormie ?",
-        "Tu es la bienvenue pendant le temps que tu souhaites.",
-        "Il s'est passé une chose terrible au village, une des rivières est polluée !",
+        "Bien dormi Maï ?",
+        "Désolé d'être annonciateur de mauvaise nouvelle dès le réveil mais...",
+        "Il s'est passé quelque chose de terrible dans le village.",
+        "Je te laisse voir par toi-même, je vais rester ici pour jouer un peu.",
       ],
       dependingOn: [
         'first_sleep',
@@ -174,7 +194,7 @@ const messageWorkflow = {
     },
     {
       messages: [
-        "Il s'est passé une chose terrible au village, une des rivières est polluée !",
+        "Il s'est passé quelque chose de terrible dans le village.",
       ],
     },
   ],
@@ -246,7 +266,7 @@ const messageWorkflow = {
     },
     {
       messages: [
-        "Oh non, on ne peut plus se baigner...",
+        "Oh nooon, on ne peut plus jouer dans l'eau...",
       ],
       dependingOn: [
         'first_sleep',
