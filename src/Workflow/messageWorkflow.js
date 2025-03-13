@@ -22,9 +22,7 @@ const messageWorkflow = {
         "J'espère que ça n'aura pas d'impact sur mon potager.",
         "Si tu peux aller dénicher des infos, ça peut m'intéresser !",
       ],
-    },
-    {
-      messages: [
+      repeat: [
         "Je suis occupé avec mon potager. Va faire un tour, il se trame quelque chose...",
       ],
     },
@@ -34,15 +32,13 @@ const messageWorkflow = {
         "Je suis très inquiet avec toute cette histoire de rivière.",
         "En remontant la rivière, la cause de la pollution ne semble faire aucun doute...",
       ],
+      repeat: [
+        "Si tu remontes la rivière, tu trouveras sans doute l'origine du problème.",
+      ],
       dependingOn: [
         'first_sleep',
       ],
     },
-    {
-      messages: [
-        "Si tu remontes la rivière, tu trouveras sans doute l'origine du problème.",
-      ],
-    }
   ],
   koko: [
     {
@@ -54,36 +50,29 @@ const messageWorkflow = {
         "J’suis sûre que notre patelin va te plaire, va donc y faire un tour !",
         "Et si tu cherches un endroit où dormir, y’a de quoi faire au sud.",
       ],
-    },
-    {
-      messages: [
+      repeat: [
         "Maï, si t’as fini d’visiter tout le village, va donc vers le sud pour trouver où dormir."
-      ],
+      ]
     },
     {
       messages: [
         "Tu as rencontré Django ? C'est la personne la plus gentille que j'connaisse.",
       ],
-      unlockEdependingOnvents: [
+      dependingOn: [
         'django_met',
       ],
     },
     {
       messages: [
-        "Oh la la, le pauv'Nono, il est dans un état lamentable.",
-        "Lamentable, comme la rivière qui est toute polluée.",
+        "Oh la la, le pauv’Nono, il est dans un sal’état.",
+        "Un peu comme la rivière qui est toute polluée.",
         "Tu peux aller voir Nono, il habite au nord du village.",
       ],
-      dependingOn: [
-        'first_sleep',
-      ],
-    },
-    {
-      messages: [
+      repeat: [
         "Je me demande ce qui est arrivé à la rivière, toute marron, beurk.",
       ],
       dependingOn: [
-        'nono_first_met',
+        'first_sleep',
       ],
     },
   ],
@@ -99,21 +88,22 @@ const messageWorkflow = {
         "Je m'en sors plutôt pas trop mal, j'aurais pu y laisser ma peau.",
         "La rivière polluée ? Oui j'ai appris la mauvaise nouvelle...",
       ],
+      repeat: [
+        "Je dois me reposer, fini le travail à la mine pour l'instant.",
+      ],
       unlockEvents: [
         'nono_first_met',
       ],
     },
     {
       messages: [
-        "Je dois me reposer, fini le travail à la mine pour l'instant.",
-      ],
-    },
-    {
-      messages: [
         "Quoi ? Tu veux aller voir la mine ?",
         "Pour chercher l'origine de la pollution de la rivière ?",
-        "Ok, pourquoi pas, je te prête mon laisser-passer pour la mine...",
+        "Ok, pourquoi pas, je te prête mon laissez-passer pour la mine...",
         "Sois très prudente, reste discrète et reviens vite !",
+      ],
+      repeat: [
+        "Fais bon usage de mon laissez-passer pour la mine... et sois très prudente !",
       ],
       dependingOn: [
         'nono_first_met',
@@ -121,32 +111,6 @@ const messageWorkflow = {
       ],
       unlockEvents: [
         'card_for_mine',
-      ],
-    },
-    {
-      messages: [
-        "Fais bon usage de mon laisser-passer pour la mine... et sois très prudente !",
-      ],
-    },
-  ],
-  fisherman: [
-    {
-      messages: [
-        "...chut, tu vas faire fuir les poissons...",
-        "Et voilà, raté... Va parler aux autres, je suis concentré là.",
-      ],
-    },
-    {
-      messages: [
-        "...",
-      ],
-    },
-    {
-      messages: [
-        "Fichtre, je ne vais plus pouvoir pêcher. Qui sont les responsables de ce #?%@ ???",
-      ],
-      dependingOn: [
-        'first_sleep',
       ],
     },
   ],
@@ -160,41 +124,38 @@ const messageWorkflow = {
         "Reviens ici au coucher du soleil.",
         "Et profites-en pour parler aux gens du village, ça leur fera plaisir !",
       ],
+      repeat: [
+        "Fais un tour du village et reviens ce soir, je t'attendrai.",
+      ],
       unlockEvents: [
         'django_met',
       ],
     },
     {
       messages: [
-        "Fais un tour du village et reviens ce soir, je t'attendrai.",
-      ],
-    },
-    {
-      messages: [
-        "Aah, tu es revenue ! Comme disait ma grand-mère : qui se nourrit d'attente risque de mourir de faim.",
+        "Aah, tu es revenue !",
+        "Comme disait ma grand-mère : qui se nourrit d'attente risque de mourir de faim.",
         "J'espère donc que tu aimes les soupes ! Allez, rentre.",
       ],
       dependingOn: [
         'miner_first_met',
       ],
       unlockEvents: [
-        'first_sleep',
+        'pre_first_sleep',
       ],
     },
     {
       messages: [
-        "Bien dormi Maï ?",
+        "Bien dormi, Maï ?",
         "Désolé d'être annonciateur de mauvaise nouvelle dès le réveil mais...",
         "Il s'est passé quelque chose de terrible dans le village.",
         "Je te laisse voir par toi-même, je vais rester ici pour jouer un peu.",
       ],
+      repeat: [
+        "Il s'est passé quelque chose de terrible dans le village.",
+      ],
       dependingOn: [
         'first_sleep',
-      ],
-    },
-    {
-      messages: [
-        "Il s'est passé quelque chose de terrible dans le village.",
       ],
     },
   ],
@@ -203,11 +164,17 @@ const messageWorkflow = {
       messages: [
         "Stop ! On ne passe pas.",
       ],
+      repeat: [
+        "Halte là, j'ai dit qu'on ne passe pas !"
+      ],
     },
     {
       messages: [
-        "Stop ! On ne passe pas. De toute façon, le soleil se couche.",
+        "Ici, c'est interdit de passer ! De toute façon, le soleil se couche.",
         "Reviens demain matin, on causera.",
+      ],
+      repeat: [
+        "J'ai dit qu'on ne passe pas. Il est tard, rentre chez toi !"
       ],
       unlockEvents: [
         'miner_first_met',
@@ -218,14 +185,12 @@ const messageWorkflow = {
     },
     {
       messages: [
-        "J'ai dit qu'on ne passe pas. Il est tard, rentre chez toi !"
-      ],
-    },
-    {
-      messages: [
         "Encore toi ? On ne passe pas !",
         "Ici c'est l'accès à la mine...",
-        "et seules les personnes ayant un laisser-passer de travail peuvent traverser !",
+        "et seules les personnes ayant un laissez-passer de travail peuvent traverser !",
+      ],
+      repeat: [
+        "Sans un laissez-passer de travail, tu ne traverses pas.",
       ],
       dependingOn: [
         'first_sleep',
@@ -236,14 +201,12 @@ const messageWorkflow = {
     },
     {
       messages: [
-        "Sans un laisser-passer de travail, tu ne traverses pas.",
-      ],
-    },
-    {
-      messages: [
         "T'es revenue ?",
-        "Je vois que tu as un laisser-passer, je ne sais pas d'où tu le sors...",
-        "Mais tu peux y aller, d'toute façon, on cherche des gens pour bosser à la mine...",
+        "Je vois que tu as un laissez-passer, je ne sais pas d'où tu le sors...",
+        "Tu peux y aller... D'toute façon, on cherche des gens pour bosser...",
+      ],
+      repeat: [
+        "Tu vas pouvoir commencer à bosser... Tu attends quoi pour y aller ?",
       ],
       dependingOn: [
         'card_for_mine',
@@ -252,9 +215,26 @@ const messageWorkflow = {
         'mine_access_validation',
       ],
     },
+  ],
+  fisherman: [
     {
       messages: [
-        "Tu vas pouvoir commencer à bosser !",
+        "...chut, tu vas faire fuir les poissons...",
+        "Et voilà, raté... Va parler aux autres, je suis concentré là.",
+      ],
+      repeat: [
+        "...",
+      ],
+    },
+    {
+      messages: [
+        "Fichtre, je ne vais plus pouvoir pêcher. Qui sont les responsables de ce #?%@ ???",
+      ],
+      repeat: [
+        "Si j'attrape les responsables de ce #?%@...",
+      ],
+      dependingOn: [
+        'first_sleep',
       ],
     },
   ],

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.1-99-gec89c545" orientation="orthogonal" renderorder="right-down" width="130" height="92" tilewidth="16" tileheight="16" infinite="0" nextlayerid="33" nextobjectid="1065">
+<map version="1.10" tiledversion="1.11.1-99-gec89c545" orientation="orthogonal" renderorder="right-down" width="130" height="92" tilewidth="16" tileheight="16" infinite="0" nextlayerid="33" nextobjectid="1066">
  <editorsettings>
   <export target="public/tiles/3rivers.json" format="json"/>
  </editorsettings>
@@ -11334,10 +11334,13 @@
   <object id="919" name="heroKoko" x="986" y="631.333">
    <point/>
   </object>
-  <object id="920" name="heroDjango" x="844.003" y="1142.33">
+  <object id="920" name="heroDjango" x="806.003" y="1145.66">
    <point/>
   </object>
   <object id="923" name="heroMiner" x="1721" y="434">
+   <point/>
+  </object>
+  <object id="1065" name="heroNono" x="1094.33" y="431">
    <point/>
   </object>
  </objectgroup>

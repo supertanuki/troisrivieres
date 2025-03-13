@@ -6,59 +6,7 @@ export default class Workflow {
     this.currentSprite = null;
     this.unlockedEvents = [];
 
-    // to improve : create data on first use
-    this.spritePosition = {
-      // to delete
-      farmer: {
-        currentThread: -1,
-        currentMessagePosition: 0,
-      },
-
-      django: {
-        currentThread: -1,
-        currentMessagePosition: 0,
-      },
-      koko: {
-        currentThread: -1,
-        currentMessagePosition: 0,
-      },
-      nono: {
-        currentThread: -1,
-        currentMessagePosition: 0,
-      },
-      miner: {
-        currentThread: -1,
-        currentMessagePosition: 0,
-      },
-      bino: {
-        currentThread: -1,
-        currentMessagePosition: 0,
-      },
-      fisherman: {
-        currentThread: -1,
-        currentMessagePosition: 0,
-      },
-      cat: {
-        currentThread: -1,
-        currentMessagePosition: 0,
-      },
-      dog: {
-        currentThread: -1,
-        currentMessagePosition: 0,
-      },
-      cow: {
-        currentThread: -1,
-        currentMessagePosition: 0,
-      },
-      escargot: {
-        currentThread: -1,
-        currentMessagePosition: 0,
-      },
-      boy: {
-        currentThread: -1,
-        currentMessagePosition: 0,
-      },
-    };
+    this.spritePosition = {}
 
     sceneEventsEmitter.on(
       sceneEvents.DiscussionStarted,
@@ -76,58 +24,80 @@ export default class Workflow {
       this
     );
     sceneEventsEmitter.on(
-      sceneEvents.MessageEventsUnlocked,
-      this.unlockMessages,
+      sceneEvents.PreEventsUnlocked,
+      this.saveUnlockedEvent,
       this
     );
   }
 
-  getCurrentThread() {
-    return this.spritePosition[this.currentSprite]
-      ? this.spritePosition[this.currentSprite].currentThread
-      : undefined;
+  initSpriteThreadIfNeeded(sprite) {
+    if (!this.spritePosition?.[sprite]) {
+      this.spritePosition[sprite] = {
+        currentThread: 0,
+        currentMessagePosition: 0,
+        threadRead: [],
+      };
+    }
+  }
+
+  setCurrentThread(sprite, currentThread) {
+    this.initSpriteThreadIfNeeded(sprite);
+    this.spritePosition[sprite].currentThread = currentThread;
+  }
+
+  getCurrentThread(sprite) {
+    const thisSprite = sprite || this.currentSprite;
+    this.initSpriteThreadIfNeeded(thisSprite);
+    return this.spritePosition[thisSprite].currentThread;
   }
 
   getCurrentMessage() {
     const currentThread = this.getCurrentThread();
-    const currentMessagePosition = this.spritePosition[
-      this.currentSprite
-    ]
-      ? this.spritePosition[this.currentSprite].currentMessagePosition
-      : undefined;
+    const currentMessagePosition = this.spritePosition?.[this.currentSprite]?.currentMessagePosition
 
-    if (undefined == currentThread || undefined == currentMessagePosition) {
-      return;
-    }
+    if (undefined == currentThread || undefined == currentMessagePosition) return
 
     const dependingOn = messageWorkflow[this.currentSprite][currentThread]?.dependingOn;
-    if (dependingOn && !dependingOn.every(item => this.unlockedEvents.includes(item))) {
-      return;
+    if (!this.isValidDependingOn(this.currentSprite, dependingOn)) return
+
+    if (this.spritePosition[this.currentSprite].threadRead.includes(currentThread)) {
+      const repeat = messageWorkflow[this.currentSprite][currentThread]?.repeat
+      if (!!repeat)         return repeat?.[currentMessagePosition];
+      
     }
 
-    try {
-      return messageWorkflow[this.currentSprite][currentThread].messages[
-        currentMessagePosition
-      ];
-    } catch (error) {}
-
-    return;
+    return messageWorkflow[this.currentSprite][currentThread]?.messages?.[currentMessagePosition];
   }
 
   startDiscussion(sprite) {
+    this.initSpriteThreadIfNeeded(sprite);
     this.currentSprite = sprite;
-    this.spritePosition[sprite].currentThread++;
-    this.spritePosition[sprite].currentMessagePosition = 0;
-    const message = this.getCurrentMessage();
-
-    console.log(sprite, this.spritePosition[sprite])
-
-    if (!message) {
-      this.sendLastMessage();
-      return;
+    const nextAvailableThread = this.getNextAvailableThread(sprite, this.getCurrentThread())
+    
+    if (undefined !== nextAvailableThread) {
+      this.setCurrentThread(sprite, nextAvailableThread);
+      this.resetMessagePosition(sprite);
     }
 
-    this.sendMessage()
+    // last thread or repeat
+    this.resetMessagePosition(sprite);
+    this.sendMessage();
+  }
+
+  resetMessagePosition(sprite) {
+    this.spritePosition[sprite].currentMessagePosition = 0;
+  }
+
+  getNextAvailableThread(sprite, currentThread) {
+    if (!messageWorkflow[sprite][currentThread]) return;
+
+    const dependingOn = messageWorkflow[sprite][currentThread]?.dependingOn;
+
+    if (this.isValidDependingOn(sprite, dependingOn) &&
+      !this.spritePosition[sprite].threadRead.includes(currentThread)
+    ) return currentThread;
+
+    return this.getNextAvailableThread(sprite, currentThread + 1);
   }
 
   continueDiscussion() {
@@ -135,48 +105,85 @@ export default class Workflow {
     this.sendMessage();
   }
 
-  sendLastMessage() {
-    this.spritePosition[this.currentSprite].currentThread--;
-    this.sendMessage();
-  }
-
-  saveUnlockedEvent() {
-    const currentThread = this.getCurrentThread();
-    const unlockedEvents =
-      messageWorkflow[this.currentSprite][currentThread].unlockEvents;
-
-    if (unlockedEvents) {
-      this.unlockedEvents.push(...unlockedEvents);
-      sceneEventsEmitter.emit(sceneEvents.EventsUnlocked, {
-        newUnlockedEvents: unlockedEvents,
-        unlockedEvents: this.unlockedEvents,
-      });
-    }
-  }
-
   sendMessage() {
-    const message = this.getCurrentMessage();
+    let message = this.getCurrentMessage();
 
     if (!message) {
-      this.saveUnlockedEvent();
-      sceneEventsEmitter.emit(sceneEvents.DiscussionEnded, this.currentSprite);
-      return;
+      this.endThread();
+
+      // next thread ?
+      const nextAvailableThread = this.getNextAvailableThread(this.currentSprite, this.getCurrentThread() + 1)
+      if (undefined == nextAvailableThread) {
+        this.endDiscussion();
+        return;
+      }
+
+      this.setCurrentThread(this.currentSprite, nextAvailableThread);
+      this.resetMessagePosition(this.currentSprite);
+      message = this.getCurrentMessage();
     }
 
     sceneEventsEmitter.emit(sceneEvents.DiscussionInProgress);
-    sceneEventsEmitter.emit(sceneEvents.MessageSent, { sprite: this.currentSprite, message });
+    sceneEventsEmitter.emit(sceneEvents.MessageSent, {
+      sprite: this.currentSprite,
+      message,
+    });
+  }
+
+  endThread() {
+    this.spritePosition[this.currentSprite].threadRead.push(this.getCurrentThread())
+    this.preSaveUnlockedEvent();
+  }
+
+  endDiscussion() {
+    sceneEventsEmitter.emit(sceneEvents.DiscussionEnded, this.currentSprite);
+  }
+
+  preSaveUnlockedEvent() {
+    const currentThread = this.getCurrentThread();
+    const unlockedEvents =
+      messageWorkflow[this.currentSprite][currentThread]?.unlockEvents;
+
+    this.saveUnlockedEvent(unlockedEvents);
+  }
+
+  saveUnlockedEvent(unlockedEvents) {
+    if (!unlockedEvents) return
+    if (!unlockedEvents.filter(event => !this.unlockedEvents.includes(event)).length) return;
+
+    sceneEventsEmitter.emit(sceneEvents.EventsUnlocked, {
+      newUnlockedEvents: unlockedEvents,
+      unlockedEvents: [...unlockedEvents, ...this.unlockedEvents],
+    });
+  }
+
+  isValidDependingOn(sprite, dependingOn) {
+    if (!dependingOn) return true;
+
+    return dependingOn.every((event) => {
+      return (event[0] !== "!") === this.unlockedEvents.includes(event);
+    });
   }
 
   unlockMessages(data) {
     for (const sprite in messageWorkflow) {
+      this.initSpriteThreadIfNeeded(sprite);
       for (const threadIndex in messageWorkflow[sprite]) {
-        const dependingOn = messageWorkflow[sprite][threadIndex].dependingOn
+        const dependingOn = messageWorkflow[sprite][threadIndex]?.dependingOn
 
-        if (dependingOn && dependingOn.every(item => data.newUnlockedEvents.includes(item))) {
+        if (!dependingOn) {
+          continue;
+        }
+
+        const missingEvents = dependingOn.filter(event => !this.unlockedEvents.includes(event))
+
+        if (missingEvents.length > 0 && missingEvents.every(event => data.newUnlockedEvents.includes(event))) {
           this.spritePosition[sprite].currentThread = threadIndex * 1 - 1
           this.spritePosition[sprite].currentMessagePosition = 0
         }
       }
     }
+
+    this.unlockedEvents.push(...data.newUnlockedEvents);
   }
 }

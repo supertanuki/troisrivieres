@@ -1482,8 +1482,8 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":844.003333333333,
-                 "y":1142.33
+                 "x":806.003,
+                 "y":1145.66333333333
                 }, 
                 {
                  "height":0,
@@ -1496,6 +1496,18 @@
                  "width":0,
                  "x":1721,
                  "y":434
+                }, 
+                {
+                 "height":0,
+                 "id":1065,
+                 "name":"heroNono",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":1094.33,
+                 "y":431
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -6211,7 +6223,7 @@
          "y":0
         }],
  "nextlayerid":33,
- "nextobjectid":1065,
+ "nextobjectid":1066,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.11.1-99-gec89c545",

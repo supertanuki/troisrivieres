@@ -43,8 +43,8 @@ export default class Django extends Chat {
   }
 
   readyToChat() {
-    super.readyToChat();
-    this.anims.stop()
+    super.readyToChat(SPRITE_ID);
+    this.anims.stop()    
   }
 }
 

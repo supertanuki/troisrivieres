@@ -81,16 +81,13 @@ export default class Chat extends Phaser.Physics.Arcade.Sprite {
     }
   }
 
-  move() {
-    // nothing
-  }
-
   stopChatting() {
     this.chatImageUi.setVisible(false);
   }
 
   readyToChat(spriteId) {
     if (this.spriteId !== spriteId) return
+    if (this.scene.isCinematic) return
 
     this.chatImageUi.setPosition(
       this.x + this.chatIconDeltaX,
