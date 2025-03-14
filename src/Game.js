@@ -380,6 +380,8 @@ export default class Game extends Phaser.Scene {
       }
     });
 
+    this.map.createLayer("bottomStaticTrees", this.tileset).setDepth(130);
+
     // Add trees top after hero was created
     treesLayer.objects.forEach((treeObject) => {
       const tree = this.physics.add
@@ -402,7 +404,6 @@ export default class Game extends Phaser.Scene {
       );
     });
 
-    this.map.createLayer("bottomStaticTrees", this.tileset).setDepth(140);
     this.map.createLayer("staticTrees", this.tileset).setDepth(150);
 
     this.map.getObjectLayer("birds").objects.forEach((birdPosition) => {
