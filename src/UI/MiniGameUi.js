@@ -63,9 +63,8 @@ export default class MiniGameUi extends Phaser.Scene {
     this.textObject = this.add
       .text(345, 50, "", {
         fontFamily: 'DefaultFont', 
-        font: "14px Arial",
+        fontSize: "14px",
         fill: "#ffffff",
-        alpha: 0,
       })
       .setOrigin(0.5, 0.5)
       .setScrollFactor(0)

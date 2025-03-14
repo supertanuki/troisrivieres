@@ -52,7 +52,7 @@ export default class Mine extends MiniGameUi {
     this.rechargeWater = false;
     this.conveyorPosition = 0;
     this.tubeRollings = [];
-    this.tubeCurrentY = 0
+    this.tubeCurrentY = 0;
   }
 
   preload() {
@@ -202,24 +202,8 @@ export default class Mine extends MiniGameUi {
       .setDepth(1000);
 
     this.add.image(64, 0, "mine", "tube-top").setOrigin(0, 0).setDepth(1000);
-    this.anims.create({
-      key: "tube-rolling",
-      frames: [
-        ...this.anims.generateFrameNames("mine", {
-          start: 1,
-          end: 3,
-          prefix: "tube-rolling-",
-        }),
-        {
-          key: "mine",
-          frame: "tube-rolling-2",
-        },
-      ],
-      repeat: -1,
-      frameRate: 10,
-    });
 
-    for (let i = 0; i <= 29; i++) {
+    for (let i = 0; i < 3; i++) {
       this.tubeRollings.push(
         this.add
           .sprite(80 + 13 * i, 2, "mine", "tube-rolling-1")
@@ -243,16 +227,16 @@ export default class Mine extends MiniGameUi {
       if (!this.rechargeWater && this.action && this.waterStockPercentage > 0) {
         this.water.emitParticleAt(this.tubeEnd.x, this.tubeEnd.y);
 
-        this.water.forEachAlive(particle => {
-          const limit = rockPositions[this.tubeCurrentY] + Phaser.Math.Between(0, 30)
+        this.water.forEachAlive((particle) => {
+          const limit =
+            rockPositions[this.tubeCurrentY] + Phaser.Math.Between(0, 30);
           if (particle.y >= limit) {
-              particle.y = limit;
-              particle.velocityY *= - Phaser.Math.Between(1, 100) / 100;
-              particle.velocityX *= Phaser.Math.Between(1, 20) / 10;
+            particle.y = limit;
+            particle.velocityY *= -Phaser.Math.Between(1, 100) / 100;
+            particle.velocityX *= Phaser.Math.Between(1, 20) / 10;
           }
-      });
+        });
 
-        //this.waterBack.emitParticleAt(this.tubeEnd.x, this.tubeEnd.y);
         this.waterStockPercentage -= waterReductionFactor;
 
         if (this.waterStockPercentage <= 0) {
@@ -460,16 +444,6 @@ export default class Mine extends MiniGameUi {
     this.scoreObject.setVisible(true);
   }
 
-  animateTubeRollings() {
-    this.tubeRollings.forEach((tubeRolling) =>
-      tubeRolling.anims.play("tube-rolling", true)
-    );
-  }
-
-  stopTubeRollings() {
-    this.tubeRollings.forEach((tubeRolling) => tubeRolling.anims.stop());
-  }
-
   updateWaterDepth() {
     this.water.setDepth(this.tubeCurrentY * 10 + 11);
   }
@@ -511,24 +485,22 @@ export default class Mine extends MiniGameUi {
   update() {
     this.rockParticles.setVisible(false);
 
+    this.tubeRollings.forEach(
+      (tubeRolling, index) => (tubeRolling.x = this.tubeEnd.x - 22 + 16 * index)
+    );
+
     if (this.goingUp && this.tubeEnd.y > 50) {
-      this.up()
-      //this.tubeEnd.y -= tubeSpeed;
+      this.up();
     } else if (this.goingDown && this.tubeEnd.y < 200) {
-      this.down()
-      //this.tubeEnd.y += tubeSpeed;
+      this.down();
     }
 
     if (this.goingLeft && this.tubeEnd.x > 100) {
       this.tubeEnd.x -= tubeSpeed;
-      this.animateTubeRollings();
     } else if (this.goingRight && this.tubeEnd.x < 450) {
       this.tubeEnd.x += tubeSpeed;
-      this.animateTubeRollings();
-    } else {
-      this.stopTubeRollings();
     }
-    
+
     this.tube.x = this.tubeEnd.x;
     this.tube.y = this.tubeEnd.y - 34;
 
