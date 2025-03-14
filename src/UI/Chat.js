@@ -26,13 +26,13 @@ export default class Chat extends Phaser.Physics.Arcade.Sprite {
     scene.anims.create({
       key: "exclam",
       frames: this.anims.generateFrameNames("sprites", {
-        start: 2,
+        start: 1,
         end: 3,
         prefix: "exclam-",
       }),
       repeat: -1,
-      frameRate: 3,
-    });
+      frameRate: 6,
+    }).addFrame([{key:'sprites', frame:'exclam-2', duration:1}])
 
     this.chatIconDeltaX = chatIconDeltaX || 0;
     this.chatIconDeltaY = chatIconDeltaY || 0;
