@@ -260,15 +260,25 @@ const messageWorkflow = {
       dependingOn: ["mine_tuto_missed_twice"],
       unlockEvents: ["mine_after_tuto"],
     },
+    {
+      messages: [
+        "T'arrives plus à suivre le rythme, non ?",
+        "On s'arrête là pour aujourd'hui.",
+      ],
+      dependingOn: ["mine_game_over"],
+      unlockEvents: ["mine_end"],
+    },
   ],
 };
 
 const uiMessages = {
-  'mine.faster': "Plus vite maintenant !!!",
+  'mine.faster': "Plus vite maintenant !!!",
+  'mine.fasterAgain': "Encore plus vite, allez, allez !!!",
   'mine.waterEmpty': "Fais gaffe, tu as vidé ta réserve d'eau !",
   'mine.waterFull': "La réserve d'eau est à nouveau rechargée, au boulot !",
   'mine.moreMaterials': "Attention, gros arrivage de roches ! On accélère la production !",
   'mine.warning': "C'est quoi ce boulot ? On a beaucoup de pertes !",
+  'mine.lastWarning': 'Dernier avertissement, concentre-toi !',
 }
 
 const getUiMessage = (name) => uiMessages[name];

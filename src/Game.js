@@ -60,7 +60,7 @@ export default class Game extends Phaser.Scene {
     this.heroPositions = {};
 
     this.isCinematic = false;
-  }
+  } 
 
   preload() {
     this.load.scenePlugin(
@@ -88,6 +88,7 @@ export default class Game extends Phaser.Scene {
 
   gotoMine() {
     this.scene.pause("game");
+    this.scene.pause("message");
     this.scene.start("mine");
   }
 
@@ -121,6 +122,8 @@ export default class Game extends Phaser.Scene {
   }
 
   start() {
+    this.scene.run("message");
+
     if (urlParamHas("dreamMine")) {
       this.gotoScene("mine-nightmare");
       return;
@@ -136,17 +139,10 @@ export default class Game extends Phaser.Scene {
       return;
     }
 
-    if (isMine()) {
-      this.gotoMine();
-      return;
-    }
-
     if (isCable()) {
       this.gotoCable();
       return;
     }
-
-    this.scene.run("message");
 
     // Fade init
     this.cameras.main.fadeOut(1000, 0, 0, 0, () => {
@@ -454,6 +450,11 @@ export default class Game extends Phaser.Scene {
     );
 
     sceneEventsEmitter.on(sceneEvents.EventsUnlocked, this.listenEvents, this);
+
+    if (isMine()) {
+      this.gotoMine();
+      return;
+    }
 
     if (!urlParamHas("nomusic")) {
       this.music = this.sound.add("village-theme");
@@ -867,7 +868,8 @@ export default class Game extends Phaser.Scene {
   }
 
   handleDiscussionEnded(sprite) {
-    if (!sprite) return;
+    if (this.scene.isPaused()) return
+    if (!sprite || !this[sprite]) return;
 
     this.currentDiscussionStatus = DiscussionStatus.NONE;
     this[sprite].stopChatting();
@@ -922,8 +924,8 @@ export default class Game extends Phaser.Scene {
   }
 
   handleAction() {
-    console.log('handleAction', this.isCinematic) 
-    if (this.isCinematic) return
+    console.log('handleAction', this.isCinematic, this.scene.isPaused()) 
+    if (this.isCinematic || this.scene.isPaused()) return
 
     if (this.currentDiscussionStatus === DiscussionStatus.WAITING) {
       this.currentDiscussionStatus = DiscussionStatus.STARTED;

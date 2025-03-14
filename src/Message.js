@@ -153,6 +153,8 @@ export default class Message extends Phaser.Scene {
   }
 
   handleMessage(payload) {
+    if (this.scene.isPaused()) return
+
     const { message, sprite } = payload;
     if (this.textObject.visible && message === this.currentText) {
       return;

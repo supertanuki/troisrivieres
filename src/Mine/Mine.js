@@ -18,6 +18,11 @@ const numberRockValidatedBeforeSpeedIncrement = getUrlParam(
   5
 );
 
+const numberRocksValidatedBeforeSpeedIncrementAgain = getUrlParam(
+  "numberRocksValidatedBeforeSpeedIncrementAgain",
+  30
+);
+
 const waterReductionFactor = getUrlParam("waterReductionFactor", 0.2);
 const waterRefillFactor = getUrlParam("waterRefillFactor", 0.5);
 
@@ -62,6 +67,7 @@ export default class Mine extends MiniGameUi {
     this.isCinematic = true;
     this.firstStep = true;
     this.faster = false;
+    this.fasterAgain = false;
     this.moreMaterials = false;
     this.tutoMissedCount = 0;
     this.warnings = 0;
@@ -264,6 +270,7 @@ export default class Mine extends MiniGameUi {
 
     this.createControls();
     this.startGame();
+    //this.gameOver()
   }
 
   createControls() {
@@ -420,6 +427,10 @@ export default class Mine extends MiniGameUi {
     if (eventsHas(data, "mine_after_tuto")) {
       this.afterTuto();
     }
+
+    if (eventsHas(data, "mine_end")) {
+      this.endGame();
+    }
   }
 
   tutoBegin() {
@@ -456,6 +467,18 @@ export default class Mine extends MiniGameUi {
     });
   }
 
+  endGame() {
+    this.cameras.main.fadeOut(1000, 0, 0, 0);
+    this.cameras.main.once(
+      Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE,
+      (cam, effect) => {
+        this.scene.stop();
+        this.scene.resume('game');
+        this.scene.resume("message");
+      }
+    );
+  }
+
   createRock() {
     const initX = 600;
     const index = Phaser.Math.Between(0, 2);
@@ -485,6 +508,12 @@ export default class Mine extends MiniGameUi {
     });
   }
 
+  gameOver() {
+    this.isCinematic = true;
+    dispatchUnlockEvents(["mine_game_over"]);
+    this.startDiscussion('mine');
+  }
+
   updateStep() {
     if (this.firstStep) {
       if (this.rockValidated) {
@@ -500,15 +529,25 @@ export default class Mine extends MiniGameUi {
       this.updateMessage(getUiMessage('mine.faster'));
     }
 
+    if (!this.fasterAgain && this.rockValidated === numberRocksValidatedBeforeSpeedIncrementAgain) {
+      this.fasterAgain = true;
+      this.speed.forEach((value, index) => this.speed[index] += conveyorSpeedIncrement)
+      this.updateMessage(getUiMessage('mine.fasterAgain'));
+    }
+
     const total = this.rockValidated + this.rockNotValidated;
     const percent = Math.round((100 * this.rockValidated) / (total || 1));
     console.log(percent + " % (" + this.rockValidated + " / " + total + ")");
 
-    const warnings = (percent < 80 && 1) + (percent < 50 && 1) + (percent < 20 && 1);
-    console.log('warnings', warnings, percent)
-    if (total > 30 && warnings > this.warnings) {
-      this.updateMessage(getUiMessage('mine.warning'));
+    const warnings = (this.rockNotValidated > 15 && 1) + (this.rockNotValidated > 30 && 1) + (this.rockNotValidated > 45 && 1) + (this.rockNotValidated > 55 && 1);
+    if (warnings > this.warnings) {
       this.warnings++;
+      if (this.warnings > 3) {
+        this.gameOver();
+        return;
+      }
+
+      this.updateMessage(getUiMessage(this.warnings === 3 ? 'mine.lastWarning' : 'mine.warning'));
       this.updateWarnings(this.warnings);
     }
   }
