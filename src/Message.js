@@ -2,7 +2,7 @@ import Phaser from "phaser";
 import { sceneEvents, sceneEventsEmitter } from "./Events/EventsCenter";
 import { spriteNames } from "./Workflow/messageWorkflow";
 import isMobileOrTablet from "./Utils/isMobileOrTablet";
-import { DiscussionStatus } from "./Game";
+import { DiscussionStatus } from "./Utils/discussionStatus";
 
 const FONT_SIZE = "10px"
 const FONT_RESOLUTION = 30;

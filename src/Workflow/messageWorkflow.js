@@ -1,7 +1,7 @@
 const spriteNames = {
   django: "Django",
-  miner: 'Bleurk',
-  bino: 'Bino',
+  miner: "Bleurk",
+  bino: "Bino",
   fisherman: "Mino",
   cat: "Le chat",
   dog: "Le chien",
@@ -10,7 +10,7 @@ const spriteNames = {
   koko: "Koko",
   nono: "Nono",
   escargot: "L'escargot",
-}
+};
 
 const messageWorkflow = {
   bino: [
@@ -35,9 +35,7 @@ const messageWorkflow = {
       repeat: [
         "Si tu remontes la rivière, tu trouveras sans doute l'origine du problème.",
       ],
-      dependingOn: [
-        'first_sleep',
-      ],
+      dependingOn: ["first_sleep"],
     },
   ],
   koko: [
@@ -51,16 +49,14 @@ const messageWorkflow = {
         "Et si tu cherches un endroit où dormir, y’a de quoi faire au sud.",
       ],
       repeat: [
-        "Maï, si t’as fini d’visiter tout le village, va donc vers le sud pour trouver où dormir."
-      ]
+        "Maï, si t’as fini d’visiter tout le village, va donc vers le sud pour trouver où dormir.",
+      ],
     },
     {
       messages: [
         "Tu as rencontré Django ? C'est la personne la plus gentille que j'connaisse.",
       ],
-      dependingOn: [
-        'django_met',
-      ],
+      dependingOn: ["django_met"],
     },
     {
       messages: [
@@ -71,9 +67,7 @@ const messageWorkflow = {
       repeat: [
         "Je me demande ce qui est arrivé à la rivière, toute marron, beurk.",
       ],
-      dependingOn: [
-        'first_sleep',
-      ],
+      dependingOn: ["first_sleep"],
     },
   ],
   nono: [
@@ -88,12 +82,8 @@ const messageWorkflow = {
         "Je m'en sors plutôt pas trop mal, j'aurais pu y laisser ma peau.",
         "La rivière polluée ? Oui j'ai appris la mauvaise nouvelle...",
       ],
-      repeat: [
-        "Je dois me reposer, fini le travail à la mine pour l'instant.",
-      ],
-      unlockEvents: [
-        'nono_first_met',
-      ],
+      repeat: ["Je dois me reposer, fini le travail à la mine pour l'instant."],
+      unlockEvents: ["nono_first_met"],
     },
     {
       messages: [
@@ -105,13 +95,8 @@ const messageWorkflow = {
       repeat: [
         "Fais bon usage de mon laissez-passer pour la mine... et sois très prudente !",
       ],
-      dependingOn: [
-        'nono_first_met',
-        'miner_ask_for_card',
-      ],
-      unlockEvents: [
-        'card_for_mine',
-      ],
+      dependingOn: ["nono_first_met", "miner_ask_for_card"],
+      unlockEvents: ["card_for_mine"],
     },
   ],
   django: [
@@ -124,12 +109,8 @@ const messageWorkflow = {
         "Reviens ici au coucher du soleil.",
         "Et profites-en pour parler aux gens du village, ça leur fera plaisir !",
       ],
-      repeat: [
-        "Fais un tour du village et reviens ce soir, je t'attendrai.",
-      ],
-      unlockEvents: [
-        'django_met',
-      ],
+      repeat: ["Fais un tour du village et reviens ce soir, je t'attendrai."],
+      unlockEvents: ["django_met"],
     },
     {
       messages: [
@@ -137,12 +118,8 @@ const messageWorkflow = {
         "Comme disait ma grand-mère : qui se nourrit d'attente risque de mourir de faim.",
         "J'espère donc que tu aimes les soupes ! Allez, rentre.",
       ],
-      dependingOn: [
-        'miner_first_met',
-      ],
-      unlockEvents: [
-        'pre_first_sleep',
-      ],
+      dependingOn: ["miner_first_met"],
+      unlockEvents: ["pre_first_sleep"],
     },
     {
       messages: [
@@ -151,37 +128,23 @@ const messageWorkflow = {
         "Il s'est passé quelque chose de terrible dans le village.",
         "Je te laisse voir par toi-même, je vais rester ici pour jouer un peu.",
       ],
-      repeat: [
-        "Il s'est passé quelque chose de terrible dans le village.",
-      ],
-      dependingOn: [
-        'first_sleep',
-      ],
+      repeat: ["Il s'est passé quelque chose de terrible dans le village."],
+      dependingOn: ["first_sleep"],
     },
   ],
   miner: [
     {
-      messages: [
-        "Stop ! On ne passe pas.",
-      ],
-      repeat: [
-        "Halte là, j'ai dit qu'on ne passe pas !"
-      ],
+      messages: ["Stop ! On ne passe pas."],
+      repeat: ["Halte là, j'ai dit qu'on ne passe pas !"],
     },
     {
       messages: [
         "Ici, c'est interdit de passer ! De toute façon, le soleil se couche.",
         "Reviens demain matin, on causera.",
       ],
-      repeat: [
-        "J'ai dit qu'on ne passe pas. Il est tard, rentre chez toi !"
-      ],
-      unlockEvents: [
-        'miner_first_met',
-      ],
-      dependingOn: [
-        'django_met',
-      ],
+      repeat: ["J'ai dit qu'on ne passe pas. Il est tard, rentre chez toi !"],
+      unlockEvents: ["miner_first_met"],
+      dependingOn: ["django_met"],
     },
     {
       messages: [
@@ -189,15 +152,9 @@ const messageWorkflow = {
         "Ici c'est l'accès à la mine...",
         "et seules les personnes ayant un laissez-passer de travail peuvent traverser !",
       ],
-      repeat: [
-        "Sans un laissez-passer de travail, tu ne traverses pas.",
-      ],
-      dependingOn: [
-        'first_sleep',
-      ],
-      unlockEvents: [
-        'miner_ask_for_card',
-      ],
+      repeat: ["Sans un laissez-passer de travail, tu ne traverses pas."],
+      dependingOn: ["first_sleep"],
+      unlockEvents: ["miner_ask_for_card"],
     },
     {
       messages: [
@@ -208,12 +165,8 @@ const messageWorkflow = {
       repeat: [
         "Tu vas pouvoir commencer à bosser... Tu attends quoi pour y aller ?",
       ],
-      dependingOn: [
-        'card_for_mine',
-      ],
-      unlockEvents: [
-        'mine_access_validation',
-      ],
+      dependingOn: ["card_for_mine"],
+      unlockEvents: ["mine_access_validation"],
     },
   ],
   fisherman: [
@@ -222,65 +175,102 @@ const messageWorkflow = {
         "...chut, tu vas faire fuir les poissons...",
         "Et voilà, raté... Va parler aux autres, je suis concentré là.",
       ],
-      repeat: [
-        "...",
-      ],
+      repeat: ["..."],
     },
     {
       messages: [
         "Fichtre, je ne vais plus pouvoir pêcher. Qui sont les responsables de ce #?%@ ???",
       ],
-      repeat: [
-        "Si j'attrape les responsables de ce #?%@...",
-      ],
-      dependingOn: [
-        'first_sleep',
-      ],
+      repeat: ["Si j'attrape les responsables de ce #?%@..."],
+      dependingOn: ["first_sleep"],
     },
   ],
   boy: [
     {
-      messages: [
-        "Trop bien, on peut se baigner quand on veut !",
-      ],
+      messages: ["Trop bien, on peut se baigner quand on veut !"],
     },
     {
-      messages: [
-        "Oh nooon, on ne peut plus jouer dans l'eau...",
-      ],
-      dependingOn: [
-        'first_sleep',
-      ],
+      messages: ["Oh nooon, on ne peut plus jouer dans l'eau..."],
+      dependingOn: ["first_sleep"],
     },
   ],
   cat: [
     {
-      messages: [
-        "Meow...",
-      ],
+      messages: ["Meow..."],
     },
   ],
   dog: [
     {
-      messages: [
-        "Wof, wof...",
-      ],
+      messages: ["Wof, wof..."],
     },
   ],
   cow: [
     {
-      messages: [
-        "Meuh...",
-      ],
+      messages: ["Meuh..."],
     },
   ],
   escargot: [
     {
+      messages: ["..."],
+    },
+  ],
+  mine: [
+    {
       messages: [
-        "...",
+        "Bon, la nouvelle, ton taf est très simple, c'est à ta portée.",
+        "Tu dois nettoyer la roche pour extraire les métaux.",
+        "Ces métaux sont très utiles pour fabriquer des tas d'objets...",
+        "Notamment du matériel électronique, des smartphones, tout ça.",
+        "Utilises ← ↑ → ↓ pour déplacer le tuyau",
+        "et la barre d'espace pour lancer l'eau. Alez c'est parti !",
       ],
+      unlockEvents: ["mine_tuto_begin"],
+    },
+    {
+      messages: [
+        "Tu n'as pas compris comment ça fonctionne ???",
+        "Tu dois nettoyer la roche pour extraire les métaux.",
+        "Utilises ← ↑ → ↓ pour déplacer le tuyau",
+        "et la barre d'espace pour lancer l'eau. Alez !",
+      ],
+      dependingOn: ["mine_tuto_missed"],
+      unlockEvents: ["mine_tuto_rebegin"],
+    },
+    {
+      messages: [
+        "Tu as compris comment ça fonctionne...",
+        "Quoi ?? On extrait l'eau de la rivière, pourquoi ?",
+        "Et on stocke les résidus, les déchets dans des réservoirs.",
+        "Je te rappelle qu'on est une mine responsable",
+        "On ne fait pas n'importe quoi.",
+        "Bon, arrête de poser des questions, au boulot !"
+      ],
+      dependingOn: ["mine_tuto_end"],
+      unlockEvents: ["mine_after_tuto"],
+    },
+    {
+      messages: [
+        "Tu fais exprès de pas comprendre ?",
+        "Quoi ?? On extrait l'eau de la rivière, pourquoi ?",
+        "Et on stocke les résidus, les déchets dans des réservoirs.",
+        "Je te rappelle qu'on est une mine responsable",
+        "On ne fait pas n'importe quoi.",
+        "Bon, arrête de poser des questions, au boulot !"
+      ],
+      dependingOn: ["mine_tuto_missed_twice"],
+      unlockEvents: ["mine_after_tuto"],
     },
   ],
 };
 
-export { spriteNames, messageWorkflow };
+const uiMessages = {
+  'mine.faster': "Plus vite maintenant !!!",
+  'mine.waterEmpty': "Fais gaffe, tu as vidé ta réserve d'eau !",
+  'mine.waterFull': "La réserve d'eau est à nouveau rechargée, au boulot !",
+  'mine.moreMaterials': "Attention, gros arrivage de roches ! On accélère la production !",
+  'mine.warning': "C'est quoi ce boulot ? On a beaucoup de pertes !",
+}
+
+const getUiMessage = (name) => uiMessages[name];
+
+export { spriteNames, messageWorkflow, getUiMessage };

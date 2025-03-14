@@ -26,20 +26,10 @@ import "./Sprites/Boy";
 
 //import "./Sprites/Hero";
 import { Hero } from "./Sprites/Hero";
-import Django from "./Sprites/Django";
-
-export const DiscussionStatus = {
-  NONE: "NONE",
-  READY: "READY",
-  STARTED: "STARTED",
-  WAITING: "WAITING",
-  INPROGRESS: "INPROGRESS",
-};
+import { DiscussionStatus } from "./Utils/discussionStatus";
+import { eventsHas } from "./Utils/events";
 
 const nightColor = 0x000055;
-
-const eventsHas = (data, eventName) =>
-  data.newUnlockedEvents.includes(eventName);
 
 export default class Game extends Phaser.Scene {
   constructor() {

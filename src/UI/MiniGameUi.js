@@ -1,7 +1,11 @@
 import Phaser from "phaser";
+import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
+import { DiscussionStatus } from "../Utils/discussionStatus";
 
 export default class MiniGameUi extends Phaser.Scene {
   create() {
+    this.currentDiscussionStatus = DiscussionStatus.NONE;
+
     this.anims.create({
       key: "speaker-off-anim",
       frames: [
@@ -46,6 +50,21 @@ export default class MiniGameUi extends Phaser.Scene {
       frameRate: 8,
     });
 
+    this.add
+      .sprite(4, 0, "speaker", "scoreboard")
+      .setOrigin(0, 0)
+      .setDepth(2000);
+
+    this.scores = [];
+    for (let i = 0; i <= 2; i++) {
+      this.scores.push(
+        this.add
+          .sprite(12 + 24 * i, 22, "speaker", "scoreok")
+          .setOrigin(0, 0)
+          .setDepth(2000)
+      );
+    }
+
     this.speaker = this.add
       .sprite(470, 0, "speaker", "speaker-off")
       .setOrigin(0, 0)
@@ -58,30 +77,94 @@ export default class MiniGameUi extends Phaser.Scene {
       .setAlpha(0.8)
       .setVisible(false);
 
-    this.dialogBackground.anims.play('dialog-shout-anim', true)
+    this.dialogBackground.anims.play("dialog-shout-anim", true);
 
     this.textObject = this.add
       .text(345, 50, "", {
-        fontFamily: 'DefaultFont', 
-        fontSize: "14px",
+        fontFamily: "DefaultFont",
+        fontSize: "12px",
         fill: "#ffffff",
       })
+      .setResolution(20)
       .setOrigin(0.5, 0.5)
       .setScrollFactor(0)
       .setDepth(2000)
       .setWordWrapWidth(250)
       .setVisible(false);
+
+    sceneEventsEmitter.on(
+      sceneEvents.DiscussionStarted,
+      this.handleDiscussionStarted,
+      this
+    );
+    sceneEventsEmitter.on(
+      sceneEvents.DiscussionWaiting,
+      this.handleDiscussionWaiting,
+      this
+    );
+    sceneEventsEmitter.on(
+      sceneEvents.DiscussionEnded,
+      this.handleDiscussionEnded,
+      this
+    );
+    sceneEventsEmitter.on(sceneEvents.MessageSent, this.handleMessage, this);
   }
 
-  updateMessage(message) {
-    this.dialogBackground.setVisible(true)
+  startDiscussion(key) {
+    sceneEventsEmitter.emit(sceneEvents.DiscussionStarted, key);
+  }
+
+  handleMessage(payload) {
+    const { message, sprite } = payload;
+    this.updateMessage(message, true);
+  }
+
+  updateMessage(message, waitUserAction = false) {
+    this.dialogBackground.setVisible(true);
     this.speaker.anims.play("speaker-on-anim");
     this.textObject.text = message;
     this.textObject.setVisible(true);
-    this.time.delayedCall(2000, () => {
-      this.textObject.setVisible(false);
-      this.speaker.anims.play("speaker-off-anim");
-      this.dialogBackground.setVisible(false)
+
+    if (waitUserAction) {
+      this.time.delayedCall(100, () =>
+        sceneEventsEmitter.emit(sceneEvents.DiscussionWaiting)
+      );
+      return;
+    }
+
+    this.time.delayedCall(2500, () => {
+      if (this.currentDiscussionStatus === DiscussionStatus.NONE)
+        this.handleDiscussionEnded();
     });
+  }
+
+  updateWarnings(warningCount) {
+    for (let i = 0; i < warningCount; i++)
+      this.scores[i].setTexture("speaker", "scoreko");
+  }
+
+  handleAction() {
+    console.log("handleAction", this.currentDiscussionStatus);
+
+    if (this.currentDiscussionStatus === DiscussionStatus.WAITING) {
+      this.currentDiscussionStatus = DiscussionStatus.STARTED;
+      sceneEventsEmitter.emit(sceneEvents.DiscussionContinuing);
+      return;
+    }
+  }
+
+  handleDiscussionStarted() {
+    this.currentDiscussionStatus = DiscussionStatus.STARTED;
+  }
+
+  handleDiscussionWaiting() {
+    this.currentDiscussionStatus = DiscussionStatus.WAITING;
+  }
+
+  handleDiscussionEnded() {
+    this.currentDiscussionStatus = DiscussionStatus.NONE;
+    this.textObject.setVisible(false);
+    this.speaker.anims.play("speaker-off-anim");
+    this.dialogBackground.setVisible(false);
   }
 }

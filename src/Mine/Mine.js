@@ -2,16 +2,20 @@ import Phaser from "phaser";
 import isMobileOrTablet from "../Utils/isMobileOrTablet";
 import { getUrlParam, isDebug } from "../Utils/isDebug";
 import MiniGameUi from "../UI/MiniGameUi";
+import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
+import { dispatchUnlockEvents, eventsHas } from "../Utils/events";
+import { getUiMessage } from "../Workflow/messageWorkflow";
 
 const rockPositions = [110, 175, 237];
 const tubePositionsY = [60, 125, 187];
 const waterDeltaY = 50;
 
-const conveyorInitialSpeed = getUrlParam("conveyorInitialSpeed", 1);
-const conveyorSpeedIncrement = getUrlParam("conveyorSpeedIncrement", 0.5);
+const conveyorInitialSpeed = [0.8, 1, 1.2];
+const conveyorSpeedIncrement = 0.5;
+
 const numberRockValidatedBeforeSpeedIncrement = getUrlParam(
   "numberRockValidatedBeforeSpeedIncrement",
-  3
+  5
 );
 
 const waterReductionFactor = getUrlParam("waterReductionFactor", 0.2);
@@ -50,9 +54,17 @@ export default class Mine extends MiniGameUi {
     this.control = "none";
     this.waterStockPercentage = 100;
     this.rechargeWater = false;
-    this.conveyorPosition = 0;
+    this.conveyor = [];
+    this.conveyorPosition = [0, 0, 0];
     this.tubeRollings = [];
     this.tubeCurrentY = 0;
+    this.goingDown = true;
+    this.isCinematic = true;
+    this.firstStep = true;
+    this.faster = false;
+    this.moreMaterials = false;
+    this.tutoMissedCount = 0;
+    this.warnings = 0;
   }
 
   preload() {
@@ -62,11 +74,6 @@ export default class Mine extends MiniGameUi {
 
   create() {
     super.create();
-    // Fade init
-    this.cameras.main.fadeOut(0, 0, 0, 0);
-    this.cameras.main.fadeIn(1000, 0, 0, 0);
-
-    this.goingDown = true;
 
     this.cameras.main.setBackgroundColor(0x30221e);
     this.scale.setGameSize(550, 300);
@@ -82,30 +89,33 @@ export default class Mine extends MiniGameUi {
     this.add.image(197, 46, "mine", "water-glass");
     this.add.image(197, 18, "mine", "water-tank-top");
 
-    this.conveyor1 = this.add
+    this.conveyor.push(this.add
       .tileSprite(0, 92, 550, 48, "mine", "conveyor")
       .setOrigin(0, 0)
-      .setScrollFactor(0, 0);
+      .setScrollFactor(0, 0)
+    );
 
     this.add
       .tileSprite(0, 140, 550, 19, "mine", "conveyor-bottom")
       .setOrigin(0, 0)
       .setScrollFactor(0, 0);
 
-    this.conveyor2 = this.add
+    this.conveyor.push(this.add
       .tileSprite(0, 156, 550, 48, "mine", "conveyor")
       .setOrigin(0, 0)
-      .setScrollFactor(0, 0);
+      .setScrollFactor(0, 0)
+    );
 
     this.add
       .tileSprite(10, 204, 550, 19, "mine", "conveyor-bottom")
       .setOrigin(0, 0)
       .setScrollFactor(0, 0);
 
-    this.conveyor3 = this.add
+    this.conveyor.push(this.add
       .tileSprite(0, 220, 550, 48, "mine", "conveyor")
       .setOrigin(0, 0)
-      .setScrollFactor(0, 0);
+      .setScrollFactor(0, 0)
+    );
 
     this.add
       .tileSprite(5, 268, 550, 19, "mine", "conveyor-bottom")
@@ -177,20 +187,6 @@ export default class Mine extends MiniGameUi {
       .setVisible(false);
     this.rockParticles.anims.play("particules", true);
 
-    this.scoreObject = this.add.text(5, 75, "0", {
-      font: "9px Arial",
-      fill: "#ffffff",
-      backgroundColor: "rgba(255,100,100,0.9)",
-      padding: 6,
-    });
-    this.scoreObject
-      .setScrollFactor(0)
-      .setDepth(1000)
-      .setAlpha(0.5)
-      .setWordWrapWidth(300)
-      .setActive(true)
-      .setVisible(false);
-
     this.tube = this.add
       .tileSprite(0, 0, 22, 1000, "mine", "tube")
       .setOrigin(0.5, 1)
@@ -224,6 +220,8 @@ export default class Mine extends MiniGameUi {
     this.water.setDepth(1);
 
     this.events.on("update", () => {
+      if (this.isCinematic) return
+
       if (!this.rechargeWater && this.action && this.waterStockPercentage > 0) {
         this.water.emitParticleAt(this.tubeEnd.x, this.tubeEnd.y);
 
@@ -242,7 +240,7 @@ export default class Mine extends MiniGameUi {
         if (this.waterStockPercentage <= 0) {
           this.waterStockPercentage = 0;
           this.rechargeWater = true;
-          this.updateMessage("Réserve d'eau vide !");
+          this.updateMessage(getUiMessage('mine.waterEmpty'));
         }
       } else {
         this.waterStockPercentage += waterRefillFactor;
@@ -253,7 +251,7 @@ export default class Mine extends MiniGameUi {
 
         if (this.rechargeWater && this.waterStockPercentage === 100) {
           this.rechargeWater = false;
-          this.updateMessage("Réserve d'eau rechargée !");
+          this.updateMessage(getUiMessage('mine.waterFull'));
         }
       }
 
@@ -261,6 +259,8 @@ export default class Mine extends MiniGameUi {
         46 + ((100 - 46) * (100 - this.waterStockPercentage)) / 100;
       this.waterStock.setVisible(this.waterStockPercentage > 5);
     });
+
+    sceneEventsEmitter.on(sceneEvents.EventsUnlocked, this.listenEvents, this);
 
     this.createControls();
     this.startGame();
@@ -292,6 +292,7 @@ export default class Mine extends MiniGameUi {
           this.goingLeft = false;
         } else if (event.keyCode === 32) {
           this.action = true;
+          this.handleAction()
         }
       },
       this
@@ -400,14 +401,59 @@ export default class Mine extends MiniGameUi {
         "pointerdown",
         () => {
           this.action = true;
+          this.handleAction();
         },
         this
       );
     }
   }
 
-  startGame() {
+  listenEvents(data) {
+    if (eventsHas(data, "mine_tuto_begin")) {
+      this.tutoBegin();
+    }
+
+    if (eventsHas(data, "mine_tuto_rebegin")) {
+      this.tutoBegin();
+    }
+
+    if (eventsHas(data, "mine_after_tuto")) {
+      this.afterTuto();
+    }
+  }
+
+  tutoBegin() {
+    this.isCinematic = false;
+    this.firstStep = true;
     this.createRock();
+  }
+
+  tutoEnd() {
+    this.isCinematic = true;
+    dispatchUnlockEvents(["mine_tuto_end"]);
+    this.startDiscussion('mine');
+  }
+
+  tutoMissed() {
+    this.tutoMissedCount++;
+    dispatchUnlockEvents(this.tutoMissedCount > 1 ? ["mine_tuto_missed_twice"] : ["mine_tuto_missed"]);
+    this.isCinematic = true;
+    this.startDiscussion('mine');
+  }
+
+  afterTuto() {
+    this.isCinematic = false;
+    this.firstStep = false;
+    this.createRock();
+  }
+
+  startGame() {
+    this.cameras.main.fadeIn(1000, 0, 0, 0);
+
+    this.time.addEvent({
+      callback: () => this.startDiscussion('mine'),
+      delay: 1000,
+    });
   }
 
   createRock() {
@@ -416,16 +462,20 @@ export default class Mine extends MiniGameUi {
     const selectedY = rockPositions[index];
     const rock = this.add.sprite(initX, selectedY, "mine", "rock-1");
     rock.setDepth(1 + index * 10);
-    const refined = 0; //Math.round(numberIsRefined / 3 / scale)
+
+    // first one must be 0
+    const refined = this.rocks.length ? Phaser.Math.Between(0, Math.round(numberIsRefined * 0.9)) : 0;
+    this.setRockTexture(rock, refined);
     this.rocks.push({ rock, index, refined });
+
+    if (this.firstStep) return;
 
     this.time.addEvent({
       callback: () => {
         this.createRock();
-        if (this.rockValidated === numberRockValidatedToHaveMoreMaterials) {
-          this.updateMessage(
-            "Attention, gros arrivage de roches ! On accélère la production !"
-          );
+        if (!this.moreMaterials && this.rockValidated === numberRockValidatedToHaveMoreMaterials) {
+          this.moreMaterials = true;
+          this.updateMessage(getUiMessage('mine.moreMaterials'));
         }
       },
       delay:
@@ -435,13 +485,32 @@ export default class Mine extends MiniGameUi {
     });
   }
 
-  updateScore() {
+  updateStep() {
+    if (this.firstStep) {
+      if (this.rockValidated) {
+        this.tutoEnd();
+      } else {
+        this.tutoMissed();
+      }
+    }
+
+    if (!this.faster && this.rockValidated === numberRockValidatedBeforeSpeedIncrement) {
+      this.faster = true;
+      this.speed.forEach((value, index) => this.speed[index] += conveyorSpeedIncrement)
+      this.updateMessage(getUiMessage('mine.faster'));
+    }
+
     const total = this.rockValidated + this.rockNotValidated;
     const percent = Math.round((100 * this.rockValidated) / (total || 1));
-    this.scoreObject.setText(
-      percent + " %\n" + this.rockValidated + " / " + total
-    );
-    this.scoreObject.setVisible(true);
+    console.log(percent + " % (" + this.rockValidated + " / " + total + ")");
+
+    const warnings = (percent < 80 && 1) + (percent < 50 && 1) + (percent < 20 && 1);
+    console.log('warnings', warnings, percent)
+    if (total > 30 && warnings > this.warnings) {
+      this.updateMessage(getUiMessage('mine.warning'));
+      this.warnings++;
+      this.updateWarnings(this.warnings);
+    }
   }
 
   updateWaterDepth() {
@@ -482,7 +551,13 @@ export default class Mine extends MiniGameUi {
     });
   }
 
-  update() {
+  setRockTexture(rock, refined) {
+    const rockTextureId = Math.round((refined * 6) / numberIsRefined);
+    rock.setTexture("mine", "rock-" + (rockTextureId || 1));
+  }
+
+  update(time, delta) {
+    super.update(time, delta)
     this.rockParticles.setVisible(false);
 
     this.tubeRollings.forEach(
@@ -504,15 +579,17 @@ export default class Mine extends MiniGameUi {
     this.tube.x = this.tubeEnd.x;
     this.tube.y = this.tubeEnd.y - 34;
 
-    this.conveyorPosition += this.speed;
-    this.conveyor1.setTilePosition(this.conveyorPosition, 0);
-    this.conveyor2.setTilePosition(this.conveyorPosition, 0);
-    this.conveyor3.setTilePosition(this.conveyorPosition, 0);
+    this.conveyor.forEach((conveyor, index) => {
+      this.conveyorPosition[index] += this.speed[index];
+      conveyor.setTilePosition(this.conveyorPosition[index], 0);
+    })
+
+    //if (this.isCinematic) return
 
     for (const index in this.rocks) {
       const element = this.rocks[index];
       const rock = element.rock;
-      rock.x -= this.speed;
+      rock.x -= this.speed[element.index];
 
       if (rock.x < -20) {
         this.rocks.splice(index, 1);
@@ -520,7 +597,7 @@ export default class Mine extends MiniGameUi {
 
         if (element.refined <= numberIsRefined) {
           this.rockNotValidated++;
-          this.updateScore();
+          this.updateStep();
         }
       }
 
@@ -537,23 +614,14 @@ export default class Mine extends MiniGameUi {
         rock.x < this.tubeEnd.x + tubeDeltaEffect
       ) {
         element.refined++;
+        this.setRockTexture(rock, element.refined);
         this.rockParticles.setVisible(true);
         this.rockParticles.setDepth(rock.depth);
         this.rockParticles.setPosition(rock.x, rock.y - 25);
 
-        const rockTextureId = Math.round(
-          (element.refined * 6) / numberIsRefined
-        );
-        rock.setTexture("mine", "rock-" + (rockTextureId || 1));
-
         if (element.refined > numberIsRefined) {
           this.rockValidated++;
-          this.updateScore();
-
-          if (this.rockValidated === numberRockValidatedBeforeSpeedIncrement) {
-            this.speed += conveyorSpeedIncrement;
-            this.updateMessage("Plus vite maintenant !!!");
-          }
+          this.updateStep();
         }
       }
     }

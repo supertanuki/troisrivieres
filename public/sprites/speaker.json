@@ -4,11 +4,74 @@
 			"image": "speaker",
 			"format": "RGBA8888",
 			"size": {
-				"w": 1223,
+				"w": 1358,
 				"h": 68
 			},
 			"scale": 1,
 			"frames": [
+				{
+					"filename": "scorewarning",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 6,
+						"h": 5
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 6,
+						"h": 5
+					},
+					"frame": {
+						"x": 0,
+						"y": 0,
+						"w": 6,
+						"h": 5
+					}
+				},
+				{
+					"filename": "scoreko",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 19,
+						"h": 18
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 19,
+						"h": 18
+					},
+					"frame": {
+						"x": 6,
+						"y": 0,
+						"w": 19,
+						"h": 18
+					}
+				},
+				{
+					"filename": "scoreok",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 19,
+						"h": 18
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 19,
+						"h": 18
+					},
+					"frame": {
+						"x": 25,
+						"y": 0,
+						"w": 19,
+						"h": 18
+					}
+				},
 				{
 					"filename": "dialog-2",
 					"rotated": false,
@@ -24,10 +87,31 @@
 						"h": 48
 					},
 					"frame": {
-						"x": 0,
+						"x": 44,
 						"y": 0,
 						"w": 256,
 						"h": 48
+					}
+				},
+				{
+					"filename": "scoreboard",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 91,
+						"h": 49
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 91,
+						"h": 49
+					},
+					"frame": {
+						"x": 300,
+						"y": 0,
+						"w": 91,
+						"h": 49
 					}
 				},
 				{
@@ -45,7 +129,7 @@
 						"h": 54
 					},
 					"frame": {
-						"x": 256,
+						"x": 391,
 						"y": 0,
 						"w": 69,
 						"h": 54
@@ -66,7 +150,7 @@
 						"h": 59
 					},
 					"frame": {
-						"x": 325,
+						"x": 460,
 						"y": 0,
 						"w": 74,
 						"h": 59
@@ -87,7 +171,7 @@
 						"h": 66
 					},
 					"frame": {
-						"x": 399,
+						"x": 534,
 						"y": 0,
 						"w": 276,
 						"h": 66
@@ -108,7 +192,7 @@
 						"h": 66
 					},
 					"frame": {
-						"x": 675,
+						"x": 810,
 						"y": 0,
 						"w": 276,
 						"h": 66
@@ -129,7 +213,7 @@
 						"h": 68
 					},
 					"frame": {
-						"x": 951,
+						"x": 1086,
 						"y": 0,
 						"w": 272,
 						"h": 68
