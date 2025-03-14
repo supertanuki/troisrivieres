@@ -4,13 +4,16 @@ import { spriteNames } from "./Workflow/messageWorkflow";
 import isMobileOrTablet from "./Utils/isMobileOrTablet";
 import { DiscussionStatus } from "./Game";
 
+const FONT_SIZE = "10px"
+const FONT_RESOLUTION = 30;
+
 export default class Message extends Phaser.Scene {
   constructor() {
     super("message");
     this.textObject = null;
     this.spriteNameObject = null;
     this.currentText = "";
-    this.delay = 10;
+    this.delay = 50;
     this.currentDiscussionStatus = DiscussionStatus.NONE;
   }
 
@@ -48,10 +51,12 @@ export default class Message extends Phaser.Scene {
         config.height - 30,
         isMobileOrTablet() ? "Appuyer pour continuer" : "Appuyer sur espace",
         {
-          font: "12px Arial",
+          fontFamily: 'DefaultFont',
+          fontSize: FONT_SIZE,
           fill: "#ffffff",
         }
       )
+      .setResolution(FONT_RESOLUTION)
       .setOrigin(0.5, 0.5)
       .setScrollFactor(0)
       .setDepth(2000)
@@ -74,10 +79,12 @@ export default class Message extends Phaser.Scene {
       .setVisible(false);
 
     this.textObject = this.add
-      .text(config.width / 2, config.height - 30, "Hello", {
-        font: "12px Arial",
+      .text(config.width / 2, config.height - 30, "", {
+        fontFamily: 'DefaultFont', 
+        fontSize: FONT_SIZE,
         fill: "#ffffff",
       })
+      .setResolution(FONT_RESOLUTION)
       .setOrigin(0.5, 0.5)
       .setScrollFactor(0)
       .setDepth(3000)
@@ -86,10 +93,12 @@ export default class Message extends Phaser.Scene {
 
     this.spriteNameObject = this.add
       .text(config.width / 2 - 132, config.height - 64, "", {
-        font: "12px Arial",
+        fontFamily: 'DefaultFont',
+        fontSize: FONT_SIZE,
         fill: "#ffffff",
         padding: 4,
       })
+      .setResolution(FONT_RESOLUTION)
       .setFontStyle("bold")
       .setOrigin(0, 0.5)
       .setScrollFactor(0)

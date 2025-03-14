@@ -53,10 +53,12 @@ export default class Preloader extends Phaser.Scene {
 
     this.load.plugin(
       "AnimatedTiles",
-      "https://raw.githubusercontent.com/nkholski/phaser-animated-tiles/master/dist/AnimatedTiles.js"
+      "plugins/rexvirtualjoystickplugin.min.js"
     );
 
     this.load.audio("village-theme", "sounds/village_theme_compressed.mp3");
+
+    this.load.font("DefaultFont", "fonts/depixelklein.woff2");
   }
 
   create() {

@@ -61,7 +61,8 @@ export default class MiniGameUi extends Phaser.Scene {
     this.dialogBackground.anims.play('dialog-shout-anim', true)
 
     this.textObject = this.add
-      .text(345, 50, "une longue phrase pour tester la longueur du dialogue", {
+      .text(345, 50, "", {
+        fontFamily: 'DefaultFont', 
         font: "14px Arial",
         fill: "#ffffff",
         alpha: 0,

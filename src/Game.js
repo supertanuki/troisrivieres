@@ -115,8 +115,9 @@ export default class Game extends Phaser.Scene {
     }
 
     const text = this.add
-      .text(225, 125, "Démarrer", { font: "16px Courier", fill: "#ffffff" })
-      .setOrigin(0.5, 0.5);
+      .text(225, 125, "Démarrer", { fontFamily: 'DefaultFont', fontSize: "20px", fill: "#ffffff" })
+      .setOrigin(0.5, 0.5)
+      .setResolution(10)
     text.setInteractive({ useHandCursor: true });
     text.on("pointerdown", () => {
       text.disableInteractive(true);
@@ -509,7 +510,7 @@ export default class Game extends Phaser.Scene {
       .on("down", () => {
         this.add
           .text(this.hero.x, this.hero.y + 100, "Trois-Rivières", {
-            font: "28px bold Courier",
+            fontSize: "28px",
             fill: "#000000",
           })
           .setOrigin(0.5, 0.5)

@@ -14,6 +14,7 @@ const config = {
   type: Phaser.AUTO,
   parent: "game",
   pixelArt: true,
+  render: { pixelArt: true },
   width: 450,
   height: 250,
   backgroundColor: '#37b0be',
