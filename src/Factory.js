@@ -154,7 +154,6 @@ export default class Factory extends MiniGameUi {
     this.userLeftHand.setDepth(10).setVisible(false);
 
     // Fade init
-    this.cameras.main.fadeOut(0, 0, 0, 0);
     this.cameras.main.fadeIn(1000, 0, 0, 0);
 
     this.createControls();

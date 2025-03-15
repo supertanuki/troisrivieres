@@ -111,6 +111,7 @@ export default class MiniGameUi extends Phaser.Scene {
   }
 
   startDiscussion(key) {
+    console.log('startDiscussion mine status', this.scene.getStatus('mine'))
     sceneEventsEmitter.emit(sceneEvents.DiscussionStarted, key);
   }
 
@@ -120,6 +121,8 @@ export default class MiniGameUi extends Phaser.Scene {
   }
 
   updateMessage(message, waitUserAction = false) {
+    if (!this.scene.isActive()) return
+
     this.dialogBackground.setVisible(true);
     this.speaker.anims.play("speaker-on-anim");
     this.textObject.text = message;
@@ -144,7 +147,7 @@ export default class MiniGameUi extends Phaser.Scene {
   }
 
   handleAction() {
-    console.log("handleAction", this.currentDiscussionStatus);
+    if (!this.scene.isActive()) return
 
     if (this.currentDiscussionStatus === DiscussionStatus.WAITING) {
       this.currentDiscussionStatus = DiscussionStatus.STARTED;
@@ -154,14 +157,17 @@ export default class MiniGameUi extends Phaser.Scene {
   }
 
   handleDiscussionStarted() {
+    if (!this.scene.isActive()) return
     this.currentDiscussionStatus = DiscussionStatus.STARTED;
   }
 
   handleDiscussionWaiting() {
+    if (!this.scene.isActive()) return
     this.currentDiscussionStatus = DiscussionStatus.WAITING;
   }
 
   handleDiscussionEnded() {
+    if (!this.scene.isActive()) return
     this.currentDiscussionStatus = DiscussionStatus.NONE;
     this.textObject.setVisible(false);
     this.speaker.anims.play("speaker-off-anim");

@@ -270,7 +270,6 @@ export default class Mine extends MiniGameUi {
 
     this.createControls();
     this.startGame();
-    //this.gameOver()
   }
 
   createControls() {
@@ -459,7 +458,7 @@ export default class Mine extends MiniGameUi {
   }
 
   startGame() {
-    this.cameras.main.fadeIn(1000, 0, 0, 0);
+    this.cameras.main.fadeIn(2000, 0, 0, 0);
 
     this.time.addEvent({
       callback: () => this.startDiscussion('mine'),
@@ -468,15 +467,11 @@ export default class Mine extends MiniGameUi {
   }
 
   endGame() {
-    this.cameras.main.fadeOut(1000, 0, 0, 0);
-    this.cameras.main.once(
-      Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE,
-      (cam, effect) => {
-        this.scene.stop();
-        this.scene.resume('game');
-        this.scene.resume("message");
-      }
-    );
+    this.cameras.main.fadeOut(1000, 0, 0, 0, (cam, progress) => {
+      if (progress !== 1) return;
+      this.scene.stop();
+      dispatchUnlockEvents(['mine_after']);
+    });
   }
 
   createRock() {
@@ -510,6 +505,7 @@ export default class Mine extends MiniGameUi {
 
   gameOver() {
     this.isCinematic = true;
+    this.isGameOver = true;
     dispatchUnlockEvents(["mine_game_over"]);
     this.startDiscussion('mine');
   }
@@ -596,7 +592,9 @@ export default class Mine extends MiniGameUi {
   }
 
   update(time, delta) {
-    super.update(time, delta)
+    if (this.isGameOver) return;
+    //console.log('Mine update ' + time)
+
     this.rockParticles.setVisible(false);
 
     this.tubeRollings.forEach(

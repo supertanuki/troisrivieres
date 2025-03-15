@@ -60,7 +60,7 @@ export default class Game extends Phaser.Scene {
     this.heroPositions = {};
 
     this.isCinematic = false;
-  } 
+  }
 
   preload() {
     this.load.scenePlugin(
@@ -73,55 +73,67 @@ export default class Game extends Phaser.Scene {
 
   gotoScene(scene) {
     this.scene.pause("game");
-    this.scene.start(scene);
+    this.scene.launch(scene);
   }
 
   gotoScene1() {
     this.scene.pause("game");
-    this.scene.start("cable-game");
+    this.scene.launch("cable-game");
   }
 
   gotoFactory() {
     this.scene.pause("game");
-    this.scene.start("factory");
+    this.scene.launch("factory");
   }
 
   gotoMine() {
-    this.scene.pause("game");
-    this.scene.pause("message");
-    this.scene.start("mine");
+    this.cameras.main.fadeOut(200, 0, 0, 0, (cam, progress) => {
+      if (progress !== 1) return;
+      console.log("fadeout go to mine");
+      this.scene.sleep("game");
+      this.scene.sleep("message");
+      this.scene.launch("mine");
+    });
   }
 
   gotoCable() {
     this.scene.pause("game");
-    this.scene.start("cable");
+    this.scene.launch("cable");
+  }
+
+  resetGameSize() {
+    this.scale.setGameSize(450, 250);
   }
 
   create() {
-    this.scale.setGameSize(450, 250);
+    this.resetGameSize();
 
     if (urlParamHas("nostart")) {
-      this.start();
+      this.startGame();
       return;
     }
 
     const text = this.add
-      .text(225, 125, "Démarrer", { fontFamily: 'DefaultFont', fontSize: "20px", fill: "#ffffff" })
+      .text(225, 125, "Démarrer", {
+        fontFamily: "DefaultFont",
+        fontSize: "20px",
+        fill: "#ffffff",
+      })
       .setOrigin(0.5, 0.5)
-      .setResolution(10)
+      .setResolution(10);
     text.setInteractive({ useHandCursor: true });
     text.on("pointerdown", () => {
       text.disableInteractive(true);
       text.setText("Dans une forêt paisible,\nloin du fracas des villes...");
 
-      this.time.delayedCall(100, () => {
+      this.time.delayedCall(500, () => {
         text.destroy();
-        this.start();
+        this.startGame();
       });
     });
   }
 
-  start() {
+  startGame() {
     this.scene.run("message");
 
     if (urlParamHas("dreamMine")) {
@@ -144,10 +156,15 @@ export default class Game extends Phaser.Scene {
       return;
     }
 
+    console.log("startGame");
+
     // Fade init
+    this.cameras.main.fadeIn(1000, 0, 0, 0);
+    /*
     this.cameras.main.fadeOut(1000, 0, 0, 0, () => {
-      this.cameras.main.fadeIn(1000, 0, 0, 0);
+      
     });
+    */
 
     // parallax backgrounds
     /*
@@ -414,16 +431,31 @@ export default class Game extends Phaser.Scene {
 
     this.animatedTiles.init(this.map);
 
-    this.addDebugControls();
-
-    this.addCollisionManagement();
-
     this.cameras.main.setBounds(0, 0, 2032, 1450);
     this.cameras.main.startFollow(this.hero, true);
+
+    this.addDebugControls();
+    this.addCollisionManagement();
     this.createControls();
     this.addJoystickForMobile();
     //this.addControlsForMobile();
+    this.addEventsListeners();
 
+    if (isMine()) {
+      this.gotoMine();
+      return;
+    }
+
+    if (!urlParamHas("nomusic")) {
+      this.music = this.sound.add("village-theme");
+      this.music.loop = true;
+      this.music.play();
+    }
+
+    if (!urlParamHas("nostart")) this.intro();
+  }
+
+  addEventsListeners() {
     sceneEventsEmitter.on(
       sceneEvents.DiscussionReady,
       this.handleDiscussionReady,
@@ -451,19 +483,6 @@ export default class Game extends Phaser.Scene {
     );
 
     sceneEventsEmitter.on(sceneEvents.EventsUnlocked, this.listenEvents, this);
-
-    if (isMine()) {
-      this.gotoMine();
-      return;
-    }
-
-    if (!urlParamHas("nomusic")) {
-      this.music = this.sound.add("village-theme");
-      this.music.loop = true;
-      this.music.play();
-    }
-
-    if (!urlParamHas("nostart")) this.intro();
   }
 
   intro() {
@@ -542,6 +561,8 @@ export default class Game extends Phaser.Scene {
     this.input.keyboard
       .addKey(Phaser.Input.Keyboard.KeyCodes.S)
       .on("down", () => {
+        this.gotoMine();
+        return;
         sceneEventsEmitter.emit(sceneEvents.PreEventsUnlocked, [
           "django_met",
           "miner_first_met",
@@ -593,13 +614,10 @@ export default class Game extends Phaser.Scene {
     this.input.keyboard
       .addKey(Phaser.Input.Keyboard.KeyCodes.U)
       .on("down", () => {
-        this.cameras.main.fadeOut(200, 0, 0, 0);
-        this.cameras.main.once(
-          Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE,
-          () => {
-            this.gotoFactory();
-          }
-        );
+        this.cameras.main.fadeOut(200, 0, 0, 0, (cam, progress) => {
+          if (progress !== 1) return;
+          this.gotoFactory();
+        });
       });
 
     this.input.keyboard
@@ -699,28 +717,23 @@ export default class Game extends Phaser.Scene {
     });
   }
 
-  fadeOutAndFadeIn(betweenCallback, endCallback) {
+  firstSleep() {
     this.isCinematic = true;
-    this.cameras.main.fadeOut(1000, 0, 0, 0);
+    this.cameras.main.fadeOut(1000, 0, 0, 0, (cam, progress) => {
+      if (progress !== 1) return;
+      console.log("firstSleep fadeOut completed");
+      this.endFirstSleep();
 
-    this.cameras.main.once(
-      Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE,
-      (cam, effect) => {
-        if (betweenCallback) betweenCallback();
-        this.time.delayedCall(1000, () => {
-          this.cameras.main.fadeIn(1000, 0, 0, 0);
+      this.time.delayedCall(1000, () => {
+        this.cameras.main.fadeIn(1000, 0, 0, 0, (cam, progress) => {
+          if (progress !== 1) return;
+          console.log("fadeOutAndFadeIn /// fadeIn completed");
+          this.handleAction();
+          this.isCinematic = false;
+          console.log("end cinematic");
         });
-      }
-    );
-
-    this.cameras.main.once(
-      Phaser.Cameras.Scene2D.Events.FADE_IN_COMPLETE,
-      (cam, effect) => {
-        this.isCinematic = false;
-        console.log('end cinematic')
-        if (endCallback) endCallback();
-      }
-    )
+      });
+    });
   }
 
   toggleSprites(state) {
@@ -752,9 +765,9 @@ export default class Game extends Phaser.Scene {
     this.hero.animateToRight();
     this.setHeroPosition("heroDjango");
 
-    this.map.createLayer("riverPolluted", this.tileset).setDepth(45);
-    this.map.createLayer("landUpRiverPolluted", this.tileset).setDepth(46);
-    this.map.createLayer("bridgesShadowPolluted", this.tileset).setDepth(51);
+    this.map.createLayer("riverPolluted", this.tileset)?.setDepth(45);
+    this.map.createLayer("landUpRiverPolluted", this.tileset)?.setDepth(46);
+    this.map.createLayer("bridgesShadowPolluted", this.tileset)?.setDepth(51);
 
     this.switchNight();
     this.toggleSprites(true);
@@ -771,17 +784,37 @@ export default class Game extends Phaser.Scene {
   }
 
   listenEvents(data) {
+    console.log("Game listenEvents", data);
     if (eventsHas(data, "miner_first_met")) {
       this.toggleSprites(false);
       this.switchNight();
     }
 
     if (eventsHas(data, "pre_first_sleep")) {
-      this.fadeOutAndFadeIn(this.endFirstSleep.bind(this), this.handleAction.bind(this));
+      this.firstSleep();
     }
 
     if (eventsHas(data, "mine_access_validation")) {
-      this.fadeOutAndFadeIn(this.gotoMine.bind(this));
+      this.gotoMine();
+    }
+
+    if (eventsHas(data, "mine_after")) {
+      console.log("game listenEvents mine_after");
+      this.scene.wake("game");
+      console.log("game wake game");
+      this.scene.wake("message");
+      console.log("game wake message");
+
+      this.resetGameSize();
+      this.isCinematic = true;
+      console.log("resetGameSize");
+
+      this.cameras.main.fadeIn(1000, 0, 0, 0, (cam, progress) => {
+        if (progress !== 1) return;
+        console.log("game fadeIn done");
+        this.isCinematic = false;
+        this.currentDiscussionStatus = DiscussionStatus.NONE;
+      });
     }
   }
 
@@ -843,6 +876,8 @@ export default class Game extends Phaser.Scene {
   }
 
   handleDiscussionReady(sprite) {
+    if (!this.scene.isActive()) return;
+
     if (
       this.currentDiscussionStatus === DiscussionStatus.READY &&
       this.currentDiscussionSprite !== sprite
@@ -857,23 +892,27 @@ export default class Game extends Phaser.Scene {
   }
 
   handleDiscussionInProgress() {
+    if (!this.scene.isActive()) return;
     this.currentDiscussionStatus = DiscussionStatus.INPROGRESS;
   }
 
   handleDiscussionStarted() {
+    if (!this.scene.isActive()) return;
     this.currentDiscussionStatus = DiscussionStatus.STARTED;
   }
 
-  handleDiscussionWaiting() {
+  handleDiscussionWaiting(data) {
+    if (!this.scene.isActive()) return;
+    console.log("handleDiscussionWaiting", data);
     this.currentDiscussionStatus = DiscussionStatus.WAITING;
   }
 
   handleDiscussionEnded(sprite) {
-    if (this.scene.isPaused()) return
+    if (!this.scene.isActive()) return;
     if (!sprite || !this[sprite]) return;
 
     this.currentDiscussionStatus = DiscussionStatus.NONE;
-    this[sprite].stopChatting();
+    this[sprite]?.stopChatting();
   }
 
   createControls() {
@@ -925,8 +964,7 @@ export default class Game extends Phaser.Scene {
   }
 
   handleAction() {
-    console.log('handleAction', this.isCinematic, this.scene.isPaused()) 
-    if (this.isCinematic || this.scene.isPaused()) return
+    if (this.isCinematic) return;
 
     if (this.currentDiscussionStatus === DiscussionStatus.WAITING) {
       this.currentDiscussionStatus = DiscussionStatus.STARTED;
@@ -1094,9 +1132,11 @@ export default class Game extends Phaser.Scene {
   }
 
   update(time, delta) {
-    if (!this.cursors || !this.hero || this.isCinematic) {
+    //console.log(!this.cursors, !this.hero, this.isCinematic, !this.hero?.body, this.currentDiscussionStatus)
+    if (!this.cursors || !this.hero || this.isCinematic || !this.hero.body) {
       return;
     }
+    //console.log('game update ' + time)
 
     this.hero.resetVelocity();
 

@@ -6,6 +6,7 @@ import { DiscussionStatus } from "./Utils/discussionStatus";
 
 const FONT_SIZE = "10px"
 const FONT_RESOLUTION = 30;
+const SHOW_TEXT_DELAY = 30;
 
 export default class Message extends Phaser.Scene {
   constructor() {
@@ -13,7 +14,6 @@ export default class Message extends Phaser.Scene {
     this.textObject = null;
     this.spriteNameObject = null;
     this.currentText = "";
-    this.delay = 50;
     this.currentDiscussionStatus = DiscussionStatus.NONE;
   }
 
@@ -121,18 +121,25 @@ export default class Message extends Phaser.Scene {
   }
 
   startDiscussion() {
+    console.log('Message startDiscussion')
+    if (!this.scene.isActive()) return
     this.currentDiscussionStatus = DiscussionStatus.STARTED;
     this.stopAction();
   }
 
   stopAction() {
+    if (!this.scene.isActive()) return;
+    console.log('Message stopAction')
+
     this.actionText.setVisible(false);
     this.actionBackground.setVisible(false);
     this.actionBackgroundLine.setVisible(false);
   }
 
   readyToAction() {
+    if (!this.scene.isActive()) return;
     if (this.currentDiscussionStatus !== DiscussionStatus.NONE) return;
+    console.log('Message readyToAction')
 
     this.currentDiscussionStatus = DiscussionStatus.READY;
     this.actionText.setVisible(true);
@@ -141,6 +148,9 @@ export default class Message extends Phaser.Scene {
   }
 
   handleDiscussionEnd() {
+    if (!this.scene.isActive()) return;
+    console.log('Message handleDiscussionEnd')
+
     this.currentDiscussionStatus = DiscussionStatus.NONE;
     this.stopAction();
     this.textObject.text = "";
@@ -153,7 +163,8 @@ export default class Message extends Phaser.Scene {
   }
 
   handleMessage(payload) {
-    if (this.scene.isPaused()) return
+    if (!this.scene.isActive()) return;
+    console.log('Message handleMessage')
 
     const { message, sprite } = payload;
     if (this.textObject.visible && message === this.currentText) {
@@ -186,7 +197,7 @@ export default class Message extends Phaser.Scene {
         }
       },
       repeat: length - 1,
-      delay: this.delay,
+      delay: SHOW_TEXT_DELAY,
     });
   }
 }
