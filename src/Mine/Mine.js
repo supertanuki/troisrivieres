@@ -11,7 +11,7 @@ const tubePositionsY = [60, 125, 187];
 const waterDeltaY = 50;
 
 const conveyorInitialSpeed = [0.8, 1, 1.2];
-const conveyorSpeedIncrement = 0.5;
+const conveyorSpeedIncrement = 0.6;
 
 const numberRockValidatedBeforeSpeedIncrement = getUrlParam(
   "numberRockValidatedBeforeSpeedIncrement",
@@ -95,10 +95,11 @@ export default class Mine extends MiniGameUi {
     this.add.image(197, 46, "mine", "water-glass");
     this.add.image(197, 18, "mine", "water-tank-top");
 
-    this.conveyor.push(this.add
-      .tileSprite(0, 92, 550, 48, "mine", "conveyor")
-      .setOrigin(0, 0)
-      .setScrollFactor(0, 0)
+    this.conveyor.push(
+      this.add
+        .tileSprite(0, 92, 550, 48, "mine", "conveyor")
+        .setOrigin(0, 0)
+        .setScrollFactor(0, 0)
     );
 
     this.add
@@ -106,10 +107,11 @@ export default class Mine extends MiniGameUi {
       .setOrigin(0, 0)
       .setScrollFactor(0, 0);
 
-    this.conveyor.push(this.add
-      .tileSprite(0, 156, 550, 48, "mine", "conveyor")
-      .setOrigin(0, 0)
-      .setScrollFactor(0, 0)
+    this.conveyor.push(
+      this.add
+        .tileSprite(0, 156, 550, 48, "mine", "conveyor")
+        .setOrigin(0, 0)
+        .setScrollFactor(0, 0)
     );
 
     this.add
@@ -117,10 +119,11 @@ export default class Mine extends MiniGameUi {
       .setOrigin(0, 0)
       .setScrollFactor(0, 0);
 
-    this.conveyor.push(this.add
-      .tileSprite(0, 220, 550, 48, "mine", "conveyor")
-      .setOrigin(0, 0)
-      .setScrollFactor(0, 0)
+    this.conveyor.push(
+      this.add
+        .tileSprite(0, 220, 550, 48, "mine", "conveyor")
+        .setOrigin(0, 0)
+        .setScrollFactor(0, 0)
     );
 
     this.add
@@ -226,7 +229,7 @@ export default class Mine extends MiniGameUi {
     this.water.setDepth(1);
 
     this.events.on("update", () => {
-      if (this.isCinematic) return
+      if (this.isCinematic) return;
 
       if (!this.rechargeWater && this.action && this.waterStockPercentage > 0) {
         this.water.emitParticleAt(this.tubeEnd.x, this.tubeEnd.y);
@@ -246,7 +249,7 @@ export default class Mine extends MiniGameUi {
         if (this.waterStockPercentage <= 0) {
           this.waterStockPercentage = 0;
           this.rechargeWater = true;
-          this.updateMessage(getUiMessage('mine.waterEmpty'));
+          this.updateMessage(getUiMessage("mine.waterEmpty"));
         }
       } else {
         this.waterStockPercentage += waterRefillFactor;
@@ -257,7 +260,7 @@ export default class Mine extends MiniGameUi {
 
         if (this.rechargeWater && this.waterStockPercentage === 100) {
           this.rechargeWater = false;
-          this.updateMessage(getUiMessage('mine.waterFull'));
+          this.updateMessage(getUiMessage("mine.waterFull"));
         }
       }
 
@@ -298,7 +301,7 @@ export default class Mine extends MiniGameUi {
           this.goingLeft = false;
         } else if (event.keyCode === 32) {
           this.action = true;
-          this.handleAction()
+          this.handleAction();
         }
       },
       this
@@ -441,14 +444,18 @@ export default class Mine extends MiniGameUi {
   tutoEnd() {
     this.isCinematic = true;
     dispatchUnlockEvents(["mine_tuto_end"]);
-    this.startDiscussion('mine');
+    this.startDiscussion("mine");
   }
 
   tutoMissed() {
     this.tutoMissedCount++;
-    dispatchUnlockEvents(this.tutoMissedCount > 1 ? ["mine_tuto_missed_twice"] : ["mine_tuto_missed"]);
+    dispatchUnlockEvents(
+      this.tutoMissedCount > 1
+        ? ["mine_tuto_missed_twice"]
+        : ["mine_tuto_missed"]
+    );
     this.isCinematic = true;
-    this.startDiscussion('mine');
+    this.startDiscussion("mine");
   }
 
   afterTuto() {
@@ -458,10 +465,11 @@ export default class Mine extends MiniGameUi {
   }
 
   startGame() {
+    this.cameras.main.fadeOut(0, 0, 0, 0);
     this.cameras.main.fadeIn(2000, 0, 0, 0);
 
     this.time.addEvent({
-      callback: () => this.startDiscussion('mine'),
+      callback: () => this.startDiscussion("mine"),
       delay: 1000,
     });
   }
@@ -470,7 +478,7 @@ export default class Mine extends MiniGameUi {
     this.cameras.main.fadeOut(1000, 0, 0, 0, (cam, progress) => {
       if (progress !== 1) return;
       this.scene.stop();
-      dispatchUnlockEvents(['mine_after']);
+      dispatchUnlockEvents(["mine_after"]);
     });
   }
 
@@ -482,7 +490,9 @@ export default class Mine extends MiniGameUi {
     rock.setDepth(1 + index * 10);
 
     // first one must be 0
-    const refined = this.rocks.length ? Phaser.Math.Between(0, Math.round(numberIsRefined * 0.9)) : 0;
+    const refined = this.rocks.length
+      ? Phaser.Math.Between(0, Math.round(numberIsRefined * 0.9))
+      : 0;
     this.setRockTexture(rock, refined);
     this.rocks.push({ rock, index, refined });
 
@@ -491,9 +501,12 @@ export default class Mine extends MiniGameUi {
     this.time.addEvent({
       callback: () => {
         this.createRock();
-        if (!this.moreMaterials && this.rockValidated === numberRockValidatedToHaveMoreMaterials) {
+        if (
+          !this.moreMaterials &&
+          this.rockValidated === numberRockValidatedToHaveMoreMaterials
+        ) {
           this.moreMaterials = true;
-          this.updateMessage(getUiMessage('mine.moreMaterials'));
+          this.updateMessage(getUiMessage("mine.moreMaterials"));
         }
       },
       delay:
@@ -506,8 +519,9 @@ export default class Mine extends MiniGameUi {
   gameOver() {
     this.isCinematic = true;
     this.isGameOver = true;
+    this.rockParticles.setVisible(false);
     dispatchUnlockEvents(["mine_game_over"]);
-    this.startDiscussion('mine');
+    this.startDiscussion("mine");
   }
 
   updateStep() {
@@ -519,23 +533,37 @@ export default class Mine extends MiniGameUi {
       }
     }
 
-    if (!this.faster && this.rockValidated === numberRockValidatedBeforeSpeedIncrement) {
+    if (
+      !this.faster &&
+      this.rockValidated === numberRockValidatedBeforeSpeedIncrement
+    ) {
       this.faster = true;
-      this.speed.forEach((value, index) => this.speed[index] += conveyorSpeedIncrement)
-      this.updateMessage(getUiMessage('mine.faster'));
+      this.speed.forEach(
+        (value, index) => (this.speed[index] += conveyorSpeedIncrement)
+      );
+      this.updateMessage(getUiMessage("mine.faster"));
     }
 
-    if (!this.fasterAgain && this.rockValidated === numberRocksValidatedBeforeSpeedIncrementAgain) {
+    if (
+      !this.fasterAgain &&
+      this.rockValidated === numberRocksValidatedBeforeSpeedIncrementAgain
+    ) {
       this.fasterAgain = true;
-      this.speed.forEach((value, index) => this.speed[index] += conveyorSpeedIncrement)
-      this.updateMessage(getUiMessage('mine.fasterAgain'));
+      this.speed.forEach(
+        (value, index) => (this.speed[index] += conveyorSpeedIncrement)
+      );
+      this.updateMessage(getUiMessage("mine.fasterAgain"));
     }
 
     const total = this.rockValidated + this.rockNotValidated;
     const percent = Math.round((100 * this.rockValidated) / (total || 1));
     console.log(percent + " % (" + this.rockValidated + " / " + total + ")");
 
-    const warnings = (this.rockNotValidated > 15 && 1) + (this.rockNotValidated > 30 && 1) + (this.rockNotValidated > 45 && 1) + (this.rockNotValidated > 55 && 1);
+    const warnings =
+      (this.rockNotValidated > 15 && 1) +
+      (this.rockNotValidated > 25 && 1) +
+      (this.rockNotValidated > 35 && 1) +
+      (this.rockNotValidated > 45 && 1);
     if (warnings > this.warnings) {
       this.warnings++;
       if (this.warnings > 3) {
@@ -543,7 +571,9 @@ export default class Mine extends MiniGameUi {
         return;
       }
 
-      this.updateMessage(getUiMessage(this.warnings === 3 ? 'mine.lastWarning' : 'mine.warning'));
+      this.updateMessage(
+        getUiMessage(this.warnings === 3 ? "mine.lastWarning" : "mine.warning")
+      );
       this.updateWarnings(this.warnings);
     }
   }
@@ -619,7 +649,7 @@ export default class Mine extends MiniGameUi {
     this.conveyor.forEach((conveyor, index) => {
       this.conveyorPosition[index] += this.speed[index];
       conveyor.setTilePosition(this.conveyorPosition[index], 0);
-    })
+    });
 
     //if (this.isCinematic) return
 

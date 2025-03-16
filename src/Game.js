@@ -87,12 +87,12 @@ export default class Game extends Phaser.Scene {
   }
 
   gotoMine() {
-    this.cameras.main.fadeOut(200, 0, 0, 0, (cam, progress) => {
+    this.cameras.main.fadeOut(1000, 0, 0, 0, (cam, progress) => {
       if (progress !== 1) return;
       console.log("fadeout go to mine");
+      this.scene.launch("mine");
       this.scene.sleep("game");
       this.scene.sleep("message");
-      this.scene.launch("mine");
     });
   }
 

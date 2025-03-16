@@ -85,7 +85,7 @@ export default class MiniGameUi extends Phaser.Scene {
         fontSize: "12px",
         fill: "#ffffff",
       })
-      .setResolution(20)
+      .setResolution(1)
       .setOrigin(0.5, 0.5)
       .setScrollFactor(0)
       .setDepth(2000)
@@ -129,7 +129,7 @@ export default class MiniGameUi extends Phaser.Scene {
     this.textObject.setVisible(true);
 
     if (waitUserAction) {
-      this.time.delayedCall(100, () =>
+      this.time.delayedCall(500, () =>
         sceneEventsEmitter.emit(sceneEvents.DiscussionWaiting)
       );
       return;
