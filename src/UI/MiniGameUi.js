@@ -82,7 +82,7 @@ export default class MiniGameUi extends Phaser.Scene {
     this.textObject = this.add
       .text(345, 50, "", {
         fontFamily: "DefaultFont",
-        fontSize: "12px",
+        fontSize: "14px",
         fill: "#ffffff",
       })
       .setResolution(1)

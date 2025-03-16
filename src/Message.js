@@ -4,9 +4,9 @@ import { spriteNames } from "./Workflow/messageWorkflow";
 import isMobileOrTablet from "./Utils/isMobileOrTablet";
 import { DiscussionStatus } from "./Utils/discussionStatus";
 
-const FONT_SIZE = "10px"
-const FONT_RESOLUTION = 30;
-const SHOW_TEXT_DELAY = 30;
+const FONT_SIZE = "12px"
+const FONT_RESOLUTION = 1;
+const SHOW_TEXT_DELAY = 20;
 
 export default class Message extends Phaser.Scene {
   constructor() {
@@ -88,7 +88,7 @@ export default class Message extends Phaser.Scene {
       .setOrigin(0.5, 0.5)
       .setScrollFactor(0)
       .setDepth(3000)
-      .setWordWrapWidth(240)
+      .setWordWrapWidth(245)
       .setVisible(false);
 
     this.spriteNameObject = this.add
