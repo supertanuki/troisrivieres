@@ -431,7 +431,7 @@ export default class Game extends Phaser.Scene {
 
     this.animatedTiles.init(this.map);
 
-    this.cameras.main.setBounds(0, 0, 2032, 1450);
+    this.cameras.main.setBounds(0, 0, 2352, 1750);
     this.cameras.main.startFollow(this.hero, true);
 
     this.addDebugControls();
