@@ -10,7 +10,7 @@ export default class MiniGameUi extends Phaser.Scene {
       key: "speaker-off-anim",
       frames: [
         {
-          key: "speaker",
+          key: "ui",
           frame: "speaker-off",
         },
       ],
@@ -22,11 +22,11 @@ export default class MiniGameUi extends Phaser.Scene {
       key: "speaker-on-anim",
       frames: [
         {
-          key: "speaker",
+          key: "ui",
           frame: "speaker-off",
         },
         {
-          key: "speaker",
+          key: "ui",
           frame: "speaker-on",
         },
       ],
@@ -38,11 +38,11 @@ export default class MiniGameUi extends Phaser.Scene {
       key: "dialog-shout-anim",
       frames: [
         {
-          key: "speaker",
+          key: "ui",
           frame: "dialog-shout-1",
         },
         {
-          key: "speaker",
+          key: "ui",
           frame: "dialog-shout-2",
         },
       ],
@@ -51,7 +51,7 @@ export default class MiniGameUi extends Phaser.Scene {
     });
 
     this.add
-      .sprite(4, 0, "speaker", "scoreboard")
+      .sprite(4, 0, "ui", "scoreboard")
       .setOrigin(0, 0)
       .setDepth(2000);
 
@@ -59,19 +59,19 @@ export default class MiniGameUi extends Phaser.Scene {
     for (let i = 0; i <= 2; i++) {
       this.scores.push(
         this.add
-          .sprite(12 + 24 * i, 22, "speaker", "scoreok")
+          .sprite(12 + 24 * i, 22, "ui", "scoreok")
           .setOrigin(0, 0)
           .setDepth(2000)
       );
     }
 
     this.speaker = this.add
-      .sprite(470, 0, "speaker", "speaker-off")
+      .sprite(470, 0, "ui", "speaker-off")
       .setOrigin(0, 0)
       .setDepth(2000);
 
     this.dialogBackground = this.add
-      .sprite(345, 50, "speaker", "dialog-shout-1")
+      .sprite(345, 50, "ui", "dialog-shout-1")
       .setOrigin(0.5, 0.5)
       .setDepth(2000)
       .setAlpha(0.8)
@@ -143,7 +143,7 @@ export default class MiniGameUi extends Phaser.Scene {
 
   updateWarnings(warningCount) {
     for (let i = 0; i < warningCount; i++)
-      this.scores[i].setTexture("speaker", "scoreko");
+      this.scores[i].setTexture("ui", "scoreko");
   }
 
   handleAction() {

@@ -63,7 +63,7 @@ export default class Message extends Phaser.Scene {
       .setVisible(false)
 
     this.dialogBackground = this.add
-      .sprite(config.width / 2, config.height - 30, "speaker", "dialog-2")
+      .sprite(config.width / 2, config.height - 30, "ui", "dialog-2")
       .setOrigin(0.5, 0.5)
       .setDepth(2000)
       .setAlpha(0.8)
