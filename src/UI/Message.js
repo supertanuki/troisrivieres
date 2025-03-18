@@ -1,8 +1,9 @@
 import Phaser from "phaser";
-import { sceneEvents, sceneEventsEmitter } from "./Events/EventsCenter";
-import { spriteNames } from "./Workflow/messageWorkflow";
-import isMobileOrTablet from "./Utils/isMobileOrTablet";
-import { DiscussionStatus } from "./Utils/discussionStatus";
+import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
+import { spriteNames } from "../Workflow/messageWorkflow";
+import isMobileOrTablet from "../Utils/isMobileOrTablet";
+import { DiscussionStatus } from "../Utils/discussionStatus";
+import { eventsHas } from "../Utils/events";
 
 const FONT_SIZE = "12px"
 const FONT_RESOLUTION = 1;
@@ -106,6 +107,13 @@ export default class Message extends Phaser.Scene {
       .setVisible(false)
       .setShadow(0, 0, "rgba(0,0,0,0.9)", 2);
 
+    this.mineCard = this.add
+      .image(config.width - 30, config.height - 30, "ui", "card")
+      .setScrollFactor(0)
+      .setDepth(3000)
+      .setAlpha(0)
+      .setVisible(false);
+
     sceneEventsEmitter.on(sceneEvents.MessageSent, this.handleMessage, this);
     sceneEventsEmitter.on(
       sceneEvents.DiscussionEnded,
@@ -118,6 +126,42 @@ export default class Message extends Phaser.Scene {
       this
     );
     sceneEventsEmitter.on(sceneEvents.DiscussionStarted, this.stopAction, this);
+    sceneEventsEmitter.on(sceneEvents.EventsUnlocked, this.listenEvents, this);
+  }
+
+  showMineCard() {
+    this.mineCard.setVisible(true);
+    this.tweens.add({
+      targets: this.mineCard,
+      alpha: 1,
+      scale: 1,
+      ease: "Sine.easeInOut",
+      loop: 0,
+      duration: 500,
+    });
+  }
+
+  hideMineCard() {
+    this.tweens.add({
+      targets: this.mineCard,
+      alpha: 0,
+      scale: 0.5,
+      ease: "Sine.easeInOut",
+      loop: 0,
+      duration: 500,
+      onComplete: () => this.mineCard.setVisible(false)
+    });
+  }
+
+  listenEvents(data) {
+    console.log("Message listenEvents", data);
+    if (eventsHas(data, "card_for_mine")) {
+      this.showMineCard();
+    }
+
+    if (eventsHas(data, "mine_access_validation")) {
+      this.hideMineCard();
+    }    
   }
 
   startDiscussion() {

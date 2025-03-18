@@ -3,7 +3,7 @@ import Phaser from "phaser";
 import { isDebug } from "./Utils/isDebug";
 import Preloader from "./Preloader";
 import Game from "./Game";
-import Message from "./Message";
+import Message from "./UI/Message";
 import Workflow from "./Workflow/Workflow";
 import Cable from "./Cable";
 import Factory from "./Factory";
