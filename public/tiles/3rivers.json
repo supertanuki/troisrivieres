@@ -4887,6 +4887,30 @@
                  "width":0,
                  "x":119.5,
                  "y":1328.5
+                }, 
+                {
+                 "height":0,
+                 "id":1170,
+                 "name":"sapin",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":316.5,
+                 "y":885
+                }, 
+                {
+                 "height":0,
+                 "id":1171,
+                 "name":"sapin",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":334.5,
+                 "y":868
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -5856,7 +5880,7 @@
          "y":0
         }],
  "nextlayerid":33,
- "nextobjectid":1170,
+ "nextobjectid":1172,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.11.1-99-gec89c545",
