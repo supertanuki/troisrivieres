@@ -58,6 +58,9 @@ export default class Game extends Phaser.Scene {
 
     this.heroPositions = {};
 
+    this.maskNightOverlays = [];
+    this.nightOverlays = [];
+
     this.isCinematic = false;
   }
 
@@ -632,49 +635,46 @@ export default class Game extends Phaser.Scene {
   addNightCircle(radius) {
     const nightOverlay = this.add.graphics();
     nightOverlay.fillStyle(nightColor, 0.3);
-    nightOverlay.fillRect(0, 0, this.scale.width, this.scale.height);
-    nightOverlay.setScrollFactor(0, 0);
+    nightOverlay.fillRect(0, 0, this.scale.width * 2, this.scale.height * 2);
     nightOverlay.setVisible(false);
     nightOverlay.setDepth(1000);
 
     const maskGraphics = this.make.graphics();
     maskGraphics.fillStyle(0xffffff);
-    maskGraphics.fillCircle(225, 125, radius);
-    maskGraphics.setScrollFactor(0, 0);
+    maskGraphics.fillCircle(this.scale.width, this.scale.height, radius)
 
     const mask = maskGraphics.createGeometryMask();
     mask.invertAlpha = true;
     nightOverlay.setMask(mask);
-
-    return nightOverlay;
+    this.maskNightOverlays.push(maskGraphics);
+    this.nightOverlays.push(nightOverlay);
   }
 
   switchNight() {
-    this.nightOverlay1 = this.nightOverlay1 || this.addNightCircle(50);
-    this.nightOverlay2 = this.nightOverlay2 || this.addNightCircle(70);
-    this.nightOverlay3 = this.nightOverlay3 || this.addNightCircle(90);
+    if (!this.darkOverlay) {
+      this.addNightCircle(50);
+      this.addNightCircle(80);
+      this.addNightCircle(100);
+    }
 
     this.darkOverlay =
       this.darkOverlay ||
       this.add
         .rectangle(
-          this.scale.width / 2,
-          this.scale.height / 2,
-          this.scale.width,
-          this.scale.height,
+          this.scale.width / 4,
+          this.scale.height / 4,
+          this.scale.width * 2,
+          this.scale.height * 2,
           nightColor
         )
         .setOrigin(0.5, 0.5)
-        .setScrollFactor(0, 0)
         .setVisible(false)
         .setDepth(1000);
 
     if (this.night) {
       this.night = false;
       this.darkOverlay.setVisible(false);
-      this.nightOverlay1.setVisible(false);
-      this.nightOverlay2.setVisible(false);
-      this.nightOverlay3.setVisible(false);
+      this.nightOverlays.forEach(nightOverlay => nightOverlay.setVisible(false))
       return;
     }
 
@@ -688,32 +688,16 @@ export default class Game extends Phaser.Scene {
       ease: "Sine.easeInOut",
     });
 
-    this.nightOverlay1.setAlpha(0);
-    this.nightOverlay1.setVisible(true);
-    this.tweens.add({
-      targets: this.nightOverlay1,
-      alpha: 1,
-      duration: 3000,
-      ease: "Sine.easeInOut",
-    });
-
-    this.nightOverlay2.setAlpha(0);
-    this.nightOverlay2.setVisible(true);
-    this.tweens.add({
-      targets: this.nightOverlay2,
-      alpha: 1,
-      duration: 3000,
-      ease: "Sine.easeInOut",
-    });
-
-    this.nightOverlay3.setAlpha(0);
-    this.nightOverlay3.setVisible(true);
-    this.tweens.add({
-      targets: this.nightOverlay3,
-      alpha: 1,
-      duration: 3000,
-      ease: "Sine.easeInOut",
-    });
+    this.nightOverlays.forEach(nightOverlay => {
+      nightOverlay.setAlpha(0);
+      nightOverlay.setVisible(true);
+      this.tweens.add({
+        targets: nightOverlay,
+        alpha: 1,
+        duration: 3000,
+        ease: "Sine.easeInOut",
+      });
+    })
   }
 
   firstSleep() {
@@ -1130,12 +1114,24 @@ export default class Game extends Phaser.Scene {
     this.hero.stopAndWait();
   }
 
+  updateNightPosition() {
+    const noX = this.hero.x - this.scale.width;
+    const noY = this.hero.y - this.scale.height;
+    
+    this.nightOverlays.forEach(nightOverlay => nightOverlay.setPosition(noX, noY));
+    this.maskNightOverlays.forEach(maskNightOverlay => maskNightOverlay.setPosition(noX, noY));
+    this.darkOverlay.setPosition(this.hero.x, this.hero.y)
+  }
+
   update(time, delta) {
     //console.log(!this.cursors, !this.hero, this.isCinematic, !this.hero?.body, this.currentDiscussionStatus)
     if (!this.cursors || !this.hero || this.isCinematic || !this.hero.body) {
       return;
     }
-    //console.log('game update ' + time)
+
+    if (this.night && this.darkOverlay) {
+      this.updateNightPosition();
+    }
 
     this.hero.resetVelocity();
 
