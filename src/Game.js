@@ -24,7 +24,6 @@ import "./Sprites/Ball";
 import "./Sprites/Girl";
 import "./Sprites/Boy";
 
-//import "./Sprites/Hero";
 import { Hero } from "./Sprites/Hero";
 import { DiscussionStatus } from "./Utils/discussionStatus";
 import { eventsHas } from "./Utils/events";
@@ -431,7 +430,7 @@ export default class Game extends Phaser.Scene {
 
     this.animatedTiles.init(this.map);
 
-    this.cameras.main.setBounds(0, 0, 2352, 1750);
+    this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
     this.cameras.main.startFollow(this.hero, true);
 
     this.addDebugControls();
@@ -486,6 +485,7 @@ export default class Game extends Phaser.Scene {
   }
 
   intro() {
+    this.isIntro = true;
     this.isCinematic = true;
     this.hero.setVisible(false);
     this.time.addEvent({
@@ -498,7 +498,7 @@ export default class Game extends Phaser.Scene {
     });
 
     this.events.on("update", () => {
-      if (!this.isCinematic) return;
+      if (!this.isIntro) return;
 
       if (this.goingDown) {
         this.hero.slowDown();
@@ -510,6 +510,7 @@ export default class Game extends Phaser.Scene {
         this.tent.on("animationcomplete", () => {
           this.tent.destroy();
           this.isCinematic = false;
+          this.isIntro = false;
         });
       }
     });
@@ -561,8 +562,6 @@ export default class Game extends Phaser.Scene {
     this.input.keyboard
       .addKey(Phaser.Input.Keyboard.KeyCodes.S)
       .on("down", () => {
-        this.gotoMine();
-        return;
         sceneEventsEmitter.emit(sceneEvents.PreEventsUnlocked, [
           "django_met",
           "miner_first_met",
@@ -574,13 +573,13 @@ export default class Game extends Phaser.Scene {
     this.input.keyboard
       .addKey(Phaser.Input.Keyboard.KeyCodes.M)
       .on("down", () => {
-        this.cameras.main.zoomTo(this.cameras.main.zoom === 1.4 ? 1 : 0.2, 100);
+        this.cameras.main.zoomTo(this.cameras.main.zoom === 2 ? 1 : 0.18, 100);
       });
 
     this.input.keyboard
       .addKey(Phaser.Input.Keyboard.KeyCodes.P)
       .on("down", () => {
-        this.cameras.main.zoomTo(this.cameras.main.zoom === 0.2 ? 1 : 1.4, 100);
+        this.cameras.main.zoomTo(this.cameras.main.zoom === 0.18 ? 1 : 2, 100);
       });
 
     const ctrlR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
@@ -728,9 +727,9 @@ export default class Game extends Phaser.Scene {
         this.cameras.main.fadeIn(1000, 0, 0, 0, (cam, progress) => {
           if (progress !== 1) return;
           console.log("fadeOutAndFadeIn /// fadeIn completed");
-          this.handleAction();
           this.isCinematic = false;
           console.log("end cinematic");
+          this.handleAction();
         });
       });
     });

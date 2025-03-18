@@ -18,7 +18,8 @@ const messageWorkflow = {
       messages: [
         "Hey, salut toi ! Moi je m'appelle Bino !",
         "Fais attention à ne pas marcher sur mes carottes.",
-        "Le village est plutôt calme d'habitude, mais il se trame quelque chose pas loin d'ici.",
+        "Le village est plutôt calme d'habitude.",
+        "Mais il se trame quelque chose pas loin d'ici.",
         "J'espère que ça n'aura pas d'impact sur mon potager.",
         "Si tu peux aller dénicher des infos, ça peut m'intéresser !",
       ],
@@ -30,7 +31,7 @@ const messageWorkflow = {
       messages: [
         "Je travaille, je travaille, mais j'avoue ne pas trop avoir la tête à ça…",
         "Je suis très inquiet avec toute cette histoire de rivière.",
-        "En remontant la rivière, la cause de la pollution ne semble faire aucun doute…",
+        "En remontant la rivière, tu trouveras la cause de la pollution.",
       ],
       repeat: [
         "Si tu remontes la rivière, tu trouveras sans doute l'origine du problème.",
@@ -44,7 +45,7 @@ const messageWorkflow = {
         "Oh bah, v’là donc une nouvelle arrivante !",
         "Ça fait plaisir d’voir une nouvelle tête !",
         "Bienvenue au village de Trois-Rivières !",
-        "Moi c'est Koko.",
+        "Moi c'est Koko et j'adore le vélo !",
         "Maï ? Joli prénom…",
         " J’suis sûre que notre patelin va te plaire",
         "va donc y faire un tour !",
@@ -64,20 +65,27 @@ const messageWorkflow = {
     },
     {
       messages: [
-        "Oh la la, le pauv’Nono, il est dans un sal’état.",
-        "Un peu comme la rivière qui est toute polluée.",
+        "Oh la la, la rivière est toute polluée.",
+        "Et un malheur n'arrivant pas seul, le pauv’Nono, il est dans un sal’état.",
         "Tu peux aller voir Nono, il habite au nord du village.",
       ],
       repeat: [
         "Je me demande ce qui est arrivé à la rivière, toute marron, beurk.",
+        "Et Nono, dans un sal'état. Tu le trouveras au nord.",
       ],
       dependingOn: ["first_sleep"],
+    },
+    {
+      messages: [
+        "Je me demande ce qui est arrivé à la rivière, toute marron, beurk.",
+      ],
+      dependingOn: ["nono_first_met"],
     },
   ],
   nono: [
     {
       messages: [
-        "Salut Maï !",
+        "Salut Maï !",
         "Comment je connais ton prénom ? C'est Koko qui me l'a dit.",
         "Elle aime bien tout savoir et que tout se sache ici !",
         "Je suis dans un sale état, car j'ai eu un accident de travail.",
@@ -93,8 +101,12 @@ const messageWorkflow = {
       messages: [
         "Quoi ? Tu veux aller voir la mine ?",
         "Pour chercher l'origine de la pollution de la rivière ?",
-        "Ok, pourquoi pas, je te prête mon laissez-passer pour la mine…",
-        "Sois très prudente, reste discrète et reviens vite !",
+        "Tu sais, c'est très dangereux…",
+        "Vois donc mon état !",
+        "Oh…",
+        "Et pourquoi pas, tu verras par toi-même.",
+        "Je te prête mon laissez-passer pour entrer à la mine…",
+        "Mais, sois très prudente, reste discrète et reviens vite !",
       ],
       repeat: [
         "Fais bon usage de mon laissez-passer pour la mine… et sois très prudente !",
@@ -121,8 +133,9 @@ const messageWorkflow = {
     {
       messages: [
         "Aah, tu es revenue !",
-        "Comme disait ma grand-mère : qui se nourrit d'attente risque de mourir de faim.",
-        "J'espère donc que tu aimes les soupes ! Allez, rentre.",
+        "Comme disait ma grand-mère…",
+        "Qui se nourrit d'attente risque de mourir de faim.",
+        "J'espère donc que tu aimes la soupe ! Allez, rentre.",
       ],
       dependingOn: ["miner_first_met"],
       unlockEvents: ["pre_first_sleep"],
@@ -185,7 +198,8 @@ const messageWorkflow = {
     },
     {
       messages: [
-        "Fichtre, je ne vais plus pouvoir pêcher. Qui sont les responsables de ce #?%@ ???",
+        "Fichtre, je ne vais plus pouvoir pêcher.",
+        "Qui sont les responsables de ce #?%@ ???",
       ],
       repeat: ["Si j'attrape les responsables de ce #?%@…"],
       dependingOn: ["first_sleep"],
@@ -193,7 +207,10 @@ const messageWorkflow = {
   ],
   boy: [
     {
-      messages: ["Trop bien, on peut se baigner quand on veut !"],
+      messages: [
+        "Trop bien, on peut se baigner quand on veut !",
+        "Vas-y, envoie-moi le ballon !"
+    ],
     },
     {
       messages: ["Oh nooon, on ne peut plus jouer dans l'eau…"],

@@ -183,6 +183,8 @@ export default class Message extends Phaser.Scene {
   readyToAction() {
     if (!this.scene.isActive()) return;
     if (this.currentDiscussionStatus !== DiscussionStatus.NONE) return;
+    if (this.scene.get('game')?.isCinematic) return;
+
     console.log('Message readyToAction')
 
     this.currentDiscussionStatus = DiscussionStatus.READY;

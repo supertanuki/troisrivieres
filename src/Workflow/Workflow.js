@@ -92,8 +92,7 @@ export default class Workflow {
     if (!messageWorkflow[sprite][currentThread]) return;
 
     const dependingOn = messageWorkflow[sprite][currentThread]?.dependingOn;
-
-    if (this.isValidDependingOn(sprite, dependingOn) &&
+    if (dependingOn && this.isValidDependingOn(sprite, dependingOn) &&
       !this.spritePosition[sprite].threadRead.includes(currentThread)
     ) return currentThread;
 
@@ -112,8 +111,8 @@ export default class Workflow {
       this.endThread();
 
       // next thread ?
-      const nextAvailableThread = this.getNextAvailableThread(this.currentSprite, this.getCurrentThread() + 1)
-      if (undefined == nextAvailableThread) {
+      const nextAvailableThread = this.getNextAvailableThread(this.currentSprite, this.getCurrentThread())
+      if (undefined === nextAvailableThread) {
         this.endDiscussion();
         return;
       }
@@ -178,8 +177,8 @@ export default class Workflow {
         const missingEvents = dependingOn.filter(event => !this.unlockedEvents.includes(event))
 
         if (missingEvents.length > 0 && missingEvents.every(event => data.newUnlockedEvents.includes(event))) {
-          this.spritePosition[sprite].currentThread = threadIndex * 1 - 1
-          this.spritePosition[sprite].currentMessagePosition = 0
+          this.spritePosition[sprite].currentThread = Number(threadIndex);
+          this.spritePosition[sprite].currentMessagePosition = 0;
         }
       }
     }
