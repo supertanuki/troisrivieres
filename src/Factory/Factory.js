@@ -12,7 +12,7 @@ const COMPONENTS = {
 
 const initialY = 265;
 const initialX = 275;
-const step = 70;
+const step = 90;
 const motherboardInitialSpeed = 10;
 const motherboardValidatedSpeed = 10;
 const accelerationStep = 5;
@@ -39,17 +39,33 @@ export default class Factory extends MiniGameUi {
   }
 
   preload() {
-    this.load.atlas("firm", "sprites/firm.png", "sprites/firm.json");
+    this.load.atlas("factory", "sprites/factory.png", "sprites/factory.json");
     this.load.image("water", "img/rain.png");
   }
 
   create() {
     super.create();
+    this.cameras.main.setBackgroundColor(0x000000);
     this.scale.setGameSize(550, 300);
 
     this.anims.create({
+      key: "select-component-anim",
+      frames: this.anims.generateFrameNames("factory", {
+        start: 1,
+        end: 3,
+        prefix: "select-",
+      }),
+      repeat: -1,
+      frameRate: 10,
+    }).addFrame(this.anims.generateFrameNames("factory", {
+      start: 2,
+      end: 2,
+      prefix: "select-",
+    }));
+
+    this.anims.create({
       key: "rolling",
-      frames: this.anims.generateFrameNames("firm", {
+      frames: this.anims.generateFrameNames("factory", {
         start: 1,
         end: 4,
         prefix: "roulement-",
@@ -60,7 +76,7 @@ export default class Factory extends MiniGameUi {
 
     this.anims.create({
       key: "rolling-fast",
-      frames: this.anims.generateFrameNames("firm", {
+      frames: this.anims.generateFrameNames("factory", {
         start: 1,
         end: 4,
         prefix: "roulement-",
@@ -69,36 +85,38 @@ export default class Factory extends MiniGameUi {
       frameRate: 20,
     });
 
+    this.add.image(0, 234, "factory", "ground").setOrigin(0, 0)
+
     // back
-    this.add.tileSprite(-4, -42, 554, 146, "firm", "sol").setOrigin(0, 0);
+    this.add.tileSprite(-4, -36, 554, 135, "factory", "sol").setOrigin(0, 0);
     this.conveyorInBack = this.add
-      .tileSprite(0, -10, 550, 96, "firm", "tapis")
+      .tileSprite(0, -10, 550, 96, "factory", "tapis")
       .setOrigin(0, 0)
       .setScrollFactor(0, 0);
 
-    this.add.tileSprite(0, 99, 550, 146, "firm", "sol").setOrigin(0, 0);
+    this.add.tileSprite(0, 99, 550, 135, "factory", "sol").setOrigin(0, 0)//.setAlpha(0.5)
     this.conveyor = this.add
-      .tileSprite(0, 105, 550, 96, "firm", "tapis")
+      .tileSprite(0, 105, 550, 96, "factory", "tapis")
       .setOrigin(0, 0)
       .setScrollFactor(0, 0);
-    this.add.image(30, 104, "firm", "rouleaugauche").setOrigin(0, 0);
+    this.add.image(30, 104, "factory", "rouleaugauche").setOrigin(0, 0);
     this.add
-      .image(30, 104, "firm", "rouleaugauche")
+      .image(30, 104, "factory", "rouleaugauche")
       .setOrigin(0, 0)
       .setScale(-1, 1);
-    this.add.tileSprite(45, 201, 450, 11, "firm", "rouleaubas").setOrigin(0, 0);
+    this.add.tileSprite(45, 201, 450, 11, "factory", "rouleaubas").setOrigin(0, 0);
 
     this.addBackHands();
 
-    this.add.tileSprite(0, 0, 150, 99, "firm", "glass-repeat").setOrigin(0, 0);
-    this.add.tileSprite(150, 0, 67, 99, "firm", "vitre").setOrigin(0, 0);
+    this.add.tileSprite(0, 0, 150, 99, "factory", "glass-repeat").setOrigin(0, 0);
+    this.add.tileSprite(150, 0, 67, 99, "factory", "vitre").setOrigin(0, 0);
     this.add
-      .tileSprite(217, 0, 350, 99, "firm", "glass-repeat")
+      .tileSprite(217, 0, 350, 99, "factory", "glass-repeat")
       .setOrigin(0, 0);
 
     // front
     this.tube = this.add
-      .rectangle(510, 100, 12, 10, 0x115555)
+      .rectangle(510, 100, 1, 1, 0x000000)
       .setOrigin(0.5, 1);
 
     this.water = this.add
@@ -117,21 +135,22 @@ export default class Factory extends MiniGameUi {
     for (let i = 0; i < 50; i++) {
       this.conveyorRollings.push(
         this.add
-          .sprite(38 + i * 8, 202, "firm", "roulement-1")
+          .sprite(38 + i * 8, 202, "factory", "roulement-1")
           .setOrigin(0, 0)
           .anims.play("rolling", true)
       );
     }
 
-    this.initSelectedComponent();
+    
     this.initMotherboard();
     this.initComponents();
+    this.initSelectedComponent();
 
     this.userLeftHand = this.add
       .image(
         userLeftHandInitialPosition.x,
         userLeftHandInitialPosition.y,
-        "firm",
+        "factory",
         "gant"
       )
       .setOrigin(0, 0);
@@ -145,7 +164,7 @@ export default class Factory extends MiniGameUi {
   }
 
   addBackHands() {
-    this.leftHand = this.add.image(420, -10, "firm", "gant").setOrigin(0, 0);
+    this.leftHand = this.add.image(420, -10, "factory", "gant").setOrigin(0, 0);
     this.tweens.add({
       targets: this.leftHand,
       x: 300,
@@ -157,7 +176,7 @@ export default class Factory extends MiniGameUi {
       delay: 200,
       duration: 1000,
     });
-    this.rightHand = this.add.image(330, -10, "firm", "gant").setOrigin(0, 0);
+    this.rightHand = this.add.image(330, -10, "factory", "gant").setOrigin(0, 0);
     this.rightHand.scaleX = -1;
     this.tweens.add({
       targets: this.rightHand,
@@ -171,7 +190,7 @@ export default class Factory extends MiniGameUi {
       duration: 800,
     });
 
-    this.leftHand2 = this.add.image(200, -12, "firm", "gant").setOrigin(0, 0);
+    this.leftHand2 = this.add.image(200, -12, "factory", "gant").setOrigin(0, 0);
     this.tweens.add({
       targets: this.leftHand2,
       x: 200,
@@ -183,7 +202,7 @@ export default class Factory extends MiniGameUi {
       delay: 250,
       duration: 800,
     });
-    this.rightHand2 = this.add.image(100, -12, "firm", "gant").setOrigin(0, 0);
+    this.rightHand2 = this.add.image(100, -12, "factory", "gant").setOrigin(0, 0);
     this.rightHand2.scaleX = -1;
     this.tweens.add({
       targets: this.rightHand2,
@@ -203,10 +222,16 @@ export default class Factory extends MiniGameUi {
     for (const name in COMPONENTS) {
       this.componentsLine.push({
         name,
+        tray: this.add.image(
+          initialX + step * i,
+          initialY,
+          "factory",
+          `tray-${name}`
+        ),
         image: this.add.image(
           initialX + step * i,
           initialY,
-          "firm",
+          "factory",
           COMPONENTS[name]
         ),
       });
@@ -226,7 +251,7 @@ export default class Factory extends MiniGameUi {
     this.isMotherboardValidated = false;
     this.motherBoardComponents = [];
     this.motherBoard = [];
-    this.motherBoard.push(this.add.image(x, 150, "firm", "motherboard"));
+    this.motherBoard.push(this.add.image(x, 150, "factory", "motherboard"));
 
     for (let i = 0; i < componentsNumber; i++) {
       const name = Phaser.Math.RND.pick(Object.keys(COMPONENTS));
@@ -234,7 +259,7 @@ export default class Factory extends MiniGameUi {
         .image(
           x - 24 + stepBetweenComponents * i,
           150,
-          "firm",
+          "factory",
           COMPONENTS[name]
         )
         .setAlpha(0, 0.4, 0.6, 0.6);
@@ -246,6 +271,9 @@ export default class Factory extends MiniGameUi {
   }
 
   initSelectedComponent() {
+    const selectedComponent = this.add.sprite(275, 263, "factory", "select-1");
+    selectedComponent.anims.play("select-component-anim")
+    return
     this.graphics = this.add.graphics({
       lineStyle: {
         width: 2,
@@ -253,21 +281,6 @@ export default class Factory extends MiniGameUi {
       },
     });
     this.graphics.strokeRect(250, 240, 50, 50);
-
-    // to remove ???
-    const style = { color: "0x000000" };
-    this.upText = this.add
-      .text(275, 230, "🢁", style)
-      .setOrigin(0.5, 0.5)
-      .setVisible(false);
-    this.leftText = this.add
-      .text(235, 235, "🢀", style)
-      .setOrigin(0.5, 0.5)
-      .setVisible(false);
-    this.rightText = this.add
-      .text(315, 235, "🢂", style)
-      .setOrigin(0.5, 0.5)
-      .setVisible(false);
   }
 
   createControls() {
@@ -324,10 +337,11 @@ export default class Factory extends MiniGameUi {
   refreshComponentsLine() {
     let i = 0;
     this.componentsLine.forEach((component) => {
-      component.image.x =
-        initialX + this.componentsLinePosition * step + step * i;
-      i++;
+      const x = initialX + this.componentsLinePosition * step + step * i;
+      component.image.x = x
+      component.tray.x = x
       component.image.y = initialY;
+      i++;
     });
   }
 
@@ -436,7 +450,6 @@ export default class Factory extends MiniGameUi {
     if (!this.enableComponentsControl) return;
 
     this.enableComponentsControl = false;
-    this.hightLightCommand(this.upText);
 
     const selectedComponent = this.getSelectedComponent().image;
     selectedComponent.setDepth(1);
@@ -562,22 +575,6 @@ export default class Factory extends MiniGameUi {
 
   validateComponent(component) {
     component.setAlpha(1);
-  }
-
-  hightLightCommand(text) {
-    return;
-    this.tweens.addCounter({
-      from: 0,
-      to: 1,
-      duration: 100,
-      yoyo: true,
-      onUpdate: (tween) => {
-        const v = tween.getValue();
-        const c = 150 * v;
-        text.setFontSize(20 + v * 30);
-        text.setColor(`rgb(${c}, ${c}, ${c})`);
-      },
-    });
   }
 
   update() {
