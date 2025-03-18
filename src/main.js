@@ -6,7 +6,7 @@ import Game from "./Game";
 import Message from "./UI/Message";
 import Workflow from "./Workflow/Workflow";
 import Cable from "./Cable";
-import Factory from "./Factory";
+import Factory from "./Factory/Factory";
 import MineNightmare from "./Mine/MineNightmare";
 import Mine from "./Mine/Mine";
 

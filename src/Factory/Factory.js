@@ -1,6 +1,6 @@
 import Phaser from "phaser";
-import isMobileOrTablet from "./Utils/isMobileOrTablet";
-import MiniGameUi from "./UI/MiniGameUi";
+import isMobileOrTablet from "../Utils/isMobileOrTablet";
+import MiniGameUi from "../UI/MiniGameUi";
 
 const COMPONENTS = {
   blue: "component-blue",
@@ -87,21 +87,6 @@ export default class Factory extends MiniGameUi {
       .setOrigin(0, 0)
       .setScale(-1, 1);
     this.add.tileSprite(45, 201, 450, 11, "firm", "rouleaubas").setOrigin(0, 0);
-
-    this.tubeBack = this.add
-      .rectangle(30, 5, 12, 100, 0x115555)
-      .setOrigin(0.5, 1);
-
-    this.waterBack = this.add.particles(0, 0, "water", {
-      speed: { min: 200, max: 300 },
-      angle: { min: 70, max: 110 },
-      gravityY: 300,
-      lifespan: 500,
-      quantity: 100,
-      scale: { start: 0.5, end: 0 },
-      emitting: false,
-    });
-    this.waterBack.addParticleBounds(0, 0, 550, 60);
 
     this.addBackHands();
 
@@ -606,10 +591,6 @@ export default class Factory extends MiniGameUi {
 
     if (this.isMotherboardValidated) {
       this.water.emitParticleAt(this.tube.x, this.tube.y);
-    }
-
-    if (Math.random() > 0.5) {
-      this.waterBack.emitParticleAt(this.tubeBack.x, this.tubeBack.y);
     }
 
     const speed = this.isMotherboardValidated
