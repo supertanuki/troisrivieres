@@ -34,17 +34,15 @@ export default class Django extends Chat {
         })
       );
 
-      this.anims.play("django-idle", true);
-  }
-
-  stopChatting() {
-    super.stopChatting();
     this.anims.play("django-idle", true);
   }
 
-  readyToChat() {
-    super.readyToChat(SPRITE_ID);
-    this.anims.stop()    
+  afterStopChatting() {
+    this.anims.play("django-idle", true);
+  }
+
+  afterReadyToChat() {
+    this.anims.stop();
   }
 }
 

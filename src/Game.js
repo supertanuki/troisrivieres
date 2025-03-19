@@ -1,7 +1,7 @@
 import Phaser from "phaser";
 import { sceneEventsEmitter, sceneEvents } from "./Events/EventsCenter";
 import isMobileOrTablet from "./Utils/isMobileOrTablet";
-import {  urlParamHas } from "./Utils/isDebug";
+import { urlParamHas } from "./Utils/isDebug";
 
 import "./Sprites/Django";
 import "./Sprites/Koko";
@@ -135,12 +135,12 @@ export default class Game extends Phaser.Scene {
       return;
     }
 
-    if (urlParamHas('factory')) {
+    if (urlParamHas("factory")) {
       this.debugFactory();
       return;
     }
 
-    if (urlParamHas('mine')) {
+    if (urlParamHas("mine")) {
       this.debugMine();
       return;
     }
@@ -421,7 +421,12 @@ export default class Game extends Phaser.Scene {
 
     this.animatedTiles.init(this.map);
 
-    this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
+    this.cameras.main.setBounds(
+      0,
+      0,
+      this.map.widthInPixels,
+      this.map.heightInPixels
+    );
     this.cameras.main.startFollow(this.hero, true);
 
     this.addDebugControls();
@@ -430,11 +435,6 @@ export default class Game extends Phaser.Scene {
     this.addJoystickForMobile();
     //this.addControlsForMobile();
     this.addEventsListeners();
-
-    if (isMine()) {
-      this.gotoMine();
-      return;
-    }
 
     if (!urlParamHas("nomusic")) {
       this.music = this.sound.add("village-theme");
@@ -629,7 +629,7 @@ export default class Game extends Phaser.Scene {
 
     const maskGraphics = this.make.graphics();
     maskGraphics.fillStyle(0xffffff);
-    maskGraphics.fillCircle(this.scale.width, this.scale.height, radius)
+    maskGraphics.fillCircle(this.scale.width, this.scale.height, radius);
 
     const mask = maskGraphics.createGeometryMask();
     mask.invertAlpha = true;
@@ -662,7 +662,9 @@ export default class Game extends Phaser.Scene {
     if (this.night) {
       this.night = false;
       this.darkOverlay.setVisible(false);
-      this.nightOverlays.forEach(nightOverlay => nightOverlay.setVisible(false))
+      this.nightOverlays.forEach((nightOverlay) =>
+        nightOverlay.setVisible(false)
+      );
       return;
     }
 
@@ -676,7 +678,7 @@ export default class Game extends Phaser.Scene {
       ease: "Sine.easeInOut",
     });
 
-    this.nightOverlays.forEach(nightOverlay => {
+    this.nightOverlays.forEach((nightOverlay) => {
       nightOverlay.setAlpha(0);
       nightOverlay.setVisible(true);
       this.tweens.add({
@@ -685,7 +687,7 @@ export default class Game extends Phaser.Scene {
         duration: 3000,
         ease: "Sine.easeInOut",
       });
-    })
+    });
   }
 
   firstSleep() {
@@ -1105,10 +1107,14 @@ export default class Game extends Phaser.Scene {
   updateNightPosition() {
     const noX = this.hero.x - this.scale.width;
     const noY = this.hero.y - this.scale.height;
-    
-    this.nightOverlays.forEach(nightOverlay => nightOverlay.setPosition(noX, noY));
-    this.maskNightOverlays.forEach(maskNightOverlay => maskNightOverlay.setPosition(noX, noY));
-    this.darkOverlay.setPosition(this.hero.x, this.hero.y)
+
+    this.nightOverlays.forEach((nightOverlay) =>
+      nightOverlay.setPosition(noX, noY)
+    );
+    this.maskNightOverlays.forEach((maskNightOverlay) =>
+      maskNightOverlay.setPosition(noX, noY)
+    );
+    this.darkOverlay.setPosition(this.hero.x, this.hero.y);
   }
 
   update(time, delta) {
