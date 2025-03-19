@@ -5,7 +5,6 @@ import Preloader from "./Preloader";
 import Game from "./Game";
 import Message from "./UI/Message";
 import Workflow from "./Workflow/Workflow";
-import Cable from "./Cable";
 import Factory from "./Factory/Factory";
 import MineNightmare from "./Mine/MineNightmare";
 import Mine from "./Mine/Mine";
@@ -25,7 +24,7 @@ const config = {
       gravity: { y: 0 },
     },
   },
-  scene: [Preloader, Game, Cable, MineNightmare, Mine, Factory, Message, Workflow],
+  scene: [Preloader, Game, MineNightmare, Mine, Factory, Message, Workflow],
   scale: {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH,

@@ -409,7 +409,7 @@
 					}
 				},
 				{
-					"filename": "water-2",
+					"filename": "water-1",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
@@ -472,15 +472,15 @@
 					}
 				},
 				{
-					"filename": "water-1",
+					"filename": "water-2",
 					"rotated": false,
-					"trimmed": false,
+					"trimmed": true,
 					"sourceSize": {
-						"w": 30,
-						"h": 43
+						"w": 33,
+						"h": 44
 					},
 					"spriteSourceSize": {
-						"x": 0,
+						"x": 3,
 						"y": 0,
 						"w": 30,
 						"h": 43

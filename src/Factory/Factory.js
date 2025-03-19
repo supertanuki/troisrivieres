@@ -36,11 +36,11 @@ export default class Factory extends MiniGameUi {
     this.conveyorPosition = 0;
     this.conveyorRollings = [];
     this.conveyorBackPosition = 0;
+    this.warnings = 0;
   }
 
   preload() {
     this.load.atlas("factory", "sprites/factory.png", "sprites/factory.json");
-    this.load.image("water", "img/rain.png");
   }
 
   create() {
@@ -48,20 +48,35 @@ export default class Factory extends MiniGameUi {
     this.cameras.main.setBackgroundColor(0x000000);
     this.scale.setGameSize(550, 300);
 
+    this.anims
+      .create({
+        key: "select-component-anim",
+        frames: this.anims.generateFrameNames("factory", {
+          start: 1,
+          end: 3,
+          prefix: "select-",
+        }),
+        repeat: -1,
+        frameRate: 10,
+      })
+      .addFrame(
+        this.anims.generateFrameNames("factory", {
+          start: 2,
+          end: 2,
+          prefix: "select-",
+        })
+      );
+
     this.anims.create({
-      key: "select-component-anim",
+      key: "water-anim",
       frames: this.anims.generateFrameNames("factory", {
         start: 1,
-        end: 3,
-        prefix: "select-",
+        end: 2,
+        prefix: "water-",
       }),
       repeat: -1,
       frameRate: 10,
-    }).addFrame(this.anims.generateFrameNames("factory", {
-      start: 2,
-      end: 2,
-      prefix: "select-",
-    }));
+    });
 
     this.anims.create({
       key: "rolling",
@@ -85,7 +100,7 @@ export default class Factory extends MiniGameUi {
       frameRate: 20,
     });
 
-    this.add.image(0, 234, "factory", "ground").setOrigin(0, 0)
+    this.add.image(0, 234, "factory", "ground").setOrigin(0, 0);
 
     // back
     this.add.tileSprite(-4, -36, 554, 135, "factory", "sol").setOrigin(0, 0);
@@ -94,54 +109,68 @@ export default class Factory extends MiniGameUi {
       .setOrigin(0, 0)
       .setScrollFactor(0, 0);
 
-    this.add.tileSprite(0, 99, 550, 135, "factory", "sol").setOrigin(0, 0)//.setAlpha(0.5)
+    // front
+    this.add.tileSprite(0, 99, 550, 135, "factory", "sol").setOrigin(0, 0);
     this.conveyor = this.add
       .tileSprite(0, 105, 550, 96, "factory", "tapis")
       .setOrigin(0, 0)
       .setScrollFactor(0, 0);
     this.add.image(30, 104, "factory", "rouleaugauche").setOrigin(0, 0);
     this.add
+      .tileSprite(45, 201, 550, 11, "factory", "rouleaubas")
+      .setOrigin(0, 0);
+
+    this.initBackMotherboard();
+    this.addBackHands();
+
+    // left
+    this.add
       .image(30, 104, "factory", "rouleaugauche")
       .setOrigin(0, 0)
       .setScale(-1, 1);
-    this.add.tileSprite(45, 201, 450, 11, "factory", "rouleaubas").setOrigin(0, 0);
+    this.add
+      .tileSprite(0, 201, 14, 11, "factory", "rouleaubas")
+      .setOrigin(0, 0);
 
-    this.addBackHands();
-
-    this.add.tileSprite(0, 0, 150, 99, "factory", "glass-repeat").setOrigin(0, 0);
+    this.add
+      .tileSprite(0, 0, 150, 99, "factory", "glass-repeat")
+      .setOrigin(0, 0);
     this.add.tileSprite(150, 0, 67, 99, "factory", "vitre").setOrigin(0, 0);
     this.add
       .tileSprite(217, 0, 350, 99, "factory", "glass-repeat")
       .setOrigin(0, 0);
 
     // front
-    this.tube = this.add
-      .rectangle(510, 100, 1, 1, 0x000000)
-      .setOrigin(0.5, 1);
+    this.tube = this.add.rectangle(510, 100, 1, 1, 0x000000).setOrigin(0.5, 1);
 
-    this.water = this.add
-      .particles(0, 0, "water", {
-        speed: { min: 200, max: 300 },
-        angle: { min: 70, max: 110 },
-        gravityY: 300,
-        lifespan: 500,
-        quantity: 100,
-        scale: { start: 0.5, end: 0 },
-        emitting: false,
-      })
-      .setDepth(1);
-    this.water.addParticleBounds(0, 0, 550, 150);
-
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 3; i++) {
       this.conveyorRollings.push(
         this.add
-          .sprite(38 + i * 8, 202, "factory", "roulement-1")
+          .sprite(-3 + i * 8, 202, "factory", "roulement-1")
           .setOrigin(0, 0)
           .anims.play("rolling", true)
       );
     }
 
-    
+    for (let i = 0; i < 54; i++) {
+      this.conveyorRollings.push(
+        this.add
+          .sprite(40 + i * 8, 202, "factory", "roulement-1")
+          .setOrigin(0, 0)
+          .anims.play("rolling", true)
+      );
+    }
+
+    const blockY = 107;
+    this.add.image(510, blockY + 38, "factory", "block").setDepth(10);
+    this.add.image(474, blockY - 30, "factory", "block-back").setDepth(10);
+    this.add.image(476, blockY + 20, "factory", "tube-water").setDepth(10);
+    this.waterCleaningAnim = this.add
+      .sprite(457, blockY + 47, "factory", "water-1")
+      .setDepth(10)
+      .setVisible(false);
+    this.waterCleaningAnim.anims.play("water-anim");
+
     this.initMotherboard();
     this.initComponents();
     this.initSelectedComponent();
@@ -176,7 +205,9 @@ export default class Factory extends MiniGameUi {
       delay: 200,
       duration: 1000,
     });
-    this.rightHand = this.add.image(330, -10, "factory", "gant").setOrigin(0, 0);
+    this.rightHand = this.add
+      .image(330, -10, "factory", "gant")
+      .setOrigin(0, 0);
     this.rightHand.scaleX = -1;
     this.tweens.add({
       targets: this.rightHand,
@@ -190,7 +221,9 @@ export default class Factory extends MiniGameUi {
       duration: 800,
     });
 
-    this.leftHand2 = this.add.image(200, -12, "factory", "gant").setOrigin(0, 0);
+    this.leftHand2 = this.add
+      .image(200, -12, "factory", "gant")
+      .setOrigin(0, 0);
     this.tweens.add({
       targets: this.leftHand2,
       x: 200,
@@ -202,7 +235,9 @@ export default class Factory extends MiniGameUi {
       delay: 250,
       duration: 800,
     });
-    this.rightHand2 = this.add.image(100, -12, "factory", "gant").setOrigin(0, 0);
+    this.rightHand2 = this.add
+      .image(100, -12, "factory", "gant")
+      .setOrigin(0, 0);
     this.rightHand2.scaleX = -1;
     this.tweens.add({
       targets: this.rightHand2,
@@ -243,44 +278,85 @@ export default class Factory extends MiniGameUi {
     return this.numberValidated > 5 ? 3 : 2;
   }
 
+  initBackMotherboard() {
+    this.backMotherboards = [];
+    for (let i=0; i<=5; i++) {
+      this.backMotherboards.push(this.add.image(600 + i*100, 30, "factory", "motherboard"))
+    }
+  }
+
   initMotherboard() {
     const x = -150;
     const componentsNumber = this.getComponentsNumber();
-    const stepBetweenComponents = 90 / componentsNumber;
+    const stepBetweenComponents = 70 / componentsNumber;
     this.componentValidated = 0;
     this.isMotherboardValidated = false;
     this.motherBoardComponents = [];
     this.motherBoard = [];
     this.motherBoard.push(this.add.image(x, 150, "factory", "motherboard"));
 
+    const randomComponentNames = [];
+    const componentNames = Object.keys(COMPONENTS);
     for (let i = 0; i < componentsNumber; i++) {
-      const name = Phaser.Math.RND.pick(Object.keys(COMPONENTS));
-      const component = this.add
-        .image(
-          x - 24 + stepBetweenComponents * i,
+      const name = Phaser.Math.RND.pick(componentNames);
+      randomComponentNames.push(name);
+      componentNames.splice(componentNames.indexOf(name), 1);
+    }
+
+    let componentsPosition = [2, 1];
+
+    if (componentsNumber > 2) {
+      if (randomComponentNames[0] === "green") {
+        componentsPosition = [1, 2];
+      } else if (randomComponentNames[1] === "green") {
+        const thirdName = randomComponentNames[2];
+        randomComponentNames[2] = "green";
+        randomComponentNames[1] = thirdName;
+      }
+    }
+
+    let componentsPositionIndex = 0;
+    let componentsPositionY = 0;
+    const componentsPositionMissing = [...componentsPosition];
+
+    randomComponentNames.forEach((name, index) => {
+      let component;
+      if (componentsNumber === 2) {
+        component = this.add.image(
+          x - 18 + stepBetweenComponents * index,
           150,
           "factory",
-          COMPONENTS[name]
-        )
-        .setAlpha(0, 0.4, 0.6, 0.6);
+          `component-position-${name}`
+        );
+      } else {
+        if (componentsPositionMissing[componentsPositionIndex] === 0) {
+          componentsPositionIndex++;
+          componentsPositionY = 0;
+        }
+        componentsPosition[componentsPositionIndex];
+
+        component = this.add.image(
+          x - 15 + (stepBetweenComponents + 9) * componentsPositionIndex,
+          componentsPosition[componentsPositionIndex] === 1
+            ? 150
+            : 165 - 30 + (stepBetweenComponents + 5) * componentsPositionY,
+          "factory",
+          `component-position-${name}`
+        );
+        componentsPositionMissing[componentsPositionIndex]--;
+        componentsPositionY++;
+      }
+
       this.motherBoardComponents.push({ name, component, validated: false });
       this.motherBoard.push(component);
-    }
+    });
 
     this.enableComponentsControl = true;
   }
 
   initSelectedComponent() {
     const selectedComponent = this.add.sprite(275, 263, "factory", "select-1");
-    selectedComponent.anims.play("select-component-anim")
-    return
-    this.graphics = this.add.graphics({
-      lineStyle: {
-        width: 2,
-        color: 0xffff55,
-      },
-    });
-    this.graphics.strokeRect(250, 240, 50, 50);
+    selectedComponent.anims.play("select-component-anim");
   }
 
   createControls() {
@@ -338,8 +414,8 @@ export default class Factory extends MiniGameUi {
     let i = 0;
     this.componentsLine.forEach((component) => {
       const x = initialX + this.componentsLinePosition * step + step * i;
-      component.image.x = x
-      component.tray.x = x
+      component.image.x = x;
+      component.tray.x = x;
       component.image.y = initialY;
       i++;
     });
@@ -356,14 +432,14 @@ export default class Factory extends MiniGameUi {
     this.refreshComponentsLine();
 
     if (this.handAnimation) {
-      this.handAnimation.destroy()
+      this.handAnimation.destroy();
     }
 
-    this.resetUserHand()
+    this.resetUserHand();
     // right hand
-    this.userLeftHand.scaleX = 1
-    this.movingHand = true
-    this.userLeftHand.setX(450)
+    this.userLeftHand.scaleX = 1;
+    this.movingHand = true;
+    this.userLeftHand.setX(450);
     this.userLeftHand.setVisible(true);
 
     this.handAnimation = this.tweens.add({
@@ -376,7 +452,7 @@ export default class Factory extends MiniGameUi {
       ease: "Sine.easeInOut",
       duration: 200,
       onComplete: () => {
-        this.resetUserHand()
+        this.resetUserHand();
       },
     });
   }
@@ -391,16 +467,16 @@ export default class Factory extends MiniGameUi {
     if (this.movingHand) {
       //return
     }
-    
+
     if (this.handAnimation) {
-      this.handAnimation.destroy()
+      this.handAnimation.destroy();
     }
 
-    this.resetUserHand()
+    this.resetUserHand();
     // left hand
-    this.userLeftHand.scaleX = -1
-    this.movingHand = true
-    this.userLeftHand.setX(100)
+    this.userLeftHand.scaleX = -1;
+    this.movingHand = true;
+    this.userLeftHand.setX(100);
     this.userLeftHand.setVisible(true);
 
     this.handAnimation = this.tweens.add({
@@ -413,7 +489,7 @@ export default class Factory extends MiniGameUi {
       ease: "Sine.easeInOut",
       duration: 200,
       onComplete: () => {
-        this.resetUserHand()
+        this.resetUserHand();
       },
     });
   }
@@ -428,7 +504,6 @@ export default class Factory extends MiniGameUi {
     for (const component of this.motherBoardComponents) {
       if (component.name === selectedComponent.name && !component.validated) {
         this.componentValidated++;
-        this.validateComponent(component.component);
         component.validated = true;
         return component;
       }
@@ -438,12 +513,15 @@ export default class Factory extends MiniGameUi {
   }
 
   resetUserHand() {
-    this.movingHand = false
-    this.userLeftHand.scaleX = 1
+    this.movingHand = false;
+    this.userLeftHand.scaleX = 1;
     this.userLeftHand.setAlpha(0);
     this.userLeftHand.setVisible(false);
-    this.userLeftHand.setRotation(0)
-    this.userLeftHand.setPosition(userLeftHandInitialPosition.x, userLeftHandInitialPosition.y)
+    this.userLeftHand.setRotation(0);
+    this.userLeftHand.setPosition(
+      userLeftHandInitialPosition.x,
+      userLeftHandInitialPosition.y
+    );
   }
 
   setComponent() {
@@ -457,40 +535,46 @@ export default class Factory extends MiniGameUi {
 
     const validatedComponent = this.getValidatedComponent();
 
-    this.resetUserHand()
+    this.resetUserHand();
     this.userLeftHand.setVisible(true);
-    const animDuration = 200
+    const animDuration = 200;
 
     if (this.handAnimation) {
-      this.handAnimation.destroy()
+      this.handAnimation.destroy();
     }
 
     if (validatedComponent) {
+      const { component, name } = validatedComponent;
       this.tweens.add({
         targets: selectedComponent,
-        x: validatedComponent.component.x + 10,
-        y: validatedComponent.component.y,
+        x: component.x + 10,
+        y: component.y,
         ease: "Sine.easeInOut",
         duration: animDuration,
         onComplete: () => {
           selectedComponent.x = initialPosition.x;
           selectedComponent.y = initialY;
           this.enableComponentsControl = true;
+
+          // ensure that the component still exists
+          try {
+            component.setTexture("factory", `component-${name}`);
+          } catch (error) {}
         },
       });
 
       this.handAnimation = this.tweens.add({
         targets: this.userLeftHand,
-        x: validatedComponent.component.x,
+        x: component.x,
         y: 230,
         alpha: 1,
-        angle: (validatedComponent.component.x - 275) / 10,
+        angle: (component.x - 275) / 10,
         yoyo: true,
         ease: "Sine.easeInOut",
         duration: animDuration,
         onComplete: () => {
           this.enableComponentsControl = true;
-          this.resetUserHand()
+          this.resetUserHand();
         },
       });
     } else {
@@ -516,7 +600,7 @@ export default class Factory extends MiniGameUi {
         duration: animDuration,
         onComplete: () => {
           this.enableComponentsControl = true;
-          this.resetUserHand()
+          this.resetUserHand();
         },
       });
     }
@@ -532,20 +616,19 @@ export default class Factory extends MiniGameUi {
 
   validateMotherboard() {
     this.isMotherboardValidated = true;
-    this.motherBoard[0].fillColor = 0xffffff;
     this.numberValidated++;
+    this.waterCleaningAnim.setVisible(true);
+    this.time.delayedCall(1000, () => this.waterCleaningAnim.setVisible(false));
 
-    const isFaster = 1 === this.numberValidated % accelerationStep;
+    const isFaster = 0 === this.numberValidated % accelerationStep;
 
     if (isFaster) {
       this.motherboardSpeed += acceleration;
+      this.updateMessage("Validé ! Plus vite maintenant !!!");
     }
 
-    this.updateMessage(
-      isFaster
-        ? "Validé ! Plus vite maintenant !!!"
-        : "C'est bien, tu es productive !"
-    );
+    if (1 === this.numberValidated % (accelerationStep + 1))
+      this.updateMessage("C'est bien, tu es productive !");
   }
 
   destroyMotherboard() {
@@ -559,6 +642,8 @@ export default class Factory extends MiniGameUi {
     this.enableComponentsControl = false;
 
     if (!this.isMotherboardValidated) {
+      this.warnings++;
+      this.updateWarnings(this.warnings);
       this.updateMessage("C'est quoi ce boulot ? Ressaisis-toi la nouvelle !");
       this.destroyMotherboard();
 
@@ -573,21 +658,17 @@ export default class Factory extends MiniGameUi {
     this.initMotherboard();
   }
 
-  validateComponent(component) {
-    component.setAlpha(1);
-  }
-
   update() {
     this.conveyorBackPosition += 1;
     this.conveyorInBack.setTilePosition(this.conveyorBackPosition, 0);
+    this.backMotherboards.forEach(backMotherboard => {
+      backMotherboard.x--;
+      if (backMotherboard.x < -100) backMotherboard.x = 600;
+    })
 
     if (!this.motherBoard.length) {
       this.conveyorRollings.forEach((element) => element.anims.stop());
       return;
-    }
-
-    if (this.isMotherboardValidated) {
-      this.water.emitParticleAt(this.tube.x, this.tube.y);
     }
 
     const speed = this.isMotherboardValidated
@@ -612,7 +693,7 @@ export default class Factory extends MiniGameUi {
       element.x += speed;
     }
 
-    if (this.motherBoard.length && this.motherBoard[0].x > 700) {
+    if (this.motherBoard.length && this.motherBoard[0].x > 590) {
       this.endMotherboard();
     }
   }

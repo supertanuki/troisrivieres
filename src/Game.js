@@ -1,13 +1,7 @@
 import Phaser from "phaser";
 import { sceneEventsEmitter, sceneEvents } from "./Events/EventsCenter";
 import isMobileOrTablet from "./Utils/isMobileOrTablet";
-import {
-  isCable,
-  isFactory,
-  isMine,
-  isScene1,
-  urlParamHas,
-} from "./Utils/isDebug";
+import {  urlParamHas } from "./Utils/isDebug";
 
 import "./Sprites/Django";
 import "./Sprites/Koko";
@@ -78,14 +72,14 @@ export default class Game extends Phaser.Scene {
     this.scene.launch(scene);
   }
 
-  gotoScene1() {
-    this.scene.pause("game");
-    this.scene.launch("cable-game");
-  }
-
-  gotoFactory() {
+  debugFactory() {
     this.scene.pause("game");
     this.scene.launch("factory");
+  }
+
+  debugMine() {
+    this.scene.pause("game");
+    this.scene.launch("mine");
   }
 
   gotoMine() {
@@ -136,28 +130,22 @@ export default class Game extends Phaser.Scene {
   }
 
   startGame() {
-    this.scene.run("message");
-
     if (urlParamHas("dreamMine")) {
       this.gotoScene("mine-nightmare");
       return;
     }
 
-    if (isScene1()) {
-      this.gotoScene1();
+    if (urlParamHas('factory')) {
+      this.debugFactory();
       return;
     }
 
-    if (isFactory()) {
-      this.gotoFactory();
+    if (urlParamHas('mine')) {
+      this.debugMine();
       return;
     }
 
-    if (isCable()) {
-      this.gotoCable();
-      return;
-    }
-
+    this.scene.run("message");
     console.log("startGame");
 
     // Fade init

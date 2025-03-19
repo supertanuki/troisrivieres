@@ -82,14 +82,14 @@ export default class MiniGameUi extends Phaser.Scene {
     this.textObject = this.add
       .text(345, 50, "", {
         fontFamily: "DefaultFont",
-        fontSize: "14px",
+        fontSize: "13px",
         fill: "#ffffff",
       })
-      .setResolution(1)
+      .setResolution(10)
       .setOrigin(0.5, 0.5)
       .setScrollFactor(0)
       .setDepth(2000)
-      .setWordWrapWidth(250)
+      .setWordWrapWidth(240)
       .setVisible(false);
 
     sceneEventsEmitter.on(
@@ -142,6 +142,7 @@ export default class MiniGameUi extends Phaser.Scene {
   }
 
   updateWarnings(warningCount) {
+    if (warningCount > 3) warningCount = 3;
     for (let i = 0; i < warningCount; i++)
       this.scores[i].setTexture("ui", "scoreko");
   }
