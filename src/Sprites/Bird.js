@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import { randomSign } from "../Utils/randomSign";
 
 const SPEEDX = 120;
 const SPEEDY = -50;
@@ -9,7 +10,6 @@ const Status = {
   outOfScreen: "outOfScreen",
 };
 
-const randomSign = () => (Math.random() < 0.5 ? -1 : 1);
 const randomIdle = () => Phaser.Math.Between(1, 3);
 
 export default class Bird extends Phaser.Physics.Arcade.Sprite {

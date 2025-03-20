@@ -5,8 +5,29 @@ export const SPRITE_ID = "cow";
 
 export default class Cow extends Chat {
   constructor(scene, x, y) {
-    super(scene, x, y, "sprites", "cow", 0, 0, true);
+    super(scene, x, y, "sprites", "cow-1", 0, 0, true);
     this.spriteId = SPRITE_ID;
+
+    scene.anims
+      .create({
+        key: "cow-idle",
+        frames: this.anims.generateFrameNames("sprites", {
+          start: 1,
+          end: 3,
+          prefix: "cow-",
+        }),
+        repeat: -1,
+        frameRate: 2,
+      })
+      .addFrame(
+        this.anims.generateFrameNames("sprites", {
+          start: 2,
+          end: 2,
+          prefix: "cow-",
+        })
+      );
+
+    this.anims.play("cow-idle", true);
   }
 }
 

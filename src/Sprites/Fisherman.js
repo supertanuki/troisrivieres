@@ -34,16 +34,26 @@ export default class Fisherman extends Chat {
         })
       );
 
+    scene.anims.create({
+      key: "mino-sad",
+      frames: this.anims.generateFrameNames("sprites", {
+        start: 1,
+        end: 4,
+        prefix: "mino-sad-",
+      }),
+      repeat: -1,
+      frameRate: 3,
+    });
+
     this.anims.play("mino-idle", true);
   }
 
   setSad() {
-    this.anims.stop();
-    this.setTexture("sprites", "mino-sad");
+    this.anims.play("mino-sad");
     this.body.setSize(this.width, this.height);
-    this.x -= 12
-    this.chatIconDeltaX = 0
-    this.chatIconDeltaY = -2
+    this.x -= 12;
+    this.chatIconDeltaX = 0;
+    this.chatIconDeltaY = -2;
   }
 }
 
@@ -55,11 +65,10 @@ Phaser.GameObjects.GameObjectFactory.register(SPRITE_ID, function (x, y) {
     Phaser.Physics.Arcade.DYNAMIC_BODY
   );
 
-  sprite.setOffset(0.5, 0.5)
+  sprite.setOffset(0.5, 0.5);
   sprite.body.setSize(sprite.width, 1);
   sprite.setImmovable(true);
   sprite.setInteractive();
-
 
   this.displayList.add(sprite);
   this.updateList.add(sprite);

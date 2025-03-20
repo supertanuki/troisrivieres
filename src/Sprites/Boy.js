@@ -28,6 +28,24 @@ export default class Boy extends Chat {
         })
       );
 
+    scene.anims.create({
+      key: "boy-sad",
+      frames: [
+        {
+          key: "sprites",
+          frame: "boy-sad-1",
+          duration: 1200,
+        },
+        {
+          key: "sprites",
+          frame: "boy-sad-2",
+          duration: 200,
+        },
+      ],
+      repeat: -1,
+      frameRate: 3,
+    });
+
     this.anims.play("boy-water", true);
 
     this.sadPosition = { x: 0, y: 0 };
@@ -39,12 +57,11 @@ export default class Boy extends Chat {
 
   setSad() {
     this.setPosition(this.sadPosition.x, this.sadPosition.y);
-    this.anims.stop();
-    this.setTexture("sprites", "boy-sad");
+    this.anims.play("boy-sad");
 
     // group boy and girl
-    this.body.setSize(this.width + 2, this.height + 18);
-    this.body.setOffset(0, 0)
+    this.body.setSize(this.width + 8, this.height + 18);
+    this.body.setOffset(-7, 0);
   }
 }
 

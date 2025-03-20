@@ -7,6 +7,27 @@ export default class Koko extends Chat {
   constructor(scene, x, y) {
     super(scene, x, y, "sprites", "koko", -2, -2);
     this.spriteId = SPRITE_ID;
+
+    scene.anims
+    .create({
+      key: "koko-idle",
+      frames: this.anims.generateFrameNames("sprites", {
+        start: 1,
+        end: 3,
+        prefix: "koko-",
+      }),
+      repeat: -1,
+      frameRate: 3,
+    })
+    .addFrame(
+      this.anims.generateFrameNames("sprites", {
+        start: 2,
+        end: 2,
+        prefix: "koko-",
+      })
+    );
+
+    this.anims.play("koko-idle", true);
   }
 }
 

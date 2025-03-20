@@ -5,18 +5,22 @@ import { urlParamHas } from "./Utils/isDebug";
 
 import "./Sprites/Django";
 import "./Sprites/Koko";
+import "./Sprites/SleepingGuy";
+import "./Sprites/TwoWomen";
 import "./Sprites/Nono";
 import "./Sprites/Bino";
 import "./Sprites/Cat";
 import "./Sprites/Dog";
 import "./Sprites/Escargot";
 import "./Sprites/Cow";
+import "./Sprites/Veal";
 import "./Sprites/Fisherman";
 import "./Sprites/Miner";
-import "./Sprites/Bird";
 import "./Sprites/Ball";
 import "./Sprites/Girl";
 import "./Sprites/Boy";
+import "./Sprites/Bird";
+import "./Sprites/Butterfly";
 
 import { Hero } from "./Sprites/Hero";
 import { DiscussionStatus } from "./Utils/discussionStatus";
@@ -45,13 +49,12 @@ export default class Game extends Phaser.Scene {
 
     this.currentDiscussionStatus = DiscussionStatus.NONE;
     this.currentDiscussionSprite = null;
-    this.birds = [];
 
+    this.birds = [];
+    this.butterflies = [];
     this.backgrounds = [];
     this.pointsCollider = [];
-
     this.heroPositions = {};
-
     this.maskNightOverlays = [];
     this.nightOverlays = [];
 
@@ -296,6 +299,16 @@ export default class Game extends Phaser.Scene {
         this.koko.on("pointerdown", this.handleAction, this);
       }
 
+      if (spriteObject.name === "sleepingGuy") {
+        this.sleepingGuy = this.add.sleepingGuy(spriteObject.x, spriteObject.y);
+        this.sleepingGuy.on("pointerdown", this.handleAction, this);
+      }
+
+      if (spriteObject.name === "twoWomen") {
+        this.twoWomen = this.add.twoWomen(spriteObject.x, spriteObject.y);
+        this.twoWomen.on("pointerdown", this.handleAction, this);
+      }
+
       if (spriteObject.name === "nono") {
         this.nono = this.add.nono(spriteObject.x, spriteObject.y);
         this.nono.on("pointerdown", this.handleAction, this);
@@ -331,6 +344,10 @@ export default class Game extends Phaser.Scene {
       if (spriteObject.name === "cow") {
         this.cow = this.add.cow(spriteObject.x, spriteObject.y);
         this.cow.on("pointerdown", this.handleAction, this);
+      }
+
+      if (spriteObject.name === "veal") {
+        this.veal = this.add.veal(spriteObject.x, spriteObject.y);
       }
 
       if (spriteObject.name === "miner") {
@@ -416,6 +433,12 @@ export default class Game extends Phaser.Scene {
     this.map.getObjectLayer("birds").objects.forEach((birdPosition) => {
       this.birds.push(
         this.add.bird(birdPosition.x, birdPosition.y).setDepth(160)
+      );
+    });
+
+    this.map.getObjectLayer("butterflies").objects.forEach((flyPosition) => {
+      this.butterflies.push(
+        this.add.butterfly(flyPosition.x, flyPosition.y).setDepth(160)
       );
     });
 
@@ -712,6 +735,8 @@ export default class Game extends Phaser.Scene {
   toggleSprites(state) {
     [
       this.koko,
+      this.sleepingGuy,
+      this.twoWomen,
       this.bino,
       this.fisherman,
       this.dog,
@@ -808,6 +833,14 @@ export default class Game extends Phaser.Scene {
       sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "koko");
     });
 
+    this.physics.add.collider(this.sleepingGuy, this.hero, () => {
+      sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "sleepingGuy");
+    });
+
+    this.physics.add.collider(this.twoWomen, this.hero, () => {
+      sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "twoWomen");
+    });
+
     this.physics.add.collider(this.nono, this.hero, () => {
       sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "nono");
     });
@@ -831,6 +864,8 @@ export default class Game extends Phaser.Scene {
     this.physics.add.collider(this.cow, this.hero, () => {
       sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "cow");
     });
+
+    this.physics.add.collider(this.veal, this.hero);
 
     this.physics.add.collider(this.boy, this.hero, () => {
       sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "boy");

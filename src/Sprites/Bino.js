@@ -8,31 +8,33 @@ export default class Bino extends Chat {
     super(scene, x, y, "sprites", "bino-1");
     this.spriteId = SPRITE_ID;
 
-    scene.anims
-      .create({
-        key: "bino-idle",
-        frames: this.anims.generateFrameNames("sprites", {
-          start: 1,
-          end: 4,
-          prefix: "bino-",
-        }),
-        repeat: -1,
-        frameRate: 3,
-      })
-      .addFrame(
-        this.anims.generateFrameNames("sprites", {
-          start: 3,
-          end: 3,
-          prefix: "bino-",
-        })
-      )
-      .addFrame(
-        this.anims.generateFrameNames("sprites", {
-          start: 2,
-          end: 2,
-          prefix: "bino-",
-        })
-      );
+    scene.anims.create({
+      key: "bino-idle",
+      frames: [
+        {
+          key: "sprites",
+          frame: "bino-1",
+          duration: 600,
+        },
+        {
+          key: "sprites",
+          frame: "bino-2",
+          duration: 600,
+        },
+        {
+          key: "sprites",
+          frame: "bino-3",
+          duration: 300,
+        },
+        {
+          key: "sprites",
+          frame: "bino-2",
+          duration: 600,
+        },
+      ],
+      repeat: -1,
+      frameRate: 6,
+    });
 
     this.anims.play("bino-idle", true);
   }

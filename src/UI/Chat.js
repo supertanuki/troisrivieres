@@ -63,17 +63,20 @@ export default class Chat extends Phaser.Physics.Arcade.Sprite {
   preUpdate(time, delta) {
     super.preUpdate(time, delta);
 
-    if (!this.spriteId || !this.visible) return;
+    if (!this.visible) return;
 
     const isHeroNearMe = this.isHeroNearMe();
     if (this.heroNearMe !== isHeroNearMe) {
       this.heroNearMe = isHeroNearMe;
-      sceneEventsEmitter.emit(
-        isHeroNearMe
-          ? sceneEvents.DiscussionReady
-          : sceneEvents.DiscussionEnded,
-        this.spriteId
-      );
+
+      if (this.spriteId) {
+        sceneEventsEmitter.emit(
+          isHeroNearMe
+            ? sceneEvents.DiscussionReady
+            : sceneEvents.DiscussionEnded,
+          this.spriteId
+        );
+      }
     }
 
     if (isHeroNearMe) {

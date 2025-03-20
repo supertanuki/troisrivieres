@@ -39,6 +39,20 @@ const messageWorkflow = {
       dependingOn: ["first_sleep"],
     },
   ],
+  twoWomen: [
+    {
+      messages: [
+        "Bla, blah, bluh",
+      ]
+    }
+  ],
+  sleepingGuy: [
+    {
+      messages: [
+        "ZZZzzz, mmmh ?",
+      ]
+    }
+  ],
   koko: [
     {
       messages: [

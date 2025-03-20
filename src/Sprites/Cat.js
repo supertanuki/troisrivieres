@@ -7,6 +7,27 @@ export default class Cat extends Chat {
   constructor(scene, x, y) {
     super(scene, x, y, "sprites", "cat", 0, 0, true);
     this.spriteId = SPRITE_ID;
+
+    scene.anims
+      .create({
+        key: "cat-idle",
+        frames: this.anims.generateFrameNames("sprites", {
+          start: 1,
+          end: 3,
+          prefix: "cat-",
+        }),
+        repeat: -1,
+        frameRate: 3,
+      })
+      .addFrame(
+        this.anims.generateFrameNames("sprites", {
+          start: 2,
+          end: 2,
+          prefix: "cat-",
+        })
+      );
+
+    this.anims.play("cat-idle", true);
   }
 }
 

@@ -16,7 +16,6 @@ export default class Girl extends Chat {
         repeat: -1,
         frameRate: 3,
       })
-
       .addFrame(
         this.anims.generateFrameNames("sprites", {
           start: 2,
@@ -24,6 +23,24 @@ export default class Girl extends Chat {
           prefix: "girl-water-",
         })
       );
+
+      scene.anims.create({
+        key: "girl-sad",
+        frames: [
+          {
+            key: "sprites",
+            frame: "girl-sad-1",
+            duration: 1400,
+          },
+          {
+            key: "sprites",
+            frame: "girl-sad-2",
+            duration: 200,
+          },
+        ],
+        repeat: -1,
+        frameRate: 3,
+      });
 
     this.anims.play("girl-water", true);
 
@@ -36,8 +53,7 @@ export default class Girl extends Chat {
 
   setSad() {
     this.setPosition(this.sadPosition.x, this.sadPosition.y);
-    this.anims.stop();
-    this.setTexture("sprites", "girl-sad");
+    this.anims.play("girl-sad");
   }
 }
 
