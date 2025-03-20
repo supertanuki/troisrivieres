@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import { DiscussionStatus } from "../Utils/discussionStatus";
+import { FONT_RESOLUTION, FONT_SIZE } from "./Message";
 
 export default class MiniGameUi extends Phaser.Scene {
   create() {
@@ -82,10 +83,10 @@ export default class MiniGameUi extends Phaser.Scene {
     this.textObject = this.add
       .text(345, 50, "", {
         fontFamily: "DefaultFont",
-        fontSize: "13px",
+        fontSize: FONT_SIZE,
         fill: "#ffffff",
       })
-      .setResolution(10)
+      .setResolution(FONT_RESOLUTION)
       .setOrigin(0.5, 0.5)
       .setScrollFactor(0)
       .setDepth(2000)

@@ -5,8 +5,8 @@ import isMobileOrTablet from "../Utils/isMobileOrTablet";
 import { DiscussionStatus } from "../Utils/discussionStatus";
 import { eventsHas } from "../Utils/events";
 
-const FONT_SIZE = "12px"
-const FONT_RESOLUTION = 1;
+export const FONT_SIZE = "16px"
+export const FONT_RESOLUTION = 2;
 const SHOW_TEXT_DELAY = 20;
 
 export default class Message extends Phaser.Scene {
@@ -96,16 +96,15 @@ export default class Message extends Phaser.Scene {
       .text(config.width / 2 - 132, config.height - 64, "", {
         fontFamily: 'DefaultFont',
         fontSize: FONT_SIZE,
-        fill: "#ffffff",
+        fill: "#000000",
         padding: 4,
       })
       .setResolution(FONT_RESOLUTION)
-      .setFontStyle("bold")
       .setOrigin(0, 0.5)
       .setScrollFactor(0)
       .setDepth(3000)
       .setVisible(false)
-      .setShadow(0, 0, "rgba(0,0,0,0.9)", 2);
+      //.setShadow(0, 0, "rgba(255,255,255,1)", 3);
 
     this.mineCard = this.add
       .image(config.width - 30, config.height - 30, "ui", "card")

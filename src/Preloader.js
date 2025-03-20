@@ -57,8 +57,7 @@ export default class Preloader extends Phaser.Scene {
     );
 
     this.load.audio("village-theme", "sounds/village_theme_compressed.mp3");
-
-    this.load.font("DefaultFont", "fonts/depixelklein.woff2");
+    this.load.font("DefaultFont", "fonts/FreePixel.ttf");
   }
 
   create() {
