@@ -115,11 +115,11 @@ export default class Game extends Phaser.Scene {
     const text = this.add
       .text(225, 125, "Démarrer", {
         fontFamily: "DefaultFont",
-        fontSize: "20px",
+        fontSize: "16px",
         fill: "#ffffff",
       })
       .setOrigin(0.5, 0.5)
-      .setResolution(10);
+      .setResolution(2);
     text.setInteractive({ useHandCursor: true });
     text.on("pointerdown", () => {
       text.disableInteractive(true);
@@ -755,6 +755,11 @@ export default class Game extends Phaser.Scene {
       bird.setVisible(state);
       bird.setActive(state);
       bird.body.checkCollision.none = !state;
+    });
+
+    this.butterflies.forEach((butterfly) => {
+      butterfly.setVisible(state);
+      butterfly.setActive(state);
     });
   }
 

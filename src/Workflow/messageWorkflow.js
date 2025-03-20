@@ -246,6 +246,11 @@ const messageWorkflow = {
       messages: ["Meuh…"],
     },
   ],
+  veal: [
+    {
+      messages: ["Mmmmh…"],
+    },
+  ],
   escargot: [
     {
       messages: ["…"],
