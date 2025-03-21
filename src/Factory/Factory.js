@@ -18,7 +18,7 @@ const motherboardValidatedSpeed = 10;
 const accelerationStep = 5;
 const initialSpeed = 0.75;
 const acceleration = 0.5;
-const userLeftHandInitialPosition = { x: 255, y: 310 };
+const userLeftHandInitialPosition = { x: 255, y: 340 };
 
 export default class Factory extends MiniGameUi {
   constructor() {
@@ -164,12 +164,20 @@ export default class Factory extends MiniGameUi {
     const blockY = 107;
     this.add.image(510, blockY + 38, "factory", "block").setDepth(10);
     this.add.image(474, blockY - 30, "factory", "block-back").setDepth(10);
-    this.add.image(476, blockY + 20, "factory", "tube-water").setDepth(10);
-    this.waterCleaningAnim = this.add
-      .sprite(457, blockY + 47, "factory", "water-1")
-      .setDepth(10)
-      .setVisible(false);
-    this.waterCleaningAnim.anims.play("water-anim");
+
+    this.add.image(476, blockY - 5, "factory", "tube-water").setDepth(10);
+    this.add.image(476, blockY + 15, "factory", "tube-water").setDepth(10);
+    this.add.image(476, blockY + 35, "factory", "tube-water").setDepth(10);
+
+    this.waterCleaningAnims = [];
+    for (let i = 0; i <= 2; i++) {
+      const element = this.add
+        .sprite(457, blockY + 22 + i * 20, "factory", "water-1")
+        .setDepth(10)
+        .setVisible(false);
+      element.anims.play("water-anim");
+      this.waterCleaningAnims.push(element);
+    }
 
     this.initMotherboard();
     this.initComponents();
@@ -280,8 +288,10 @@ export default class Factory extends MiniGameUi {
 
   initBackMotherboard() {
     this.backMotherboards = [];
-    for (let i=0; i<=5; i++) {
-      this.backMotherboards.push(this.add.image(600 + i*100, 30, "factory", "motherboard"))
+    for (let i = 0; i <= 5; i++) {
+      this.backMotherboards.push(
+        this.add.image(600 + i * 100, 30, "factory", "motherboard")
+      );
     }
   }
 
@@ -439,13 +449,11 @@ export default class Factory extends MiniGameUi {
     // right hand
     this.userLeftHand.scaleX = 1;
     this.movingHand = true;
-    this.userLeftHand.setX(450);
-    this.userLeftHand.setVisible(true);
+    this.userLeftHand.setX(350).setAlpha(0.1).setVisible(true);
 
     this.handAnimation = this.tweens.add({
       targets: this.userLeftHand,
-      x: 350,
-      y: 330,
+      x: 330,
       angle: -30,
       alpha: 1,
       yoyo: true,
@@ -476,13 +484,11 @@ export default class Factory extends MiniGameUi {
     // left hand
     this.userLeftHand.scaleX = -1;
     this.movingHand = true;
-    this.userLeftHand.setX(100);
-    this.userLeftHand.setVisible(true);
+    this.userLeftHand.setX(200).setVisible(true);
 
     this.handAnimation = this.tweens.add({
       targets: this.userLeftHand,
-      x: 200,
-      y: 330,
+      x: 220,
       angle: 30,
       alpha: 1,
       yoyo: true,
@@ -515,7 +521,7 @@ export default class Factory extends MiniGameUi {
   resetUserHand() {
     this.movingHand = false;
     this.userLeftHand.scaleX = 1;
-    this.userLeftHand.setAlpha(0);
+    this.userLeftHand.setAlpha(0.1);
     this.userLeftHand.setVisible(false);
     this.userLeftHand.setRotation(0);
     this.userLeftHand.setPosition(
@@ -617,8 +623,11 @@ export default class Factory extends MiniGameUi {
   validateMotherboard() {
     this.isMotherboardValidated = true;
     this.numberValidated++;
-    this.waterCleaningAnim.setVisible(true);
-    this.time.delayedCall(1000, () => this.waterCleaningAnim.setVisible(false));
+    this.waterCleaningAnims.forEach((element) => element.setVisible(true));
+
+    this.time.delayedCall(1000, () =>
+      this.waterCleaningAnims.forEach((element) => element.setVisible(false))
+    );
 
     const isFaster = 0 === this.numberValidated % accelerationStep;
 
@@ -661,10 +670,10 @@ export default class Factory extends MiniGameUi {
   update() {
     this.conveyorBackPosition += 1;
     this.conveyorInBack.setTilePosition(this.conveyorBackPosition, 0);
-    this.backMotherboards.forEach(backMotherboard => {
+    this.backMotherboards.forEach((backMotherboard) => {
       backMotherboard.x--;
       if (backMotherboard.x < -100) backMotherboard.x = 600;
-    })
+    });
 
     if (!this.motherBoard.length) {
       this.conveyorRollings.forEach((element) => element.anims.stop());
