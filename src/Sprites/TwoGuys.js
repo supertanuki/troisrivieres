@@ -1,29 +1,29 @@
 import Phaser from "phaser";
 import Chat from "../UI/Chat";
 
-export const SPRITE_ID = "twoWomen";
+export const SPRITE_ID = "twoGuys";
 
-export default class TwoWomen extends Chat {
+export default class TwoGuys extends Chat {
   constructor(scene, x, y) {
-    super(scene, x, y, "sprites", "twowomen-1", -2, -2);
+    super(scene, x, y, "sprites", "twoguys-1", 0, 0, true);
     this.spriteId = SPRITE_ID;
 
     scene.anims.create({
-      key: "twowomen-idle",
+      key: "twoguys-idle",
       frames: [
         {
           key: "sprites",
-          frame: "twowomen-1",
+          frame: "twoguys-1",
           duration: 1000,
         },
         {
           key: "sprites",
-          frame: "twowomen-2",
+          frame: "twoguys-2",
           duration: 1000,
         },
         {
           key: "sprites",
-          frame: "twowomen-3",
+          frame: "twoguys-3",
           duration: 300,
         },
       ],
@@ -31,12 +31,12 @@ export default class TwoWomen extends Chat {
       frameRate: 1,
     });
 
-    this.anims.play("twowomen-idle", true);
+    this.anims.play("twoguys-idle", true);
   }
 }
 
 Phaser.GameObjects.GameObjectFactory.register(SPRITE_ID, function (x, y) {
-  const sprite = new TwoWomen(this.scene, x, y);
+  const sprite = new TwoGuys(this.scene, x, y);
 
   this.scene.physics.world.enableBody(
     sprite,
@@ -45,6 +45,7 @@ Phaser.GameObjects.GameObjectFactory.register(SPRITE_ID, function (x, y) {
 
   sprite.body.setSize(sprite.width + 2, 1);
   sprite.setImmovable(true);
+  sprite.setInteractive();
 
   this.displayList.add(sprite);
   this.updateList.add(sprite);

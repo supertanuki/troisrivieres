@@ -21,7 +21,7 @@ export default class Message extends Phaser.Scene {
     const config = this.sys.game.config;
 
     this.actionBackground = this.add
-      .rectangle(config.width / 2, config.height - 30, 150, 30, 0x000000)
+      .rectangle(config.width / 2, config.height - 30, 200, 30, 0x000000)
       .setAlpha(0.5)
       .setScrollFactor(0)
       .setOrigin(0.5, 0.5)

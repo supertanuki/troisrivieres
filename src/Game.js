@@ -7,6 +7,7 @@ import "./Sprites/Django";
 import "./Sprites/Koko";
 import "./Sprites/SleepingGuy";
 import "./Sprites/TwoWomen";
+import "./Sprites/Baby";
 import "./Sprites/Nono";
 import "./Sprites/Bino";
 import "./Sprites/Cat";
@@ -19,12 +20,14 @@ import "./Sprites/Miner";
 import "./Sprites/Ball";
 import "./Sprites/Girl";
 import "./Sprites/Boy";
+import "./Sprites/TwoGuys";
 import "./Sprites/Bird";
 import "./Sprites/Butterfly";
 
 import { Hero } from "./Sprites/Hero";
 import { DiscussionStatus } from "./Utils/discussionStatus";
 import { eventsHas } from "./Utils/events";
+import { FONT_RESOLUTION, FONT_SIZE } from "./UI/Message";
 
 const nightColor = 0x000055;
 
@@ -114,11 +117,11 @@ export default class Game extends Phaser.Scene {
     const text = this.add
       .text(225, 125, "Démarrer", {
         fontFamily: "DefaultFont",
-        fontSize: "16px",
+        fontSize: FONT_SIZE,
         fill: "#ffffff",
       })
       .setOrigin(0.5, 0.5)
-      .setResolution(10);
+      .setResolution(FONT_RESOLUTION);
     text.setInteractive({ useHandCursor: true });
     text.on("pointerdown", () => {
       text.disableInteractive(true);
@@ -157,24 +160,43 @@ export default class Game extends Phaser.Scene {
     });
     */
 
+  
+
+    this.add.image(0, 0, "sprites", "background")
+      .setOrigin(0, 0)
+      .setScrollFactor(0.05, 0.1);
+
+    this.add.image(400, 0, "sprites", "background")
+      .setOrigin(0, 0)
+      .setScrollFactor(0.05, 0.1);
+
+    this.add.image(270, 120, "sprites", "mine")
+      .setOrigin(0, 0)
+      .setScrollFactor(0.14, 0.32);
+
+    this.add.image(1692, 240, "sprites", "mine-machine")
+      .setOrigin(0, 0)
+      .setScrollFactor(0.7, 0.7);
+
     // parallax backgrounds
-    /*
     const { width, height } = this.scale;
-    this.add.image(0, 0, "background-sky").setOrigin(0, 0).setScrollFactor(0);
+    /*
     this.backgrounds.push({
       ratioX: 0.1,
       ratioY: 0.5,
       sprite: this.add
-        .tileSprite(0, -100, width, height, "background-mountains")
+        .tileSprite(0, 0, 400, 224, "sprites", "background")
         //.setPosition(0, 0)
         .setOrigin(0, 0)
         .setScrollFactor(0, 0),
     });
+    //this.add.image(0, 0, "sprites", "mine-machine").setOrigin(0, 0).setScrollFactor(0);
+    /*
     this.backgrounds.push({
       ratioX: 0.2,
       ratioY: 0.8,
       sprite: this.add
-        .tileSprite(0, -170, width, height, "background-middle")
+        .tileSprite(0, -170, width, height, "sprites", "mine")
         //.setPosition(0, 0)
         .setOrigin(0, 0)
         .setScrollFactor(0, 0),
@@ -302,9 +324,19 @@ export default class Game extends Phaser.Scene {
         this.sleepingGuy.on("pointerdown", this.handleAction, this);
       }
 
+      if (spriteObject.name === "twoGuys") {
+        this.twoGuys = this.add.twoGuys(spriteObject.x, spriteObject.y);
+        this.twoGuys.on("pointerdown", this.handleAction, this);
+      }
+
       if (spriteObject.name === "twoWomen") {
         this.twoWomen = this.add.twoWomen(spriteObject.x, spriteObject.y);
         this.twoWomen.on("pointerdown", this.handleAction, this);
+      }
+
+      if (spriteObject.name === "baby") {
+        this.baby = this.add.baby(spriteObject.x, spriteObject.y);
+        this.baby.on("pointerdown", this.handleAction, this);
       }
 
       if (spriteObject.name === "nono") {
@@ -731,6 +763,8 @@ export default class Game extends Phaser.Scene {
     [
       this.koko,
       this.sleepingGuy,
+      this.twoGuys,
+      this.baby,
       this.twoWomen,
       this.bino,
       this.fisherman,
@@ -832,6 +866,14 @@ export default class Game extends Phaser.Scene {
 
     this.physics.add.collider(this.twoWomen, this.hero, () => {
       sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "twoWomen");
+    });
+
+    this.physics.add.collider(this.baby, this.hero, () => {
+      sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "baby");
+    });
+
+    this.physics.add.collider(this.twoGuys, this.hero, () => {
+      sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "twoGuys");
     });
 
     this.physics.add.collider(this.nono, this.hero, () => {
@@ -1196,16 +1238,5 @@ export default class Game extends Phaser.Scene {
     ) {
       this.stopMoving();
     }
-
-    // parallax backgrounds
-    /*
-    for (let i = 0; i < this.backgrounds.length; ++i) {
-      const background = this.backgrounds[i];
-      background.sprite.setTilePosition(
-        this.cameras.main.scrollX * background.ratioX,
-        this.cameras.main.scrollY * background.ratioY
-      );
-    }
-    */
   }
 }

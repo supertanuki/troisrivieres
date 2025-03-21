@@ -39,10 +39,28 @@ const messageWorkflow = {
       dependingOn: ["first_sleep"],
     },
   ],
+  twoGuys: [
+    {
+      messages: [
+        "- Le changement climatique, c'est du sérieux, mec.",
+        "- Ok, mais tu penses à la biodiversité ?",
+        "- Si, si, j'ai même arrêté de tuer les moustiques !",
+      ]
+    }
+  ],
   twoWomen: [
     {
       messages: [
-        "Bla, blah, bluh",
+        "- J'arrête de manger de la viande !",
+        "- Pourquoi ? Pour réduire ton empreinte carbone ?",
+        "- Non, pour ma santé tout en préservant la vie d'un animal.",
+      ]
+    }
+  ],
+  baby: [
+    {
+      messages: [
+        "Papa, je veux mon Papa",
       ]
     }
   ],

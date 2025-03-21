@@ -41,6 +41,7 @@ Phaser.GameObjects.GameObjectFactory.register(SPRITE_ID, function (x, y) {
 
   sprite.body.setSize(sprite.width + 2, 1);
   sprite.setImmovable(true);
+  sprite.setInteractive();
 
   this.displayList.add(sprite);
   this.updateList.add(sprite);
