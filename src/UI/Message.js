@@ -6,8 +6,7 @@ import { DiscussionStatus } from "../Utils/discussionStatus";
 import { eventsHas } from "../Utils/events";
 
 export const FONT_SIZE = "16px"
-export const FONT_RESOLUTION = 2;
-const SHOW_TEXT_DELAY = 20;
+export const FONT_RESOLUTION = 4;
 
 export default class Message extends Phaser.Scene {
   constructor() {
@@ -222,27 +221,10 @@ export default class Message extends Phaser.Scene {
     this.spriteNameObject.text = spriteNames[sprite];
     this.spriteNameObject.setVisible(true);
 
-    this.textObject.text = "";
+    this.textObject.text = message;
     this.currentText = message;
     this.textObject.setVisible(true);
-    this.typewriteText(message);
-  }
 
-  typewriteText(text) {
-    const splitedText = text.split(" ");
-    const length = splitedText.length;
-    let i = 0;
-    this.time.addEvent({
-      callback: () => {
-        this.textObject.text += splitedText[i] + " ";
-        ++i;
-
-        if (i >= length) {
-          sceneEventsEmitter.emit(sceneEvents.DiscussionWaiting);
-        }
-      },
-      repeat: length - 1,
-      delay: SHOW_TEXT_DELAY,
-    });
+    this.time.delayedCall(300, () => sceneEventsEmitter.emit(sceneEvents.DiscussionWaiting));
   }
 }

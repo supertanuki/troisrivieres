@@ -88,7 +88,6 @@ export default class Game extends Phaser.Scene {
   gotoMine() {
     this.cameras.main.fadeOut(1000, 0, 0, 0, (cam, progress) => {
       if (progress !== 1) return;
-      console.log("fadeout go to mine");
       this.scene.launch("mine");
       this.scene.sleep("game");
       this.scene.sleep("message");
@@ -119,7 +118,7 @@ export default class Game extends Phaser.Scene {
         fill: "#ffffff",
       })
       .setOrigin(0.5, 0.5)
-      .setResolution(2);
+      .setResolution(10);
     text.setInteractive({ useHandCursor: true });
     text.on("pointerdown", () => {
       text.disableInteractive(true);
@@ -149,7 +148,6 @@ export default class Game extends Phaser.Scene {
     }
 
     this.scene.run("message");
-    console.log("startGame");
 
     // Fade init
     this.cameras.main.fadeIn(1000, 0, 0, 0);
@@ -717,15 +715,12 @@ export default class Game extends Phaser.Scene {
     this.isCinematic = true;
     this.cameras.main.fadeOut(1000, 0, 0, 0, (cam, progress) => {
       if (progress !== 1) return;
-      console.log("firstSleep fadeOut completed");
       this.endFirstSleep();
 
       this.time.delayedCall(1000, () => {
         this.cameras.main.fadeIn(1000, 0, 0, 0, (cam, progress) => {
           if (progress !== 1) return;
-          console.log("fadeOutAndFadeIn /// fadeIn completed");
           this.isCinematic = false;
-          console.log("end cinematic");
           this.handleAction();
         });
       });
@@ -787,7 +782,6 @@ export default class Game extends Phaser.Scene {
   }
 
   listenEvents(data) {
-    console.log("Game listenEvents", data);
     if (eventsHas(data, "miner_first_met")) {
       this.toggleSprites(false);
       this.switchNight();
@@ -802,19 +796,13 @@ export default class Game extends Phaser.Scene {
     }
 
     if (eventsHas(data, "mine_after")) {
-      console.log("game listenEvents mine_after");
       this.scene.wake("game");
-      console.log("game wake game");
       this.scene.wake("message");
-      console.log("game wake message");
-
       this.resetGameSize();
       this.isCinematic = true;
-      console.log("resetGameSize");
 
       this.cameras.main.fadeIn(1000, 0, 0, 0, (cam, progress) => {
         if (progress !== 1) return;
-        console.log("game fadeIn done");
         this.isCinematic = false;
         this.currentDiscussionStatus = DiscussionStatus.NONE;
       });
@@ -916,7 +904,6 @@ export default class Game extends Phaser.Scene {
 
   handleDiscussionWaiting(data) {
     if (!this.scene.isActive()) return;
-    console.log("handleDiscussionWaiting", data);
     this.currentDiscussionStatus = DiscussionStatus.WAITING;
   }
 
@@ -986,7 +973,6 @@ export default class Game extends Phaser.Scene {
     }
 
     if (this.currentDiscussionStatus === DiscussionStatus.READY) {
-      console.log("handleAction", this.currentDiscussionSprite);
       this.currentDiscussionStatus = DiscussionStatus.STARTED;
       sceneEventsEmitter.emit(
         sceneEvents.DiscussionStarted,
@@ -1158,7 +1144,6 @@ export default class Game extends Phaser.Scene {
   }
 
   update(time, delta) {
-    //console.log(!this.cursors, !this.hero, this.isCinematic, !this.hero?.body, this.currentDiscussionStatus)
     if (!this.cursors || !this.hero || this.isCinematic || !this.hero.body) {
       return;
     }
