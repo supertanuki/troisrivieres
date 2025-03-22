@@ -55,7 +55,6 @@ export default class Game extends Phaser.Scene {
 
     this.birds = [];
     this.butterflies = [];
-    this.backgrounds = [];
     this.pointsCollider = [];
     this.heroPositions = {};
     this.maskNightOverlays = [];
@@ -160,8 +159,7 @@ export default class Game extends Phaser.Scene {
     });
     */
 
-  
-
+    // parallax mine backgrounds // @todo : load it when mine access is unlocked
     this.add.image(0, 0, "sprites", "background")
       .setOrigin(0, 0)
       .setScrollFactor(0.05, 0.1);
@@ -177,31 +175,6 @@ export default class Game extends Phaser.Scene {
     this.add.image(1692, 240, "sprites", "mine-machine")
       .setOrigin(0, 0)
       .setScrollFactor(0.7, 0.7);
-
-    // parallax backgrounds
-    const { width, height } = this.scale;
-    /*
-    this.backgrounds.push({
-      ratioX: 0.1,
-      ratioY: 0.5,
-      sprite: this.add
-        .tileSprite(0, 0, 400, 224, "sprites", "background")
-        //.setPosition(0, 0)
-        .setOrigin(0, 0)
-        .setScrollFactor(0, 0),
-    });
-    //this.add.image(0, 0, "sprites", "mine-machine").setOrigin(0, 0).setScrollFactor(0);
-    /*
-    this.backgrounds.push({
-      ratioX: 0.2,
-      ratioY: 0.8,
-      sprite: this.add
-        .tileSprite(0, -170, width, height, "sprites", "mine")
-        //.setPosition(0, 0)
-        .setOrigin(0, 0)
-        .setScrollFactor(0, 0),
-    });
-    */
 
     this.map = this.make.tilemap({ key: "map" });
     this.tileset = this.map.addTilesetImage("Atlas_01", "tiles");
