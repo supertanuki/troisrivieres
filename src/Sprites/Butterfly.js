@@ -5,7 +5,7 @@ export default class Butterfly extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
     super(scene, x, y, "sprites", "butterfly-1");
     this.scene = scene;
-
+    this.initialPosition = {x, y}
     this.scaleX = randomSign();
 
     const anims = scene.anims;
@@ -21,13 +21,21 @@ export default class Butterfly extends Phaser.Physics.Arcade.Sprite {
         repeat: -1,
         frameRate: 4,
       })
+      
       .addFrame([{
         key: "sprites",
         frame: "butterfly-2",
-        duration: 1,
+        duration: 20,
       }]);
 
     this.anims.play("butterfly-anim");
+  }
+
+  preUpdate(time, delta) {
+    super.preUpdate(time, delta);
+
+    this.x -= Phaser.Math.Between(-5, 5) / 10;
+    this.y -= Phaser.Math.Between(-5, 5) / 10;
   }
 }
 

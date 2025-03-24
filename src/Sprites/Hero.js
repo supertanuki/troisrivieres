@@ -1,16 +1,13 @@
 import { createHeroAnims } from "./HeroAnims";
 
 const SPEED = 80;
+const SPEED_DIAGONAL = 70;
 
 export class Hero extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y, texture, frame) {
     super(scene, x, y, texture, frame);
     this.scene = scene;
     createHeroAnims(this.scene.anims);
-  }
-
-  preUpdate(time, delta) {
-    super.preUpdate(time, delta);
   }
 
   resetVelocity() {
@@ -30,13 +27,21 @@ export class Hero extends Phaser.Physics.Arcade.Sprite {
   }
 
   goUp() {
-    this.setVelocityY(-SPEED);
+    if (this.body.velocity.x)
+      this.setVelocity(this.body.velocity.x > 0 ? SPEED_DIAGONAL : -SPEED_DIAGONAL, -SPEED_DIAGONAL);
+    else
+      this.setVelocityY(-SPEED);
+
     this.scaleX = 1;
     this.body.offset.x = -2;
   }
 
   goDown() {
-    this.setVelocityY(SPEED);
+    if (this.body.velocity.x)
+      this.setVelocity(this.body.velocity.x > 0 ? SPEED_DIAGONAL : -SPEED_DIAGONAL, SPEED_DIAGONAL);
+    else
+      this.setVelocityY(SPEED);
+
     this.scaleX = 1;
     this.body.offset.x = -2;
   }

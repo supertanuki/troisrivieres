@@ -35,9 +35,11 @@ class Miner extends Chat {
   }
 
   listenEvents(data) {
+    /*
     if (data.newUnlockedEvents.includes("miner_clothes_validated")) {
       this.moveMinerToNewPosition();
     }
+    */
   }
 
   moveMinerToNewPosition() {

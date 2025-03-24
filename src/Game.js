@@ -160,19 +160,23 @@ export default class Game extends Phaser.Scene {
     */
 
     // parallax mine backgrounds // @todo : load it when mine access is unlocked
-    this.add.image(0, 0, "sprites", "background")
+    this.add
+      .image(0, 0, "sprites", "background")
       .setOrigin(0, 0)
       .setScrollFactor(0.05, 0.1);
 
-    this.add.image(400, 0, "sprites", "background")
+    this.add
+      .image(400, 0, "sprites", "background")
       .setOrigin(0, 0)
       .setScrollFactor(0.05, 0.1);
 
-    this.add.image(270, 120, "sprites", "mine")
+    this.add
+      .image(270, 120, "sprites", "mine")
       .setOrigin(0, 0)
       .setScrollFactor(0.14, 0.32);
 
-    this.add.image(1692, 240, "sprites", "mine-machine")
+    this.add
+      .image(1692, 240, "sprites", "mine-machine")
       .setOrigin(0, 0)
       .setScrollFactor(0.7, 0.7);
 
@@ -183,13 +187,16 @@ export default class Game extends Phaser.Scene {
     this.land = this.map
       .createLayer("land", this.tileset)
       .setDepth(20)
-      .setCollisionByProperty({ collide: true });
+      .setCollisionByProperty({ collide: true })
+      .setCullPadding(2, 2);
 
+    /*
     this.landLessWater = this.map
       .createLayer("landLessWater", this.tileset)
       .setDepth(30)
       .setCollisionByProperty({ collide: true })
       .setVisible(false);
+      */
 
     this.map.createLayer("landUp", this.tileset).setDepth(40);
     this.bridgesShadow = this.map
@@ -535,18 +542,6 @@ export default class Game extends Phaser.Scene {
 
   addDebugControls() {
     this.input.keyboard
-      .addKey(Phaser.Input.Keyboard.KeyCodes.T)
-      .on("down", () => {
-        this.add
-          .text(this.hero.x, this.hero.y + 100, "Trois-Rivières", {
-            fontSize: "28px",
-            fill: "#000000",
-          })
-          .setOrigin(0.5, 0.5)
-          .setDepth(1000);
-      });
-
-    this.input.keyboard
       .addKey(Phaser.Input.Keyboard.KeyCodes.F)
       .on("down", () => {
         this.setHeroPosition("hero");
@@ -599,7 +594,7 @@ export default class Game extends Phaser.Scene {
         this.cameras.main.zoomTo(this.cameras.main.zoom === 0.18 ? 1 : 2, 100);
       });
 
-    const ctrlR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
+    const ctrlR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.T);
     ctrlR.on("down", () => {
       if (!this.roads) {
         this.roadsBottom = this.map
@@ -620,12 +615,14 @@ export default class Game extends Phaser.Scene {
       this.bridgesTop.setVisible(enabled);
     });
 
+    /*
     this.input.keyboard
       .addKey(Phaser.Input.Keyboard.KeyCodes.A)
       .on("down", () => {
         this.landLessWater.setVisible(!this.landLessWater.visible);
         this.landLessWater.setActive(!this.landLessWater.visible);
       });
+      */
 
     this.input.keyboard
       .addKey(Phaser.Input.Keyboard.KeyCodes.U)
