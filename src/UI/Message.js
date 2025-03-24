@@ -6,7 +6,7 @@ import { DiscussionStatus } from "../Utils/discussionStatus";
 import { eventsHas } from "../Utils/events";
 
 export const FONT_SIZE = "16px"
-export const FONT_RESOLUTION = 4;
+export const FONT_RESOLUTION = 6;
 
 export default class Message extends Phaser.Scene {
   constructor() {
