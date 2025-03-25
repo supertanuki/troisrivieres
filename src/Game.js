@@ -583,6 +583,14 @@ export default class Game extends Phaser.Scene {
       });
 
     this.input.keyboard
+      .addKey(Phaser.Input.Keyboard.KeyCodes.C)
+      .on("down", () => {
+        sceneEventsEmitter.emit(sceneEvents.PreEventsUnlocked, [
+          "card_for_mine",
+        ]);
+      });
+
+    this.input.keyboard
       .addKey(Phaser.Input.Keyboard.KeyCodes.M)
       .on("down", () => {
         this.cameras.main.zoomTo(this.cameras.main.zoom === 2 ? 1 : 0.18, 100);

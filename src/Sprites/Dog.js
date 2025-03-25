@@ -5,8 +5,29 @@ export const SPRITE_ID = "dog";
 
 export default class Dog extends Chat {
   constructor(scene, x, y) {
-    super(scene, x, y, "sprites", "dog", 0, 0, true);
+    super(scene, x, y, "sprites", "dog-1", 0, 0, true);
     this.spriteId = SPRITE_ID;
+
+    scene.anims
+      .create({
+        key: "dog-idle",
+        frames: this.anims.generateFrameNames("sprites", {
+          start: 1,
+          end: 3,
+          prefix: "dog-",
+        }),
+        repeat: -1,
+        frameRate: 3,
+      })
+      .addFrame(
+        this.anims.generateFrameNames("sprites", {
+          start: 2,
+          end: 2,
+          prefix: "dog-",
+        })
+      );
+
+    this.anims.play("dog-idle", true);
   }
 }
 
@@ -21,7 +42,7 @@ Phaser.GameObjects.GameObjectFactory.register(SPRITE_ID, function (x, y) {
   sprite.body.setSize(sprite.width, 1);
   sprite.setImmovable(true);
   sprite.setInteractive();
- // sprite.setOffset(0, 0.)
+  // sprite.setOffset(0, 0.)
 
   this.displayList.add(sprite);
   this.updateList.add(sprite);

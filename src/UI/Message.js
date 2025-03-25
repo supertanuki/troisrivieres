@@ -5,7 +5,7 @@ import isMobileOrTablet from "../Utils/isMobileOrTablet";
 import { DiscussionStatus } from "../Utils/discussionStatus";
 import { eventsHas } from "../Utils/events";
 
-export const FONT_SIZE = "16px"
+export const FONT_SIZE = "16px";
 export const FONT_RESOLUTION = 6;
 
 export default class Message extends Phaser.Scene {
@@ -26,7 +26,7 @@ export default class Message extends Phaser.Scene {
       .setScrollFactor(0)
       .setOrigin(0.5, 0.5)
       .setDepth(2000)
-      .setVisible(false)
+      .setVisible(false);
 
     this.actionBackgroundLine = this.add
       .line(
@@ -51,7 +51,7 @@ export default class Message extends Phaser.Scene {
         config.height - 30,
         isMobileOrTablet() ? "Appuyer pour continuer" : "Appuyer sur espace",
         {
-          fontFamily: 'DefaultFont',
+          fontFamily: "DefaultFont",
           fontSize: FONT_SIZE,
           fill: "#ffffff",
         }
@@ -60,7 +60,7 @@ export default class Message extends Phaser.Scene {
       .setOrigin(0.5, 0.5)
       .setScrollFactor(0)
       .setDepth(2000)
-      .setVisible(false)
+      .setVisible(false);
 
     this.dialogBackground = this.add
       .sprite(config.width / 2, config.height - 30, "ui", "dialog-2")
@@ -80,7 +80,7 @@ export default class Message extends Phaser.Scene {
 
     this.textObject = this.add
       .text(config.width / 2, config.height - 30, "", {
-        fontFamily: 'DefaultFont', 
+        fontFamily: "DefaultFont",
         fontSize: FONT_SIZE,
         fill: "#ffffff",
       })
@@ -93,7 +93,7 @@ export default class Message extends Phaser.Scene {
 
     this.spriteNameObject = this.add
       .text(config.width / 2 - 132, config.height - 64, "", {
-        fontFamily: 'DefaultFont',
+        fontFamily: "DefaultFont",
         fontSize: FONT_SIZE,
         fill: "#000000",
         padding: 4,
@@ -102,15 +102,8 @@ export default class Message extends Phaser.Scene {
       .setOrigin(0, 0.5)
       .setScrollFactor(0)
       .setDepth(3000)
-      .setVisible(false)
-      //.setShadow(0, 0, "rgba(255,255,255,1)", 3);
-
-    this.mineCard = this.add
-      .image(config.width - 30, config.height - 30, "ui", "card")
-      .setScrollFactor(0)
-      .setDepth(3000)
-      .setAlpha(0)
       .setVisible(false);
+    //.setShadow(0, 0, "rgba(255,255,255,1)", 3);
 
     sceneEventsEmitter.on(sceneEvents.MessageSent, this.handleMessage, this);
     sceneEventsEmitter.on(
@@ -128,14 +121,22 @@ export default class Message extends Phaser.Scene {
   }
 
   showMineCard() {
-    this.mineCard.setVisible(true);
+    const config = this.sys.game.config;
+    this.mineCard = this.add
+      .image(config.width / 2, config.height / 2, "ui", "card")
+      .setScrollFactor(0)
+      .setDepth(3000)
+      .setAlpha(0);
+
     this.tweens.add({
       targets: this.mineCard,
+      x: config.width - 30,
+      y: config.height - 30,
       alpha: 1,
       scale: 1,
-      ease: "Sine.easeInOut",
+      ease: "Quad.easeOut",
       loop: 0,
-      duration: 500,
+      duration: 1000,
     });
   }
 
@@ -147,7 +148,7 @@ export default class Message extends Phaser.Scene {
       ease: "Sine.easeInOut",
       loop: 0,
       duration: 500,
-      onComplete: () => this.mineCard.setVisible(false)
+      onComplete: () => this.mineCard.setVisible(false),
     });
   }
 
@@ -159,19 +160,19 @@ export default class Message extends Phaser.Scene {
 
     if (eventsHas(data, "mine_access_validation")) {
       this.hideMineCard();
-    }    
+    }
   }
 
   startDiscussion() {
-    console.log('Message startDiscussion')
-    if (!this.scene.isActive()) return
+    console.log("Message startDiscussion");
+    if (!this.scene.isActive()) return;
     this.currentDiscussionStatus = DiscussionStatus.STARTED;
     this.stopAction();
   }
 
   stopAction() {
     if (!this.scene.isActive()) return;
-    console.log('Message stopAction')
+    console.log("Message stopAction");
 
     this.actionText.setVisible(false);
     this.actionBackground.setVisible(false);
@@ -181,9 +182,9 @@ export default class Message extends Phaser.Scene {
   readyToAction() {
     if (!this.scene.isActive()) return;
     if (this.currentDiscussionStatus !== DiscussionStatus.NONE) return;
-    if (this.scene.get('game')?.isCinematic) return;
+    if (this.scene.get("game")?.isCinematic) return;
 
-    console.log('Message readyToAction')
+    console.log("Message readyToAction");
 
     this.currentDiscussionStatus = DiscussionStatus.READY;
     this.actionText.setVisible(true);
@@ -193,7 +194,7 @@ export default class Message extends Phaser.Scene {
 
   handleDiscussionEnd() {
     if (!this.scene.isActive()) return;
-    console.log('Message handleDiscussionEnd')
+    console.log("Message handleDiscussionEnd");
 
     this.currentDiscussionStatus = DiscussionStatus.NONE;
     this.stopAction();
@@ -208,7 +209,7 @@ export default class Message extends Phaser.Scene {
 
   handleMessage(payload) {
     if (!this.scene.isActive()) return;
-    console.log('Message handleMessage')
+    console.log("Message handleMessage");
 
     const { message, sprite } = payload;
     if (this.textObject.visible && message === this.currentText) {
@@ -225,6 +226,8 @@ export default class Message extends Phaser.Scene {
     this.currentText = message;
     this.textObject.setVisible(true);
 
-    this.time.delayedCall(300, () => sceneEventsEmitter.emit(sceneEvents.DiscussionWaiting));
+    this.time.delayedCall(300, () =>
+      sceneEventsEmitter.emit(sceneEvents.DiscussionWaiting)
+    );
   }
 }
