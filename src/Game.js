@@ -737,6 +737,34 @@ export default class Game extends Phaser.Scene {
     });
   }
 
+  lessBirds() {
+    this.birds.forEach((bird, index) => {
+      if (Phaser.Math.Between(0, 1)) {
+        this.birds.splice(index, 1);
+        bird.destroy();
+      } 
+    });
+  }
+
+  lessButterflies() {
+    this.butterflies.forEach((butterfly, index) => {
+      if (Phaser.Math.Between(0, 1)) {
+        this.butterflies.splice(index, 1);
+        butterfly.destroy();
+      } 
+    });
+  }
+
+  noMoreBirds() {
+    this.birds.forEach(bird => bird.destroy());
+    this.birds = [];
+  }
+
+  noMoreButterflies() {
+    this.butterflies.forEach(butterfly => butterfly.destroy());
+    this.butterflies = [];
+  }
+
   toggleSprites(state) {
     [
       this.koko,
@@ -785,6 +813,8 @@ export default class Game extends Phaser.Scene {
     this.boy.setSad();
     this.girl.setSad();
     this.fisherman.setSad();
+    this.lessBirds();
+    this.lessButterflies();
 
     this.nono.setVisible(true);
     this.nono.body.checkCollision.none = false;

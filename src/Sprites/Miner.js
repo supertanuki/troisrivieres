@@ -7,6 +7,7 @@ class Miner extends Chat {
   constructor(scene, x, y, texture, frame) {
     super(scene, x, y, "sprites", "miner", 0, -5);
     this.spriteId = SPRITE_ID;
+    this.delta = 40;
 
     this.futureMinerPosition = null;
     this.initialY = y;

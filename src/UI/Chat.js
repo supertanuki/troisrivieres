@@ -4,7 +4,7 @@ import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 const INITIAL_DEPTH = 99;
 const FRONT_HERO_DEPTH = 101;
 
-const delta = 30;
+const defaultDelta = 25;
 
 export default class Chat extends Phaser.Physics.Arcade.Sprite {
   constructor(
@@ -22,6 +22,7 @@ export default class Chat extends Phaser.Physics.Arcade.Sprite {
 
     this.setDepth(INITIAL_DEPTH);
 
+    this.delta = defaultDelta;
     this.spriteId = null;
     this.heroNearMe = false;
 
@@ -54,10 +55,10 @@ export default class Chat extends Phaser.Physics.Arcade.Sprite {
   isHeroNearMe() {
     const hero = this.scene.hero;
     return (
-      hero.x > this.x - delta &&
-      hero.x < this.x + delta &&
-      hero.y > this.y - delta &&
-      hero.y < this.y + delta
+      hero.x > this.x - this.delta &&
+      hero.x < this.x + this.delta &&
+      hero.y > this.y - this.delta &&
+      hero.y < this.y + this.delta
     );
   }
 

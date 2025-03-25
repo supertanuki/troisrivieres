@@ -25,7 +25,7 @@ export default class Butterfly extends Phaser.Physics.Arcade.Sprite {
       .addFrame([{
         key: "sprites",
         frame: "butterfly-2",
-        duration: 20,
+        duration: 2,
       }]);
 
     this.anims.play("butterfly-anim");
@@ -34,8 +34,8 @@ export default class Butterfly extends Phaser.Physics.Arcade.Sprite {
   preUpdate(time, delta) {
     super.preUpdate(time, delta);
 
-    this.x -= Phaser.Math.Between(-5, 5) / 10;
-    this.y -= Phaser.Math.Between(-5, 5) / 10;
+    this.x -= Phaser.Math.Between(2, 5) / 10 * randomSign();
+    this.y -= Phaser.Math.Between(2, 5) / 10 * randomSign();
   }
 }
 

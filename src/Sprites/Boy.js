@@ -5,8 +5,9 @@ export const SPRITE_ID = "boy";
 
 export default class Boy extends Chat {
   constructor(scene, x, y) {
-    super(scene, x, y, "sprites", "boy-water-1", 0, 0, true);
+    super(scene, x, y, "sprites", "boy-water-1", 10);
     this.spriteId = SPRITE_ID;
+    this.delta = 40;
     this.scene = scene;
 
     scene.anims
@@ -56,6 +57,8 @@ export default class Boy extends Chat {
   }
 
   setSad() {
+    this.chatIconDeltaX = 0;
+
     this.setPosition(this.sadPosition.x, this.sadPosition.y);
     this.anims.play("boy-sad");
 
