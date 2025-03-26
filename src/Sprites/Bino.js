@@ -7,6 +7,7 @@ export default class Bino extends Chat {
   constructor(scene, x, y) {
     super(scene, x, y, "sprites", "bino-1");
     this.spriteId = SPRITE_ID;
+    this.cleaningRoadPosition = {x: 0, y: 0};
 
     scene.anims.create({
       key: "bino-idle",
@@ -37,6 +38,17 @@ export default class Bino extends Chat {
     });
 
     this.anims.play("bino-idle", true);
+  }
+
+  setCleaningRoadPosition(x, y) {
+    this.cleaningRoadPosition = {x, y};
+  }
+
+  setCleaningRoad() {
+    const {x, y} = this.cleaningRoadPosition;
+    this.setPosition(x, y);
+    this.scaleX = -1;
+    this.setOffset(this.width, this.height/2);
   }
 }
 

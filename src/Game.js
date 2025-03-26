@@ -334,6 +334,10 @@ export default class Game extends Phaser.Scene {
         this.bino.on("pointerdown", this.handleAction, this);
       }
 
+      if (spriteObject.name === "binoCleaningRoad") {
+        this.bino.setCleaningRoadPosition(spriteObject.x, spriteObject.y);
+      }
+
       if (spriteObject.name === "mino") {
         this.fisherman = this.add.fisherman(spriteObject.x, spriteObject.y);
         this.fisherman.on("pointerdown", this.handleAction, this);
@@ -873,6 +877,7 @@ export default class Game extends Phaser.Scene {
     this.toggleRoads();
     this.hideBikes();
     this.hidePotager();
+    this.bino.setCleaningRoad();
     
     this.setHeroPosition("heroDjango");
     this.hero.slowRight();
