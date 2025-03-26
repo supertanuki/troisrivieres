@@ -309,7 +309,7 @@ export default class Mine extends MiniGameUi {
 
     this.input.keyboard.on(
       "keyup",
-      function (event) {
+      (event) => {
         if (event.key == "ArrowUp") {
           this.goingUp = false;
         } else if (event.key == "ArrowDown") {
@@ -342,9 +342,11 @@ export default class Mine extends MiniGameUi {
       // Make floating joystick
       this.input.on(
         "pointerdown",
-        function (pointer) {
+        (pointer) => {
           this.joystick.setPosition(pointer.x, pointer.y);
           this.joystick.setVisible(true);
+          this.action = true;
+          this.handleAction();
         },
         this
       );
@@ -402,15 +404,6 @@ export default class Mine extends MiniGameUi {
           this.goingDown = false;
           this.goingRight = false;
           this.goingLeft = false;
-        },
-        this
-      );
-
-      this.joystick.on(
-        "pointerdown",
-        () => {
-          this.action = true;
-          this.handleAction();
         },
         this
       );
