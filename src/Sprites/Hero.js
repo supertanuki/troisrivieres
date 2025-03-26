@@ -1,5 +1,3 @@
-import { createHeroAnims } from "./HeroAnims";
-
 const SPEED = 80;
 const SPEED_SLOW = 20;
 const SPEED_DIAGONAL = 70;

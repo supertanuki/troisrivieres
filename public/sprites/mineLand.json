@@ -1,0 +1,82 @@
+{
+	"textures": [
+		{
+			"image": "mineLand",
+			"format": "RGBA8888",
+			"size": {
+				"w": 582,
+				"h": 416
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "background",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 400,
+						"h": 224
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 400,
+						"h": 224
+					},
+					"frame": {
+						"x": 0,
+						"y": 0,
+						"w": 400,
+						"h": 224
+					}
+				},
+				{
+					"filename": "mine",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 543,
+						"h": 192
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 543,
+						"h": 192
+					},
+					"frame": {
+						"x": 0,
+						"y": 224,
+						"w": 543,
+						"h": 192
+					}
+				},
+				{
+					"filename": "mine-machine",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 191,
+						"h": 148
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 9,
+						"w": 182,
+						"h": 139
+					},
+					"frame": {
+						"x": 400,
+						"y": 0,
+						"w": 182,
+						"h": 139
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "http://free-tex-packer.com",
+		"version": "0.6.7"
+	}
+}
