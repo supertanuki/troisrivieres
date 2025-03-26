@@ -23,6 +23,7 @@ import "./Sprites/Boy";
 import "./Sprites/TwoGuys";
 import "./Sprites/Bird";
 import "./Sprites/Butterfly";
+import "./Sprites/Bike";
 
 import { Hero } from "./Sprites/Hero";
 import { DiscussionStatus } from "./Utils/discussionStatus";
@@ -60,6 +61,7 @@ export default class Game extends Phaser.Scene {
     this.heroPositions = {};
     this.maskNightOverlays = [];
     this.nightOverlays = [];
+    this.bikes = [];
 
     this.isCinematic = false;
   }
@@ -379,6 +381,10 @@ export default class Game extends Phaser.Scene {
         this.boy.on("pointerdown", this.handleAction, this);
       }
 
+      if (spriteObject.name === "bike") {
+        this.bikes.push(this.add.bike(spriteObject.x, spriteObject.y));
+      }
+
       if (spriteObject.name === "boySad") {
         this.boy.setSadPosition(spriteObject.x, spriteObject.y);
       }
@@ -399,6 +405,11 @@ export default class Game extends Phaser.Scene {
 
     this.topObjects = this.map
       .createLayer("top", this.tileset)
+      .setDepth(120)
+      .setCollisionByProperty({ collide: true });
+
+    this.potagerTop = this.map
+      .createLayer("potagerTop", this.tileset)
       .setDepth(120)
       .setCollisionByProperty({ collide: true });
 
@@ -541,6 +552,18 @@ export default class Game extends Phaser.Scene {
     });
   }
 
+  hidePotager() {
+    this.potagerBottom.setVisible(false);
+    this.potagerTop.setVisible(false);
+  }
+
+  hideBikes() {
+    this.bikes.forEach(bike => {
+      bike.setVisible(false);
+      bike.body.checkCollision.none = true;
+    })
+  }
+
   toggleRoads() {
     if (!this.roads) {
       this.roadsBottom = this.map
@@ -606,8 +629,8 @@ export default class Game extends Phaser.Scene {
           "first_sleep",
           //"pre_first_sleep",
           //"miner_ask_for_card",
-          "mine_after",
-          //"mine_nightmare_after",
+          //"mine_after",
+          "mine_nightmare_after",
         ]);
       });
 
@@ -633,7 +656,7 @@ export default class Game extends Phaser.Scene {
 
     const ctrlR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.T);
     ctrlR.on("down", () => {
-      toggleRoads()
+      this.toggleRoads()
     });
 
     /*
@@ -848,6 +871,8 @@ export default class Game extends Phaser.Scene {
     this.switchNight();
     this.villageStateAfterFirstSleep();
     this.toggleRoads();
+    this.hideBikes();
+    this.hidePotager();
     
     this.setHeroPosition("heroDjango");
     this.hero.slowRight();
@@ -1001,10 +1026,13 @@ export default class Game extends Phaser.Scene {
       bird.fly();
     });
 
+    this.physics.add.collider(this.bikes, this.hero);
+
     this.physics.add.collider(this.hero, this.water);
     this.physics.add.collider(this.hero, this.land);
     this.physics.add.collider(this.hero, this.obstacles);
     this.physics.add.collider(this.hero, this.topObjects);
+    this.physics.add.collider(this.hero, this.potagerTop);
     this.physics.add.collider(this.hero, this.bottomObjects);
     this.physics.add.collider(this.hero, this.pointsCollider);
   }
