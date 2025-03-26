@@ -1,3 +1,5 @@
+import isMobileOrTablet from "../Utils/isMobileOrTablet";
+
 const spriteNames = {
   django: "Django",
   miner: "Bleurk",
@@ -52,8 +54,8 @@ const messageWorkflow = {
     {
       messages: [
         "- J'arrête de manger de la viande !",
-        "- Pourquoi ? Pour réduire ton empreinte carbone ?",
-        "- Non, pour ma santé tout en préservant la vie d'un animal.",
+        "- Pour ta santé ?",
+        "- Non, pour réduire mon empreinte carbone !",
       ]
     }
   ],
@@ -182,6 +184,13 @@ const messageWorkflow = {
       repeat: ["Il s'est passé quelque chose de terrible dans le village."],
       dependingOn: ["first_sleep"],
     },
+    {
+      messages: [
+        "Bien dormi, Maï ? C'était bien à la mine ?",
+      ],
+      repeat: ["C'était bien à la mine ?"],
+      dependingOn: ["mine_nightmare_after"],
+    },
   ],
   miner: [
     {
@@ -281,8 +290,8 @@ const messageWorkflow = {
         "Tu dois nettoyer la roche pour extraire les métaux.",
         "Ces métaux sont très utiles pour fabriquer des tas d'objets…",
         "Du matériel électronique, des smartphones…",
-        "Utilises ← ↑ → ↓ pour déplacer le tuyau…",
-        "et la barre d'espace pour lancer l'eau. Allez c'est parti !",
+        isMobileOrTablet ? "Utilises le joystick pour déplacer le tuyau" : "Utilises ← ↑ → ↓ pour déplacer le tuyau…",
+        isMobileOrTablet ? "En appuyant, l'eau est pulvérisé" : "et la barre d'espace pour lancer l'eau. Allez c'est parti !",
       ],
       unlockEvents: ["mine_tuto_begin"],
     },
@@ -290,8 +299,8 @@ const messageWorkflow = {
       messages: [
         "Tu n'as pas compris comment ça fonctionne ???",
         "Tu dois nettoyer la roche pour extraire les métaux.",
-        "Utilises ← ↑ → ↓ pour déplacer le tuyau",
-        "et la barre d'espace pour lancer l'eau. Allez !",
+        isMobileOrTablet ? "Utilises le joystick pour déplacer le tuyau" : "Utilises ← ↑ → ↓ pour déplacer le tuyau",
+        isMobileOrTablet ? "En appuyant, l'eau est pulvérisé" : "et la barre d'espace pour lancer l'eau. Allez !",
       ],
       dependingOn: ["mine_tuto_missed"],
       unlockEvents: ["mine_tuto_rebegin"],

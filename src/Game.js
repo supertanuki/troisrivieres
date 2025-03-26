@@ -91,8 +91,7 @@ export default class Game extends Phaser.Scene {
     this.cameras.main.fadeOut(1000, 0, 0, 0, (cam, progress) => {
       if (progress !== 1) return;
       this.scene.launch("mine");
-      this.scene.sleep("game");
-      this.scene.sleep("message");
+      this.sleepGame();
     });
   }
 
@@ -176,7 +175,7 @@ export default class Game extends Phaser.Scene {
       .setScrollFactor(0.14, 0.32);
 
     this.add
-      .image(1692, 240, "sprites", "mine-machine")
+      .image(1692, 231, "sprites", "mine-machine")
       .setOrigin(0, 0)
       .setScrollFactor(0.7, 0.7);
 
@@ -540,6 +539,31 @@ export default class Game extends Phaser.Scene {
     });
   }
 
+  toggleRoads() {
+    if (!this.roads) {
+      this.roadsBottom = this.map
+        .createLayer("roadsBottom", this.tileset)
+        .setDepth(95)
+        .setVisible(false);
+      this.roads = this.map
+        .createLayer("roads", this.tileset)
+        .setDepth(96)
+        .setVisible(false);
+      this.roadsTop = this.map
+        .createLayer("roadsTop", this.tileset)
+        .setDepth(97)
+        .setVisible(false);
+    }
+
+    const enabled = this.roads.visible;
+    this.roads.setVisible(!enabled);
+    this.roadsBottom.setVisible(!enabled);
+    this.roadsTop.setVisible(!enabled);
+    this.bridgesShadow.setVisible(enabled);
+    this.bridges.setVisible(enabled);
+    this.bridgesTop.setVisible(enabled);
+  }
+
   addDebugControls() {
     this.input.keyboard
       .addKey(Phaser.Input.Keyboard.KeyCodes.F)
@@ -577,8 +601,11 @@ export default class Game extends Phaser.Scene {
         sceneEventsEmitter.emit(sceneEvents.PreEventsUnlocked, [
           "django_met",
           "miner_first_met",
-          "pre_first_sleep",
+          "first_sleep",
+          //"pre_first_sleep",
           //"miner_ask_for_card",
+          "mine_after",
+          //"mine_nightmare_after",
         ]);
       });
 
@@ -604,23 +631,7 @@ export default class Game extends Phaser.Scene {
 
     const ctrlR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.T);
     ctrlR.on("down", () => {
-      if (!this.roads) {
-        this.roadsBottom = this.map
-          .createLayer("roadsBottom", this.tileset)
-          .setDepth(95)
-          .setVisible(false);
-        this.roads = this.map
-          .createLayer("roads", this.tileset)
-          .setDepth(96)
-          .setVisible(false);
-      }
-
-      const enabled = this.roads.visible;
-      this.roads.setVisible(!enabled);
-      this.roadsBottom.setVisible(!enabled);
-      this.bridgesShadow.setVisible(enabled);
-      this.bridges.setVisible(enabled);
-      this.bridgesTop.setVisible(enabled);
+      toggleRoads()
     });
 
     /*
@@ -723,18 +734,8 @@ export default class Game extends Phaser.Scene {
 
   firstSleep() {
     this.isCinematic = true;
-    this.cameras.main.fadeOut(1000, 0, 0, 0, (cam, progress) => {
-      if (progress !== 1) return;
-      this.endFirstSleep();
-
-      this.time.delayedCall(1000, () => {
-        this.cameras.main.fadeIn(1000, 0, 0, 0, (cam, progress) => {
-          if (progress !== 1) return;
-          this.isCinematic = false;
-          this.handleAction();
-        });
-      });
-    });
+    this.cameras.main.fadeOut(1000, 0, 0, 0);
+    this.time.delayedCall(1000, () => this.endFirstSleep())
   }
 
   lessBirds() {
@@ -765,7 +766,7 @@ export default class Game extends Phaser.Scene {
     this.butterflies = [];
   }
 
-  toggleSprites(state) {
+  toggleSprites(state, withDjango = false) {
     [
       this.koko,
       this.sleepingGuy,
@@ -780,6 +781,7 @@ export default class Game extends Phaser.Scene {
       this.boy,
       this.girl,
       this.ball,
+      ...(withDjango ? [this.django] : []),
     ].forEach((sprite) => {
       sprite.setVisible(state);
       sprite.setActive(state);
@@ -798,29 +800,115 @@ export default class Game extends Phaser.Scene {
     });
   }
 
-  endFirstSleep() {
-    this.hero.slowRight();
-    this.hero.animateToRight();
-    this.setHeroPosition("heroDjango");
+  showRiverPolluted() {
+    if (this.riverPolluted) return;
+    this.riverPolluted = this.map.createLayer("riverPolluted", this.tileset).setDepth(45);
+    this.landUpRiverPolluted = this.map.createLayer("landUpRiverPolluted", this.tileset).setDepth(46);
+    this.bridgesShadowPolluted = this.map.createLayer("bridgesShadowPolluted", this.tileset).setDepth(51);
+  }
 
-    this.map.createLayer("riverPolluted", this.tileset)?.setDepth(45);
-    this.map.createLayer("landUpRiverPolluted", this.tileset)?.setDepth(46);
-    this.map.createLayer("bridgesShadowPolluted", this.tileset)?.setDepth(51);
-
-    this.switchNight();
+  villageStateAfterFirstSleep() {
+    this.showRiverPolluted();
     this.toggleSprites(true);
-
     this.boy.setSad();
     this.girl.setSad();
     this.fisherman.setSad();
-    this.lessBirds();
-    this.lessButterflies();
-
     this.nono.setVisible(true);
     this.nono.body.checkCollision.none = false;
+  }
+
+  endFirstSleep() {
+    this.isCinematic = true;
+    this.hero.slowRight();
+    this.hero.animateToRight();
+    this.setHeroPosition("heroDjango");
+    this.switchNight();
+
+    this.villageStateAfterFirstSleep();
 
     sceneEventsEmitter.emit(sceneEvents.PreEventsUnlocked, ["first_sleep"]);
     sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "django");
+
+    this.time.delayedCall(1000, () => {
+      this.cameras.main.fadeIn(1000, 0, 0, 0);
+      this.time.delayedCall(800, () => {
+        this.isCinematic = false;
+        this.handleAction();
+      })
+    });
+  }
+
+  afterMineNightmare() {
+    this.wakeGame();
+    this.isCinematic = true;
+    this.currentDiscussionStatus = DiscussionStatus.NONE;
+    this.switchNight();
+    this.villageStateAfterFirstSleep();
+    this.toggleRoads();
+    
+    this.setHeroPosition("heroDjango");
+    /*
+    this.hero.slowRight();
+    this.hero.animateToRight();
+
+    this.toggleSprites(true, true);
+    this.lessBirds();
+    this.lessButterflies();
+    
+    sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "django");
+    */
+
+    this.time.delayedCall(2000, () => {
+      this.isCinematic = false;
+      this.handleAction();
+    });
+  }
+
+  afterMine() {
+    this.wakeGame();
+    this.currentDiscussionStatus = DiscussionStatus.NONE;
+    this.night = true;
+    this.darkOverlay.setVisible(true);
+    this.nightOverlays.forEach(nightOverlay => nightOverlay.setVisible(true));
+    this.isCinematic = true;
+    this.setHeroPosition("heroMine");
+    this.hero.slowLeft();
+    this.hero.animateToLeft();
+    this.toggleSprites(false, true);
+
+    this.time.delayedCall(2000, () => {
+      this.cameras.main.fadeOut(1000, 0, 0, 0, (cam, progress) => {
+        if (progress !== 1) return;
+        this.setHeroPosition("heroAfterMine");
+        this.cameras.main.fadeIn(1000, 0, 0, 0);
+
+        this.time.delayedCall(2200, () => {
+          this.hero.slowUp();
+          this.hero.animateToUp();
+
+          this.cameras.main.fadeOut(1000, 0, 0, 0, (cam, progress) => {
+            if (progress !== 1) return;
+            this.time.delayedCall(2000, () => {
+              this.isCinematic=false
+              this.scene.launch("mine-nightmare");
+              this.sleepGame();
+            });
+          });
+        })
+      });
+    });
+  }
+
+  sleepGame() {
+    this.scene.sleep("game");
+    this.scene.sleep("message");
+  }
+
+  wakeGame() {
+    this.scene.wake("game");
+    this.scene.wake("message");
+    this.resetGameSize();
+    this.cameras.main.fadeIn(1000, 0, 0, 0);
   }
 
   listenEvents(data) {
@@ -838,16 +926,11 @@ export default class Game extends Phaser.Scene {
     }
 
     if (eventsHas(data, "mine_after")) {
-      this.scene.wake("game");
-      this.scene.wake("message");
-      this.resetGameSize();
-      this.isCinematic = true;
+      this.afterMine();
+    }
 
-      this.cameras.main.fadeIn(1000, 0, 0, 0, (cam, progress) => {
-        if (progress !== 1) return;
-        this.isCinematic = false;
-        this.currentDiscussionStatus = DiscussionStatus.NONE;
-      });
+    if (eventsHas(data, "mine_nightmare_after")) {
+      this.afterMineNightmare();
     }
   }
 
@@ -1194,12 +1277,12 @@ export default class Game extends Phaser.Scene {
   }
 
   update(time, delta) {
-    if (!this.cursors || !this.hero || this.isCinematic || !this.hero.body) {
-      return;
-    }
-
     if (this.night && this.darkOverlay) {
       this.updateNightPosition();
+    }
+
+    if (!this.cursors || !this.hero || this.isCinematic || !this.hero.body) {
+      return;
     }
 
     this.hero.resetVelocity();

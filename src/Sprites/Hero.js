@@ -1,6 +1,7 @@
 import { createHeroAnims } from "./HeroAnims";
 
 const SPEED = 80;
+const SPEED_SLOW = 20;
 const SPEED_DIAGONAL = 70;
 
 export class Hero extends Phaser.Physics.Arcade.Sprite {
@@ -48,12 +49,22 @@ export class Hero extends Phaser.Physics.Arcade.Sprite {
 
   slowRight() {
     this.goRight()
-    this.setVelocityX(20);
+    this.setVelocity(SPEED_SLOW, 0);
+  }
+
+  slowLeft() {
+    this.goLeft()
+    this.setVelocity(-SPEED_SLOW, 0);
   }
 
   slowDown() {
     this.goDown()
-    this.setVelocityY(20);
+    this.setVelocity(0, SPEED_SLOW);
+  }
+
+  slowUp() {
+    this.goUp()
+    this.setVelocity(0, -SPEED_SLOW);
   }
 
   animateToLeft() {

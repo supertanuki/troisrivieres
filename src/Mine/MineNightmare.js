@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import "../Sprites/Hero";
 import { isDebug } from "../Utils/isDebug";
+import { dispatchUnlockEvents } from "../Utils/events";
 
 export default class MineNightmare extends Phaser.Scene {
   constructor() {
@@ -36,7 +37,7 @@ export default class MineNightmare extends Phaser.Scene {
       scale: 2,
       alpha: 1,
       ease: "Sine.linear",
-      duration: 10000,
+      duration: 6000,
       onComplete: () => {
         this.tweens.add({
           targets: this.hero,
@@ -44,15 +45,16 @@ export default class MineNightmare extends Phaser.Scene {
           scale: 4,
           alpha: 0,
           ease: "Sine.linear",
-          duration: 5000,
+          duration: 6000,
+          onComplete: () => this.endScene(),
         });
       },
     });
 
-    this.createRock(500, 250, 50, 50);
-    this.createRock(50, 250, 500, 50);
-    this.createRock(50, 50, 500, 250);
-    this.createRock(100, 200, 300, 20);
+    this.createRock(500, 250, 50, 50, "rock-1");
+    this.createRock(50, 250, 500, 50, "rock-2");
+    this.createRock(50, 50, 500, 250, "rock-3");
+    this.createRock(100, 200, 300, 20, "rock-4");
 
     this.tube = this.add.container();
 
@@ -78,7 +80,6 @@ export default class MineNightmare extends Phaser.Scene {
         duration: 4500,
         onUpdate: (event) => {
             this.stopWater = event.progress < 0.2
-
             if (event.progress > 0.8) this.water.setTexture("maroon-water")
         },
         onComplete: () => {
@@ -86,8 +87,8 @@ export default class MineNightmare extends Phaser.Scene {
             targets: this.tube,
             angle: 180,
             alpha: 0,
-            x: 300,
-            y: 10,
+            x: 400,
+            y: 20,
             ease: "Sine.linear",
             duration: 4500,
             onUpdate: (event) => {
@@ -107,43 +108,47 @@ export default class MineNightmare extends Phaser.Scene {
         emitting: false,
       });
     this.water.setDepth(1);
+
+    // debug
+    this.endScene();
   }
 
-  createRock(initX, initY, finalX, finalY) {
-    const rock = this.add.image(finalX, finalY, "mine", "rock-1");
-    const scale = Math.random() + 0.5;
-    rock.setScale(scale > 1 ? 1 : scale);
+  endScene() {
+    this.cameras.main.fadeOut(1000, 0, 0, 0, (cam, progress) => {
+      if (progress !== 1) return;
+      this.scene.stop();
+      dispatchUnlockEvents(["mine_nightmare_after"]);
+    });
+  }
+
+  createRock(initX, initY, finalX, finalY, frame) {
+    const rock = this.add.image(initX, initY, "mine", frame);
 
     rock.setAlpha(0)
     this.tweens.add({
       targets: rock,
-      angle: 180,
-      x: initX,
-      y: initY,
       alpha: 0.8,
-      ease: "Sine.easeIn",
+      ease: "Sine.linear",
       duration: 5000,
       onComplete: () => {
         this.tweens.add({
           targets: rock,
-          angle: 180,
-          x: Math.abs(initX-finalX)/2,
-          y: Math.abs(initY-finalY)/2,
+          x: finalX,
+          y: finalY,
+          alpha: 0,
           ease: "Sine.linear",
           duration: 5000,
-          onComplete: () => {
-            this.tweens.add({
-              targets: rock,
-              angle: 180,
-              x: finalX,
-              y: finalY,
-              alpha: 0,
-              ease: "Sine.linear",
-              duration: 5000,
-            });
-          },
         });
       },
+    });
+    this.tweens.add({
+      targets: rock,
+      angle: 360,
+      x: finalX,
+      y: finalY,
+      alpha: 0.8,
+      ease: "Sine.linear",
+      duration: 10000,
     });
 
     return rock;
