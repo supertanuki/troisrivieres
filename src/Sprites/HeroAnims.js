@@ -1,6 +1,5 @@
-const params = new URLSearchParams(window.location.search);
-const moveframerate = params.get("moveframerate") || 10;
-const idleframerate = params.get("idleframerate") || 4;
+const moveframerate = 10;
+const idleframerate = 4;
 
 export const createHeroAnims = function (anims) {
   anims

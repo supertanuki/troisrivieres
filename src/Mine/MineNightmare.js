@@ -108,9 +108,6 @@ export default class MineNightmare extends Phaser.Scene {
         emitting: false,
       });
     this.water.setDepth(1);
-
-    // debug
-    this.endScene();
   }
 
   endScene() {

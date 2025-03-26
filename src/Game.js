@@ -28,6 +28,7 @@ import { Hero } from "./Sprites/Hero";
 import { DiscussionStatus } from "./Utils/discussionStatus";
 import { eventsHas } from "./Utils/events";
 import { FONT_RESOLUTION, FONT_SIZE } from "./UI/Message";
+import { createHeroAnims } from "./Sprites/HeroAnims";
 
 const nightColor = 0x000055;
 
@@ -285,6 +286,7 @@ export default class Game extends Phaser.Scene {
         .setDepth(100);
       this.hero = this.add.hero(heroPosition.x, heroPosition.y).setDepth(100);
       this.hero.stopAndWait();
+      createHeroAnims(this.anims);
     });
 
     this.map.getObjectLayer("sprites").objects.forEach((spriteObject) => {
@@ -840,14 +842,14 @@ export default class Game extends Phaser.Scene {
 
   afterMineNightmare() {
     this.wakeGame();
-    this.isCinematic = true;
     this.currentDiscussionStatus = DiscussionStatus.NONE;
+    this.hero.stopAndWait();
+    this.isCinematic = true;
     this.switchNight();
     this.villageStateAfterFirstSleep();
     this.toggleRoads();
     
     this.setHeroPosition("heroDjango");
-    /*
     this.hero.slowRight();
     this.hero.animateToRight();
 
@@ -856,7 +858,6 @@ export default class Game extends Phaser.Scene {
     this.lessButterflies();
     
     sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "django");
-    */
 
     this.time.delayedCall(2000, () => {
       this.isCinematic = false;
@@ -889,7 +890,6 @@ export default class Game extends Phaser.Scene {
           this.cameras.main.fadeOut(1000, 0, 0, 0, (cam, progress) => {
             if (progress !== 1) return;
             this.time.delayedCall(2000, () => {
-              this.isCinematic=false
               this.scene.launch("mine-nightmare");
               this.sleepGame();
             });
@@ -1327,6 +1327,7 @@ export default class Game extends Phaser.Scene {
       !this.goingRight &&
       !this.goingLeft
     ) {
+      //console.log('stop moving')
       this.stopMoving();
     }
   }
