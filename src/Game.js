@@ -1,6 +1,5 @@
 import Phaser from "phaser";
 import { sceneEventsEmitter, sceneEvents } from "./Events/EventsCenter";
-import isMobileOrTablet from "./Utils/isMobileOrTablet";
 import { urlParamHas } from "./Utils/isDebug";
 
 import "./Sprites/Django";
@@ -21,8 +20,6 @@ import "./Sprites/Ball";
 import "./Sprites/Girl";
 import "./Sprites/Boy";
 import "./Sprites/TwoGuys";
-import "./Sprites/Bird";
-import "./Sprites/Butterfly";
 import "./Sprites/Bike";
 
 import { Hero } from "./Sprites/Hero";
@@ -30,8 +27,13 @@ import { DiscussionStatus } from "./Utils/discussionStatus";
 import { eventsHas } from "./Utils/events";
 import { FONT_RESOLUTION, FONT_SIZE } from "./UI/Message";
 import { createHeroAnims } from "./Sprites/HeroAnims";
-
-const nightColor = 0x000055;
+import { createTrees } from "./Village/trees";
+import { addDebugControls } from "./Village/debugControls";
+import { addBirds, lessBirds } from "./Village/birds";
+import { addJoystickForMobile, createControls } from "./Village/controls";
+import { addCollisionManagement } from "./Village/collisionManagement";
+import { addButterflies, lessButterflies } from "./Village/butterflies";
+import { switchNight } from "./Village/night";
 
 export default class Game extends Phaser.Scene {
   constructor() {
@@ -60,6 +62,7 @@ export default class Game extends Phaser.Scene {
     this.pointsCollider = [];
     this.heroPositions = {};
     this.maskNightOverlays = [];
+    this.darkOverlay = null;
     this.nightOverlays = [];
     this.bikes = [];
 
@@ -155,11 +158,6 @@ export default class Game extends Phaser.Scene {
 
     // Fade init
     this.cameras.main.fadeIn(1000, 0, 0, 0);
-    /*
-    this.cameras.main.fadeOut(1000, 0, 0, 0, () => {
-      
-    });
-    */
 
     // parallax mine backgrounds // @todo : load it when mine access is unlocked
     this.add
@@ -192,14 +190,6 @@ export default class Game extends Phaser.Scene {
       .setCollisionByProperty({ collide: true })
       .setCullPadding(2, 2);
 
-    /*
-    this.landLessWater = this.map
-      .createLayer("landLessWater", this.tileset)
-      .setDepth(30)
-      .setCollisionByProperty({ collide: true })
-      .setVisible(false);
-      */
-
     this.map.createLayer("landUp", this.tileset).setDepth(40);
     this.bridgesShadow = this.map
       .createLayer("bridgesShadow", this.tileset)
@@ -215,52 +205,7 @@ export default class Game extends Phaser.Scene {
       .createLayer("potagerBottom", this.tileset)
       .setDepth(80);
 
-    // Add trees
-    this.anims.create({
-      key: "sapin",
-      frames: this.anims.generateFrameNames("trees", {
-        start: 1,
-        end: 2,
-        prefix: "sapin-",
-      }),
-      repeat: -1,
-      frameRate: 1,
-    });
-    this.anims.create({
-      key: "arbre",
-      frames: this.anims.generateFrameNames("trees", {
-        start: 1,
-        end: 2,
-        prefix: "arbre-",
-      }),
-      repeat: -1,
-      frameRate: 1,
-    });
-    this.anims.create({
-      key: "pin",
-      frames: this.anims.generateFrameNames("trees", {
-        start: 1,
-        end: 2,
-        prefix: "pin-",
-      }),
-      repeat: -1,
-      frameRate: 1,
-    });
-    const treesLayer = this.map.getObjectLayer("trees");
-    // sort tress in order to draw trees from top to down
-    treesLayer.objects.sort((a, b) => a.y - b.y);
-    // Add trees base
-    treesLayer.objects.forEach((treeObject) => {
-      this.add
-        .image(
-          treeObject.x,
-          treeObject.y - 8,
-          "trees",
-          `${treeObject.name}-base`
-        )
-        .setDepth(90)
-        .setOrigin(0.5, 1);
-    });
+    createTrees(this);
 
     this.anims.create({
       key: "tent",
@@ -430,43 +375,8 @@ export default class Game extends Phaser.Scene {
       }
     });
 
-    this.map.createLayer("bottomStaticTrees", this.tileset).setDepth(130);
-
-    // Add trees top after hero was created
-    treesLayer.objects.forEach((treeObject) => {
-      const tree = this.physics.add
-        .sprite(
-          treeObject.x,
-          treeObject.y - 24,
-          "trees",
-          `${treeObject.name}-1`
-        )
-        .setOrigin(0.5, 1)
-        .setDepth(130);
-      tree.anims.play(treeObject.name);
-      this.pointsCollider.push(
-        this.physics.add
-          .sprite(treeObject.x, treeObject.y - 10, null)
-          .setSize(16, 1)
-          .setOrigin(0.5, 1)
-          .setImmovable(true)
-          .setVisible(false)
-      );
-    });
-
-    this.map.createLayer("staticTrees", this.tileset).setDepth(150);
-
-    this.map.getObjectLayer("birds").objects.forEach((birdPosition) => {
-      this.birds.push(
-        this.add.bird(birdPosition.x, birdPosition.y).setDepth(160)
-      );
-    });
-
-    this.map.getObjectLayer("butterflies").objects.forEach((flyPosition) => {
-      this.butterflies.push(
-        this.add.butterfly(flyPosition.x, flyPosition.y).setDepth(160)
-      );
-    });
+    addBirds(this);
+    addButterflies(this);
 
     this.animatedTiles.init(this.map);
 
@@ -478,11 +388,10 @@ export default class Game extends Phaser.Scene {
     );
     this.cameras.main.startFollow(this.hero, true);
 
-    this.addDebugControls();
-    this.addCollisionManagement();
-    this.createControls();
-    this.addJoystickForMobile();
-    //this.addControlsForMobile();
+    addDebugControls(this);
+    addCollisionManagement(this);
+    createControls(this);
+    addJoystickForMobile(this);
     this.addEventsListeners();
 
     if (!urlParamHas("nomusic")) {
@@ -492,36 +401,6 @@ export default class Game extends Phaser.Scene {
     }
 
     if (!urlParamHas("nostart")) this.intro();
-  }
-
-  addEventsListeners() {
-    sceneEventsEmitter.on(
-      sceneEvents.DiscussionReady,
-      this.handleDiscussionReady,
-      this
-    );
-    sceneEventsEmitter.on(
-      sceneEvents.DiscussionStarted,
-      this.handleDiscussionStarted,
-      this
-    );
-    sceneEventsEmitter.on(
-      sceneEvents.DiscussionWaiting,
-      this.handleDiscussionWaiting,
-      this
-    );
-    sceneEventsEmitter.on(
-      sceneEvents.DiscussionEnded,
-      this.handleDiscussionEnded,
-      this
-    );
-    sceneEventsEmitter.on(
-      sceneEvents.DiscussionInProgress,
-      this.handleDiscussionInProgress,
-      this
-    );
-
-    sceneEventsEmitter.on(sceneEvents.EventsUnlocked, this.listenEvents, this);
   }
 
   intro() {
@@ -559,6 +438,13 @@ export default class Game extends Phaser.Scene {
   hidePotager() {
     this.potagerBottom.setVisible(false);
     this.potagerTop.setVisible(false);
+    this.potagerTop.forEachTile(tile => {
+      tile.setCollision(false, false, false, false);
+    });
+
+    this.potagerNoMore = this.map
+      .createLayer("potagerNoMore", this.tileset)
+      .setDepth(80);
   }
 
   hideBikes() {
@@ -593,206 +479,15 @@ export default class Game extends Phaser.Scene {
     this.bridgesTop.setVisible(enabled);
   }
 
-  addDebugControls() {
-    this.input.keyboard
-      .addKey(Phaser.Input.Keyboard.KeyCodes.F)
-      .on("down", () => {
-        this.setHeroPosition("hero");
-      });
-
-    this.input.keyboard
-      .addKey(Phaser.Input.Keyboard.KeyCodes.K)
-      .on("down", () => {
-        this.setHeroPosition("heroKoko");
-      });
-
-    this.input.keyboard
-      .addKey(Phaser.Input.Keyboard.KeyCodes.B)
-      .on("down", () => {
-        this.setHeroPosition("heroMiner");
-      });
-
-    this.input.keyboard
-      .addKey(Phaser.Input.Keyboard.KeyCodes.D)
-      .on("down", () => {
-        this.setHeroPosition("heroDjango");
-      });
-
-    this.input.keyboard
-      .addKey(Phaser.Input.Keyboard.KeyCodes.N)
-      .on("down", () => {
-        this.setHeroPosition("heroNono");
-      });
-
-    this.input.keyboard
-      .addKey(Phaser.Input.Keyboard.KeyCodes.S)
-      .on("down", () => {
-        sceneEventsEmitter.emit(sceneEvents.PreEventsUnlocked, [
-          "django_met",
-          "miner_first_met",
-          "first_sleep",
-          //"pre_first_sleep",
-          //"miner_ask_for_card",
-          //"mine_after",
-          "mine_nightmare_after",
-        ]);
-      });
-
-    this.input.keyboard
-      .addKey(Phaser.Input.Keyboard.KeyCodes.C)
-      .on("down", () => {
-        sceneEventsEmitter.emit(sceneEvents.PreEventsUnlocked, [
-          "card_for_mine",
-        ]);
-      });
-
-    this.input.keyboard
-      .addKey(Phaser.Input.Keyboard.KeyCodes.M)
-      .on("down", () => {
-        this.cameras.main.zoomTo(this.cameras.main.zoom === 2 ? 1 : 0.18, 100);
-      });
-
-    this.input.keyboard
-      .addKey(Phaser.Input.Keyboard.KeyCodes.P)
-      .on("down", () => {
-        this.cameras.main.zoomTo(this.cameras.main.zoom === 0.18 ? 1 : 2, 100);
-      });
-
-    const ctrlR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.T);
-    ctrlR.on("down", () => {
-      this.toggleRoads()
-    });
-
-    /*
-    this.input.keyboard
-      .addKey(Phaser.Input.Keyboard.KeyCodes.A)
-      .on("down", () => {
-        this.landLessWater.setVisible(!this.landLessWater.visible);
-        this.landLessWater.setActive(!this.landLessWater.visible);
-      });
-      */
-
-    this.input.keyboard
-      .addKey(Phaser.Input.Keyboard.KeyCodes.U)
-      .on("down", () => {
-        this.cameras.main.fadeOut(200, 0, 0, 0, (cam, progress) => {
-          if (progress !== 1) return;
-          this.gotoFactory();
-        });
-      });
-
-    this.input.keyboard
-      .addKey(Phaser.Input.Keyboard.KeyCodes.L)
-      .on("down", () => this.switchNight());
-  }
-
   setHeroPosition(positionName) {
     const position = this.heroPositions[positionName];
     this.hero.setPosition(position.x, position.y);
-  }
-
-  addNightCircle(radius) {
-    const nightOverlay = this.add.graphics();
-    nightOverlay.fillStyle(nightColor, 0.3);
-    nightOverlay.fillRect(0, 0, this.scale.width * 2, this.scale.height * 2);
-    nightOverlay.setVisible(false);
-    nightOverlay.setDepth(1000);
-
-    const maskGraphics = this.make.graphics();
-    maskGraphics.fillStyle(0xffffff);
-    maskGraphics.fillCircle(this.scale.width, this.scale.height, radius);
-
-    const mask = maskGraphics.createGeometryMask();
-    mask.invertAlpha = true;
-    nightOverlay.setMask(mask);
-    this.maskNightOverlays.push(maskGraphics);
-    this.nightOverlays.push(nightOverlay);
-  }
-
-  switchNight() {
-    if (!this.darkOverlay) {
-      this.addNightCircle(50);
-      this.addNightCircle(80);
-      this.addNightCircle(100);
-    }
-
-    this.darkOverlay =
-      this.darkOverlay ||
-      this.add
-        .rectangle(
-          this.scale.width / 4,
-          this.scale.height / 4,
-          this.scale.width * 2,
-          this.scale.height * 2,
-          nightColor
-        )
-        .setOrigin(0.5, 0.5)
-        .setVisible(false)
-        .setDepth(1000);
-
-    if (this.night) {
-      this.night = false;
-      this.darkOverlay.setVisible(false);
-      this.nightOverlays.forEach((nightOverlay) =>
-        nightOverlay.setVisible(false)
-      );
-      return;
-    }
-
-    this.night = true;
-    this.darkOverlay.setAlpha(0);
-    this.darkOverlay.setVisible(true);
-    this.tweens.add({
-      targets: this.darkOverlay,
-      alpha: 0.3,
-      duration: 3000,
-      ease: "Sine.easeInOut",
-    });
-
-    this.nightOverlays.forEach((nightOverlay) => {
-      nightOverlay.setAlpha(0);
-      nightOverlay.setVisible(true);
-      this.tweens.add({
-        targets: nightOverlay,
-        alpha: 1,
-        duration: 3000,
-        ease: "Sine.easeInOut",
-      });
-    });
   }
 
   firstSleep() {
     this.isCinematic = true;
     this.cameras.main.fadeOut(1000, 0, 0, 0);
     this.time.delayedCall(1000, () => this.endFirstSleep())
-  }
-
-  lessBirds() {
-    this.birds.forEach((bird, index) => {
-      if (Phaser.Math.Between(0, 1)) {
-        this.birds.splice(index, 1);
-        bird.destroy();
-      } 
-    });
-  }
-
-  lessButterflies() {
-    this.butterflies.forEach((butterfly, index) => {
-      if (Phaser.Math.Between(0, 1)) {
-        this.butterflies.splice(index, 1);
-        butterfly.destroy();
-      } 
-    });
-  }
-
-  noMoreBirds() {
-    this.birds.forEach(bird => bird.destroy());
-    this.birds = [];
-  }
-
-  noMoreButterflies() {
-    this.butterflies.forEach(butterfly => butterfly.destroy());
-    this.butterflies = [];
   }
 
   toggleSprites(state, withDjango = false) {
@@ -851,7 +546,7 @@ export default class Game extends Phaser.Scene {
     this.hero.slowRight();
     this.hero.animateToRight();
     this.setHeroPosition("heroDjango");
-    this.switchNight();
+    switchNight(this);
 
     this.villageStateAfterFirstSleep();
 
@@ -872,7 +567,7 @@ export default class Game extends Phaser.Scene {
     this.currentDiscussionStatus = DiscussionStatus.NONE;
     this.hero.stopAndWait();
     this.isCinematic = true;
-    this.switchNight();
+    switchNight(this);
     this.villageStateAfterFirstSleep();
     this.toggleRoads();
     this.hideBikes();
@@ -884,8 +579,8 @@ export default class Game extends Phaser.Scene {
     this.hero.animateToRight();
 
     this.toggleSprites(true, true);
-    this.lessBirds();
-    this.lessButterflies();
+    lessBirds(this);
+    lessButterflies(this);
     
     sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "django");
 
@@ -941,10 +636,40 @@ export default class Game extends Phaser.Scene {
     this.cameras.main.fadeIn(1000, 0, 0, 0);
   }
 
+  addEventsListeners() {
+    sceneEventsEmitter.on(
+      sceneEvents.DiscussionReady,
+      this.handleDiscussionReady,
+      this
+    );
+    sceneEventsEmitter.on(
+      sceneEvents.DiscussionStarted,
+      this.handleDiscussionStarted,
+      this
+    );
+    sceneEventsEmitter.on(
+      sceneEvents.DiscussionWaiting,
+      this.handleDiscussionWaiting,
+      this
+    );
+    sceneEventsEmitter.on(
+      sceneEvents.DiscussionEnded,
+      this.handleDiscussionEnded,
+      this
+    );
+    sceneEventsEmitter.on(
+      sceneEvents.DiscussionInProgress,
+      this.handleDiscussionInProgress,
+      this
+    );
+  
+    sceneEventsEmitter.on(sceneEvents.EventsUnlocked, this.listenEvents, this);
+  };
+
   listenEvents(data) {
     if (eventsHas(data, "miner_first_met")) {
       this.toggleSprites(false);
-      this.switchNight();
+      switchNight(this);
     }
 
     if (eventsHas(data, "pre_first_sleep")) {
@@ -962,84 +687,6 @@ export default class Game extends Phaser.Scene {
     if (eventsHas(data, "mine_nightmare_after")) {
       this.afterMineNightmare();
     }
-  }
-
-  addCollisionManagement() {
-    this.physics.add.collider(this.miner, this.hero, () => {
-      sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "miner");
-    });
-
-    this.physics.add.collider(this.bino, this.hero, () => {
-      sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "bino");
-    });
-
-    this.physics.add.collider(this.django, this.hero, () => {
-      sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "django");
-    });
-
-    this.physics.add.collider(this.koko, this.hero, () => {
-      sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "koko");
-    });
-
-    this.physics.add.collider(this.sleepingGuy, this.hero, () => {
-      sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "sleepingGuy");
-    });
-
-    this.physics.add.collider(this.twoWomen, this.hero, () => {
-      sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "twoWomen");
-    });
-
-    this.physics.add.collider(this.baby, this.hero, () => {
-      sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "baby");
-    });
-
-    this.physics.add.collider(this.twoGuys, this.hero, () => {
-      sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "twoGuys");
-    });
-
-    this.physics.add.collider(this.nono, this.hero, () => {
-      sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "nono");
-    });
-
-    this.physics.add.collider(this.fisherman, this.hero, () => {
-      sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "fisherman");
-    });
-
-    this.physics.add.collider(this.cat, this.hero, () => {
-      sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "cat");
-    });
-
-    this.physics.add.collider(this.dog, this.hero, () => {
-      sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "dog");
-    });
-
-    this.physics.add.collider(this.escargot, this.hero, () => {
-      sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "escargot");
-    });
-
-    this.physics.add.collider(this.cow, this.hero, () => {
-      sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "cow");
-    });
-
-    this.physics.add.collider(this.veal, this.hero);
-
-    this.physics.add.collider(this.boy, this.hero, () => {
-      sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "boy");
-    });
-
-    this.physics.add.collider(this.birds, this.hero, (bird) => {
-      bird.fly();
-    });
-
-    this.physics.add.collider(this.bikes, this.hero);
-
-    this.physics.add.collider(this.hero, this.water);
-    this.physics.add.collider(this.hero, this.land);
-    this.physics.add.collider(this.hero, this.obstacles);
-    this.physics.add.collider(this.hero, this.topObjects);
-    this.physics.add.collider(this.hero, this.potagerTop);
-    this.physics.add.collider(this.hero, this.bottomObjects);
-    this.physics.add.collider(this.hero, this.pointsCollider);
   }
 
   handleDiscussionReady(sprite) {
@@ -1081,54 +728,6 @@ export default class Game extends Phaser.Scene {
     this[sprite]?.stopChatting();
   }
 
-  createControls() {
-    this.cursors = this.input.keyboard.addKeys({
-      space: "space",
-      up: "up",
-      down: "down",
-      left: "left",
-      right: "right",
-    });
-
-    this.input.keyboard.on(
-      "keydown",
-      (event) => {
-        if (event.key === "ArrowUp") {
-          this.goingUp = true;
-          this.goingDown = false;
-        } else if (event.key === "ArrowDown") {
-          this.goingDown = true;
-          this.goingUp = false;
-        } else if (event.key === "ArrowLeft") {
-          this.goingLeft = true;
-          this.goingRight = false;
-        } else if (event.key === "ArrowRight") {
-          this.goingRight = true;
-          this.goingLeft = false;
-        } else if (event.keyCode === 32) {
-          this.handleAction();
-        }
-      },
-      this
-    );
-
-    this.input.keyboard.on(
-      "keyup",
-      function (event) {
-        if (event.key == "ArrowUp") {
-          this.goingUp = false;
-        } else if (event.key == "ArrowDown") {
-          this.goingDown = false;
-        } else if (event.key == "ArrowLeft") {
-          this.goingLeft = false;
-        } else if (event.key == "ArrowRight") {
-          this.goingRight = false;
-        }
-      },
-      this
-    );
-  }
-
   handleAction() {
     if (this.isCinematic) return;
 
@@ -1146,146 +745,6 @@ export default class Game extends Phaser.Scene {
       );
       return;
     }
-  }
-
-  /*
-  addControlsForMobile() {
-    if (!isMobileOrTablet()) {
-      return;
-    }
-    const screenWidth = Number(this.sys.game.config.width);
-    const screenHeight = Number(this.sys.game.config.height);
-    const deltaX = 150;
-    const deltaY = 50;
-
-    this.input.on(
-      "pointerdown",
-      (pointer) => {
-        if (pointer.x < screenWidth / 2 - deltaX) {
-          this.goingLeft = true;
-          this.goingRight = false;
-          return;
-        }
-
-        if (pointer.x > screenWidth / 2 + deltaX) {
-          this.goingLeft = false;
-          this.goingRight = true;
-          return;
-        }
-
-        if (
-          pointer.x > screenWidth / 2 - deltaX &&
-          pointer.x < screenWidth / 2 + deltaX
-        ) {
-          if (pointer.y < screenHeight / 2 - deltaY) {
-            this.goingLeft = false;
-            this.goingRight = false;
-            this.goingUp = true;
-            this.goingDown = false;
-            return;
-          }
-
-          if (pointer.y > screenHeight / 2 + deltaY) {
-            this.goingLeft = false;
-            this.goingRight = false;
-            this.goingUp = false;
-            this.goingDown = true;
-            return;
-          }
-        }
-
-        this.handleAction();
-      },
-      this
-    );
-
-    this.input.on("pointerup", (pointer) => {
-      this.stopMoving();
-    });
-  }
-  */
-
-  addJoystickForMobile() {
-    if (!isMobileOrTablet()) {
-      return;
-    }
-
-    this.joystick = this.plugins.get("rexvirtualjoystickplugin").add(this, {
-      x: 100,
-      y: 200,
-      radius: 100,
-      base: this.add.circle(0, 0, 50, 0xff5544, 0.4).setDepth(10000),
-      thumb: this.add.circle(0, 0, 30, 0xcccccc, 0.3).setDepth(10000),
-      dir: "8dir",
-      forceMin: 16,
-      enable: true,
-      inputEnable: true,
-      fixed: true,
-    });
-
-    // Make floating joystick
-    this.input.on(
-      "pointerdown",
-      function (pointer) {
-        this.joystick.setPosition(pointer.x, pointer.y);
-        this.joystick.setVisible(true);
-        this.handleAction();
-      },
-      this
-    );
-
-    this.joystick.on(
-      "update",
-      function () {
-        this.goingAngle = this.joystick.angle;
-
-        if (this.joystick.left) {
-          this.goingLeft = true;
-          this.goingRight = false;
-
-          if (177.5 < this.goingAngle || -177.5 > this.goingAngle) {
-            this.goingUp = false;
-            this.goingDown = false;
-          }
-        } else if (this.joystick.right) {
-          this.goingRight = true;
-          this.goingLeft = false;
-
-          if (22.5 > this.goingAngle && -22.5 < this.goingAngle) {
-            this.goingUp = false;
-            this.goingDown = false;
-          }
-        }
-
-        if (this.joystick.up) {
-          this.goingUp = true;
-          this.goingDown = false;
-
-          if (-67.5 > this.goingAngle && -112.5 < this.goingAngle) {
-            this.goingRight = false;
-            this.goingLeft = false;
-          }
-        } else if (this.joystick.down) {
-          this.goingDown = true;
-          this.goingUp = false;
-
-          if (67.5 < this.goingAngle && 112.5 > this.goingAngle) {
-            this.goingRight = false;
-            this.goingLeft = false;
-          }
-        }
-      },
-      this
-    );
-
-    this.joystick.on(
-      "pointerup",
-      function () {
-        this.joystick.setVisible(false);
-        this.stopMoving();
-      },
-      this
-    );
   }
 
   stopMoving() {
@@ -1360,7 +819,6 @@ export default class Game extends Phaser.Scene {
       !this.goingRight &&
       !this.goingLeft
     ) {
-      //console.log('stop moving')
       this.stopMoving();
     }
   }
