@@ -1,6 +1,7 @@
 import { switchNight } from "../Village/night";
+import { toggleSpritesVisibility } from "../Village/spritesVisibility";
 
 export const minerFirstMet = function (scene) {
-  scene.toggleSprites(false);
+  toggleSpritesVisibility(scene, false);
   switchNight(scene);
 };
