@@ -1,5 +1,8 @@
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
+import Game from "../Game";
+import { switchNight } from "./night";
 
+/** @param {Game} scene  */
 export const addDebugControls = function (scene) {
   scene.input.keyboard
     .addKey(Phaser.Input.Keyboard.KeyCodes.F)
@@ -84,5 +87,5 @@ export const addDebugControls = function (scene) {
 
   scene.input.keyboard
     .addKey(Phaser.Input.Keyboard.KeyCodes.L)
-    .on("down", () => scene.switchNight());
+    .on("down", () => switchNight(scene));
 };
