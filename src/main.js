@@ -29,10 +29,6 @@ const config = {
     mode: Scale.FIT,
     autoCenter: Scale.CENTER_BOTH,
   },
-  /*
-  audio: {
-    disableWebAudio: true
-  }*/
 };
 
 export default new Game(config);
