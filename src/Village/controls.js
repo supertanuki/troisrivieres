@@ -26,7 +26,7 @@ export const createControls = function (scene) {
         scene.goingRight = true;
         scene.goingLeft = false;
       } else if (event.keyCode === 32) {
-        handleAction(this);
+        handleAction(scene);
       }
     },
     this
@@ -54,7 +54,7 @@ export const addJoystickForMobile = function (scene) {
     return;
   }
 
-  scene.joystick = scene.plugins.get("rexvirtualjoystickplugin").add(this, {
+  scene.joystick = scene.plugins.get("rexvirtualjoystickplugin").add(scene, {
     x: 100,
     y: 200,
     radius: 100,
@@ -73,7 +73,7 @@ export const addJoystickForMobile = function (scene) {
     function (pointer) {
       scene.joystick.setPosition(pointer.x, pointer.y);
       scene.joystick.setVisible(true);
-      handleAction(this);
+      handleAction(scene);
     },
     this
   );

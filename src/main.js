@@ -1,8 +1,8 @@
-import Phaser from "phaser";
+import { AUTO, Game, Scale } from 'phaser';
 
 import { isDebug } from "./Utils/isDebug";
 import Preloader from "./Preloader";
-import Game from "./Game";
+import MainScene from "./Game";
 import Message from "./UI/Message";
 import Workflow from "./Workflow/Workflow";
 import Factory from "./Factory/Factory";
@@ -10,7 +10,7 @@ import MineNightmare from "./Mine/MineNightmare";
 import Mine from "./Mine/Mine";
 
 const config = {
-  type: Phaser.AUTO,
+  type: AUTO,
   parent: "game",
   pixelArt: true,
   render: { pixelArt: true },
@@ -24,14 +24,14 @@ const config = {
       gravity: { y: 0 },
     },
   },
-  scene: [Preloader, Game, MineNightmare, Mine, Factory, Message, Workflow],
+  scene: [Preloader, MainScene, MineNightmare, Mine, Factory, Message, Workflow],
   scale: {
-    mode: Phaser.Scale.FIT,
-    autoCenter: Phaser.Scale.CENTER_BOTH,
+    mode: Scale.FIT,
+    autoCenter: Scale.CENTER_BOTH,
   },
   audio: {
     disableWebAudio: true
   }
 };
 
-export default new Phaser.Game(config);
+export default new Game(config);

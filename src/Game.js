@@ -1,10 +1,9 @@
-import Phaser from "phaser";
+import { Scene } from 'phaser';
 import { sceneEventsEmitter, sceneEvents } from "./Events/EventsCenter";
 import { urlParamHas } from "./Utils/isDebug";
 import { Hero } from "./Sprites/Hero";
 import { DiscussionStatus } from "./Utils/discussionStatus";
 import { eventsHas } from "./Utils/events";
-import { FONT_RESOLUTION, FONT_SIZE } from "./UI/Message";
 import { updateNightPosition } from "./Village/night";
 import { init } from "./Village/init";
 import { afterMineNightmare } from "./Story/afterMineNightmare";
@@ -13,7 +12,7 @@ import { afterMine } from "./Story/afterMine";
 import { minerFirstMet } from "./Story/minerFirstMet";
 import { splashScreen } from "./Village/splashScreen";
 
-export default class Game extends Phaser.Scene {
+export default class Game extends Scene {
   constructor() {
     super("game");
     this.controls = null;

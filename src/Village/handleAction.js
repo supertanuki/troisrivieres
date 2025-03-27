@@ -2,7 +2,6 @@ import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import { DiscussionStatus } from "../Utils/discussionStatus";
 
 export const handleAction = function (scene) {
-  console.log(scene)
   if (scene.isCinematic) return;
 
   if (scene.currentDiscussionStatus === DiscussionStatus.WAITING) {
