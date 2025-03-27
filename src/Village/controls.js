@@ -1,4 +1,5 @@
 import isMobileOrTablet from "../Utils/isMobileOrTablet";
+import { handleAction } from "./handleAction";
 
 export const createControls = function (scene) {
   scene.cursors = scene.input.keyboard.addKeys({
@@ -25,7 +26,7 @@ export const createControls = function (scene) {
         scene.goingRight = true;
         scene.goingLeft = false;
       } else if (event.keyCode === 32) {
-        scene.handleAction();
+        handleAction(this);
       }
     },
     this
@@ -72,7 +73,7 @@ export const addJoystickForMobile = function (scene) {
     function (pointer) {
       scene.joystick.setPosition(pointer.x, pointer.y);
       scene.joystick.setVisible(true);
-      scene.handleAction();
+      handleAction(this);
     },
     this
   );

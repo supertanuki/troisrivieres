@@ -1,6 +1,7 @@
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import Game from "../Game";
 import { switchNight } from "./night";
+import { toggleRoadsVisibility } from "./roads";
 
 /** @param {Game} scene  */
 export const addDebugControls = function (scene) {
@@ -68,7 +69,7 @@ export const addDebugControls = function (scene) {
 
   const ctrlR = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.T);
   ctrlR.on("down", () => {
-    scene.toggleRoads();
+    toggleRoadsVisibility(scene);
   });
 
   scene.input.keyboard

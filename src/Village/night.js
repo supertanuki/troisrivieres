@@ -69,3 +69,16 @@ const addNightCircle = function (scene, radius) {
   scene.maskNightOverlays.push(maskGraphics);
   scene.nightOverlays.push(nightOverlay);
 };
+
+export const updateNightPosition = function (scene) {
+  const noX = scene.hero.x - scene.scale.width;
+  const noY = scene.hero.y - scene.scale.height;
+
+  scene.nightOverlays.forEach((nightOverlay) =>
+    nightOverlay.setPosition(noX, noY)
+  );
+  scene.maskNightOverlays.forEach((maskNightOverlay) =>
+    maskNightOverlay.setPosition(noX, noY)
+  );
+  scene.darkOverlay.setPosition(scene.hero.x, scene.hero.y);
+}
