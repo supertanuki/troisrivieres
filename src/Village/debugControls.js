@@ -93,4 +93,21 @@ export const addDebugControls = function (scene) {
   scene.input.keyboard
     .addKey(Phaser.Input.Keyboard.KeyCodes.L)
     .on("down", () => switchNight(scene));
+
+  scene.input.keyboard
+    .addKey(Phaser.Input.Keyboard.KeyCodes.Z)
+    .on("down", () => {
+      if (!scene.screens) {
+        scene.screens = scene.map
+          .createLayer("screens", scene.tileset)
+          .setDepth(30)
+          .setVisible(false);
+        scene.ads = scene.map
+          .createLayer("ads", scene.tileset)
+          .setDepth(50)
+          .setVisible(false);
+      }
+      scene.screens.setVisible(!scene.screens.visible);
+      scene.ads.setVisible(!scene.ads.visible);
+    });
 };

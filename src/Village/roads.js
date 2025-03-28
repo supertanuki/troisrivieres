@@ -15,12 +15,18 @@ export const toggleRoadsVisibility = function (scene) {
       .createLayer("roadsTop", scene.tileset)
       .setDepth(97)
       .setVisible(false);
+    scene.cars = scene.map
+      .createLayer("cars", scene.tileset)
+      .setDepth(98)
+      .setVisible(false);
   }
 
   const enabled = scene.roads.visible;
   scene.roads.setVisible(!enabled);
   scene.roadsBottom.setVisible(!enabled);
   scene.roadsTop.setVisible(!enabled);
+  scene.cars.setVisible(!enabled);
+
   scene.bridgesShadow.setVisible(enabled);
   scene.bridges.setVisible(enabled);
   scene.bridgesTop.setVisible(enabled);
