@@ -1,5 +1,8 @@
 import Game from "../Game";
+import "../Sprites/MinerChief";
 import { addMineBackground } from "../Village/mineBackgground";
+import { handleAction } from "../Village/handleAction";
+import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 
 /** @param {Game} scene  */
 export const mineAccessValidation = function (scene) {
@@ -17,7 +20,14 @@ export const mineAccessValidation = function (scene) {
     for (const spriteObject of scene.map.getObjectLayer("sprites").objects) {
       if (spriteObject.name === "minerAfterCard") {
         scene.miner.unlockAccessToMine(spriteObject.x, spriteObject.y);
-        break;
+      }
+
+      if (spriteObject.name === "minerChief") {
+        scene.minerChief = scene.add.minerChief(spriteObject.x, spriteObject.y);
+        scene.minerChief.on("pointerdown", () => handleAction(scene), this);
+        scene.physics.add.collider(scene.minerChief, scene.hero, () => {
+          sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "minerChief");
+        });
       }
     }
   

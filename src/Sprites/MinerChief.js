@@ -1,8 +1,8 @@
 import Chat from "../UI/Chat";
 
-export const SPRITE_ID = "miner";
+export const SPRITE_ID = "minerChief";
 
-class Miner extends Chat {
+class MinerChief extends Chat {
   constructor(scene, x, y, texture, frame) {
     super(scene, x, y, "sprites", "miner", 0, -5);
     this.spriteId = SPRITE_ID;
@@ -12,16 +12,21 @@ class Miner extends Chat {
     this.initialY = y;
 
     scene.anims.create({
-      key: "miner-idle",
+      key: "miner-chief-idle",
       frames: [
         {
           key: "sprites",
-          frame: "miner-1",
-          duration: 2000,
+          frame: "miner-chief-1",
+          duration: 300,
         },
         {
+            key: "sprites",
+            frame: "miner-chief-2",
+            duration: 300,
+          },
+        {
           key: "sprites",
-          frame: "miner-2",
+          frame: "miner-chief-3",
           duration: 300,
         },
       ],
@@ -29,31 +34,25 @@ class Miner extends Chat {
       frameRate: 1,
     });
 
-    this.anims.play("miner-idle", true);
-  }
-
-  unlockAccessToMine(x, y) {
-    this.setPosition(x, y);
-    this.setSize(5, 1);
-    this.setOffset(this.width - 2, this.height/2);
+    this.anims.play("miner-chief-idle", true);
   }
 }
 
 Phaser.GameObjects.GameObjectFactory.register(
   SPRITE_ID,
   function (x, y, texture, frame) {
-    const sprite = new Miner(this.scene, x, y, texture, frame);
+    const sprite = new MinerChief(this.scene, x, y, texture, frame);
 
     this.scene.physics.world.enableBody(
       sprite,
       Phaser.Physics.Arcade.DYNAMIC_BODY
     );
 
-    sprite.body.setSize(sprite.width + 6, sprite.height + 10);
+    sprite.body.setSize(sprite.width, 1);
     sprite.setImmovable(true);
     sprite.setInteractive();
     sprite.scaleX = -1;
-    sprite.setOffset(sprite.width, -5);
+    sprite.setOffset(sprite.width, sprite.height/2);
 
     this.displayList.add(sprite);
     this.updateList.add(sprite);

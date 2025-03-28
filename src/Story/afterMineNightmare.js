@@ -28,13 +28,13 @@ export const afterMineNightmare = function (scene) {
     scene.hero.slowRight();
     scene.hero.animateToRight();
 
-    toggleSpritesVisibility(scene, true, true);
+    toggleSpritesVisibility(scene, true, true, true);
     lessBirds(scene);
     lessButterflies(scene);
     
     sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "django");
 
-    scene.time.delayedCall(2000, () => {
+    scene.time.delayedCall(1800, () => {
       scene.isCinematic = false;
       handleAction(scene);
     });

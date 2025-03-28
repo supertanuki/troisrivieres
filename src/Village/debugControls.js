@@ -1,6 +1,6 @@
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import Game from "../Game";
-import { switchNight } from "./night";
+import { setNightState, switchNight } from "./night";
 import { toggleRoadsVisibility } from "./roads";
 
 /** @param {Game} scene  */
@@ -67,9 +67,13 @@ export const addDebugControls = function (scene) {
       scene.cameras.main.zoomTo(scene.cameras.main.zoom === 0.18 ? 1 : 2, 100);
     });
 
-  const ctrlR = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.T);
-  ctrlR.on("down", () => {
+  scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.T).on("down", () => {
     toggleRoadsVisibility(scene);
+  });
+
+  scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.O).on("down", () => {
+    sceneEventsEmitter.emit(sceneEvents.PreEventsUnlocked, ["mine_access_validation"]);
+    scene.setHeroPosition("heroMine");
   });
 
   scene.input.keyboard
@@ -88,5 +92,5 @@ export const addDebugControls = function (scene) {
 
   scene.input.keyboard
     .addKey(Phaser.Input.Keyboard.KeyCodes.L)
-    .on("down", () => switchNight(scene));
+    .on("down", () => setNightState(scene, true));
 };

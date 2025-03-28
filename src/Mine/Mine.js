@@ -458,8 +458,11 @@ export default class Mine extends MiniGameUi {
   }
 
   startGame() {
+    this.endGame();
+    return;
     this.cameras.main.fadeOut(0, 0, 0, 0);
     this.cameras.main.fadeIn(2000, 0, 0, 0);
+
 
     this.time.addEvent({
       callback: () => this.startDiscussion("mine"),

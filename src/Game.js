@@ -12,6 +12,7 @@ import { afterMine } from "./Story/afterMine";
 import { minerFirstMet } from "./Story/minerFirstMet";
 import { splashScreen } from "./Village/splashScreen";
 import { mineAccessValidation } from './Story/mineAccessValidation';
+import { goToMine } from './Story/goToMine';
 
 export default class Game extends Scene {
   constructor() {
@@ -118,14 +119,6 @@ export default class Game extends Scene {
     this.scene.launch("mine");
   }
 
-  gotoMine() {
-    this.cameras.main.fadeOut(1000, 0, 0, 0, (cam, progress) => {
-      if (progress !== 1) return;
-      this.scene.launch("mine");
-      this.sleepGame();
-    });
-  }
-
   resetGameSize() {
     this.scale.setGameSize(450, 250);
   }
@@ -196,6 +189,10 @@ export default class Game extends Scene {
 
     if (eventsHas(data, "mine_access_validation")) {
       mineAccessValidation(this);
+    }
+
+    if (eventsHas(data, "mine_start")) {
+      goToMine(this);
     }
 
     if (eventsHas(data, "mine_after")) {

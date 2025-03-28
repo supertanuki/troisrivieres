@@ -141,6 +141,8 @@ export default class Message extends Phaser.Scene {
   }
 
   hideMineCard() {
+    if (!this.mineCard) return;
+
     this.tweens.add({
       targets: this.mineCard,
       alpha: 0,
@@ -148,7 +150,7 @@ export default class Message extends Phaser.Scene {
       ease: "Sine.easeInOut",
       loop: 0,
       duration: 500,
-      onComplete: () => this.mineCard.setVisible(false),
+      onComplete: () => this.mineCard.destroy(),
     });
   }
 

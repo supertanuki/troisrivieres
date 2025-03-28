@@ -1,7 +1,8 @@
 export const toggleSpritesVisibility = function (
   scene,
   state,
-  withDjango = false
+  withDjango = false,
+  withMiners = false
 ) {
   [
     scene.koko,
@@ -18,6 +19,7 @@ export const toggleSpritesVisibility = function (
     scene.girl,
     scene.ball,
     ...(withDjango ? [scene.django] : []),
+    ...(withMiners ? [scene.miner, scene.minerChief] : []),
   ].forEach((sprite) => {
     sprite.setVisible(state);
     sprite.setActive(state);

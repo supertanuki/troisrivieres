@@ -240,7 +240,7 @@ const messageWorkflow = {
     },
     {
       messages: [
-        "Je ne sais pas comment tu as eu ce badge...",
+        "Je ne sais pas comment tu as eu ce badge…",
         "mais te voilà donc libre de passer.",
         "D'toute façon, on a besoin de bras pour bosser…",
       ],
@@ -249,6 +249,26 @@ const messageWorkflow = {
       ],
       dependingOn: ["card_for_mine"],
       unlockEvents: ["mine_access_validation"],
+    },
+  ],
+  minerChief: [
+    {
+      messages: [
+        "Bienvenue à Grise Mine, LA mine responsable !",
+        "D'ici sortent des tonnes de minerais chaque jour…",
+        "extraits avec de l'énergie bas-carbone s'il vous plaît !",
+        "Nous utilisons l'eau de façon raisonnée…",
+        "traitons nos employés de manière exemplaire, et…",
+        "Ça ne t'intéresse pas mon discours ?",
+        "…",
+        "Tu quoi ? Tu es là pour travailler ???",
+        "Hahaha, elle est bien bonne celle-là.",
+        "Mes meilleurs hommes sont épuisés très vite…",
+        "tu ne tiendras pas une seconde là-dedans !",
+        "Mais ok, je veux bien te faire une formation express.",
+        "Apprête-toi à te faire miner… le moral HAHAHA",
+      ],
+      unlockEvents: ["mine_start"],
     },
   ],
   fisherman: [

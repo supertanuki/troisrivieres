@@ -1,32 +1,10 @@
 const nightColor = 0x000055;
 
 export const switchNight = function (scene) {
-  if (!scene.darkOverlay) {
-    addNightCircle(scene, 50);
-    addNightCircle(scene, 80);
-    addNightCircle(scene, 100);
-  }
-
-  scene.darkOverlay =
-    scene.darkOverlay ||
-    scene.add
-      .rectangle(
-        scene.scale.width / 4,
-        scene.scale.height / 4,
-        scene.scale.width * 2,
-        scene.scale.height * 2,
-        nightColor
-      )
-      .setOrigin(0.5, 0.5)
-      .setVisible(false)
-      .setDepth(1000);
+  initNight(scene);
 
   if (scene.night) {
-    scene.night = false;
-    scene.darkOverlay.setVisible(false);
-    scene.nightOverlays.forEach((nightOverlay) =>
-      nightOverlay.setVisible(false)
-    );
+    setNightState(scene, false);
     return;
   }
 
@@ -52,6 +30,30 @@ export const switchNight = function (scene) {
   });
 };
 
+export const updateNightPosition = function (scene) {
+  const noX = scene.hero.x - scene.scale.width;
+  const noY = scene.hero.y - scene.scale.height;
+
+  scene.nightOverlays.forEach((nightOverlay) =>
+    nightOverlay.setPosition(noX, noY)
+  );
+  scene.maskNightOverlays.forEach((maskNightOverlay) =>
+    maskNightOverlay.setPosition(noX, noY)
+  );
+  scene.darkOverlay.setPosition(scene.hero.x, scene.hero.y);
+};
+
+export const setNightState = function (scene, state) {
+  initNight(scene);
+  scene.night = state;
+  scene.darkOverlay.setVisible(state);
+  if (state) scene.darkOverlay.setAlpha(0.3);
+  scene.maskNightOverlays.forEach((maskNightOverlay) =>
+    maskNightOverlay.setVisible(state)
+  );
+  scene.nightOverlays.forEach((nightOverlay) => nightOverlay.setVisible(state));
+};
+
 const addNightCircle = function (scene, radius) {
   const nightOverlay = scene.add.graphics();
   nightOverlay.fillStyle(nightColor, 0.3);
@@ -70,15 +72,24 @@ const addNightCircle = function (scene, radius) {
   scene.nightOverlays.push(nightOverlay);
 };
 
-export const updateNightPosition = function (scene) {
-  const noX = scene.hero.x - scene.scale.width;
-  const noY = scene.hero.y - scene.scale.height;
+const initNight = function (scene) {
+  if (scene.darkOverlay) {
+    return;
+  }
 
-  scene.nightOverlays.forEach((nightOverlay) =>
-    nightOverlay.setPosition(noX, noY)
-  );
-  scene.maskNightOverlays.forEach((maskNightOverlay) =>
-    maskNightOverlay.setPosition(noX, noY)
-  );
-  scene.darkOverlay.setPosition(scene.hero.x, scene.hero.y);
-}
+  addNightCircle(scene, 50);
+  addNightCircle(scene, 80);
+  addNightCircle(scene, 100);
+
+  scene.darkOverlay = scene.add
+    .rectangle(
+      scene.scale.width / 4,
+      scene.scale.height / 4,
+      scene.scale.width * 2,
+      scene.scale.height * 2,
+      nightColor
+    )
+    .setOrigin(0.5, 0.5)
+    .setVisible(false)
+    .setDepth(1000);
+};
