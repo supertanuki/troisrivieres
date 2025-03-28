@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.1-99-gec89c545" orientation="orthogonal" renderorder="right-down" width="190" height="87" tilewidth="16" tileheight="16" infinite="0" nextlayerid="39" nextobjectid="1245">
+<map version="1.10" tiledversion="1.11.1-99-gec89c545" orientation="orthogonal" renderorder="right-down" width="190" height="87" tilewidth="16" tileheight="16" infinite="0" nextlayerid="39" nextobjectid="1247">
  <editorsettings>
   <export target="public/tiles/3rivers.json" format="json"/>
  </editorsettings>
@@ -10135,7 +10135,7 @@
   <object id="919" name="heroKoko" x="1378" y="801.083">
    <point/>
   </object>
-  <object id="920" name="heroDjango" x="1126.5" y="1310.66">
+  <object id="920" name="heroDjango" x="1145.5" y="1310.66">
    <point/>
   </object>
   <object id="923" name="heroMiner" x="2047" y="691.5">
@@ -10206,9 +10206,6 @@
   <object id="1176" name="sleepingGuy" x="1443" y="997">
    <point/>
   </object>
-  <object id="1192" name="twoGuys" x="1806.33" y="730">
-   <point/>
-  </object>
   <object id="1201" name="cat" x="1841.5" y="925.5">
    <point/>
   </object>
@@ -10242,10 +10239,16 @@
   <object id="1242" name="minerChief" x="2943.67" y="543.667">
    <point/>
   </object>
-  <object id="1243" name="miner2" x="2798" y="548.667">
+  <object id="1243" name="miner3" x="2859.67" y="556.667">
    <point/>
   </object>
-  <object id="1244" name="miner3" x="2816" y="551.667">
+  <object id="1244" name="miner4" x="2858.33" y="476">
+   <point/>
+  </object>
+  <object id="1245" name="miner2" x="2830" y="551">
+   <point/>
+  </object>
+  <object id="1246" name="twoGuys" x="1963.33" y="1032">
    <point/>
   </object>
  </objectgroup>

@@ -1,6 +1,6 @@
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import Game from "../Game";
-import { setNightState, switchNight } from "./night";
+import { switchNight } from "./night";
 import { toggleRoadsVisibility } from "./roads";
 
 /** @param {Game} scene  */
@@ -92,5 +92,5 @@ export const addDebugControls = function (scene) {
 
   scene.input.keyboard
     .addKey(Phaser.Input.Keyboard.KeyCodes.L)
-    .on("down", () => setNightState(scene, true));
+    .on("down", () => switchNight(scene));
 };

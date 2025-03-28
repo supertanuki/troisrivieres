@@ -23,12 +23,12 @@ export const endFirstSleep = function (scene) {
   villageStateAfterFirstSleep(scene);
 
   sceneEventsEmitter.emit(sceneEvents.PreEventsUnlocked, ["first_sleep"]);
-  sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "django");
 
   scene.time.delayedCall(1000, () => {
     scene.cameras.main.fadeIn(1000, 0, 0, 0);
-    scene.time.delayedCall(800, () => {
+    scene.time.delayedCall(200, () => {
       scene.isCinematic = false;
+      sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "django");
       handleAction(scene);
     });
   });
@@ -43,9 +43,6 @@ export const villageStateAfterFirstSleep = function (scene) {
   scene.fisherman.setSad();
 
   addNono(scene);
-
-  //scene.nono.setVisible(true);
-  //scene.nono.body.checkCollision.none = false;
 };
 
 const addNono = function (scene) {

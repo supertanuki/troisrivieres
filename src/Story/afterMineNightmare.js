@@ -31,11 +31,10 @@ export const afterMineNightmare = function (scene) {
     toggleSpritesVisibility(scene, true, true, true);
     lessBirds(scene);
     lessButterflies(scene);
-    
-    sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "django");
 
-    scene.time.delayedCall(1800, () => {
+    scene.time.delayedCall(1200, () => {
       scene.isCinematic = false;
+      sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "django");
       handleAction(scene);
     });
 }

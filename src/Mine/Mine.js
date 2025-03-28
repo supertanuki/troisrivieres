@@ -458,11 +458,8 @@ export default class Mine extends MiniGameUi {
   }
 
   startGame() {
-    this.endGame();
-    return;
     this.cameras.main.fadeOut(0, 0, 0, 0);
     this.cameras.main.fadeIn(2000, 0, 0, 0);
-
 
     this.time.addEvent({
       callback: () => this.startDiscussion("mine"),
@@ -558,8 +555,8 @@ export default class Mine extends MiniGameUi {
     const warnings =
       (this.rockNotValidated > 15 && 1) +
       (this.rockNotValidated > 25 && 1) +
-      (this.rockNotValidated > 35 && 1) +
-      (this.rockNotValidated > 45 && 1);
+      (this.rockNotValidated > 30 && 1) +
+      (this.rockNotValidated > 35 && 1);
     if (warnings > this.warnings) {
       this.warnings++;
       if (this.warnings > 3) {

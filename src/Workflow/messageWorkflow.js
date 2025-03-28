@@ -25,9 +25,7 @@ const messageWorkflow = {
         "Plus au nord d'ici, il y a des personnes louches…",
         "(J'espère que cela n'impactera pas mon potager…)",
       ],
-      repeat: [
-        "(Je me demande bien ce que veulent ces gens…)",
-      ],
+      repeat: ["(Je me demande bien ce que veulent ces gens…)"],
     },
     {
       messages: [
@@ -37,9 +35,7 @@ const messageWorkflow = {
         "on trouverait la cause du problème ?",
         "Mais je suis bien trop occupé là…",
       ],
-      repeat: [
-        "(Si seulement quelqu'un pouvait remonter la rivière…)",
-      ],
+      repeat: ["(Si seulement quelqu'un pouvait remonter la rivière…)"],
       dependingOn: ["first_sleep"],
     },
   ],
@@ -49,8 +45,8 @@ const messageWorkflow = {
         "- Le changement climatique, c'est du sérieux, mec.",
         "- Ok, mais tu penses à la biodiversité ?",
         "- Si, si, j'ai même arrêté de tuer les moustiques !",
-      ]
-    }
+      ],
+    },
   ],
   twoWomen: [
     {
@@ -58,22 +54,18 @@ const messageWorkflow = {
         "- J'arrête de manger de la viande !",
         "- Pour ta santé ?",
         "- Non, pour réduire mon empreinte carbone !",
-      ]
-    }
+      ],
+    },
   ],
   baby: [
     {
-      messages: [
-        "Papa, je veux mon Papa",
-      ]
-    }
+      messages: ["Papa, je veux mon Papa"],
+    },
   ],
   sleepingGuy: [
     {
-      messages: [
-        "ZZZzzz, mmmh ?",
-      ]
-    }
+      messages: ["ZZZzzz, mmmh ?"],
+    },
   ],
   koko: [
     {
@@ -110,9 +102,7 @@ const messageWorkflow = {
         "Il est mal en point, comme la rivière…",
         "peut-être qu'il pourra t'en dire plus !",
       ],
-      repeat: [
-        "Au nord, Nono pourra t'éclairer sur c'qui s'passe !",
-      ],
+      repeat: ["Au nord, Nono pourra t'éclairer sur c'qui s'passe !"],
       dependingOn: ["first_sleep"],
     },
     {
@@ -161,9 +151,7 @@ const messageWorkflow = {
         "Tiens, prends mon badge.",
         "Et surtout fais bien attention à toi !",
       ],
-      repeat: [
-        "Fais bon usage de mon badge… et sois prudente.",
-      ],
+      repeat: ["Fais bon usage de mon badge… et sois prudente."],
       dependingOn: ["nono_first_met", "miner_ask_for_card"],
       unlockEvents: ["card_for_mine"],
     },
@@ -204,18 +192,32 @@ const messageWorkflow = {
       dependingOn: ["first_sleep"],
     },
     {
-      messages: [
-        "Bien dormi, Maï ? C'était bien à la mine ?",
+      messages: [      
+        "Bien dormi Maï ?",
+        "Après toutes ces semaines d'efforts à la mine,",
+        "je tenais à te remercier",
+        "pour tout ce que tu as fait pour nous.",
+        "Grâce à toi, on a la confirmation",
+        "que les eaux usées de la mine sont bien responsables",
+        "de la pollution de la rivière.",
+        "Mais dans le même temps, le village a pu se moderniser.",
+        "Je dois avouer être un peu partagé.",
+        "Est-ce un mal pour un bien ?",
+        "Je n'ai pas la réponse",
+        "et je ne voudrais pas t'influencer.",
+        "Maintenant que tu as fini ton travail à la mine,",
+        "tu as tout le temps de refaire un petit tour.",
       ],
-      repeat: ["C'était bien à la mine ?"],
+      repeat: [
+        "Une chose reste immuable dans tout ce bouleversement",
+        "ce sont les 6 cordes de ma guitare."
+      ],
       dependingOn: ["mine_nightmare_after"],
     },
   ],
   miner: [
     {
-      messages: [
-        "Interdit de passer par ici.",
-      ],
+      messages: ["Interdit de passer par ici."],
       repeat: ["J'ai dit qu'on ne passe pas !"],
     },
     {
@@ -244,9 +246,7 @@ const messageWorkflow = {
         "mais te voilà donc libre de passer.",
         "D'toute façon, on a besoin de bras pour bosser…",
       ],
-      repeat: [
-        "Tu peux passer…",
-      ],
+      repeat: ["Tu peux passer…"],
       dependingOn: ["card_for_mine"],
       unlockEvents: ["mine_access_validation"],
     },
@@ -269,6 +269,29 @@ const messageWorkflow = {
         "Apprête-toi à te faire miner… le moral HAHAHA",
       ],
       unlockEvents: ["mine_start"],
+    },
+  ],
+  minerDirty2: [
+    {
+      messages: [
+        "J'suis content d'avoir trouvé ce boulot…",
+        "même si c'est pas forcément bien payé.",
+      ],
+      repeat: ["Ce boulot est pas forcément bien payé."],
+    },
+  ],
+  minerDirty3: [
+    {
+      messages: ["Fiouuu.. ça fait du bien une petite pause…"],
+    },
+  ],
+  minerDirty4: [
+    {
+      messages: [
+        "Si tu cherches le chef, il est devant l'entrée.",
+        "Maintenant laisse moi contempler la vue du progrès.",
+      ],
+      repeat: ["Contemple avec moi, la vue du progrès."],
     },
   ],
   fisherman: [
@@ -331,21 +354,39 @@ const messageWorkflow = {
   mine: [
     {
       messages: [
-        "Bon, la nouvelle, ton taf est très simple, c'est à ta portée.",
-        "Tu dois nettoyer la roche pour extraire les métaux.",
-        "Ces métaux sont très utiles pour fabriquer des tas d'objets…",
-        "Du matériel électronique, des smartphones…",
-        isMobileOrTablet ? "Utilises le joystick pour déplacer le tuyau" : "Utilises ← ↑ → ↓ pour déplacer le tuyau…",
-        isMobileOrTablet ? "En appuyant, l'eau est pulvérisé" : "et la barre d'espace pour lancer l'eau. Allez c'est parti !",
+        "Comme tu es nouvelle, je te mets sur un poste simple…",
+        "…le nettoyage !",
+        "Les roches vont avancer sur le crible…",
+        "et tu devras les nettoyer pour éliminer les impuretés !",
+        "Pourquoi faire ça tu vas me dire ? Pour le PROGRÈS.",
+        "Les métaux et minerais dévoilés servent pour tout.",
+        "Smartphones, consoles, plomberie, bijoux…",
+        "Nous sommes la première étape d'un grand tout.",
+        "Et tu n'en n'es qu'un maillon insignifiant…",
+        "Bref. Voici comment procéder.",
+        isMobileOrTablet
+          ? "Bouge le tuyau avec les flèches ← ↑ → ↓"
+          : "Bouge le tuyau avec le joystick.",
+        isMobileOrTablet
+          ? "Et pulvérise l'eau avec la barre ESPACE."
+          : "En bougeant le tuyau, l'eau est pulvérisée.",
+        "J'espère que t'as bien tout compris !",
+        "J'peux pas me permettre que tu ralentisses le train…",
+        "de la mine !",
       ],
       unlockEvents: ["mine_tuto_begin"],
     },
     {
       messages: [
         "Tu n'as pas compris comment ça fonctionne ???",
-        "Tu dois nettoyer la roche pour extraire les métaux.",
-        isMobileOrTablet ? "Utilises le joystick pour déplacer le tuyau" : "Utilises ← ↑ → ↓ pour déplacer le tuyau",
-        isMobileOrTablet ? "En appuyant, l'eau est pulvérisé" : "et la barre d'espace pour lancer l'eau. Allez !",
+        "Tu dois nettoyer la roche à CENT POUR CENT !",
+        "On ne peut pas l'envoyer à moitié nettoyée.",
+        isMobileOrTablet
+          ? "Bouge le tuyau avec les flèches ← ↑ → ↓"
+          : "Bouge le tuyau avec le joystick.",
+        isMobileOrTablet
+          ? "Et pulvérise l'eau avec la barre ESPACE. Allez !"
+          : "En bougeant le tuyau, l'eau est pulvérisée. Allez !",
       ],
       dependingOn: ["mine_tuto_missed"],
       unlockEvents: ["mine_tuto_rebegin"],
@@ -353,11 +394,18 @@ const messageWorkflow = {
     {
       messages: [
         "Tu as compris comment ça fonctionne…",
-        "Quoi ?? On extrait l'eau de la rivière, pourquoi ?",
-        "Et on stocke les résidus, les déchets dans des réservoirs.",
-        "Je te rappelle qu'on est une mine responsable",
-        "On ne fait pas n'importe quoi.",
-        "Bon, arrête de poser des questions, au boulot !"
+        "Passons aux choses sérieuses !",
+        "Ça, c'est ce qui va dorénavant contrôler ta vie.",
+        "Si tu rates trop souvent, une croix s'allumera.",
+        "Au bout de trois croix…",
+        "je viendrai moi-même t'accompagner à la sortie !",
+        "…",
+        "Quoi ?? Pourquoi tu me regardes comme ça ?",
+        "Oui… On extrait l'eau de la rivière !",
+        "Et on stocke les déchets dans des réservoirs.",
+        "Je te rappelle qu'on est une mine responsable.",
+        "On ne fait pas n'importe quoi !",
+        "Bon, arrête de poser des questions, au boulot !",
       ],
       dependingOn: ["mine_tuto_end"],
       unlockEvents: ["mine_after_tuto"],
@@ -365,19 +413,16 @@ const messageWorkflow = {
     {
       messages: [
         "Tu fais exprès de pas comprendre ?",
-        "Quoi ?? On extrait l'eau de la rivière, pourquoi ?",
-        "Et on stocke les résidus, les déchets dans des réservoirs.",
-        "Je te rappelle qu'on est une mine responsable",
-        "On ne fait pas n'importe quoi.",
-        "Bon, arrête de poser des questions, au boulot !"
       ],
       dependingOn: ["mine_tuto_missed_twice"],
       unlockEvents: ["mine_after_tuto"],
     },
     {
       messages: [
-        "T'arrives plus à suivre le rythme, non ?",
-        "On s'arrête là pour aujourd'hui.",
+        "C'est bien ce qu'il me semblait…",
+        "tu ne peux pas tenir un rythme aussi soutenu !",
+        "On arrête les frais pour aujourd'hui.",
+        "Allez… ne fais pas grise mine !",
       ],
       dependingOn: ["mine_game_over"],
       unlockEvents: ["mine_end"],
@@ -386,14 +431,14 @@ const messageWorkflow = {
 };
 
 const uiMessages = {
-  'mine.faster': "Plus vite maintenant !!!",
-  'mine.fasterAgain': "Encore plus vite, allez, allez !!!",
-  'mine.waterEmpty': "Fais gaffe, tu as vidé ta réserve d'eau !",
-  'mine.waterFull': "La réserve d'eau est à nouveau rechargée, au boulot !",
-  'mine.moreMaterials': "Attention, gros arrivage de roches ! On accélère la production !",
-  'mine.warning': "C'est quoi ce boulot ? On a beaucoup de pertes !",
-  'mine.lastWarning': 'Dernier avertissement, concentre-toi !',
-}
+  "mine.faster": "Plus vite !",
+  "mine.fasterAgain": "Encore plus vite, allez !!!",
+  "mine.waterEmpty": "Réservoir d'eau vide !",
+  "mine.waterFull": "Réservoir d'eau plein !",
+  "mine.moreMaterials": "Arrivage de minerais, on augmente la fréquence !",
+  "mine.warning": "Ressaisis-toi, on est là pour faire du chiffre !",
+  "mine.lastWarning": "Dernier avertissement, concentre-toi !",
+};
 
 const getUiMessage = (name) => uiMessages[name];
 

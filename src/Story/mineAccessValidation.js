@@ -1,8 +1,10 @@
 import Game from "../Game";
 import "../Sprites/MinerChief";
+import "../Sprites/MinerDirty";
 import { addMineBackground } from "../Village/mineBackgground";
 import { handleAction } from "../Village/handleAction";
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
+import { createDirtyMinerAnimation } from "../Sprites/MinerDirty";
 
 /** @param {Game} scene  */
 export const mineAccessValidation = function (scene) {
@@ -16,6 +18,8 @@ export const mineAccessValidation = function (scene) {
       scene.map.widthInPixels,
       scene.map.heightInPixels - 8
     );
+
+    createDirtyMinerAnimation(scene);
   
     for (const spriteObject of scene.map.getObjectLayer("sprites").objects) {
       if (spriteObject.name === "minerAfterCard") {
@@ -28,6 +32,16 @@ export const mineAccessValidation = function (scene) {
         scene.physics.add.collider(scene.minerChief, scene.hero, () => {
           sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "minerChief");
         });
+      }
+
+      for (let i=2; i<=4; i++) {
+        if (spriteObject.name === `miner${i}`) {
+          scene[`minerDirty${i}`] = scene.add.minerDirty(spriteObject.x, spriteObject.y, null, null, i);
+          scene[`minerDirty${i}`].on("pointerdown", () => handleAction(scene), this);
+          scene.physics.add.collider(scene[`minerDirty${i}`], scene.hero, () => {
+            sceneEventsEmitter.emit(sceneEvents.DiscussionReady, `minerDirty${i}`);
+          });
+        }
       }
     }
   
