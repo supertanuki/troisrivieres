@@ -31,28 +31,12 @@ class Miner extends Chat {
     });
 
     this.anims.play("miner-idle", true);
-
-    sceneEventsEmitter.on(sceneEvents.EventsUnlocked, this.listenEvents, this);
   }
 
-  listenEvents(data) {
-    /*
-    if (data.newUnlockedEvents.includes("miner_clothes_validated")) {
-      this.moveMinerToNewPosition();
-    }
-    */
-  }
-
-  moveMinerToNewPosition() {
-    console.log("moveMinerToNewPosition", this.futureMinerPosition);
-    const { x, y } = this.futureMinerPosition;
+  unlockAccessToMine(x, y) {
     this.setPosition(x, y);
-    this.chatImageUi.x = this.x;
-    this.chatImageUi.y = this.y - 20;
-  }
-
-  addFuturePosition(futureMinerPosition) {
-    this.futureMinerPosition = futureMinerPosition;
+    this.setSize(5, 1);
+    this.setOffset(this.width - 2, this.height/2);
   }
 }
 

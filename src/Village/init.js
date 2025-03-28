@@ -14,7 +14,6 @@ import "../Sprites/Koko";
 import "../Sprites/SleepingGuy";
 import "../Sprites/TwoWomen";
 import "../Sprites/Baby";
-import "../Sprites/Nono";
 import "../Sprites/Bino";
 import "../Sprites/Cat";
 import "../Sprites/Dog";
@@ -33,30 +32,6 @@ import { handleAction } from "./handleAction";
 
 /** @param {Game} scene  */
 export const init = function (scene) {
-  // Fade init
-  scene.cameras.main.fadeIn(1000, 0, 0, 0);
-
-  // parallax mine backgrounds // @todo : load it when mine access is unlocked
-  scene.add
-    .image(0, 0, "mineLand", "background")
-    .setOrigin(0, 0)
-    .setScrollFactor(0.05, 0.1);
-
-  scene.add
-    .image(400, 0, "mineLand", "background")
-    .setOrigin(0, 0)
-    .setScrollFactor(0.05, 0.1);
-
-  scene.add
-    .image(270, 120, "mineLand", "mine")
-    .setOrigin(0, 0)
-    .setScrollFactor(0.14, 0.32);
-
-  scene.add
-    .image(1692, 231, "mineLand", "mine-machine")
-    .setOrigin(0, 0)
-    .setScrollFactor(0.7, 0.7);
-
   scene.map = scene.make.tilemap({ key: "map" });
   scene.tileset = scene.map.addTilesetImage("Atlas_01", "tiles");
   scene.map.createLayer("waterUp", scene.tileset).setDepth(10);
@@ -83,17 +58,6 @@ export const init = function (scene) {
     .setDepth(80);
 
   createTrees(scene);
-
-  scene.anims.create({
-    key: "tent",
-    frames: scene.anims.generateFrameNames("sprites", {
-      start: 1,
-      end: 5,
-      prefix: "tent-",
-    }),
-    repeat: 0,
-    frameRate: 10,
-  });
 
   scene.map.getObjectLayer("hero").objects.forEach((heroPosition) => {
     scene.heroPositions[heroPosition.name] = {
@@ -142,13 +106,6 @@ export const init = function (scene) {
     if (spriteObject.name === "baby") {
       scene.baby = scene.add.baby(spriteObject.x, spriteObject.y);
       scene.baby.on("pointerdown", () => handleAction(scene), this);
-    }
-
-    if (spriteObject.name === "nono") {
-      scene.nono = scene.add.nono(spriteObject.x, spriteObject.y);
-      scene.nono.on("pointerdown", () => handleAction(scene), this);
-      scene.nono.setVisible(false);
-      scene.nono.body.checkCollision.none = true;
     }
 
     if (spriteObject.name === "bino") {
@@ -259,9 +216,9 @@ export const init = function (scene) {
 
   scene.cameras.main.setBounds(
     0,
-    0,
-    scene.map.widthInPixels,
-    scene.map.heightInPixels
+    400, // top of the village is disabled
+    2144, // mine on the right is disabled
+    scene.map.heightInPixels - 408
   );
   scene.cameras.main.startFollow(scene.hero, true);
 
@@ -270,6 +227,8 @@ export const init = function (scene) {
   createControls(scene);
   addJoystickForMobile(scene);
   scene.addEventsListeners();
+
+  scene.cameras.main.fadeIn(1000, 0, 0, 0);
 
   if (!urlParamHas("nomusic")) {
     scene.music = scene.sound.add("village-theme");

@@ -1,5 +1,6 @@
-import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import Game from "../Game";
+import "../Sprites/Nono";
+import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import { handleAction } from "../Village/handleAction";
 import { switchNight } from "../Village/night";
 import { toggleSpritesVisibility } from "../Village/spritesVisibility";
@@ -40,14 +41,38 @@ export const villageStateAfterFirstSleep = function (scene) {
   scene.boy.setSad();
   scene.girl.setSad();
   scene.fisherman.setSad();
-  scene.nono.setVisible(true);
-  scene.nono.body.checkCollision.none = false;
+
+  addNono(scene);
+
+  //scene.nono.setVisible(true);
+  //scene.nono.body.checkCollision.none = false;
+};
+
+const addNono = function (scene) {
+  for (const spriteObject of scene.map.getObjectLayer("sprites").objects) {
+    if (spriteObject.name === "nono") {
+      scene.nono = scene.add.nono(spriteObject.x, spriteObject.y);
+      scene.nono.on("pointerdown", () => handleAction(scene), this);
+
+      scene.physics.add.collider(scene.nono, scene.hero, () => {
+        sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "nono");
+      });
+
+      break;
+    }
+  }
 };
 
 /** @param {Game} scene  */
 export const showRiverPolluted = function (scene) {
   if (scene.riverPolluted) return;
-  scene.riverPolluted = scene.map.createLayer("riverPolluted", scene.tileset).setDepth(45);
-  scene.landUpRiverPolluted = scene.map.createLayer("landUpRiverPolluted", scene.tileset).setDepth(46);
-  scene.bridgesShadowPolluted = scene.map.createLayer("bridgesShadowPolluted", scene.tileset).setDepth(51);
-}
+  scene.riverPolluted = scene.map
+    .createLayer("riverPolluted", scene.tileset)
+    .setDepth(45);
+  scene.landUpRiverPolluted = scene.map
+    .createLayer("landUpRiverPolluted", scene.tileset)
+    .setDepth(46);
+  scene.bridgesShadowPolluted = scene.map
+    .createLayer("bridgesShadowPolluted", scene.tileset)
+    .setDepth(51);
+};

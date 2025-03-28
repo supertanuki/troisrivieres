@@ -24,7 +24,7 @@ export const noMoreBirds = function (scene) {
   scene.birds = [];
 };
 
-const createBirdAnims = function (scene) {
+export const createBirdAnims = function (scene) {
   const anims = scene.anims;
 
   anims

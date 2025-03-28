@@ -11,6 +11,7 @@ import { firstSleep } from "./Story/firstSleep";
 import { afterMine } from "./Story/afterMine";
 import { minerFirstMet } from "./Story/minerFirstMet";
 import { splashScreen } from "./Village/splashScreen";
+import { mineAccessValidation } from './Story/mineAccessValidation';
 
 export default class Game extends Scene {
   constructor() {
@@ -61,6 +62,11 @@ export default class Game extends Scene {
     this.girl = null;
     this.ball = null;
     this.tent = null;
+
+    /** @type {Phaser.Tilemaps.Tilemap | null} */
+    this.map = null;
+    /** @type {Phaser.Tilemaps.Tileset | null} */
+    this.tileset = null;
   }
 
   preload() {
@@ -70,6 +76,31 @@ export default class Game extends Scene {
       "animatedTiles",
       "animatedTiles"
     );
+  }
+
+  create() {
+    splashScreen(this);
+  }
+
+  startGame() {
+    if (urlParamHas("dreamMine")) {
+      this.gotoScene("mine-nightmare");
+      return;
+    }
+
+    if (urlParamHas("factory")) {
+      this.debugFactory();
+      return;
+    }
+
+    if (urlParamHas("mine")) {
+      this.debugMine();
+      return;
+    }
+
+    this.scene.run("message");
+
+    init(this);
   }
 
   gotoScene(scene) {
@@ -99,34 +130,17 @@ export default class Game extends Scene {
     this.scale.setGameSize(450, 250);
   }
 
-  create() {
-    splashScreen(this);
-  }
-
-  startGame() {
-    if (urlParamHas("dreamMine")) {
-      this.gotoScene("mine-nightmare");
-      return;
-    }
-
-    if (urlParamHas("factory")) {
-      this.debugFactory();
-      return;
-    }
-
-    if (urlParamHas("mine")) {
-      this.debugMine();
-      return;
-    }
-
-    this.scene.run("message");
-
-    init(this);
-  }
-
   setHeroPosition(positionName) {
     const position = this.heroPositions[positionName];
     this.hero.setPosition(position.x, position.y);
+  }
+
+  stopMoving() {
+    this.goingLeft = false;
+    this.goingRight = false;
+    this.goingDown = false;
+    this.goingUp = false;
+    this.hero.stopAndWait();
   }
 
   sleepGame() {
@@ -181,7 +195,7 @@ export default class Game extends Scene {
     }
 
     if (eventsHas(data, "mine_access_validation")) {
-      this.gotoMine();
+      mineAccessValidation(this);
     }
 
     if (eventsHas(data, "mine_after")) {
@@ -232,14 +246,6 @@ export default class Game extends Scene {
     this[sprite]?.stopChatting();
   }
 
-  stopMoving() {
-    this.goingLeft = false;
-    this.goingRight = false;
-    this.goingDown = false;
-    this.goingUp = false;
-    this.hero.stopAndWait();
-  }
-
   update(time, delta) {
     if (this.night && this.darkOverlay) {
       updateNightPosition(this);
@@ -283,7 +289,7 @@ export default class Game extends Scene {
       this.hero.animateToRight();
     } else if (this.goingLeft) {
       this.hero.animateToLeft();
-    }
+    } 
 
     if (
       !this.goingDown &&

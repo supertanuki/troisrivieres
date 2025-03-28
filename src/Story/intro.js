@@ -1,4 +1,15 @@
 export const intro = function (scene) {
+  scene.anims.create({
+    key: "tent",
+    frames: scene.anims.generateFrameNames("sprites", {
+      start: 1,
+      end: 5,
+      prefix: "tent-",
+    }),
+    repeat: 0,
+    frameRate: 10,
+  });
+  
   scene.isIntro = true;
   scene.isCinematic = true;
   scene.hero.setVisible(false);
