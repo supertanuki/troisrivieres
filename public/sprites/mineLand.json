@@ -4,11 +4,32 @@
 			"image": "mineLand",
 			"format": "RGBA8888",
 			"size": {
-				"w": 582,
-				"h": 416
+				"w": 1187,
+				"h": 264
 			},
 			"scale": 1,
 			"frames": [
+				{
+					"filename": "mine",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 576,
+						"h": 192
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 576,
+						"h": 192
+					},
+					"frame": {
+						"x": 0,
+						"y": 0,
+						"w": 576,
+						"h": 192
+					}
+				},
 				{
 					"filename": "background",
 					"rotated": false,
@@ -24,51 +45,51 @@
 						"h": 224
 					},
 					"frame": {
-						"x": 0,
+						"x": 576,
 						"y": 0,
 						"w": 400,
 						"h": 224
 					}
 				},
 				{
-					"filename": "mine",
+					"filename": "mine-mount",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
-						"w": 543,
-						"h": 192
+						"w": 480,
+						"h": 72
 					},
 					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
-						"w": 543,
-						"h": 192
+						"w": 480,
+						"h": 72
 					},
 					"frame": {
 						"x": 0,
-						"y": 224,
-						"w": 543,
-						"h": 192
+						"y": 192,
+						"w": 480,
+						"h": 72
 					}
 				},
 				{
 					"filename": "mine-machine",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
-						"w": 191,
-						"h": 148
+						"w": 211,
+						"h": 139
 					},
 					"spriteSourceSize": {
 						"x": 0,
-						"y": 9,
-						"w": 182,
+						"y": 0,
+						"w": 211,
 						"h": 139
 					},
 					"frame": {
-						"x": 400,
+						"x": 976,
 						"y": 0,
-						"w": 182,
+						"w": 211,
 						"h": 139
 					}
 				}

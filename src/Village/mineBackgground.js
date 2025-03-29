@@ -13,12 +13,17 @@ export const addMineBackground = function (scene) {
     .setScrollFactor(0.05, 0.1);
 
   scene.add
-    .image(270, 120, "mineLand", "mine")
+    .image(180, 100, "mineLand", "mine-mount")
     .setOrigin(0, 0)
-    .setScrollFactor(0.14, 0.32);
+    .setScrollFactor(0.1, 0.25);
 
   scene.add
-    .image(1692, 231, "mineLand", "mine-machine")
+    .image(340, 124, "mineLand", "mine")
+    .setOrigin(0, 0)
+    .setScrollFactor(0.18, 0.32);
+
+  scene.add
+    .image(1692, 240, "mineLand", "mine-machine")
     .setOrigin(0, 0)
     .setScrollFactor(0.7, 0.7);
 }
