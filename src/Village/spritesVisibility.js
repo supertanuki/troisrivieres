@@ -22,13 +22,14 @@ export const toggleSpritesVisibility = function (
     ...(withMiners
       ? [
           scene.miner,
-          scene.minerChief,
-          scene.minerDirty2,
-          scene.minerDirty3,
-          scene.minerDirty4,
+          scene?.minerChief,
+          scene?.minerDirty2,
+          scene?.minerDirty3,
+          scene?.minerDirty4,
         ]
       : []),
   ].forEach((sprite) => {
+    if (!sprite) return
     sprite.setVisible(state);
     sprite.setActive(state);
     sprite.body.checkCollision.none = !state;

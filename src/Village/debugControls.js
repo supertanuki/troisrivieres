@@ -49,6 +49,15 @@ export const addDebugControls = function (scene) {
       ]);
     });
 
+    scene.input.keyboard
+    .addKey(Phaser.Input.Keyboard.KeyCodes.E)
+    .on("down", () => {
+      sceneEventsEmitter.emit(sceneEvents.PreEventsUnlocked, [
+        "django_met",
+        "pre_first_sleep",
+      ]);
+    });
+
   scene.input.keyboard
     .addKey(Phaser.Input.Keyboard.KeyCodes.C)
     .on("down", () => {
@@ -100,7 +109,7 @@ export const addDebugControls = function (scene) {
       if (!scene.screens) {
         scene.screens = scene.map
           .createLayer("screens", scene.tileset)
-          .setDepth(30)
+          .setDepth(49)
           .setVisible(false);
         scene.ads = scene.map
           .createLayer("ads", scene.tileset)
