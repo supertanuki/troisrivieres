@@ -1,13 +1,4 @@
 import Game from "../Game";
-import { createHeroAnims } from "../Sprites/HeroAnims";
-import { urlParamHas } from "../Utils/isDebug";
-import { addBirds } from "./birds";
-import { addButterflies } from "./butterflies";
-import { addCollisionManagement } from "./collisionManagement";
-import { addJoystickForMobile, createControls } from "./controls";
-import { addDebugControls } from "./debugControls";
-import { createTrees } from "./trees";
-
 import "../Sprites/Hero";
 import "../Sprites/Django";
 import "../Sprites/Koko";
@@ -27,20 +18,36 @@ import "../Sprites/Girl";
 import "../Sprites/Boy";
 import "../Sprites/TwoGuys";
 import "../Sprites/Bike";
+import { createHeroAnims } from "../Sprites/HeroAnims";
+import { urlParamHas } from "../Utils/isDebug";
+import { addBirds } from "./birds";
+import { addButterflies } from "./butterflies";
+import { addCollisionManagement } from "./collisionManagement";
+import { addJoystickForMobile, createControls } from "./controls";
+import { addDebugControls } from "./debugControls";
+import { createTrees } from "./trees";
 import { intro } from "../Story/intro";
 import { handleAction } from "./handleAction";
 
 /** @param {Game} scene  */
 export const init = function (scene) {
+  console.log('Read map')
   scene.map = scene.make.tilemap({ key: "map" });
+  console.log('map')
+  
   scene.tileset = scene.map.addTilesetImage("Atlas_01", "tiles");
-  scene.map.createLayer("waterUp", scene.tileset).setDepth(10);
+  console.log('tileset')
 
+  scene.map.createLayer("waterUp", scene.tileset).setDepth(10);
+  console.log('waterUp')
+
+  
   scene.land = scene.map
     .createLayer("land", scene.tileset)
     .setDepth(20)
     .setCollisionByProperty({ collide: true })
     .setCullPadding(2, 2);
+  console.log('land')
 
   scene.map.createLayer("landUp", scene.tileset).setDepth(40);
   scene.bridgesShadow = scene.map

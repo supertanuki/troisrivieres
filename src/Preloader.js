@@ -14,7 +14,7 @@ export default class Preloader extends Phaser.Scene {
 
     this.load.on(
       "progress",
-      function (value) {
+      (value) => {
         this.progressBar.clear();
         this.progressBar.fillStyle(0xffffff, 1);
         this.progressBar.fillRect(0, screenHeight / 2, screenWidth * value, 30);
@@ -22,13 +22,7 @@ export default class Preloader extends Phaser.Scene {
       this
     );
 
-    this.load.on(
-      "complete",
-      function () {
-        this.progressBar.destroy();
-      },
-      this
-    );
+    this.load.on("complete", () => this.progressBar.destroy(), this);
 
     this.load.image("tiles", "tiles/Asset_Atlas_01.png");
     this.load.tilemapTiledJSON("map", "tiles/3rivers.json");
@@ -42,20 +36,18 @@ export default class Preloader extends Phaser.Scene {
     this.load.atlas("mai", "sprites/mai.png", "sprites/mai.json");
     this.load.atlas("trees", "sprites/trees.png", "sprites/trees.json");
     this.load.atlas("sprites", "sprites/sprites.png", "sprites/sprites.json");
-    this.load.atlas("mineLand", "sprites/mineLand.png", "sprites/mineLand.json");
+    this.load.atlas(
+      "mineLand",
+      "sprites/mineLand.png",
+      "sprites/mineLand.json"
+    );
     this.load.atlas("ui", "sprites/ui.png", "sprites/ui.json");
-
-    /*
-    this.load.image("background-middle", "img/Parallax/Middle.png");
-    this.load.image("background-mountains", "img/Parallax/Mountains.png");
-    this.load.image("background-sky", "img/Parallax/Sky.png");
-    */
 
     this.load.plugin(
       "AnimatedTiles",
       "plugins/rexvirtualjoystickplugin.min.js"
     );
-    
+
     this.load.audio("village-theme", "sounds/village_theme_compressed_v2.mp3");
     this.load.font("DefaultFont", "fonts/FreePixel.ttf");
   }
