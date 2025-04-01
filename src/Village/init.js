@@ -33,14 +33,8 @@ import { handleAction } from "./handleAction";
 /** @param {Game} scene  */
 export const init = function (scene) {
   console.time('Init')
-  scene.map = scene.make.tilemap({ key: "map" });
-  console.log('map')
-  
+  scene.map = scene.make.tilemap({ key: "map" });  
   scene.tileset = scene.map.addTilesetImage("Atlas_01", "tiles");
-  console.log('tileset')
-
-  scene.map.createLayer("waterUp", scene.tileset).setDepth(10);
-  console.log('waterUp')
 
   scene.land = scene.map
     .createLayer("land", scene.tileset)

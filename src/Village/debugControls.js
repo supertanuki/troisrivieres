@@ -2,6 +2,7 @@ import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import Game from "../Game";
 import { switchNight } from "./night";
 import { toggleRoadsVisibility } from "./roads";
+import { secondRiverLessWater } from "./secondRiverLessWater";
 
 /** @param {Game} scene  */
 export const addDebugControls = function (scene) {
@@ -87,17 +88,7 @@ export const addDebugControls = function (scene) {
 
   scene.input.keyboard
     .addKey(Phaser.Input.Keyboard.KeyCodes.A)
-    .on("down", () => {
-      if (!scene.landLessWater) {
-        scene.landLessWater = scene.map
-          .createLayer("landLessWater", scene.tileset)
-          .setDepth(30)
-          .setCollisionByProperty({ collide: true })
-          .setVisible(false);
-      }
-      scene.landLessWater.setVisible(!scene.landLessWater.visible);
-      scene.landLessWater.setActive(!scene.landLessWater.visible);
-    });
+    .on("down", () => secondRiverLessWater(scene));
 
   scene.input.keyboard
     .addKey(Phaser.Input.Keyboard.KeyCodes.L)

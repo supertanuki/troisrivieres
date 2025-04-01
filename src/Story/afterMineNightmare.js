@@ -8,6 +8,7 @@ import { hideBikes } from "../Village/hideBikes";
 import { hidePotager } from "../Village/hidePotager";
 import { switchNight } from "../Village/night";
 import { toggleRoadsVisibility } from "../Village/roads";
+import { secondRiverLessWater } from "../Village/secondRiverLessWater";
 import { toggleSpritesVisibility } from "../Village/spritesVisibility";
 import { villageStateAfterFirstSleep } from "./firstSleep";
 
@@ -20,6 +21,7 @@ export const afterMineNightmare = function (scene) {
     switchNight(scene);
     villageStateAfterFirstSleep(scene);
     toggleRoadsVisibility(scene);
+    secondRiverLessWater(scene);
     hideBikes(scene);
     hidePotager(scene);
     scene.bino.setCleaningRoad();
