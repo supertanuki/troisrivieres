@@ -40,6 +40,7 @@ export default class Factory extends MiniGameUi {
   }
 
   preload() {
+    super.preload();
     this.load.atlas("factory", "sprites/factory.png", "sprites/factory.json");
   }
 
@@ -106,22 +107,31 @@ export default class Factory extends MiniGameUi {
     this.add.tileSprite(-4, -36, 554, 135, "factory", "sol").setOrigin(0, 0);
     this.conveyorInBack = this.add
       .tileSprite(0, -10, 550, 96, "factory", "tapis")
-      .setOrigin(0, 0)
-      .setScrollFactor(0, 0);
-
-    // front
-    this.add.tileSprite(0, 99, 550, 135, "factory", "sol").setOrigin(0, 0);
-    this.conveyor = this.add
-      .tileSprite(0, 105, 550, 96, "factory", "tapis")
-      .setOrigin(0, 0)
-      .setScrollFactor(0, 0);
-    this.add.image(30, 104, "factory", "rouleaugauche").setOrigin(0, 0);
-    this.add
-      .tileSprite(45, 201, 550, 11, "factory", "rouleaubas")
       .setOrigin(0, 0);
 
     this.initBackMotherboard();
     this.addBackHands();
+
+    this.add
+      .tileSprite(0, 0, 150, 99, "factory", "glass-repeat")
+      .setOrigin(0, 0);
+    this.add.tileSprite(150, 0, 67, 99, "factory", "vitre").setOrigin(0, 0);
+    this.add
+      .tileSprite(217, 0, 350, 99, "factory", "glass-repeat")
+      .setOrigin(0, 0);
+
+    // front
+    this.add.tileSprite(0, 99, 550, 135, "factory", "sol").setOrigin(0, 0);
+    const blockY = 102;
+    this.add.image(474, blockY - 5, "factory", "block-back");
+
+    this.conveyor = this.add
+      .tileSprite(0, 105, 550, 96, "factory", "tapis")
+      .setOrigin(0, 0);
+    this.add.image(30, 104, "factory", "rouleaugauche").setOrigin(0, 0);
+    this.add
+      .tileSprite(45, 201, 550, 11, "factory", "rouleaubas")
+      .setOrigin(0, 0);
 
     // left
     this.add
@@ -130,14 +140,6 @@ export default class Factory extends MiniGameUi {
       .setScale(-1, 1);
     this.add
       .tileSprite(0, 201, 14, 11, "factory", "rouleaubas")
-      .setOrigin(0, 0);
-
-    this.add
-      .tileSprite(0, 0, 150, 99, "factory", "glass-repeat")
-      .setOrigin(0, 0);
-    this.add.tileSprite(150, 0, 67, 99, "factory", "vitre").setOrigin(0, 0);
-    this.add
-      .tileSprite(217, 0, 350, 99, "factory", "glass-repeat")
       .setOrigin(0, 0);
 
     // front
@@ -161,10 +163,7 @@ export default class Factory extends MiniGameUi {
       );
     }
 
-    const blockY = 107;
     this.add.image(510, blockY + 38, "factory", "block").setDepth(10);
-    this.add.image(474, blockY - 30, "factory", "block-back").setDepth(10);
-
     this.add.image(476, blockY - 5, "factory", "tube-water").setDepth(10);
     this.add.image(476, blockY + 15, "factory", "tube-water").setDepth(10);
     this.add.image(476, blockY + 35, "factory", "tube-water").setDepth(10);
@@ -633,11 +632,11 @@ export default class Factory extends MiniGameUi {
 
     if (isFaster) {
       this.motherboardSpeed += acceleration;
-      this.updateMessage("Validé ! Plus vite maintenant !!!");
+      this.updateMessage("Validé ! Plus vite maintenant !!!");
     }
 
     if (1 === this.numberValidated % (accelerationStep + 1))
-      this.updateMessage("C'est bien, tu es productive !");
+      this.updateMessage("C'est bien, tu es productive !");
   }
 
   destroyMotherboard() {
@@ -653,7 +652,7 @@ export default class Factory extends MiniGameUi {
     if (!this.isMotherboardValidated) {
       this.warnings++;
       this.updateWarnings(this.warnings);
-      this.updateMessage("C'est quoi ce boulot ? Ressaisis-toi la nouvelle !");
+      this.updateMessage("C'est quoi ce boulot ? Ressaisis-toi la nouvelle !");
       this.destroyMotherboard();
 
       this.time.delayedCall(1000, () => {
