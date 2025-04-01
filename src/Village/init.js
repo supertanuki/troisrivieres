@@ -32,8 +32,8 @@ import { handleAction } from "./handleAction";
 
 /** @param {Game} scene  */
 export const init = function (scene) {
-  console.time('Init')
-  scene.map = scene.make.tilemap({ key: "map" });  
+  console.time("Init");
+  scene.map = scene.make.tilemap({ key: "map" });
   scene.tileset = scene.map.addTilesetImage("Atlas_01", "tiles");
 
   scene.land = scene.map
@@ -41,7 +41,6 @@ export const init = function (scene) {
     .setDepth(20)
     .setCollisionByProperty({ collide: true })
     .setCullPadding(2, 2);
-  console.log('land')
 
   scene.map.createLayer("landUp", scene.tileset).setDepth(40);
   scene.bridgesShadow = scene.map
@@ -77,6 +76,19 @@ export const init = function (scene) {
     scene.hero.stopAndWait();
     createHeroAnims(scene.anims);
   });
+
+  scene.anims
+    .create({
+      key: "exclam",
+      frames: scene.anims.generateFrameNames("sprites", {
+        start: 1,
+        end: 3,
+        prefix: "exclam-",
+      }),
+      repeat: -1,
+      frameRate: 6,
+    })
+    .addFrame([{ key: "sprites", frame: "exclam-2", duration: 1 }]);
 
   scene.map.getObjectLayer("sprites").objects.forEach((spriteObject) => {
     if (spriteObject.name === "django") {
@@ -213,7 +225,9 @@ export const init = function (scene) {
   addBirds(scene);
   addButterflies(scene);
 
+  console.time("animatedTiles");
   scene.animatedTiles.init(scene.map);
+  console.timeEnd("animatedTiles");
 
   scene.cameras.main.setBounds(
     0,
@@ -244,7 +258,7 @@ export const init = function (scene) {
 
   scene.time.delayedCall(500, () => scene.scene.run("message"));
 
-  console.timeEnd('Init')
+  console.timeEnd("Init");
 
   if (!urlParamHas("nostart")) intro(scene);
 };

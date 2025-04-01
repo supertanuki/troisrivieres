@@ -24,11 +24,11 @@ export default class TwoGuys extends Chat {
         {
           key: "sprites",
           frame: "twoguys-3",
-          duration: 300,
+          duration: 10,
         },
       ],
       repeat: -1,
-      frameRate: 1,
+      duration: 2010,
     });
 
     this.anims.play("twoguys-idle", true);

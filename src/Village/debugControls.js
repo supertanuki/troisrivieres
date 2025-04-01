@@ -46,7 +46,7 @@ export const addDebugControls = function (scene) {
         //"pre_first_sleep",
         //"miner_ask_for_card",
         //"mine_after",
-        "mine_nightmare_after",
+        "second_act_begin",
       ]);
     });
 

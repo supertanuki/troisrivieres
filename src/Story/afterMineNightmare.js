@@ -6,6 +6,7 @@ import { lessButterflies } from "../Village/butterflies";
 import { handleAction } from "../Village/handleAction";
 import { hideBikes } from "../Village/hideBikes";
 import { hidePotager } from "../Village/hidePotager";
+import { removeMineBackground } from "../Village/mineBackgground";
 import { switchNight } from "../Village/night";
 import { toggleRoadsVisibility } from "../Village/roads";
 import { secondRiverLessWater } from "../Village/secondRiverLessWater";
@@ -19,6 +20,8 @@ export const afterMineNightmare = function (scene) {
     scene.hero.stopAndWait();
     scene.isCinematic = true;
     switchNight(scene);
+
+    removeMineBackground(scene);
     villageStateAfterFirstSleep(scene);
     toggleRoadsVisibility(scene);
     secondRiverLessWater(scene);
@@ -33,6 +36,30 @@ export const afterMineNightmare = function (scene) {
     toggleSpritesVisibility(scene, true, true, true);
     lessBirds(scene);
     lessButterflies(scene);
+
+    for (const spriteObject of scene.map.getObjectLayer("sprites").objects) {
+      if (spriteObject.name === `minerAfterMine`) {
+        scene.miner.setPositionAfterMine(spriteObject.x, spriteObject.y);
+      }
+
+      if (spriteObject.name === `minoAfterMine`) {
+        scene.fisherman.setPosition(spriteObject.x, spriteObject.y);
+      }
+
+      for (let i=2; i<=4; i++) {
+        if (spriteObject.name === `afterMineMiner${i}`) {
+          scene[`minerDirty${i}`].setPosition(spriteObject.x, spriteObject.y);
+          scene[`minerDirty${i}`].scaleX = 1;
+        }
+      }
+    }
+
+    scene.cameras.main.setBounds(
+      0,
+      0,
+      2144, // mine on the right is disabled
+      scene.map.heightInPixels - 8
+    );
 
     scene.time.delayedCall(1200, () => {
       scene.isCinematic = false;

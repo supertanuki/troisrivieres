@@ -38,6 +38,19 @@ const messageWorkflow = {
       repeat: ["(Si seulement quelqu'un pouvait remonter la rivière…)"],
       dependingOn: ["first_sleep"],
     },
+    {
+      messages: [
+        "Hey Maï, tout roule pour toi ?",
+        "Comme tu peux le voir, mon potager a disparu.",
+        "À la place je désherbe le bord des routes.",
+        "Mais ne crois pas que je sois triste !",
+        "On peut accéder à tellement plus de denrées alimentaires",
+        "grâce à nos voitures et à ces nouvelles routes !",
+        "C'est un gros changement…",
+      ],
+      repeat: ["(Allez, ça ne va pas se désherber tout seul…)"],
+      dependingOn: ["second_act_begin"],
+    },
   ],
   twoGuys: [
     {
@@ -46,6 +59,15 @@ const messageWorkflow = {
         "- Ok, mais tu penses à la biodiversité ?",
         "- Si, si, j'ai même arrêté de tuer les moustiques !",
       ],
+    },
+    {
+      messages: [
+        "- Que c'est pratique ces nouvelles routes !",
+        "- Tu l'as dit, j'ai rangé mon vieux vélo.",
+        "- Le hic, c'est l'éternité qu'il faut…",
+        "pour payer l'automobile.",
+      ],
+      dependingOn: ["second_act_begin"],
     },
   ],
   twoWomen: [
@@ -111,6 +133,24 @@ const messageWorkflow = {
       ],
       dependingOn: ["nono_first_met"],
     },
+    {
+      messages: [
+        "Maï, c'est incroyable tu trouves pas ?",
+        "Le génie humain j'veux dire.",
+        "Pour trois fois moins de temps,",
+        "j'peux aller voir ma famille, mes amies !",
+        "Moi qui ADORE être au courant de tout,",
+        "ça va grandement faciliter les potins héhé.",
+        "D'ailleurs t'sais pas la dernière ?",
+        "Une autre usine s'est installée au nord.",
+        "Ça pousse comme des champignons ces choses là !",
+      ],
+      repeat: [
+        "Tu d'vrais aller voir cette usine au nord",
+        "p'têtre que t'y trouveras encore du travail !",
+      ],
+      dependingOn: ["second_act_begin"],
+    },
   ],
   nono: [
     {
@@ -154,6 +194,22 @@ const messageWorkflow = {
       repeat: ["Fais bon usage de mon badge… et sois prudente."],
       dependingOn: ["nono_first_met", "miner_ask_for_card"],
       unlockEvents: ["card_for_mine"],
+    },
+    {
+      messages: [
+        "La situation de nos rivières est perturbante,",
+        "mais je dois bien avouer que ces nouvelles routes…",
+        "facilitent énormément mes déplacements !",
+        "Mon handicap ne fait pas bon ménage le vélo…",
+        "ou rouler sur la terre, la gadoue et les pavés !",
+        "D'ailleurs, savais-tu que ce sont les déchets de la mine…",
+        "les résidus miniers, qui ont été recyclés…",
+        "…dans le bitume des routes ? Impressionnant non ?",
+        "Peu étonnant qu'il y ait foule pour aller à la mine,",
+        "c'est devenu l'attraction des alentours.",
+      ],
+      repeat: ["On vit une ère très intrigante, tu ne trouves pas ?"],
+      dependingOn: ["second_act_begin"],
     },
   ],
   django: [
@@ -212,7 +268,7 @@ const messageWorkflow = {
         "Une chose reste immuable dans tout ce bouleversement",
         "ce sont les 6 cordes de ma guitare."
       ],
-      dependingOn: ["mine_nightmare_after"],
+      dependingOn: ["second_act_begin"],
     },
   ],
   miner: [
@@ -249,6 +305,13 @@ const messageWorkflow = {
       repeat: ["Tu peux passer…"],
       dependingOn: ["card_for_mine"],
       unlockEvents: ["mine_access_validation"],
+    },
+    {
+      messages: [
+        "Allez, laissez-nous passer !",
+        "On veut du travail nous aussi !",
+      ],
+      dependingOn: ["second_act_begin"],
     },
   ],
   minerChief: [
@@ -310,6 +373,21 @@ const messageWorkflow = {
       repeat: ["Si j'attrape les responsables de ce #?%@…"],
       dependingOn: ["first_sleep"],
     },
+    {
+      messages: [
+        "… Tout le monde est devenu fan",
+        "de ces routes, de ces voitures…",
+        "C'est vite oublier d'où on vient.",
+        "Une mine s'installe, puis une usine…",
+        "La rivière qui a baissé de niveau,",
+        "juste en quelques semaines.",
+        "Je me sens un peu démuni face à tout ça…",
+        "Mais ça me réconforte que tu continues…",
+        "de mener ta petite enquête, Maï.",
+      ],
+      repeat: ["Continue ton enquête, moi je surveille la rivière."],
+      dependingOn: ["second_act_begin"],
+    },
   ],
   boy: [
     {
@@ -324,6 +402,12 @@ const messageWorkflow = {
         "Qu'est-ce qu'on va faire maintenant ?",
       ],
       dependingOn: ["first_sleep"],
+    },
+    {
+      messages: [
+        "on ne peut plus attraper notre ballon !",
+      ],
+      dependingOn: ["second_act_begin"],
     },
   ],
   cat: [

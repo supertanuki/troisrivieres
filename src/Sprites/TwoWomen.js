@@ -14,21 +14,21 @@ export default class TwoWomen extends Chat {
         {
           key: "sprites",
           frame: "twowomen-1",
-          duration: 1000,
+          duration: 2,
         },
         {
           key: "sprites",
           frame: "twowomen-2",
-          duration: 1000,
+          duration: 2,
         },
         {
           key: "sprites",
           frame: "twowomen-3",
-          duration: 300,
+          duration: 1,
         },
       ],
       repeat: -1,
-      frameRate: 1,
+      frameRate: 2,
     });
 
     this.anims.play("twowomen-idle", true);

@@ -10,6 +10,7 @@ class MinerDirty extends Chat {
 
   setSpriteNumber(spriteNumber) {
     this.spriteId = `minerDirty${spriteNumber}`;
+    console.log(`miner-dirty-idle-${spriteNumber - 1}`)
     this.anims.play(`miner-dirty-idle-${spriteNumber - 1}`, true);
 
     if (spriteNumber > 2) {
@@ -57,16 +58,16 @@ export const createDirtyMinerAnimation = function (scene) {
       {
         key: "sprites",
         frame: "miner-dirty-1",
-        duration: 2000,
+        duration: 4,
       },
       {
         key: "sprites",
         frame: "miner-dirty-2",
-        duration: 300,
+        duration: 1,
       },
     ],
     repeat: -1,
-    frameRate: 1,
+    frameRate: 2,
   });
 
   scene.anims.create({
@@ -74,17 +75,17 @@ export const createDirtyMinerAnimation = function (scene) {
     frames: [
       {
         key: "sprites",
-        frame: "miner-dirty-1",
-        duration: 1800,
+        frame: "miner-dirty-2",
+        duration: 1,
       },
       {
         key: "sprites",
-        frame: "miner-dirty-2",
-        duration: 300,
+        frame: "miner-dirty-1",
+        duration: 3,
       },
     ],
     repeat: -1,
-    frameRate: 1,
+    frameRate: 3,
   });
 
   scene.anims.create({
@@ -93,15 +94,20 @@ export const createDirtyMinerAnimation = function (scene) {
       {
         key: "sprites",
         frame: "miner-dirty-1",
-        duration: 2200,
+        duration: 2,
+      },
+      {
+        key: "sprites",
+        frame: "miner-dirty-1",
+        duration: 2,
       },
       {
         key: "sprites",
         frame: "miner-dirty-2",
-        duration: 300,
+        duration: 1,
       },
     ],
     repeat: -1,
-    frameRate: 1,
+    frameRate: 4,
   });
 };

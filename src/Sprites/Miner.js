@@ -37,6 +37,12 @@ class Miner extends Chat {
     this.setSize(5, 1);
     this.setOffset(this.width - 2, this.height/2);
   }
+
+  setPositionAfterMine(x, y) {
+    this.setPosition(x, y);
+    this.scaleX = 1;
+    this.body.setSize(this.width + 6, this.height + 10);
+  }
 }
 
 Phaser.GameObjects.GameObjectFactory.register(

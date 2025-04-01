@@ -211,7 +211,7 @@ export default class Game extends Scene {
       afterMine(this);
     }
 
-    if (eventsHas(data, "mine_nightmare_after")) {
+    if (eventsHas(data, "second_act_begin")) {
       afterMineNightmare(this);
     }
   }
