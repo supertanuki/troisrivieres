@@ -112,7 +112,6 @@ export default class MiniGameUi extends Phaser.Scene {
   }
 
   startDiscussion(key) {
-    console.log('startDiscussion mine status', this.scene.getStatus('mine'))
     sceneEventsEmitter.emit(sceneEvents.DiscussionStarted, key);
   }
 
@@ -130,7 +129,7 @@ export default class MiniGameUi extends Phaser.Scene {
     this.textObject.setVisible(true);
 
     if (waitUserAction) {
-      this.time.delayedCall(500, () =>
+      this.time.delayedCall(200, () =>
         sceneEventsEmitter.emit(sceneEvents.DiscussionWaiting)
       );
       return;

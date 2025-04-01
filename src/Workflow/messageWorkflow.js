@@ -394,7 +394,7 @@ const messageWorkflow = {
     {
       messages: [
         "Tu as compris comment ça fonctionne…",
-        "Passons aux choses sérieuses !",
+        "Passons aux choses sérieuses !",
         "Ça, c'est ce qui va dorénavant contrôler ta vie.",
         "Si tu rates trop souvent, une croix s'allumera.",
         "Au bout de trois croix…",

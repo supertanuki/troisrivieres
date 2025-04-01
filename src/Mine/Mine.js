@@ -75,7 +75,6 @@ export default class Mine extends MiniGameUi {
 
   preload() {
     this.load.atlas("mine", "sprites/mine.png", "sprites/mine.json");
-    this.load.image("water", "img/rain.png");
   }
 
   create() {
@@ -217,7 +216,8 @@ export default class Mine extends MiniGameUi {
       );
     }
 
-    this.water = this.add.particles(0, 0, "water", {
+    this.water = this.add.particles(0, 0, "mine", {
+      frame: ["water-blue"],
       speed: { min: 200, max: 300 },
       angle: { min: 70, max: 110 },
       gravityY: 300,
