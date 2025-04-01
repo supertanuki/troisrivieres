@@ -25,5 +25,22 @@ export const noMoreButterflies = function (scene) {
 };
 
 const createButterfliesAnims = function (scene) {
-  const anims = scene.anims;
+  scene.anims
+    .create({
+      key: "butterfly-anim",
+      frames: scene.anims.generateFrameNames("sprites", {
+        start: 1,
+        end: 3,
+        prefix: "butterfly-",
+      }),
+      repeat: -1,
+      frameRate: 4,
+    })
+    .addFrame([
+      {
+        key: "sprites",
+        frame: "butterfly-2",
+        duration: 2,
+      },
+    ]);
 };

@@ -7,27 +7,6 @@ export default class Butterfly extends Phaser.Physics.Arcade.Sprite {
     this.scene = scene;
     this.initialPosition = {x, y}
     this.scaleX = randomSign();
-
-    const anims = scene.anims;
-
-    anims
-      .create({
-        key: "butterfly-anim",
-        frames: anims.generateFrameNames("sprites", {
-          start: 1,
-          end: 3,
-          prefix: "butterfly-",
-        }),
-        repeat: -1,
-        frameRate: 4,
-      })
-      
-      .addFrame([{
-        key: "sprites",
-        frame: "butterfly-2",
-        duration: 2,
-      }]);
-
     this.anims.play("butterfly-anim");
   }
 
