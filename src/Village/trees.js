@@ -53,8 +53,11 @@ export const createTrees = function (scene) {
         `${treeObject.name}-1`
       )
       .setOrigin(0.5, 1)
+      .setImmovable(true)
       .setDepth(130);
+
     tree.anims.play(treeObject.name);
+
     scene.pointsCollider.push(
       scene.physics.add
         .sprite(treeObject.x, treeObject.y - 10, null)

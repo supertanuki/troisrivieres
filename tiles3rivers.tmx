@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.11.1-99-gec89c545" orientation="orthogonal" renderorder="right-down" width="190" height="87" tilewidth="16" tileheight="16" infinite="0" nextlayerid="43" nextobjectid="1263">
  <editorsettings>
-  <export format="json"/>
+  <export target="public/tiles/3rivers.json" format="json"/>
  </editorsettings>
  <tileset firstgid="1" name="Atlas_01" tilewidth="16" tileheight="16" tilecount="2376" columns="54">
   <image source="public/tiles/Asset_Atlas_01.png" width="864" height="704"/>

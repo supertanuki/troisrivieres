@@ -6,7 +6,7 @@ import { DiscussionStatus } from "../Utils/discussionStatus";
 import { eventsHas } from "../Utils/events";
 
 export const FONT_SIZE = "16px";
-export const FONT_RESOLUTION = 10;
+export const FONT_RESOLUTION = 20;
 
 export default class Message extends Phaser.Scene {
   constructor() {
@@ -54,9 +54,10 @@ export default class Message extends Phaser.Scene {
           fontFamily: "DefaultFont",
           fontSize: FONT_SIZE,
           fill: "#ffffff",
+          resolution: FONT_RESOLUTION,
         }
       )
-      .setResolution(FONT_RESOLUTION)
+      //.setResolution(FONT_RESOLUTION)
       .setOrigin(0.5, 0.5)
       .setScrollFactor(0)
       .setDepth(2000)
@@ -89,6 +90,7 @@ export default class Message extends Phaser.Scene {
       .setScrollFactor(0)
       .setDepth(3000)
       .setWordWrapWidth(245)
+      
       .setVisible(false);
 
     this.spriteNameObject = this.add
