@@ -1,7 +1,15 @@
+import { Loader } from "phaser";
 import Game from "../Game";
 
 /** @param {Game} scene  */
 export const addMineBackground = function (scene) {
+  const loader = new Loader.LoaderPlugin(scene);
+  loader.atlas("mineLand", "sprites/mineLand.png", "sprites/mineLand.json");
+  loader.once("complete", () => addMineBackgroundAfterLoading(scene));
+  loader.start();
+}
+
+const addMineBackgroundAfterLoading = function(scene) {
   scene.add
     .image(0, 0, "mineLand", "background")
     .setOrigin(0, 0)

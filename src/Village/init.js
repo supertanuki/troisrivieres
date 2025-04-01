@@ -1,3 +1,4 @@
+import { Loader } from "phaser";
 import Game from "../Game";
 import "../Sprites/Hero";
 import "../Sprites/Django";
@@ -31,7 +32,7 @@ import { handleAction } from "./handleAction";
 
 /** @param {Game} scene  */
 export const init = function (scene) {
-  console.log('Read map')
+  console.time('Init')
   scene.map = scene.make.tilemap({ key: "map" });
   console.log('map')
   
@@ -41,7 +42,6 @@ export const init = function (scene) {
   scene.map.createLayer("waterUp", scene.tileset).setDepth(10);
   console.log('waterUp')
 
-  
   scene.land = scene.map
     .createLayer("land", scene.tileset)
     .setDepth(20)
@@ -238,10 +238,19 @@ export const init = function (scene) {
   scene.cameras.main.fadeIn(1000, 0, 0, 0);
 
   if (!urlParamHas("nomusic")) {
-    scene.music = scene.sound.add("village-theme");
-    scene.music.loop = true;
-    scene.music.play();
+    const loader = new Loader.LoaderPlugin(scene);
+    loader.audio("village-theme", "sounds/village_theme_compressed_v2.mp3");
+    loader.once("complete", () => {
+      scene.music = scene.sound.add("village-theme");
+      scene.music.loop = true;
+      scene.music.play();
+    });
+    loader.start();
   }
+
+  scene.time.delayedCall(500, () => scene.scene.run("message"));
+
+  console.timeEnd('Init')
 
   if (!urlParamHas("nostart")) intro(scene);
 };

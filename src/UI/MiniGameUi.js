@@ -4,6 +4,10 @@ import { DiscussionStatus } from "../Utils/discussionStatus";
 import { FONT_RESOLUTION, FONT_SIZE } from "./Message";
 
 export default class MiniGameUi extends Phaser.Scene {
+  preload() {
+    this.load.atlas("ui", "sprites/ui.png", "sprites/ui.json");
+  }
+
   create() {
     this.currentDiscussionStatus = DiscussionStatus.NONE;
 

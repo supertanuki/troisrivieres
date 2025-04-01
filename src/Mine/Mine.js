@@ -74,6 +74,7 @@ export default class Mine extends MiniGameUi {
   }
 
   preload() {
+    super.preload();
     this.load.atlas("mine", "sprites/mine.png", "sprites/mine.json");
   }
 

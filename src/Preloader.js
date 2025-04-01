@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import isMobileOrTablet from "./Utils/isMobileOrTablet";
 
 export default class Preloader extends Phaser.Scene {
   constructor() {
@@ -27,28 +28,17 @@ export default class Preloader extends Phaser.Scene {
     this.load.image("tiles", "tiles/Asset_Atlas_01.png");
     this.load.tilemapTiledJSON("map", "tiles/3rivers.json");
 
-    this.load.plugin(
-      "rexvirtualjoystickplugin",
-      "plugins/rexvirtualjoystickplugin.min.js",
-      true
-    );
-
     this.load.atlas("mai", "sprites/mai.png", "sprites/mai.json");
     this.load.atlas("trees", "sprites/trees.png", "sprites/trees.json");
     this.load.atlas("sprites", "sprites/sprites.png", "sprites/sprites.json");
-    this.load.atlas(
-      "mineLand",
-      "sprites/mineLand.png",
-      "sprites/mineLand.json"
-    );
-    this.load.atlas("ui", "sprites/ui.png", "sprites/ui.json");
 
-    this.load.plugin(
-      "AnimatedTiles",
-      "plugins/rexvirtualjoystickplugin.min.js"
-    );
+    if (isMobileOrTablet)
+      this.load.plugin(
+        "rexvirtualjoystickplugin",
+        "plugins/rexvirtualjoystickplugin.min.js",
+        true
+      );
 
-    this.load.audio("village-theme", "sounds/village_theme_compressed_v2.mp3");
     this.load.font("DefaultFont", "fonts/FreePixel.ttf");
   }
 

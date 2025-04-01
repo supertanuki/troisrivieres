@@ -17,6 +17,10 @@ export default class Message extends Phaser.Scene {
     this.currentDiscussionStatus = DiscussionStatus.NONE;
   }
 
+  preload() {
+    this.load.atlas("ui", "sprites/ui.png", "sprites/ui.json");
+  }
+
   create() {
     const config = this.sys.game.config;
 
