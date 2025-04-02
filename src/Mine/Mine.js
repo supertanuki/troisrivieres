@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 import isMobileOrTablet from "../Utils/isMobileOrTablet";
-import { getUrlParam, isDebug } from "../Utils/isDebug";
+import { getUrlParam, isDebug, urlParamHas } from "../Utils/isDebug";
 import MiniGameUi from "../UI/MiniGameUi";
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import { dispatchUnlockEvents, eventsHas } from "../Utils/events";
@@ -272,6 +272,11 @@ export default class Mine extends MiniGameUi {
 
     sceneEventsEmitter.on(sceneEvents.EventsUnlocked, this.listenEvents, this);
 
+    if (urlParamHas('bypassminigame')) {
+      this.endGame();
+      return;
+    }
+
     this.createControls();
     this.startGame();
   }
@@ -459,7 +464,6 @@ export default class Mine extends MiniGameUi {
   }
 
   startGame() {
-    this.cameras.main.fadeOut(0, 0, 0, 0);
     this.cameras.main.fadeIn(2000, 0, 0, 0);
 
     this.time.addEvent({

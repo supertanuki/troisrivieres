@@ -23,6 +23,7 @@ export default class MineNightmare extends Phaser.Scene {
   }
 
   create() {
+    console.log('create MineNightmare')
     this.scale.setGameSize(550, 300);
     this.cameras.main.setBackgroundColor("#ffffff");
 

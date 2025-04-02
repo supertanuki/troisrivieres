@@ -1,4 +1,4 @@
-import { Scene } from 'phaser';
+import { Scene } from "phaser";
 import { sceneEventsEmitter, sceneEvents } from "./Events/EventsCenter";
 import { urlParamHas } from "./Utils/isDebug";
 import { Hero } from "./Sprites/Hero";
@@ -11,9 +11,9 @@ import { firstSleep } from "./Story/firstSleep";
 import { afterMine } from "./Story/afterMine";
 import { minerFirstMet } from "./Story/minerFirstMet";
 import { splashScreen } from "./Village/splashScreen";
-import { mineAccessValidation } from './Story/mineAccessValidation';
-import { goToMine } from './Story/goToMine';
-import { handleAction } from './Village/handleAction';
+import { mineAccessValidation } from "./Story/mineAccessValidation";
+import { goToMine } from "./Story/goToMine";
+import { handleAction } from "./Village/handleAction";
 
 export default class Game extends Scene {
   constructor() {
@@ -73,7 +73,7 @@ export default class Game extends Scene {
   }
 
   preload() {
-    console.log('Preload village')
+    console.log("Preload village");
     this.load.scenePlugin(
       "AnimatedTiles",
       "plugins/AnimatedTiles.js",
@@ -84,13 +84,16 @@ export default class Game extends Scene {
 
   create() {
     if (urlParamHas("debug")) {
-      this.fpsText = this.add.text(10, 10, 'hello', { fontSize: '10px', fill: '#fff' }).setDepth(10000).setScrollFactor(0);
+      this.fpsText = this.add
+        .text(10, 10, "hello", { fontSize: "10px", fill: "#fff" })
+        .setDepth(10000)
+        .setScrollFactor(0);
       this.time.addEvent({
-          delay: 100,
-          loop: true,
-          callback: () => {
-              this.fpsText.setText(`FPS: ${this.game.loop.actualFps.toFixed(2)}`);
-          }
+        delay: 100,
+        loop: true,
+        callback: () => {
+          this.fpsText.setText(`FPS: ${this.game.loop.actualFps.toFixed(2)}`);
+        },
       });
     }
 
@@ -293,7 +296,13 @@ export default class Game extends Scene {
       this.hero.animateToUp();
 
       // try to enter in Django home
-      if (this.hero.x > 1139 && this.hero.x < 1151 && this.hero.y > 1291 && this.hero.y < 1295) {
+      const djangoDoor = this.heroPositions["heroDjangoDoor"];
+      if (
+        this.hero.x > djangoDoor.x - 8 &&
+        this.hero.x < djangoDoor.x + 8 &&
+        this.hero.y > djangoDoor.y - 5 &&
+        this.hero.y < djangoDoor.y + 5
+      ) {
         this.hero.stopAndWait();
         sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "django");
         handleAction(this);
@@ -304,7 +313,7 @@ export default class Game extends Scene {
       this.hero.animateToRight();
     } else if (this.goingLeft) {
       this.hero.animateToLeft();
-    } 
+    }
 
     if (
       !this.goingDown &&

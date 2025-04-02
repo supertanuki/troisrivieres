@@ -22,19 +22,36 @@ export const afterMine = function (scene) {
       if (progress !== 1) return;
       scene.setHeroPosition("heroAfterMine");
       scene.cameras.main.fadeIn(1000, 0, 0, 0);
-
-      scene.time.delayedCall(2200, () => {
-        scene.hero.slowUp();
-        scene.hero.animateToUp();
-
-        scene.cameras.main.fadeOut(1000, 0, 0, 0, (cam, progress) => {
-          if (progress !== 1) return;
-          scene.time.delayedCall(2000, () => {
-            scene.scene.launch("mine-nightmare");
-            scene.sleepGame();
-          });
-        });
-      });
+      scene.hero.slowLeft();
+      scene.hero.animateToLeft();
     });
   });
+
+  const updateCallback = () => {
+    const djangoDoor = scene.heroPositions["heroDjangoDoor"];
+
+    // hero x at the door
+    if (
+      scene.hero.x > djangoDoor.x - 3 &&
+      scene.hero.x < djangoDoor.x + 3
+    ) {
+      scene.hero.slowUp();
+      scene.hero.animateToUp();
+    }
+
+    // end at the door
+    if (
+      scene.hero.y > djangoDoor.y + 11 &&
+      scene.hero.y < djangoDoor.y + 15
+    ) {
+      scene.cameras.main.fadeOut(1000, 0, 0, 0);
+      scene.time.delayedCall(3000, () => {
+        scene.scene.launch("mine-nightmare");
+        scene.sleepGame();
+      });
+      scene.events.off("update", updateCallback);
+    }
+  };
+
+  scene.events.on("update", updateCallback);
 };

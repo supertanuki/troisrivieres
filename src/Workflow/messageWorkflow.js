@@ -449,11 +449,11 @@ const messageWorkflow = {
         "Et tu n'en n'es qu'un maillon insignifiant…",
         "Bref. Voici comment procéder.",
         isMobileOrTablet
-          ? "Bouge le tuyau avec les flèches ← ↑ → ↓"
-          : "Bouge le tuyau avec le joystick.",
+          ? "Bouge le tuyau avec le joystick."
+          : "Bouge le tuyau avec les flèches ← ↑ → ↓",
         isMobileOrTablet
-          ? "Et pulvérise l'eau avec la barre ESPACE."
-          : "En bougeant le tuyau, l'eau est pulvérisée.",
+          ? "En bougeant le tuyau, l'eau est pulvérisée."
+          : "Et pulvérise l'eau avec la barre ESPACE.",
         "J'espère que t'as bien tout compris !",
         "J'peux pas me permettre que tu ralentisses le train…",
         "de la mine !",
@@ -466,11 +466,11 @@ const messageWorkflow = {
         "Tu dois nettoyer la roche à CENT POUR CENT !",
         "On ne peut pas l'envoyer à moitié nettoyée.",
         isMobileOrTablet
-          ? "Bouge le tuyau avec les flèches ← ↑ → ↓"
-          : "Bouge le tuyau avec le joystick.",
+          ? "Bouge le tuyau avec le joystick."
+          : "Bouge le tuyau avec les flèches ← ↑ → ↓",
         isMobileOrTablet
-          ? "Et pulvérise l'eau avec la barre ESPACE. Allez !"
-          : "En bougeant le tuyau, l'eau est pulvérisée. Allez !",
+          ? "En bougeant le tuyau, l'eau est pulvérisée. Allez !"
+          : "Et pulvérise l'eau avec la barre ESPACE. Allez !",
       ],
       dependingOn: ["mine_tuto_missed"],
       unlockEvents: ["mine_tuto_rebegin"],

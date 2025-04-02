@@ -15,55 +15,57 @@ import { villageStateAfterFirstSleep } from "./firstSleep";
 
 /** @param {Game} scene  */
 export const afterMineNightmare = function (scene) {
-    scene.wakeGame();
-    scene.currentDiscussionStatus = DiscussionStatus.NONE;
-    scene.hero.stopAndWait();
-    scene.isCinematic = true;
-    switchNight(scene);
+  console.log('afterMineNightmare')
+  scene.wakeGame();
+  scene.currentDiscussionStatus = DiscussionStatus.NONE;
+  scene.hero.stopAndWait();
+  scene.isCinematic = true;
+  switchNight(scene);
 
-    removeMineBackground(scene);
-    villageStateAfterFirstSleep(scene);
-    toggleRoadsVisibility(scene);
-    secondRiverLessWater(scene);
-    hideBikes(scene);
-    hidePotager(scene);
-    scene.bino.setCleaningRoad();
-    
-    scene.setHeroPosition("heroDjango");
-    scene.hero.slowRight();
-    scene.hero.animateToRight();
+  removeMineBackground(scene);
+  villageStateAfterFirstSleep(scene);
+  toggleRoadsVisibility(scene);
+  secondRiverLessWater(scene);
+  hideBikes(scene);
+  hidePotager(scene);
+  scene.bino.setCleaningRoad();
 
-    toggleSpritesVisibility(scene, true, true, true);
-    lessBirds(scene);
-    lessButterflies(scene);
+  scene.setHeroPosition("heroDjango");
+  scene.hero.slowRight();
+  scene.hero.animateToRight();
 
-    for (const spriteObject of scene.map.getObjectLayer("sprites").objects) {
-      if (spriteObject.name === `minerAfterMine`) {
-        scene.miner.setPositionAfterMine(spriteObject.x, spriteObject.y);
-      }
+  toggleSpritesVisibility(scene, true, true, true);
+  lessBirds(scene);
+  lessButterflies(scene);
 
-      if (spriteObject.name === `minoAfterMine`) {
-        scene.fisherman.setPosition(spriteObject.x, spriteObject.y);
-      }
-
-      for (let i=2; i<=4; i++) {
-        if (spriteObject.name === `afterMineMiner${i}`) {
-          scene[`minerDirty${i}`].setPosition(spriteObject.x, spriteObject.y);
-          scene[`minerDirty${i}`].scaleX = 1;
-        }
-      }
+  for (const spriteObject of scene.map.getObjectLayer("sprites").objects) {
+    if (spriteObject.name === `minerAfterMine`) {
+      scene.miner.setPositionAfterMine(spriteObject.x, spriteObject.y);
     }
 
-    scene.cameras.main.setBounds(
-      0,
-      0,
-      2144, // mine on the right is disabled
-      scene.map.heightInPixels - 8
-    );
+    if (spriteObject.name === `minoAfterMine`) {
+      scene.fisherman.setPosition(spriteObject.x, spriteObject.y);
+    }
 
-    scene.time.delayedCall(1200, () => {
-      scene.isCinematic = false;
-      sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "django");
-      handleAction(scene);
-    });
-}
+    for (let i = 2; i <= 4; i++) {
+      if (spriteObject.name === `afterMineMiner${i}`) {
+        scene[`minerDirty${i}`].setPosition(spriteObject.x, spriteObject.y);
+        scene[`minerDirty${i}`].scaleX = 1;
+      }
+    }
+  }
+
+  scene.cameras.main.setBounds(
+    0,
+    0,
+    2144, // mine on the right is disabled
+    scene.map.heightInPixels - 8
+  );
+
+  // @todo ? remove delayedcall and check when mai is near django ?
+  scene.time.delayedCall(1200, () => {
+    scene.isCinematic = false;
+    sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "django");
+    handleAction(scene);
+  });
+};
