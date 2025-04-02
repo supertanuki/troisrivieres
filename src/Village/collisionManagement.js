@@ -59,10 +59,6 @@ export const addCollisionManagement = function (scene) {
     sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "boy");
   });
 
-  scene.physics.add.collider(scene.birds, scene.hero, (bird) => {
-    bird.fly();
-  });
-
   scene.physics.add.collider(scene.bikes, scene.hero);
 
   scene.physics.add.collider(scene.hero, scene.water);

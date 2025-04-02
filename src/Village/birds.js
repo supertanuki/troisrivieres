@@ -8,6 +8,10 @@ export const addBirds = function (scene) {
       scene.add.bird(birdPosition.x, birdPosition.y).setDepth(160)
     );
   });
+
+  scene.physics.add.collider(scene.birds, scene.hero, (bird) => {
+    bird.fly();
+  });
 };
 
 export const lessBirds = function (scene) {

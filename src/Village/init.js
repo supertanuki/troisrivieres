@@ -77,6 +77,56 @@ export const init = function (scene) {
     createHeroAnims(scene.anims);
   });
 
+  addBirds(scene);
+  addButterflies(scene);
+
+  console.time("animatedTiles");
+  scene.animatedTiles.init(scene.map);
+  console.timeEnd("animatedTiles");
+
+  scene.cameras.main.setBounds(
+    0,
+    400, // top of the village is disabled
+    2144, // mine on the right is disabled
+    scene.map.heightInPixels - 408
+  );
+  scene.cameras.main.startFollow(scene.hero, true);
+
+  addDebugControls(scene);
+  createControls(scene);
+  addJoystickForMobile(scene);
+  scene.addEventsListeners();
+
+  scene.cameras.main.fadeIn(1000, 0, 0, 0);
+
+  if (!urlParamHas("nomusic")) {
+    const loader = new Loader.LoaderPlugin(scene);
+    loader.audio("village-theme", "sounds/village_theme_compressed_v2.mp3");
+    loader.once("complete", () => {
+      scene.music = scene.sound.add("village-theme");
+      scene.music.loop = true;
+      scene.music.play();
+    });
+    loader.start();
+  }
+
+  scene.obstacles = scene.map
+    .createLayer("obstacles", scene.tileset)
+    .setCollisionByProperty({ collide: true })
+    .setVisible(false);
+
+  scene.time.delayedCall(2000, () => delayedInit(scene));
+
+  scene.time.delayedCall(3000, () => scene.scene.run("message"));
+
+  console.timeEnd("Init");
+
+  if (!urlParamHas("nostart")) intro(scene);
+};
+
+
+/** @param {Game} scene  */
+export const delayedInit = function (scene) {
   scene.anims
     .create({
       key: "exclam",
@@ -194,11 +244,6 @@ export const init = function (scene) {
     .createLayer("bridgesTop", scene.tileset)
     .setDepth(110);
 
-  scene.obstacles = scene.map
-    .createLayer("obstacles", scene.tileset)
-    .setCollisionByProperty({ collide: true })
-    .setVisible(false);
-
   scene.topObjects = scene.map
     .createLayer("top", scene.tileset)
     .setDepth(120)
@@ -222,43 +267,5 @@ export const init = function (scene) {
     }
   });
 
-  addBirds(scene);
-  addButterflies(scene);
-
-  console.time("animatedTiles");
-  scene.animatedTiles.init(scene.map);
-  console.timeEnd("animatedTiles");
-
-  scene.cameras.main.setBounds(
-    0,
-    400, // top of the village is disabled
-    2144, // mine on the right is disabled
-    scene.map.heightInPixels - 408
-  );
-  scene.cameras.main.startFollow(scene.hero, true);
-
-  addDebugControls(scene);
   addCollisionManagement(scene);
-  createControls(scene);
-  addJoystickForMobile(scene);
-  scene.addEventsListeners();
-
-  scene.cameras.main.fadeIn(1000, 0, 0, 0);
-
-  if (!urlParamHas("nomusic")) {
-    const loader = new Loader.LoaderPlugin(scene);
-    loader.audio("village-theme", "sounds/village_theme_compressed_v2.mp3");
-    loader.once("complete", () => {
-      scene.music = scene.sound.add("village-theme");
-      scene.music.loop = true;
-      scene.music.play();
-    });
-    loader.start();
-  }
-
-  scene.time.delayedCall(500, () => scene.scene.run("message"));
-
-  console.timeEnd("Init");
-
-  if (!urlParamHas("nostart")) intro(scene);
-};
+}
