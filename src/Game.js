@@ -12,7 +12,7 @@ import { afterMine } from "./Story/afterMine";
 import { minerFirstMet } from "./Story/minerFirstMet";
 import { splashScreen } from "./Village/splashScreen";
 import { mineAccessValidation } from "./Story/mineAccessValidation";
-import { goToMine } from "./Story/goToMine";
+import { goToFactory, goToMine } from "./Story/goToGame";
 import { handleAction } from "./Village/handleAction";
 
 export default class Game extends Scene {
@@ -216,6 +216,10 @@ export default class Game extends Scene {
 
     if (eventsHas(data, "second_act_begin")) {
       afterMineNightmare(this);
+    }
+
+    if (eventsHas(data, "factory_start")) {
+      goToFactory(this);
     }
   }
 

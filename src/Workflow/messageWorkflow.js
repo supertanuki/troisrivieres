@@ -546,6 +546,7 @@ const messageWorkflow = {
         "Période d'essai supervisée par moi-même.",
         "Voyons voir ce que tu vaux !",
       ],
+      unlockEvents: ["factory_start"],
     },
   ],
 };
