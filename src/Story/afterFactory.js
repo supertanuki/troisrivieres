@@ -70,14 +70,30 @@ export const toggleScreensVisibility = function (scene) {
   if (!scene.screens) {
     scene.screens = scene.map
       .createLayer("screens", scene.tileset)
+      .setCollisionByProperty({ collide: true })
       .setDepth(49)
       .setVisible(false);
+    scene.screensTop = scene.map
+      .createLayer("screensTop", scene.tileset)
+      .setDepth(149)
+      .setVisible(false);
+
     scene.ads = scene.map
       .createLayer("ads", scene.tileset)
       .setDepth(50)
       .setVisible(false);
+    scene.adsTop = scene.map
+      .createLayer("adsTop", scene.tileset)
+      .setDepth(150)
+      .setVisible(false);
+
+    scene.physics.add.collider(scene.hero, scene.screens);
   }
 
-  scene.screens.setVisible(!scene.screens.visible);
-  scene.ads.setVisible(!scene.ads.visible);
+  const state = !scene.screens.visible;
+
+  scene.screensTop.setVisible(state);
+  scene.screens.setVisible(state);
+  scene.adsTop.setVisible(state);
+  scene.ads.setVisible(state);
 };
