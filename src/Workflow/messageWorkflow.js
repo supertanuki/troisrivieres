@@ -471,7 +471,7 @@ const messageWorkflow = {
           : "Et pulvérise l'eau avec la barre ESPACE. Allez !",
       ],
       dependingOn: ["mine_tuto_missed"],
-      unlockEvents: ["mine_tuto_rebegin"],
+      unlockEvents: ["mine_tuto_begin"],
     },
     {
       messages: [
@@ -490,11 +490,6 @@ const messageWorkflow = {
         "Bon, arrête de poser des questions, au boulot !",
       ],
       dependingOn: ["mine_tuto_end"],
-      unlockEvents: ["mine_after_tuto"],
-    },
-    {
-      messages: ["Tu fais exprès de pas comprendre ?"],
-      dependingOn: ["mine_tuto_missed_twice"],
       unlockEvents: ["mine_after_tuto"],
     },
     {

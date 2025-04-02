@@ -69,7 +69,6 @@ export default class Mine extends MiniGameUi {
     this.faster = false;
     this.fasterAgain = false;
     this.moreMaterials = false;
-    this.tutoMissedCount = 0;
     this.warnings = 0;
   }
 
@@ -270,7 +269,8 @@ export default class Mine extends MiniGameUi {
       this.waterStock.setVisible(this.waterStockPercentage > 5);
     });
 
-    sceneEventsEmitter.on(sceneEvents.EventsUnlocked, this.listenEvents, this);
+    sceneEventsEmitter.on(sceneEvents.EventsUnlocked, this.listenUnlockedEvents, this);
+    sceneEventsEmitter.on(sceneEvents.EventsDispatched, this.listenDispatchedEvents, this);
 
     if (urlParamHas('bypassminigame')) {
       this.endGame();
@@ -416,21 +416,19 @@ export default class Mine extends MiniGameUi {
     }
   }
 
-  listenEvents(data) {
-    if (eventsHas(data, "mine_tuto_begin")) {
-      this.tutoBegin();
-    }
-
-    if (eventsHas(data, "mine_tuto_rebegin")) {
-      this.tutoBegin();
-    }
-
+  listenUnlockedEvents(data) {
     if (eventsHas(data, "mine_after_tuto")) {
       this.afterTuto();
     }
 
     if (eventsHas(data, "mine_end")) {
       this.endGame();
+    }
+  }
+
+  listenDispatchedEvents(data) {
+    if (eventsHas(data, "mine_tuto_begin")) {
+      this.tutoBegin();
     }
   }
 
@@ -447,12 +445,7 @@ export default class Mine extends MiniGameUi {
   }
 
   tutoMissed() {
-    this.tutoMissedCount++;
-    dispatchUnlockEvents(
-      this.tutoMissedCount > 1
-        ? ["mine_tuto_missed_twice"]
-        : ["mine_tuto_missed"]
-    );
+    dispatchUnlockEvents(["mine_tuto_missed"]);
     this.isCinematic = true;
     this.startDiscussion("mine");
   }
