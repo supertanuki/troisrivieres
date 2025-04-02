@@ -20,7 +20,7 @@ export const afterMine = function (scene) {
   scene.time.delayedCall(2000, () => {
     scene.cameras.main.fadeOut(1000, 0, 0, 0, (cam, progress) => {
       if (progress !== 1) return;
-      scene.setHeroPosition("heroAfterMine");
+      scene.setHeroPosition("heroNightComeBack");
       scene.cameras.main.fadeIn(1000, 0, 0, 0);
       scene.hero.slowLeft();
       scene.hero.animateToLeft();

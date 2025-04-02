@@ -14,6 +14,7 @@ import { splashScreen } from "./Village/splashScreen";
 import { mineAccessValidation } from "./Story/mineAccessValidation";
 import { goToFactory, goToMine } from "./Story/goToGame";
 import { handleAction } from "./Village/handleAction";
+import { afterFactory } from "./Story/afterFactory";
 
 export default class Game extends Scene {
   constructor() {
@@ -156,11 +157,13 @@ export default class Game extends Scene {
     this.scene.sleep("message");
   }
 
-  wakeGame() {
+  wakeGame(fadeInFromWhite = false) {
     this.scene.wake("game");
     this.scene.wake("message");
     this.resetGameSize();
-    this.cameras.main.fadeIn(1000, 0, 0, 0);
+
+    const color = fadeInFromWhite ? 255 : 0; 
+    this.cameras.main.fadeIn(1000, color, color, color);
   }
 
   addEventsListeners() {
@@ -223,7 +226,7 @@ export default class Game extends Scene {
     }
 
     if (eventsHas(data, "factory_after")) {
-      this.wakeGame();
+      afterFactory(this);
     }
   }
 

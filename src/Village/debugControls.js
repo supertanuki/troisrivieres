@@ -1,5 +1,6 @@
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import Game from "../Game";
+import { toggleScreensVisibility } from "../Story/afterFactory";
 import { switchNight } from "./night";
 import { toggleRoadsVisibility } from "./roads";
 import { secondRiverLessWater } from "./secondRiverLessWater";
@@ -96,18 +97,5 @@ export const addDebugControls = function (scene) {
 
   scene.input.keyboard
     .addKey(Phaser.Input.Keyboard.KeyCodes.Z)
-    .on("down", () => {
-      if (!scene.screens) {
-        scene.screens = scene.map
-          .createLayer("screens", scene.tileset)
-          .setDepth(49)
-          .setVisible(false);
-        scene.ads = scene.map
-          .createLayer("ads", scene.tileset)
-          .setDepth(50)
-          .setVisible(false);
-      }
-      scene.screens.setVisible(!scene.screens.visible);
-      scene.ads.setVisible(!scene.ads.visible);
-    });
+    .on("down", () => toggleScreensVisibility(scene));
 };

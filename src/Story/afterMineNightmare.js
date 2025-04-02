@@ -19,7 +19,7 @@ import { villageStateAfterFirstSleep } from "./firstSleep";
 /** @param {Game} scene  */
 export const afterMineNightmare = function (scene) {
   console.log('afterMineNightmare')
-  scene.wakeGame();
+  scene.wakeGame(true);
   scene.currentDiscussionStatus = DiscussionStatus.NONE;
   scene.hero.stopAndWait();
   scene.isCinematic = true;

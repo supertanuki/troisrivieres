@@ -151,6 +151,18 @@ const messageWorkflow = {
       ],
       dependingOn: ["second_act_begin"],
     },
+    {
+      messages: [
+        "… Bonjour, Maï.",
+        "Pour rester au courant de tout…",
+        "Je m'acheterais bien un nouveau smartphone.",
+        "Le mien est déjà trop lent."
+      ],
+      repeat: [
+        "Je m'acheterais bien un nouveau smartphone.",
+      ],
+      dependingOn: ["third_act_begin"],
+    },
   ],
   nono: [
     {
@@ -211,6 +223,13 @@ const messageWorkflow = {
       repeat: ["On vit une ère très intrigante, tu ne trouves pas ?"],
       dependingOn: ["second_act_begin"],
     },
+    {
+      messages: [
+        "J'ai envie de soleil, d'île paradisiaque…",
+        "Partir loin, boire des jus de fruits exotiques…",
+      ],
+      dependingOn: ["third_act_begin"],
+    },
   ],
   django: [
     {
@@ -269,6 +288,19 @@ const messageWorkflow = {
         "ce sont les 6 cordes de ma guitare.",
       ],
       dependingOn: ["second_act_begin"],
+    },
+    {
+      messages: [
+        "… Bonjour, Maï",
+        "Tu dis que l'usine pompe toute l'eau de la rivière ?",
+        "Je partirais bien loin du village…",
+        "Loin de ces problèmes…",
+        "Un voyage, c'est ça qu'il me faut."
+      ],
+      repeat: [
+        "J'ai envie de voyager, partir loin…",
+      ],
+      dependingOn: ["third_act_begin"],
     },
   ],
   miner: [
@@ -388,6 +420,13 @@ const messageWorkflow = {
       repeat: ["Continue ton enquête, moi je surveille la rivière."],
       dependingOn: ["second_act_begin"],
     },
+    {
+      messages: [
+        "À force d'attendre ici, ça donne faim…",
+        "Je mangerais bien un bon burger."
+      ],
+      dependingOn: ["third_act_begin"],
+    },
   ],
   boy: [
     {
@@ -406,6 +445,12 @@ const messageWorkflow = {
     {
       messages: ["on ne peut plus attraper notre ballon !"],
       dependingOn: ["second_act_begin"],
+    },
+    {
+      messages: [
+        "… Mmmmh, j'ai envie d'un gros burger…"
+      ],
+      dependingOn: ["third_act_begin"],
     },
   ],
   cat: [
