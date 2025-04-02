@@ -148,6 +148,8 @@ export default class Workflow {
 
   saveUnlockedEvent(unlockedEvents) {
     if (!unlockedEvents) return
+    sceneEventsEmitter.emit(sceneEvents.EventsDispatched, { newUnlockedEvents: unlockedEvents });
+
     if (!unlockedEvents.filter(event => !this.unlockedEvents.includes(event)).length) return;
 
     sceneEventsEmitter.emit(sceneEvents.EventsUnlocked, {

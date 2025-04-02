@@ -221,6 +221,10 @@ export default class Game extends Scene {
     if (eventsHas(data, "factory_start")) {
       goToFactory(this);
     }
+
+    if (eventsHas(data, "factory_after")) {
+      this.wakeGame();
+    }
   }
 
   handleDiscussionReady(sprite) {

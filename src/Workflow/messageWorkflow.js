@@ -446,10 +446,10 @@ const messageWorkflow = {
         "Nous sommes la première étape d'un grand tout.",
         "Et tu n'en n'es qu'un maillon insignifiant…",
         "Bref. Voici comment procéder.",
-        isMobileOrTablet
+        isMobileOrTablet()
           ? "Bouge le tuyau avec le joystick."
           : "Bouge le tuyau avec les flèches ← ↑ → ↓",
-        isMobileOrTablet
+        isMobileOrTablet()
           ? "En bougeant le tuyau, l'eau est pulvérisée."
           : "Et pulvérise l'eau avec la barre ESPACE.",
         "J'espère que t'as bien tout compris !",
@@ -463,10 +463,10 @@ const messageWorkflow = {
         "Tu n'as pas compris comment ça fonctionne ???",
         "Tu dois nettoyer la roche à CENT POUR CENT !",
         "On ne peut pas l'envoyer à moitié nettoyée.",
-        isMobileOrTablet
+        isMobileOrTablet()
           ? "Bouge le tuyau avec le joystick."
           : "Bouge le tuyau avec les flèches ← ↑ → ↓",
-        isMobileOrTablet
+        isMobileOrTablet()
           ? "En bougeant le tuyau, l'eau est pulvérisée. Allez !"
           : "Et pulvérise l'eau avec la barre ESPACE. Allez !",
       ],
@@ -549,6 +549,68 @@ const messageWorkflow = {
       unlockEvents: ["factory_start"],
     },
   ],
+  factory: [
+    {
+      messages: [
+        "Comme tu es nouvelle, je te mets sur un poste simple…",
+        "Tu dois monter les composants sur les cartes…",
+        "Puis les nettoyer à l'eau pour éliminer les impuretés…",
+        "Et faire ça le plus vite possible…",
+        "Les clients n'attendent pas !",
+        isMobileOrTablet()
+          ? "Bouge les composants en appuyant à gauche ou à droite."
+          : "Bouge les composants avec les flèches ← →",
+        isMobileOrTablet()
+          ? "Et valide le composant en appuyant au centre."
+          : "Et valide le composant avec la barre ESPACE",
+        "C'est parti !",
+      ],
+      unlockEvents: ["factory_tuto_begin"],
+    },
+    {
+      messages: [
+        "Tête de linotte !",
+        "Tu n'as pas compris comment ça fonctionne ?",
+        "Tu dois monter les composants sur les cartes…",
+        isMobileOrTablet()
+          ? "Bouge les composants en appuyant à gauche ou à droite."
+          : "Bouge les composants avec les flèches ← →",
+        isMobileOrTablet()
+          ? "Et valide le composant en appuyant au centre."
+          : "Et valide le composant avec la barre ESPACE",
+        "C'est à la portée du premier venu !",
+      ],
+      dependingOn: ["factory_tuto_missed"],
+      unlockEvents: ["factory_tuto_begin"],
+    },
+    {
+      messages: [
+        "Tu sembles avoir compris comment ça fonctionne…",
+        "Passons aux choses sérieuses !",
+        "Si tu rates l'assemblage, une croix s'allumera.",
+        "Au bout de trois croix…",
+        "je viendrai moi-même t'accompagner à la sortie !",
+        "As-tu d'autres questions ???",
+        "Tu dis que l'eau utilisé asseche la rivière ?",
+        "Et qu'est-ce que ça peut me faire ?",
+        "Tout le monde sera bien content…",
+        "d'avoir des téléphones derniers cris !",
+        "Arrête de te poser des questions et au boulot."
+      ],
+      dependingOn: ["factory_tuto_end"],
+      unlockEvents: ["factory_after_tuto"],
+    },
+    {
+      messages: [
+        "C'est bien ce qu'il me semblait…",
+        "tu ne peux pas tenir un rythme aussi soutenu !",
+        "On arrête les frais pour aujourd'hui.",
+        "Allez… Rentre chez toi !",
+      ],
+      dependingOn: ["factory_game_over"],
+      unlockEvents: ["factory_end"],
+    },
+  ],
 };
 
 const uiMessages = {
@@ -559,6 +621,10 @@ const uiMessages = {
   "mine.moreMaterials": "Arrivage de minerais, on augmente la fréquence !",
   "mine.warning": "Ressaisis-toi, on est là pour faire du chiffre !",
   "mine.lastWarning": "Dernier avertissement, concentre-toi !",
+
+  "factory.faster": "Validé ! Plus vite maintenant !!!",
+  "factory.welldone": "C'est bien, tu es productive !",
+  "factory.error": "C'est quoi ce boulot ? Ressaisis-toi la nouvelle !",
 };
 
 const getUiMessage = (name) => uiMessages[name];

@@ -1,6 +1,11 @@
 import Phaser from "phaser";
 import isMobileOrTablet from "../Utils/isMobileOrTablet";
 import MiniGameUi from "../UI/MiniGameUi";
+import { urlParamHas } from "../Utils/isDebug";
+import { dispatchUnlockEvents, eventsHas } from "../Utils/events";
+import { DiscussionStatus } from "../Utils/discussionStatus";
+import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
+import { getUiMessage } from "../Workflow/messageWorkflow";
 
 const COMPONENTS = {
   blue: "component-blue",
@@ -37,6 +42,8 @@ export default class Factory extends MiniGameUi {
     this.conveyorRollings = [];
     this.conveyorBackPosition = 0;
     this.warnings = 0;
+    this.motherBoardComponents = [];
+    this.firstStep = false;
   }
 
   preload() {
@@ -177,8 +184,7 @@ export default class Factory extends MiniGameUi {
       element.anims.play("water-anim");
       this.waterCleaningAnims.push(element);
     }
-
-    this.initMotherboard();
+    
     this.initComponents();
     this.initSelectedComponent();
 
@@ -196,7 +202,81 @@ export default class Factory extends MiniGameUi {
     // Fade init
     this.cameras.main.fadeIn(1000, 0, 0, 0);
 
+    sceneEventsEmitter.on(sceneEvents.EventsUnlocked, this.listenUnlockedEvents, this);
+    sceneEventsEmitter.on(sceneEvents.EventsDispatched, this.listenDispatchedEvents, this);
+
+    if (urlParamHas('bypassminigame')) {
+      this.endGame();
+      return;
+    }
+
     this.createControls();
+    this.startGame();
+  }
+
+  startGame() {
+    this.cameras.main.fadeIn(2000, 0, 0, 0);
+
+    this.time.addEvent({
+      callback: () => this.startDiscussion("factory"),
+      delay: 1000,
+    });
+    //this.initMotherboard();
+  }
+
+  gameOver() {
+    this.isCinematic = true;
+    this.isGameOver = true;
+    dispatchUnlockEvents(["factory_game_over"]);
+    this.startDiscussion("factory");
+  }
+
+  endGame() {
+    this.cameras.main.fadeOut(1000, 0, 0, 0, (cam, progress) => {
+      if (progress !== 1) return;
+      this.scene.stop();
+      dispatchUnlockEvents(["factory_after"]);
+    });
+  }
+
+  listenDispatchedEvents(data) {
+    if (eventsHas(data, "factory_tuto_begin")) {
+      this.tutoBegin();
+    }
+  }
+
+  listenUnlockedEvents(data) {
+    if (eventsHas(data, "factory_after_tuto")) {
+      this.afterTuto();
+    }
+
+    if (eventsHas(data, "factory_end")) {
+      this.endGame();
+    }
+  }
+
+  tutoBegin() {
+    this.isCinematic = false;
+    this.firstStep = true;
+    this.initMotherboard();
+  }
+
+  tutoMissed() {
+    dispatchUnlockEvents(["factory_tuto_missed"]);
+    this.isCinematic = true;
+    this.startDiscussion("factory");
+  }
+
+  tutoEnd() {
+    this.isCinematic = true;
+    dispatchUnlockEvents(["factory_tuto_end"]);
+    this.startDiscussion("factory");
+  }
+
+  afterTuto() {
+    this.isCinematic = false;
+    this.firstStep = false;
+    this.initMotherboard();
   }
 
   addBackHands() {
@@ -298,6 +378,7 @@ export default class Factory extends MiniGameUi {
     const x = -150;
     const componentsNumber = this.getComponentsNumber();
     const stepBetweenComponents = 70 / componentsNumber;
+
     this.componentValidated = 0;
     this.isMotherboardValidated = false;
     this.motherBoardComponents = [];
@@ -381,7 +462,7 @@ export default class Factory extends MiniGameUi {
       "keydown",
       (event) => {
         if (event.key === "ArrowUp") {
-          this.setComponent();
+          this.handleAction();
         } else if (event.key === "ArrowDown") {
           //this.down()
         } else if (event.key === "ArrowLeft") {
@@ -389,7 +470,7 @@ export default class Factory extends MiniGameUi {
         } else if (event.key === "ArrowRight") {
           this.right();
         } else if (event.keyCode === 32) {
-          this.setComponent();
+          this.handleAction();
         }
       },
       this
@@ -397,7 +478,7 @@ export default class Factory extends MiniGameUi {
 
     if (isMobileOrTablet()) {
       const screenWidth = Number(this.sys.game.config.width);
-      const delta = 100;
+      const delta = 80;
 
       this.input.on(
         "pointerdown",
@@ -412,10 +493,18 @@ export default class Factory extends MiniGameUi {
             return;
           }
 
-          this.setComponent();
+          this.handleAction();
         },
         this
       );
+    }
+  }
+
+  handleAction() {
+    super.handleAction();
+
+    if (this.currentDiscussionStatus === DiscussionStatus.NONE) {
+      this.setComponent();
     }
   }
 
@@ -504,6 +593,7 @@ export default class Factory extends MiniGameUi {
   }
 
   getValidatedComponent() {
+    if (!this.motherBoardComponents.length) return null;
     const selectedComponent = this.getSelectedComponent();
 
     for (const component of this.motherBoardComponents) {
@@ -632,11 +722,11 @@ export default class Factory extends MiniGameUi {
 
     if (isFaster) {
       this.motherboardSpeed += acceleration;
-      this.updateMessage("Validé ! Plus vite maintenant !!!");
+      this.updateMessage(getUiMessage("factory.faster"));
     }
 
-    if (1 === this.numberValidated % (accelerationStep + 1))
-      this.updateMessage("C'est bien, tu es productive !");
+    if (!this.firstStep && 1 === this.numberValidated % (accelerationStep + 1))
+      this.updateMessage(getUiMessage("factory.welldone"));
   }
 
   destroyMotherboard() {
@@ -650,16 +740,32 @@ export default class Factory extends MiniGameUi {
     this.enableComponentsControl = false;
 
     if (!this.isMotherboardValidated) {
+      if (this.firstStep) {
+        this.destroyMotherboard();
+        this.tutoMissed();
+        return;
+      }
+
       this.warnings++;
       this.updateWarnings(this.warnings);
-      this.updateMessage("C'est quoi ce boulot ? Ressaisis-toi la nouvelle !");
+      this.updateMessage(getUiMessage("factory.error"));
       this.destroyMotherboard();
 
-      this.time.delayedCall(1000, () => {
+      if (this.warnings === 3) {
+        this.gameOver();
+        return
+      }
+
+      this.time.delayedCall(2000, () => {
         this.initMotherboard();
       });
 
       return;
+    }
+
+    if (this.firstStep) {
+      this.tutoEnd();
+      return;   
     }
 
     this.destroyMotherboard();
@@ -667,6 +773,8 @@ export default class Factory extends MiniGameUi {
   }
 
   update() {
+    if (this.isCinematic) return
+
     this.conveyorBackPosition += 1;
     this.conveyorInBack.setTilePosition(this.conveyorBackPosition, 0);
     this.backMotherboards.forEach((backMotherboard) => {

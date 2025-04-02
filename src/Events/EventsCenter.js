@@ -13,6 +13,7 @@ const sceneEvents = {
 	'DiscussionContinuing': 'DiscussionContinuing',
 	'MessageSent': 'MessageSent',
 	'EventsUnlocked': 'EventsUnlocked',
+	'EventsDispatched': 'EventsDispatched',
 	'PreEventsUnlocked': 'PreEventsUnlocked', // for debug
 }
 
