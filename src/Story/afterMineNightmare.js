@@ -1,5 +1,8 @@
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import Game from "../Game";
+import "../Sprites/WhiteWorker";
+import "../Sprites/WhiteWorkerChief";
+import { createWhiteWorkerAnimation } from "../Sprites/WhiteWorker";
 import { DiscussionStatus } from "../Utils/discussionStatus";
 import { lessBirds } from "../Village/birds";
 import { lessButterflies } from "../Village/butterflies";
@@ -38,6 +41,8 @@ export const afterMineNightmare = function (scene) {
   lessBirds(scene);
   lessButterflies(scene);
 
+  createWhiteWorkerAnimation(scene);
+
   for (const spriteObject of scene.map.getObjectLayer("sprites").objects) {
     if (spriteObject.name === `minerAfterMine`) {
       scene.miner.setPositionAfterMine(spriteObject.x, spriteObject.y);
@@ -51,6 +56,24 @@ export const afterMineNightmare = function (scene) {
       if (spriteObject.name === `afterMineMiner${i}`) {
         scene[`minerDirty${i}`].setPosition(spriteObject.x, spriteObject.y);
         scene[`minerDirty${i}`].scaleX = 1;
+      }
+    }
+
+    if (spriteObject.name === "whiteWorkerChief") {
+      scene.whiteWorkerChief = scene.add.whiteWorkerChief(spriteObject.x, spriteObject.y);
+      scene.whiteWorkerChief.on("pointerdown", () => handleAction(scene), scene);
+      scene.physics.add.collider(scene.whiteWorkerChief, scene.hero, () => {
+        sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "whiteWorkerChief");
+      });
+    }
+
+    for (let i=1; i<=2; i++) {
+      if (spriteObject.name === `whiteWorker${i}`) {
+        scene[`whiteWorker${i}`] = scene.add.whiteWorker(spriteObject.x, spriteObject.y, null, null, i);
+        scene[`whiteWorker${i}`].on("pointerdown", () => handleAction(scene), scene);
+        scene.physics.add.collider(scene[`whiteWorker${i}`], scene.hero, () => {
+          sceneEventsEmitter.emit(sceneEvents.DiscussionReady, `whiteWorker${i}`);
+        });
       }
     }
   }

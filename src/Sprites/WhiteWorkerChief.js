@@ -1,10 +1,10 @@
 import Chat from "../UI/Chat";
 
-export const SPRITE_ID = "minerChief";
+export const SPRITE_ID = "whiteWorkerChief";
 
-class MinerChief extends Chat {
+class WhiteWorkerChief extends Chat {
   constructor(scene, x, y, texture, frame) {
-    super(scene, x, y, "sprites", "miner-chief-1", 0, -5);
+    super(scene, x, y, "sprites", "white-worker-chief-1", 0, -5);
     this.spriteId = SPRITE_ID;
     this.delta = 20;
 
@@ -12,36 +12,36 @@ class MinerChief extends Chat {
     this.initialY = y;
 
     scene.anims.create({
-      key: "miner-chief-idle",
+      key: "white-worker-chief-idle",
       frames: [
         {
           key: "sprites",
-          frame: "miner-chief-1",
+          frame: "white-worker-chief-1",
           duration: 300,
         },
         {
             key: "sprites",
-            frame: "miner-chief-2",
+            frame: "white-worker-chief-2",
             duration: 300,
           },
         {
           key: "sprites",
-          frame: "miner-chief-3",
-          duration: 300,
+          frame: "white-worker-chief-3",
+          duration: 100,
         },
       ],
       repeat: -1,
-      frameRate: 1,
+      duration: 2000,
     });
 
-    this.anims.play("miner-chief-idle", true);
+    this.anims.play("white-worker-chief-idle", true);
   }
 }
 
 Phaser.GameObjects.GameObjectFactory.register(
   SPRITE_ID,
   function (x, y, texture, frame) {
-    const sprite = new MinerChief(this.scene, x, y, texture, frame);
+    const sprite = new WhiteWorkerChief(this.scene, x, y, texture, frame);
 
     this.scene.physics.world.enableBody(
       sprite,
@@ -51,8 +51,7 @@ Phaser.GameObjects.GameObjectFactory.register(
     sprite.body.setSize(sprite.width, 1);
     sprite.setImmovable(true);
     sprite.setInteractive();
-    sprite.scaleX = -1;
-    sprite.setOffset(sprite.width, sprite.height/2);
+    sprite.setOffset(0, sprite.height/2);
 
     this.displayList.add(sprite);
     this.updateList.add(sprite);

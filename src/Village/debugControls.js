@@ -9,7 +9,7 @@ export const addDebugControls = function (scene) {
   scene.input.keyboard
     .addKey(Phaser.Input.Keyboard.KeyCodes.F)
     .on("down", () => {
-      scene.setHeroPosition("hero");
+      scene.setHeroPosition("heroFactory");
     });
 
   scene.input.keyboard
@@ -46,7 +46,7 @@ export const addDebugControls = function (scene) {
         //"pre_first_sleep",
         //"miner_ask_for_card",
         //"mine_after",
-        //"second_act_begin",
+        "second_act_begin",
       ]);
     });
 

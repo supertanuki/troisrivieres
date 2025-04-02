@@ -65,7 +65,7 @@ const messageWorkflow = {
         "- Que c'est pratique ces nouvelles routes !",
         "- Tu l'as dit, j'ai rangé mon vieux vélo.",
         "- Le hic, c'est l'éternité qu'il faut…",
-        "pour payer l'automobile.",
+        "pour payer ma nouvelle automobile.",
       ],
       dependingOn: ["second_act_begin"],
     },
@@ -200,7 +200,7 @@ const messageWorkflow = {
         "La situation de nos rivières est perturbante,",
         "mais je dois bien avouer que ces nouvelles routes…",
         "facilitent énormément mes déplacements !",
-        "Mon handicap ne fait pas bon ménage le vélo…",
+        "Mon handicap ne fait pas bon ménage avec le vélo…",
         "ou rouler sur la terre, la gadoue et les pavés !",
         "D'ailleurs, savais-tu que ce sont les déchets de la mine…",
         "les résidus miniers, qui ont été recyclés…",
@@ -248,7 +248,7 @@ const messageWorkflow = {
       dependingOn: ["first_sleep"],
     },
     {
-      messages: [      
+      messages: [
         "Bien dormi Maï ?",
         "Après toutes ces semaines d'efforts à la mine,",
         "je tenais à te remercier",
@@ -266,7 +266,7 @@ const messageWorkflow = {
       ],
       repeat: [
         "Une chose reste immuable dans tout ce bouleversement",
-        "ce sont les 6 cordes de ma guitare."
+        "ce sont les 6 cordes de ma guitare.",
       ],
       dependingOn: ["second_act_begin"],
     },
@@ -404,9 +404,7 @@ const messageWorkflow = {
       dependingOn: ["first_sleep"],
     },
     {
-      messages: [
-        "on ne peut plus attraper notre ballon !",
-      ],
+      messages: ["on ne peut plus attraper notre ballon !"],
       dependingOn: ["second_act_begin"],
     },
   ],
@@ -495,9 +493,7 @@ const messageWorkflow = {
       unlockEvents: ["mine_after_tuto"],
     },
     {
-      messages: [
-        "Tu fais exprès de pas comprendre ?",
-      ],
+      messages: ["Tu fais exprès de pas comprendre ?"],
       dependingOn: ["mine_tuto_missed_twice"],
       unlockEvents: ["mine_after_tuto"],
     },
@@ -510,6 +506,46 @@ const messageWorkflow = {
       ],
       dependingOn: ["mine_game_over"],
       unlockEvents: ["mine_end"],
+    },
+  ],
+  whiteWorker1: [
+    {
+      messages: [
+        "Il y a trop de monde à la mine…",
+        "alors j'ai tenté ma chance à l'usine.",
+      ],
+      repeat: ["Je tente ma chance à l'usine."],
+    },
+  ],
+  whiteWorker2: [
+    {
+      messages: [
+        "Je m'y connais pas trop en électronique…",
+        "mais faut bien mettre du beurre dans les épinards !",
+      ],
+      repeat: ["Il faut bien mettre du beurre dans les épinards !"],
+    },
+  ],
+  whiteWorkerChief: [
+    {
+      messages: [
+        "(Pourquoi j'ai accepté ce job dans ce trou paumé.)",
+        "(Je ne supporte pas ces gens, ni ce village, je…)",
+        "Oui ? … Tu t'appelles Maï et tu veux travailler ?",
+        "Bien sûr, comme tout le monde ici.",
+        "Une usine dernier cri attire forcément…",
+        "des ploucs euh… des gens comme vous.",
+        "Pour t'expliquer en langage simple…",
+        "Ici chez Nano World Company…",
+        "… on assemble des circuits électroniques…",
+        "Qui finissent ensuite dans des écrans ou téléphones.",
+        "Est-ce que tu penses en être capable ?",
+        "C'est un travail bien plus qualifié qu'à la mine.",
+        "Pourquoi crois-tu qu'il y a autant de monde là-bas ! Peuh…",
+        "Sois contente, tu peux faire une période d'essai.",
+        "Période d'essai supervisée par moi-même.",
+        "Voyons voir ce que tu vaux !",
+      ],
     },
   ],
 };
