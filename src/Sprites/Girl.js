@@ -1,6 +1,8 @@
 import Phaser from "phaser";
 import Chat from "../UI/Chat";
 
+export const SPRITE_ID = "girl";
+
 export default class Girl extends Chat {
   constructor(scene, x, y) {
     super(scene, x, y, "sprites", "girl-water-1", 0, 0, true);
@@ -30,12 +32,18 @@ export default class Girl extends Chat {
           {
             key: "sprites",
             frame: "girl-sad-1",
-            duration: 1400,
+          },
+          {
+            key: "sprites",
+            frame: "girl-sad-1",
+          },
+          {
+            key: "sprites",
+            frame: "girl-sad-1",
           },
           {
             key: "sprites",
             frame: "girl-sad-2",
-            duration: 200,
           },
         ],
         repeat: -1,
@@ -55,9 +63,17 @@ export default class Girl extends Chat {
     this.setPosition(this.sadPosition.x, this.sadPosition.y);
     this.anims.play("girl-sad");
   }
+
+  setThirdAct(x, y) {
+    this.disableChatIcon = false;
+    this.setPosition(x, y);
+    this.body.setSize(this.width, 1);
+    this.scaleX = -1;
+    this.setOffset(this.width, this.height/2);
+  }
 }
 
-Phaser.GameObjects.GameObjectFactory.register("girl", function (x, y) {
+Phaser.GameObjects.GameObjectFactory.register(SPRITE_ID, function (x, y) {
   const sprite = new Girl(this.scene, x, y);
 
   this.scene.physics.world.enableBody(

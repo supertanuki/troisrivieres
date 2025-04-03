@@ -35,12 +35,14 @@ export default class Boy extends Chat {
         {
           key: "sprites",
           frame: "boy-sad-1",
-          duration: 1200,
+        },
+        {
+          key: "sprites",
+          frame: "boy-sad-1",
         },
         {
           key: "sprites",
           frame: "boy-sad-2",
-          duration: 200,
         },
       ],
       repeat: -1,
@@ -65,6 +67,11 @@ export default class Boy extends Chat {
     // group boy and girl
     this.body.setSize(this.width + 8, this.height + 18);
     this.body.setOffset(-7, 0);
+  }
+
+  setThirdAct(x, y) {
+    this.setPosition(x, y);
+    this.body.setSize(this.width, 1);
   }
 }
 

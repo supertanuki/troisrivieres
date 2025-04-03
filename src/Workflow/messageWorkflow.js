@@ -115,6 +115,12 @@ const messageWorkflow = {
     {
       messages: ["Papa, je veux mon Papa"],
     },
+    {
+      messages: [
+        "télé-phone, télé-phone…",
+      ],
+      dependingOn: ["third_act_begin"],
+    },
   ],
   sleepingGuy: [
     {
@@ -512,6 +518,21 @@ const messageWorkflow = {
     {
       messages: [
         "… Mmmmh, j'ai envie d'un gros burger…"
+      ],
+      dependingOn: ["third_act_begin"],
+    },
+  ],
+  girl: [
+    {
+      messages: [
+        "…",
+      ],
+    },
+    {
+      messages: [
+        "Ça serait tellement bien si javais…",
+        "un smartphone pour jouer aux jeux vidéos…",
+        "comme FortNight ou BroStar…"
       ],
       dependingOn: ["third_act_begin"],
     },

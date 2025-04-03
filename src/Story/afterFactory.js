@@ -65,6 +65,21 @@ export const setVillageForThirdAct = function (scene) {
   toggleSpritesVisibility(scene, true, true);
   toggleScreensVisibility(scene);
 
+  scene.map.getObjectLayer("sprites").objects.forEach((spriteObject) => {
+    if (spriteObject.name === "boyThirdAct") {
+      scene.boy.setThirdAct(spriteObject.x, spriteObject.y);
+    }
+
+    if (spriteObject.name === "girlThirdAct") {
+      scene.girl.setThirdAct(spriteObject.x, spriteObject.y);
+    }
+
+    if (spriteObject.name === "babyThirdAct") {
+      scene.baby.setPosition(spriteObject.x, spriteObject.y);
+    }
+  });
+
+  scene.ball.setVisible(false);
   scene.setHeroPosition("heroDjango");
   scene.hero.animateToRight();
   scene.hero.stopAndWait();

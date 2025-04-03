@@ -58,6 +58,9 @@ export const addCollisionManagement = function (scene) {
   scene.physics.add.collider(scene.boy, scene.hero, () => {
     sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "boy");
   });
+  scene.physics.add.collider(scene.girl, scene.hero, () => {
+    sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "girl");
+  });
 
   scene.physics.add.collider(scene.bikes, scene.hero);
 
