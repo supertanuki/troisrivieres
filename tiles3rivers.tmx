@@ -7201,7 +7201,7 @@
   <object id="1271" name="heroFactory" x="1567" y="150.667">
    <point/>
   </object>
-  <object id="1301" name="heroStrike" x="1353" y="1009.75">
+  <object id="1301" name="heroStrike" x="1352.25" y="964">
    <point/>
   </object>
  </objectgroup>

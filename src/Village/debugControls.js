@@ -48,7 +48,7 @@ export const addDebugControls = function (scene) {
       setVillageBeforeMine(scene);
       setVillageForSecondAct(scene);
       setVillageForThirdAct(scene);
-      return;
+      //return;
 
       sceneEventsEmitter.emit(sceneEvents.PreEventsUnlocked, [
         //"django_met",
@@ -58,7 +58,7 @@ export const addDebugControls = function (scene) {
         //"miner_ask_for_card",
         //"mine_after",
         //"second_act_begin",
-        //"strike_begin"
+        "strike_begin"
       ]);
     });
 

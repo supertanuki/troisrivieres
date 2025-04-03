@@ -18,6 +18,7 @@ export const strike = function (scene) {
 
 /** @param {Game} scene  */
 const setVillageOnStrike = function (scene) {
+  scene.checkDjangoDoor = false;
   scene.setHeroPosition("heroStrike");
   scene.hero.slowUp();
   scene.hero.animateToUp();

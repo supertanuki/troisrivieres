@@ -16,6 +16,7 @@ import { goToFactory, goToMine } from "./Story/goToGame";
 import { handleAction } from "./Village/handleAction";
 import { afterFactory } from "./Story/afterFactory";
 import { strike } from "./Story/strike";
+import { gameOver } from "./Village/gameOver";
 
 export default class Game extends Scene {
   constructor() {
@@ -67,6 +68,7 @@ export default class Game extends Scene {
     this.girl = null;
     this.ball = null;
     this.tent = null;
+    this.checkDjangoDoor = true
 
     /** @type {Phaser.Tilemaps.Tilemap | null} */
     this.map = null;
@@ -234,6 +236,10 @@ export default class Game extends Scene {
     if (eventsHas(data, "strike_begin")) {
       strike(this);
     }
+
+    if (eventsHas(data, "game_over")) {
+      gameOver(this);
+    }
   }
 
   handleDiscussionReady(sprite) {
@@ -315,6 +321,7 @@ export default class Game extends Scene {
       // try to enter in Django home
       const djangoDoor = this.heroPositions["heroDjangoDoor"];
       if (
+        this.checkDjangoDoor &&
         this.hero.x > djangoDoor.x - 8 &&
         this.hero.x < djangoDoor.x + 8 &&
         this.hero.y > djangoDoor.y - 5 &&

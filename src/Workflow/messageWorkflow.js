@@ -1,4 +1,3 @@
-import Girl from "../Sprites/Girl";
 import isMobileOrTablet from "../Utils/isMobileOrTablet";
 
 const spriteNames = {
@@ -433,7 +432,7 @@ const messageWorkflow = {
         "Stop aux industries polluantes !",
         "Qui accaparent les ressources de notre village",
         "et qui assechent nos rivières.",
-        "La lutte ne fait que commencer !"
+        "La lutte ne fait que commencer !",
       ],
       dependingOn: ["strike_after_begin"],
       unlockEvents: ["game_over"],
@@ -827,6 +826,13 @@ const messageWorkflow = {
       unlockEvents: ["factory_end"],
     },
   ],
+  gameOver: [
+    {
+      messages: [
+        "Fin de la démo.\nMerci d'avoir tester !",
+      ]
+    }
+  ]
 };
 
 const uiMessages = {
