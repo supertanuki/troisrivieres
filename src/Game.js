@@ -73,16 +73,6 @@ export default class Game extends Scene {
     this.tileset = null;
   }
 
-  preload() {
-    console.log("Preload village");
-    this.load.scenePlugin(
-      "AnimatedTiles",
-      "plugins/AnimatedTiles.js",
-      "animatedTiles",
-      "animatedTiles"
-    );
-  }
-
   create() {
     if (urlParamHas("debug")) {
       this.fpsText = this.add

@@ -80,10 +80,6 @@ export const init = function (scene) {
   addBirds(scene);
   addButterflies(scene);
 
-  console.time("animatedTiles");
-  scene.animatedTiles.init(scene.map);
-  console.timeEnd("animatedTiles");
-
   scene.cameras.main.setBounds(
     0,
     400, // top of the village is disabled
