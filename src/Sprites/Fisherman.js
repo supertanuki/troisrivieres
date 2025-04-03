@@ -50,10 +50,17 @@ export default class Fisherman extends Chat {
 
   setSad() {
     this.anims.play("mino-sad");
-    this.body.setSize(this.width, this.height);
+    this.body.setSize(this.width, 1);
     this.x -= 12;
     this.chatIconDeltaX = 0;
     this.chatIconDeltaY = -2;
+  }
+
+  setOnStrike(x, y) {
+    this.setPosition(x, y);
+    this.body.setSize(this.width, 1);
+    this.scaleX = -1;
+    this.setOffset(this.width, this.height/2);
   }
 }
 

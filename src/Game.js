@@ -15,6 +15,7 @@ import { mineAccessValidation } from "./Story/mineAccessValidation";
 import { goToFactory, goToMine } from "./Story/goToGame";
 import { handleAction } from "./Village/handleAction";
 import { afterFactory } from "./Story/afterFactory";
+import { strike } from "./Story/strike";
 
 export default class Game extends Scene {
   constructor() {
@@ -74,13 +75,14 @@ export default class Game extends Scene {
   }
 
   preload() {
-    console.log("Preload village");
-    this.load.scenePlugin(
-      "AnimatedTiles",
-      "plugins/AnimatedTiles.js",
-      "animatedTiles",
-      "animatedTiles"
-    );
+    if (!urlParamHas('noanims')) {
+      this.load.scenePlugin(
+        "AnimatedTiles",
+        "plugins/AnimatedTiles.js",
+        "animatedTiles",
+        "animatedTiles"
+      );
+    }
   }
 
   create() {
@@ -227,6 +229,10 @@ export default class Game extends Scene {
 
     if (eventsHas(data, "factory_after")) {
       afterFactory(this);
+    }
+
+    if (eventsHas(data, "strike_begin")) {
+      strike(this);
     }
   }
 

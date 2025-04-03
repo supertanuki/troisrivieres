@@ -8,10 +8,6 @@ export const hidePotager = function (scene) {
     tile.setCollision(false, false, false, false);
   });
 
-  scene.potagerNoMore = scene.map
-    .createLayer("potagerNoMore", scene.tileset)
-    .setDepth(80);
-
   scene.cow.setVisible(false);
   scene.cow.setActive(false);
   scene.cow.body.checkCollision.none = true;

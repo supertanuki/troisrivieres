@@ -1,3 +1,4 @@
+import Girl from "../Sprites/Girl";
 import isMobileOrTablet from "../Utils/isMobileOrTablet";
 
 const spriteNames = {
@@ -9,6 +10,7 @@ const spriteNames = {
   dog: "Le chien",
   cow: "La vache",
   boy: "Les enfants",
+  girl: "La petite fille",
   koko: "Koko",
   nono: "Nono",
   escargot: "L'escargot",
@@ -63,6 +65,14 @@ const messageWorkflow = {
       dependingOn: ["third_act_begin"],
       unlockEvents: ["bino_met_third_act"],
     },
+    {
+      messages: [
+        "J'ai répondu à l'appel de Koko et Django…",
+        "Mais il faut désherber le panneau du village !"
+      ],
+      repeat: ["(Allez, ça ne va pas se désherber tout seul…)"],
+      dependingOn: ["strike_begin"],
+    },
   ],
   twoGuys: [
     {
@@ -90,6 +100,13 @@ const messageWorkflow = {
       ],
       dependingOn: ["third_act_begin"],
     },
+    {
+      messages: [
+        "- Avoue, c'est ta première manif' ?",
+        "- Mais pas du tout… j'ai fait les marches pour le climat !",
+      ],
+      dependingOn: ["strike_begin"],
+    },
   ],
   twoWomen: [
     {
@@ -110,6 +127,13 @@ const messageWorkflow = {
       ],
       dependingOn: ["third_act_begin"],
     },
+    {
+      messages: [
+        "- Il faut désarmer ces industries polluantes…",
+        "- Je te sens rebelle, c'est Maï qui t'inspire ?",
+      ],
+      dependingOn: ["strike_begin"],
+    },
   ],
   baby: [
     {
@@ -125,6 +149,14 @@ const messageWorkflow = {
   sleepingGuy: [
     {
       messages: ["ZZZzzz, mmmh ?"],
+    },
+    {
+      messages: [
+        "Je… suis venu… depuis longtemps…",
+        "Il… est temps de faire une…",
+        "…petite sieste… ZZZzzz…"
+      ],
+      dependingOn: ["strike_begin"],
     },
   ],
   koko: [
@@ -218,6 +250,18 @@ const messageWorkflow = {
       dependingOn: ["bino_met_third_act"],
       unlockEvents: ["go_see_django_third_act"],
     },
+    {
+      messages: [
+        "Merci Maï pour tout ce que tu as fait.",
+        "Grâce à toi, tous les villageois…",
+        "se retrouvent pour une cause commune…",
+        "l'avenir de notre village."
+      ],
+      repeat: [
+        "Merci encore, Maï.",
+      ],
+      dependingOn: ["strike_begin"],
+    },
   ],
   nono: [
     {
@@ -284,6 +328,16 @@ const messageWorkflow = {
         "Partir loin, boire des jus de fruits exotiques…",
       ],
       dependingOn: ["third_act_begin"],
+    },
+    {
+      messages: [
+        "Maï, je trouve que toutes ces expériences…",
+        "t'ont fait grandir ! Je le vois dans tes yeux.",
+      ],
+      repeat: [
+        "Tu as gagné en assurance, Maï.",
+      ],
+      dependingOn: ["strike_begin"],
     },
   ],
   django: [
@@ -371,6 +425,148 @@ const messageWorkflow = {
       dependingOn: ["go_see_django_third_act"],
       unlockEvents: ["strike_begin"],
     },
+    {
+      messages: [
+        "Chers habitants et chères habitantes de Trois-Rivières,",
+        "nous sommes réunis pour dire en musique…",
+        "(la musique adoucit les moeurs) :",
+        "Stop aux industries polluantes !",
+        "Qui accaparent les ressources de notre village",
+        "et qui assechent nos rivières.",
+        "La lutte ne fait que commencer !"
+      ],
+      dependingOn: ["strike_after_begin"],
+      unlockEvents: ["game_over"],
+    },
+  ],
+  fisherman: [
+    {
+      messages: [
+        "…chut, tu vas faire fuir les poissons…",
+        "Et voilà, raté… Va parler aux autres, je suis concentré là.",
+      ],
+      repeat: ["…"],
+    },
+    {
+      messages: [
+        "Par la barbe du %?#%, je ne vais plus pouvoir pêcher.",
+        "Qui sont les responsables de ce #?%@ ???",
+      ],
+      repeat: ["Si j'attrape les responsables de ce #?%@…"],
+      dependingOn: ["first_sleep"],
+    },
+    {
+      messages: [
+        "… Tout le monde est devenu fan",
+        "de ces routes, de ces voitures…",
+        "C'est vite oublier d'où on vient.",
+        "Une mine s'installe, puis une usine…",
+        "La rivière qui a baissé de niveau,",
+        "juste en quelques semaines.",
+        "Je me sens un peu démuni face à tout ça…",
+        "Mais ça me réconforte que tu continues…",
+        "de mener ta petite enquête, Maï.",
+      ],
+      repeat: ["Continue ton enquête, moi je surveille la rivière."],
+      dependingOn: ["second_act_begin"],
+    },
+    {
+      messages: [
+        "À force d'attendre ici, ça donne faim…",
+        "Je mangerais bien un bon burger."
+      ],
+      dependingOn: ["third_act_begin"],
+    },
+    {
+      messages: [
+        "J'me demande bien comment on va se débarrasser…",
+        "…de ces #?%@ qui polluent nos rivières !",
+      ],
+      dependingOn: ["strike_begin"],
+    },
+  ],
+  boy: [
+    {
+      messages: [
+        "YOUPIII, on peut se baigner quand on veut !",
+        "Faudrait trop qu'on ramène nos potes un jour !",
+      ],
+    },
+    {
+      messages: [
+        "Oh nooon, on ne peut plus jouer dans l'eau…",
+        "Qu'est-ce qu'on va faire maintenant ?",
+      ],
+      dependingOn: ["first_sleep"],
+    },
+    {
+      messages: ["on ne peut plus attraper notre ballon !"],
+      dependingOn: ["second_act_begin"],
+    },
+    {
+      messages: [
+        "… Mmmmh, j'ai envie d'un gros burger…"
+      ],
+      dependingOn: ["third_act_begin"],
+    },
+    {
+      messages: [
+        "C'est ma première manif, trop chouette !",
+      ],
+      dependingOn: ["strike_begin"],
+    },
+  ],
+  girl: [
+    {
+      messages: [
+        "…",
+      ],
+    },
+    {
+      messages: [
+        "Ça serait tellement bien si j'avais…",
+        "un smartphone pour jouer aux jeux vidéos…",
+        "comme FortNight ou BroStar…"
+      ],
+      dependingOn: ["third_act_begin"],
+    },
+    {
+      messages: [
+        "Tante Koko et oncle Django sont trop forts !",
+      ],
+      dependingOn: ["strike_begin"],
+    },
+  ],
+  cat: [
+    {
+      messages: ["Meow…"],
+    },
+    {
+      messages: [
+        "rrrr… rrrr…",
+      ],
+      dependingOn: ["strike_begin"],
+    },
+  ],
+  dog: [
+    {
+      messages: ["Wof, wof…"],
+    },
+  ],
+  cow: [
+    {
+      messages: ["Meuh…"],
+    },
+  ],
+  veal: [
+    {
+      messages: ["Mmmmh…"],
+    },
+  ],
+  escargot: [
+    {
+      messages: ["…"],
+    },
   ],
   miner: [
     {
@@ -456,110 +652,6 @@ const messageWorkflow = {
         "Maintenant laisse moi contempler la vue du progrès.",
       ],
       repeat: ["Contemple avec moi, la vue du progrès."],
-    },
-  ],
-  fisherman: [
-    {
-      messages: [
-        "…chut, tu vas faire fuir les poissons…",
-        "Et voilà, raté… Va parler aux autres, je suis concentré là.",
-      ],
-      repeat: ["…"],
-    },
-    {
-      messages: [
-        "Par la barbe du %?#%, je ne vais plus pouvoir pêcher.",
-        "Qui sont les responsables de ce #?%@ ???",
-      ],
-      repeat: ["Si j'attrape les responsables de ce #?%@…"],
-      dependingOn: ["first_sleep"],
-    },
-    {
-      messages: [
-        "… Tout le monde est devenu fan",
-        "de ces routes, de ces voitures…",
-        "C'est vite oublier d'où on vient.",
-        "Une mine s'installe, puis une usine…",
-        "La rivière qui a baissé de niveau,",
-        "juste en quelques semaines.",
-        "Je me sens un peu démuni face à tout ça…",
-        "Mais ça me réconforte que tu continues…",
-        "de mener ta petite enquête, Maï.",
-      ],
-      repeat: ["Continue ton enquête, moi je surveille la rivière."],
-      dependingOn: ["second_act_begin"],
-    },
-    {
-      messages: [
-        "À force d'attendre ici, ça donne faim…",
-        "Je mangerais bien un bon burger."
-      ],
-      dependingOn: ["third_act_begin"],
-    },
-  ],
-  boy: [
-    {
-      messages: [
-        "YOUPIII, on peut se baigner quand on veut !",
-        "Faudrait trop qu'on ramène nos potes un jour !",
-      ],
-    },
-    {
-      messages: [
-        "Oh nooon, on ne peut plus jouer dans l'eau…",
-        "Qu'est-ce qu'on va faire maintenant ?",
-      ],
-      dependingOn: ["first_sleep"],
-    },
-    {
-      messages: ["on ne peut plus attraper notre ballon !"],
-      dependingOn: ["second_act_begin"],
-    },
-    {
-      messages: [
-        "… Mmmmh, j'ai envie d'un gros burger…"
-      ],
-      dependingOn: ["third_act_begin"],
-    },
-  ],
-  girl: [
-    {
-      messages: [
-        "…",
-      ],
-    },
-    {
-      messages: [
-        "Ça serait tellement bien si javais…",
-        "un smartphone pour jouer aux jeux vidéos…",
-        "comme FortNight ou BroStar…"
-      ],
-      dependingOn: ["third_act_begin"],
-    },
-  ],
-  cat: [
-    {
-      messages: ["Meow…"],
-    },
-  ],
-  dog: [
-    {
-      messages: ["Wof, wof…"],
-    },
-  ],
-  cow: [
-    {
-      messages: ["Meuh…"],
-    },
-  ],
-  veal: [
-    {
-      messages: ["Mmmmh…"],
-    },
-  ],
-  escargot: [
-    {
-      messages: ["…"],
     },
   ],
   mine: [
