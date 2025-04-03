@@ -3,15 +3,12 @@ import Game from "../Game";
 import { setVillageForThirdAct, toggleScreensVisibility } from "../Story/afterFactory";
 import { setVillageForSecondAct } from "../Story/afterMineNightmare";
 import { setVillageBeforeMine } from "../Story/mineAccessValidation";
-import { urlParamHas } from "../Utils/isDebug";
 import { switchNight } from "./night";
 import { toggleRoadsVisibility } from "./roads";
 import { secondRiverLessWater } from "./secondRiverLessWater";
 
 /** @param {Game} scene  */
 export const addDebugControls = function (scene) {
-  if (!urlParamHas('debugcontrols')) return;
-
   scene.input.keyboard
     .addKey(Phaser.Input.Keyboard.KeyCodes.F)
     .on("down", () => {
