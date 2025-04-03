@@ -11,4 +11,12 @@ export const hidePotager = function (scene) {
   scene.potagerNoMore = scene.map
     .createLayer("potagerNoMore", scene.tileset)
     .setDepth(80);
+
+  scene.cow.setVisible(false);
+  scene.cow.setActive(false);
+  scene.cow.body.checkCollision.none = true;
+
+  scene.veal.setVisible(false);
+  scene.veal.setActive(false);
+  scene.veal.body.checkCollision.none = true;
 };

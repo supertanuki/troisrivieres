@@ -18,9 +18,21 @@ import { villageStateAfterFirstSleep } from "./firstSleep";
 
 /** @param {Game} scene  */
 export const afterMineNightmare = function (scene) {
-  console.log('afterMineNightmare')
+  console.log("afterMineNightmare");
   scene.wakeGame(true);
   scene.currentDiscussionStatus = DiscussionStatus.NONE;
+
+  setVillageForSecondAct(scene);
+
+  // @todo ? remove delayedcall and check when mai is near django ?
+  scene.time.delayedCall(1200, () => {
+    scene.isCinematic = false;
+    sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "django");
+    handleAction(scene);
+  });
+};
+
+export const setVillageForSecondAct = function (scene) {
   scene.hero.stopAndWait();
   scene.isCinematic = true;
   switchNight(scene);
@@ -60,19 +72,42 @@ export const afterMineNightmare = function (scene) {
     }
 
     if (spriteObject.name === "whiteWorkerChief") {
-      scene.whiteWorkerChief = scene.add.whiteWorkerChief(spriteObject.x, spriteObject.y);
-      scene.whiteWorkerChief.on("pointerdown", () => handleAction(scene), scene);
+      scene.whiteWorkerChief = scene.add.whiteWorkerChief(
+        spriteObject.x,
+        spriteObject.y
+      );
+      scene.whiteWorkerChief.on(
+        "pointerdown",
+        () => handleAction(scene),
+        scene
+      );
       scene.physics.add.collider(scene.whiteWorkerChief, scene.hero, () => {
-        sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "whiteWorkerChief");
+        sceneEventsEmitter.emit(
+          sceneEvents.DiscussionReady,
+          "whiteWorkerChief"
+        );
       });
     }
 
-    for (let i=1; i<=2; i++) {
+    for (let i = 1; i <= 2; i++) {
       if (spriteObject.name === `whiteWorker${i}`) {
-        scene[`whiteWorker${i}`] = scene.add.whiteWorker(spriteObject.x, spriteObject.y, null, null, i);
-        scene[`whiteWorker${i}`].on("pointerdown", () => handleAction(scene), scene);
+        scene[`whiteWorker${i}`] = scene.add.whiteWorker(
+          spriteObject.x,
+          spriteObject.y,
+          null,
+          null,
+          i
+        );
+        scene[`whiteWorker${i}`].on(
+          "pointerdown",
+          () => handleAction(scene),
+          scene
+        );
         scene.physics.add.collider(scene[`whiteWorker${i}`], scene.hero, () => {
-          sceneEventsEmitter.emit(sceneEvents.DiscussionReady, `whiteWorker${i}`);
+          sceneEventsEmitter.emit(
+            sceneEvents.DiscussionReady,
+            `whiteWorker${i}`
+          );
         });
       }
     }
@@ -84,11 +119,4 @@ export const afterMineNightmare = function (scene) {
     2144, // mine on the right is disabled
     scene.map.heightInPixels - 8
   );
-
-  // @todo ? remove delayedcall and check when mai is near django ?
-  scene.time.delayedCall(1200, () => {
-    scene.isCinematic = false;
-    sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "django");
-    handleAction(scene);
-  });
 };

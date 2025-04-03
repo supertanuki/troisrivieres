@@ -10,7 +10,6 @@ class MinerDirty extends Chat {
 
   setSpriteNumber(spriteNumber) {
     this.spriteId = `minerDirty${spriteNumber}`;
-    console.log(`miner-dirty-idle-${spriteNumber - 1}`)
     this.anims.play(`miner-dirty-idle-${spriteNumber - 1}`, true);
 
     if (spriteNumber > 2) {

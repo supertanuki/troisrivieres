@@ -1,6 +1,8 @@
 import Game from "../Game";
 import { DiscussionStatus } from "../Utils/discussionStatus";
 import { dispatchUnlockEvents } from "../Utils/events";
+import { noMoreBirds } from "../Village/birds";
+import { noMoreButterflies } from "../Village/butterflies";
 import { setNightState } from "../Village/night";
 import { toggleSpritesVisibility } from "../Village/spritesVisibility";
 
@@ -47,23 +49,29 @@ export const afterFactory = function (scene) {
       scene.time.delayedCall(3000, () => {
         //scene.scene.launch("mine-nightmare");
         //scene.sleepGame();
-        setNightState(scene, false);
-        toggleSpritesVisibility(scene, true, true);
-        toggleScreensVisibility(scene)
-
-        scene.setHeroPosition("heroDjango");
-        scene.hero.animateToRight();
-        scene.hero.stopAndWait();
-
-        dispatchUnlockEvents(["third_act_begin"]);
-        scene.cameras.main.fadeIn(1000, 0, 0, 0);
-        scene.isCinematic = false;
+        setVillageForThirdAct(scene);
       });
       scene.events.off("update", updateCallback);
     }
   };
 
   scene.events.on("update", updateCallback);
+};
+
+export const setVillageForThirdAct = function (scene) {
+  noMoreBirds(scene);
+  noMoreButterflies(scene);
+  setNightState(scene, false);
+  toggleSpritesVisibility(scene, true, true);
+  toggleScreensVisibility(scene);
+
+  scene.setHeroPosition("heroDjango");
+  scene.hero.animateToRight();
+  scene.hero.stopAndWait();
+
+  dispatchUnlockEvents(["third_act_begin"]);
+  scene.cameras.main.fadeIn(1000, 0, 0, 0);
+  scene.isCinematic = false;
 };
 
 export const toggleScreensVisibility = function (scene) {

@@ -1,6 +1,8 @@
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import Game from "../Game";
-import { toggleScreensVisibility } from "../Story/afterFactory";
+import { setVillageForThirdAct, toggleScreensVisibility } from "../Story/afterFactory";
+import { setVillageForSecondAct } from "../Story/afterMineNightmare";
+import { setVillageBeforeMine } from "../Story/mineAccessValidation";
 import { switchNight } from "./night";
 import { toggleRoadsVisibility } from "./roads";
 import { secondRiverLessWater } from "./secondRiverLessWater";
@@ -40,6 +42,11 @@ export const addDebugControls = function (scene) {
   scene.input.keyboard
     .addKey(Phaser.Input.Keyboard.KeyCodes.S)
     .on("down", () => {
+      setVillageBeforeMine(scene);
+      setVillageForSecondAct(scene);
+      setVillageForThirdAct(scene);
+      return;
+
       sceneEventsEmitter.emit(sceneEvents.PreEventsUnlocked, [
         "django_met",
         "miner_first_met",

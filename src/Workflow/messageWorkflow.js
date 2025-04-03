@@ -51,6 +51,18 @@ const messageWorkflow = {
       repeat: ["(Allez, ça ne va pas se désherber tout seul…)"],
       dependingOn: ["second_act_begin"],
     },
+    {
+      messages: [
+        "Hey Maï, ça roule ?",
+        "Moi, ras le bol de désherber le bord des routes",
+        "J'aimerais bien partir loin d'ici.",
+        "Un voyage, un tour du monde.",
+        "As-tu une destination à me conseiller ?",
+      ],
+      repeat: ["(Allez, ça ne va pas se désherber tout seul…)"],
+      dependingOn: ["third_act_begin"],
+      unlockEvents: ["bino_met_third_act"],
+    },
   ],
   twoGuys: [
     {
@@ -69,6 +81,15 @@ const messageWorkflow = {
       ],
       dependingOn: ["second_act_begin"],
     },
+    {
+      messages: [
+        "- Tu as testé le burger sauce mystérieuse ?",
+        "- Elle a quoi de mystérieuse cette sauce ?",
+        "- Il parait que les ingrédients sont d'origine…",
+        "EXTRATERRESTRE !!!",
+      ],
+      dependingOn: ["third_act_begin"],
+    },
   ],
   twoWomen: [
     {
@@ -77,6 +98,17 @@ const messageWorkflow = {
         "- Pour ta santé ?",
         "- Non, pour réduire mon empreinte carbone !",
       ],
+    },
+    {
+      messages: [
+        "- Tu as vu le nouveau smartphone ?",
+        "- Il a quoi de nouveau ?",
+        "- Il se transforme en drone",
+        "pour nous filmer ou nous photographier…",
+        "sous tous les angles !",
+        "Plus besoin de perche à selfie !",
+      ],
+      dependingOn: ["third_act_begin"],
     },
   ],
   baby: [
@@ -162,6 +194,23 @@ const messageWorkflow = {
         "Je m'acheterais bien un nouveau smartphone.",
       ],
       dependingOn: ["third_act_begin"],
+    },
+    {
+      messages: [
+        "… Maï…",
+        "J'avais tellement la tête plongée dans les écrans…",
+        "que je n'ai pas remarqué l'état de nos rivières !",
+        "que les oiseaux et les papillons ont disparu !",
+        "QUOI ? Tu dis qu'il faut se mobiliser ?",
+        "C'est une bonne idée !",
+        "Tu peux aller chercher Django ?",
+        "Et on voit ce qu'on fait…",
+      ],
+      repeat: [
+        "Va voir Django, on verra quelle action mener.",
+      ],
+      dependingOn: ["bino_met_third_act"],
+      unlockEvents: ["go_see_django_third_act"],
     },
   ],
   nono: [
@@ -301,6 +350,20 @@ const messageWorkflow = {
         "J'ai envie de voyager, partir loin…",
       ],
       dependingOn: ["third_act_begin"],
+    },
+
+    {
+      messages: [
+        "Tu as raison, Maï…",
+        "On ne peut plus laisser toutes ces industries…",
+        "détruire notre village…",
+        "pomper et polluer nos rivières…",
+        "Y'en a marre !",
+        "Je suis partant pour une mobilisation générale !",
+        "J'amène ma guitare et j'arrive.",
+      ],
+      dependingOn: ["go_see_django_third_act"],
+      unlockEvents: ["strike_begin"],
     },
   ],
   miner: [
