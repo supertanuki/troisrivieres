@@ -7326,7 +7326,7 @@
   <object id="1274" name="whiteWorkerChief" x="1550.33" y="128.333">
    <point/>
   </object>
-  <object id="1285" name="nonoStrike" x="1347.08" y="808">
+  <object id="1285" name="nonoStrike" x="1336.58" y="803.25">
    <point/>
   </object>
   <object id="1286" name="djangoStrike" x="1386.42" y="780.417">
@@ -7335,10 +7335,10 @@
   <object id="1287" name="binoStrike" x="1387.67" y="839.333">
    <point/>
   </object>
-  <object id="1288" name="boyStrike" x="1356.5" y="827.167">
+  <object id="1288" name="boyStrike" x="1341" y="833.417">
    <point/>
   </object>
-  <object id="1289" name="girlStrike" x="1406.67" y="826.917">
+  <object id="1289" name="girlStrike" x="1441.92" y="784.917">
    <point/>
   </object>
   <object id="1290" name="minoStrike" x="1464.5" y="826.083">
@@ -7356,10 +7356,10 @@
   <object id="1295" name="catStrike" x="1308.42" y="776.583">
    <point/>
   </object>
-  <object id="1296" name="twoWomenStrike" x="1353.58" y="769.417">
+  <object id="1296" name="twoWomenStrike" x="1352.58" y="772.667">
    <point/>
   </object>
-  <object id="1297" name="twoGuysStrike" x="1442.75" y="784.333">
+  <object id="1297" name="twoGuysStrike" x="1326.25" y="869.333">
    <point/>
   </object>
   <object id="1298" name="boyThirdAct" x="1307" y="1109">

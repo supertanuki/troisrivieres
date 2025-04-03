@@ -10,5 +10,6 @@ export const gameOver = function (scene) {
         sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "gameOver");
         handleAction(scene);
         scene.isCinematic = true;
+        scene.hero.stopAndWait();
     });
 };

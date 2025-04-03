@@ -88,6 +88,8 @@ export default class Game extends Scene {
   }
 
   create() {
+    console.time('game');
+
     if (urlParamHas("debug")) {
       this.fpsText = this.add
         .text(10, 10, "hello", { fontSize: "10px", fill: "#fff" })
@@ -239,6 +241,7 @@ export default class Game extends Scene {
 
     if (eventsHas(data, "game_over")) {
       gameOver(this);
+      console.timeEnd('game');
     }
   }
 

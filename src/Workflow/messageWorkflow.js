@@ -198,7 +198,7 @@ const messageWorkflow = {
     },
     {
       messages: [
-        "Je me demande ce qui est arrivé à la rivière, toute marron, beurk.",
+        "Je me demande ce qui est arrivé à la rivière.",
       ],
       dependingOn: ["nono_first_met"],
     },
