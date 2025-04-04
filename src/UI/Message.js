@@ -127,17 +127,16 @@ export default class Message extends Phaser.Scene {
   }
 
   showMineCard() {
-    const config = this.sys.game.config;
     this.mineCard = this.add
-      .image(config.width / 2, config.height / 2, "ui", "card")
+      .image(225, 125, "ui", "card")
       .setScrollFactor(0)
       .setDepth(3000)
       .setAlpha(0);
 
     this.tweens.add({
       targets: this.mineCard,
-      x: config.width - 30,
-      y: config.height - 30,
+      x: 450 - 30,
+      y: 250 - 30,
       alpha: 1,
       scale: 1,
       ease: "Quad.easeOut",

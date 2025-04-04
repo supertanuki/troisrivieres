@@ -1,4 +1,3 @@
-import { Loader } from "phaser";
 import Game from "../Game";
 import "../Sprites/Hero";
 import "../Sprites/Django";
@@ -29,6 +28,7 @@ import { addDebugControls } from "./debugControls";
 import { createTrees } from "./trees";
 import { intro } from "../Story/intro";
 import { handleAction } from "./handleAction";
+import { playVillageTheme } from "../Utils/music";
 
 /** @param {Game} scene  */
 export const init = function (scene) {
@@ -80,7 +80,7 @@ export const init = function (scene) {
   addBirds(scene);
   addButterflies(scene);
 
-  if (!urlParamHas('noanims')) {
+  if (!urlParamHas("noanims")) {
     console.time("animatedTiles");
     scene.animatedTiles.init(scene.map);
     console.timeEnd("animatedTiles");
@@ -99,23 +99,14 @@ export const init = function (scene) {
   addJoystickForMobile(scene);
   scene.addEventsListeners();
 
-  scene.cameras.main.fadeIn(1000, 0, 0, 0);
-
-  if (!urlParamHas("nomusic")) {
-    const loader = new Loader.LoaderPlugin(scene);
-    loader.audio("village-theme", "sounds/village_theme_compressed_v2.mp3");
-    loader.once("complete", () => {
-      scene.music = scene.sound.add("village-theme");
-      scene.music.loop = true;
-      scene.music.play();
-    });
-    loader.start();
-  }
-
   scene.obstacles = scene.map
     .createLayer("obstacles", scene.tileset)
     .setCollisionByProperty({ collide: true })
     .setVisible(false);
+
+  scene.cameras.main.fadeIn(1000, 0, 0, 0);
+
+  playVillageTheme(scene);
 
   scene.time.delayedCall(2000, () => delayedInit(scene));
 
@@ -125,7 +116,6 @@ export const init = function (scene) {
 
   if (!urlParamHas("nostart")) intro(scene);
 };
-
 
 /** @param {Game} scene  */
 export const delayedInit = function (scene) {
@@ -270,4 +260,4 @@ export const delayedInit = function (scene) {
   });
 
   addCollisionManagement(scene);
-}
+};

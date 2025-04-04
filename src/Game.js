@@ -1,6 +1,6 @@
 import { Scene } from "phaser";
 import { sceneEventsEmitter, sceneEvents } from "./Events/EventsCenter";
-import { urlParamHas } from "./Utils/debug";
+import { gameDuration, urlParamHas } from "./Utils/debug";
 import { Hero } from "./Sprites/Hero";
 import { DiscussionStatus } from "./Utils/discussionStatus";
 import { eventsHas } from "./Utils/events";
@@ -17,6 +17,7 @@ import { handleAction } from "./Village/handleAction";
 import { afterFactory } from "./Story/afterFactory";
 import { strike } from "./Story/strike";
 import { gameOver } from "./Village/gameOver";
+import { playIndustryTheme, playVillageTheme } from "./Utils/music";
 
 export default class Game extends Scene {
   constructor() {
@@ -51,7 +52,8 @@ export default class Game extends Scene {
 
     this.isCinematic = false;
     this.night = false;
-    this.music = null;
+    this.villageTheme = null;
+    this.industryTheme = null;
 
     this.django = null;
     this.koko = null;
@@ -66,6 +68,8 @@ export default class Game extends Scene {
     this.cat = null;
     this.boy = null;
     this.girl = null;
+    this.miner = null;
+
     this.ball = null;
     this.tent = null;
     this.checkDjangoDoor = true
@@ -88,7 +92,7 @@ export default class Game extends Scene {
   }
 
   create() {
-    console.time('game');
+    this.timeStart = Date.now();
 
     if (urlParamHas("debug")) {
       this.fpsText = this.add
@@ -241,7 +245,7 @@ export default class Game extends Scene {
 
     if (eventsHas(data, "game_over")) {
       gameOver(this);
-      console.timeEnd('game');
+      gameDuration('Game', this.timeStart);
     }
   }
 
@@ -340,6 +344,14 @@ export default class Game extends Scene {
       this.hero.animateToRight();
     } else if (this.goingLeft) {
       this.hero.animateToLeft();
+    }
+
+    if (!urlParamHas("nomusic") && this.miner && this.hero.x > this.miner.x + 20) {
+      playIndustryTheme(this);
+    }
+
+    if (!urlParamHas("nomusic") && this.miner && this.hero.x < this.miner.x + 20) {
+      playVillageTheme(this);
     }
 
     if (
