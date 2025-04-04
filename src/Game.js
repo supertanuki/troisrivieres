@@ -54,6 +54,7 @@ export default class Game extends Scene {
     this.night = false;
     this.villageTheme = null;
     this.industryTheme = null;
+    this.miniGameTheme = null;
 
     this.django = null;
     this.koko = null;
@@ -346,11 +347,11 @@ export default class Game extends Scene {
       this.hero.animateToLeft();
     }
 
-    if (!urlParamHas("nomusic") && this.miner && this.hero.x > this.miner.x + 20) {
+    if (urlParamHas("nomusic")) {
+      // do nothing
+    } else if (this.hero.y < 445 || this.miner && this.hero.x > this.miner.x + 25) {
       playIndustryTheme(this);
-    }
-
-    if (!urlParamHas("nomusic") && this.miner && this.hero.x < this.miner.x + 20) {
+    } else if (this.hero.y > 450 && this.miner && this.hero.x < this.miner.x + 20) {
       playVillageTheme(this);
     }
 

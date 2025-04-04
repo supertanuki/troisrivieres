@@ -1,6 +1,7 @@
 import Game from "../Game";
 import { DiscussionStatus } from "../Utils/discussionStatus";
 import { dispatchUnlockEvents } from "../Utils/events";
+import { playIndustryTheme, playVillageTheme } from "../Utils/music";
 import { noMoreBirds } from "../Village/birds";
 import { noMoreButterflies } from "../Village/butterflies";
 import { setNightState } from "../Village/night";
@@ -9,6 +10,7 @@ import { toggleSpritesVisibility } from "../Village/spritesVisibility";
 /** @param {Game} scene  */
 export const afterFactory = function (scene) {
   scene.wakeGame();
+  playIndustryTheme(scene);
   scene.isCinematic = true;
   scene.cameras.main.fadeIn(1000, 0, 0, 0);
 
@@ -49,6 +51,8 @@ export const afterFactory = function (scene) {
       scene.time.delayedCall(3000, () => {
         //scene.scene.launch("mine-nightmare");
         //scene.sleepGame();
+
+        playVillageTheme(scene);
         setVillageForThirdAct(scene);
       });
       scene.events.off("update", updateCallback);

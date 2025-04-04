@@ -15,12 +15,13 @@ import { toggleRoadsVisibility } from "../Village/roads";
 import { secondRiverLessWater } from "../Village/secondRiverLessWater";
 import { toggleSpritesVisibility } from "../Village/spritesVisibility";
 import { villageStateAfterFirstSleep } from "./firstSleep";
+import { playVillageTheme } from "../Utils/music";
 
 /** @param {Game} scene  */
 export const afterMineNightmare = function (scene) {
   scene.wakeGame(true);
+  playVillageTheme(scene);
   scene.currentDiscussionStatus = DiscussionStatus.NONE;
-
   setVillageForSecondAct(scene);
 
   // @todo ? remove delayedcall and check when mai is near django ?

@@ -4,6 +4,7 @@ import { urlParamHas } from "./debug";
 
 let loadingVillageTheme = false;
 let loadingIndustryTheme = false;
+let loadingMiniGameTheme = false;
 
 /** @param {Game} scene  */
 export const playVillageTheme = function (scene) {
@@ -15,6 +16,7 @@ export const playVillageTheme = function (scene) {
     return;
 
   fadeOutMusic(scene, scene.industryTheme);
+  fadeOutMusic(scene, scene.miniGameTheme);
   if (scene.villageTheme && scene.sound.get("village-theme")) {
     fadeInMusic(scene, scene.villageTheme);
     return;
@@ -33,6 +35,7 @@ export const playVillageTheme = function (scene) {
 
 /** @param {Game} scene  */
 export const playIndustryTheme = function (scene) {
+    console.log('playIndustryTheme', scene.industryTheme?.isPlaying)
   if (
     urlParamHas("nomusic") ||
     loadingIndustryTheme ||
@@ -41,6 +44,7 @@ export const playIndustryTheme = function (scene) {
     return;
 
   fadeOutMusic(scene, scene.villageTheme);
+  fadeOutMusic(scene, scene.miniGameTheme);
   if (scene.industryTheme && scene.sound.get("industry-theme")) {
     fadeInMusic(scene, scene.industryTheme);
     return;
@@ -56,6 +60,35 @@ export const playIndustryTheme = function (scene) {
   });
   loader.start();
 };
+
+/** @param {Game} scene  */
+export const playMiniGameTheme = function (scene) {
+    console.log("playMiniGameTheme")
+    if (
+      urlParamHas("nomusic") ||
+      loadingMiniGameTheme ||
+      (scene.miniGameTheme && scene.miniGameTheme.isPlaying)
+    )
+      return;
+  
+    fadeOutMusic(scene, scene.industryTheme);
+    fadeOutMusic(scene, scene.villageTheme);
+    if (scene.miniGameTheme && scene.sound.get("minigame-theme")) {
+      fadeInMusic(scene, scene.miniGameTheme);
+      return;
+    }
+  
+    loadingMiniGameTheme = true;
+    const loader = new Loader.LoaderPlugin(scene);
+    loader.audio("minigame-theme", "sounds/minigame_theme_compressed.mp3");
+    loader.once("complete", () => {
+        console.log("loaded minigame-theme")
+      scene.miniGameTheme = scene.sound.add("minigame-theme");
+      fadeInMusic(scene, scene.miniGameTheme);
+      loadingMiniGameTheme = false;
+    });
+    loader.start();
+  };
 
 const fadeOutMusic = function (scene, music) {
   if (!music || !music.isPlaying) return;
@@ -73,6 +106,8 @@ const fadeOutMusic = function (scene, music) {
 
 const fadeInMusic = function (scene, music) {
   if (music.isPlaying) return;
+
+  console.log("fadeInMusic" + music)
 
   music.volume = 0;
   music.loop = true;
