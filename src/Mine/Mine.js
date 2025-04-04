@@ -559,13 +559,13 @@ export default class Mine extends MiniGameUi {
       (this.rockNotValidated > 35 && 1);
     if (warnings > this.warnings) {
       this.warnings++;
-      if (this.warnings > 3) {
+      if (this.warnings === 3) {
         this.gameOver();
         return;
       }
 
       this.updateMessage(
-        getUiMessage(this.warnings === 3 ? "mine.lastWarning" : "mine.warning")
+        getUiMessage(this.warnings === 2 ? "mine.lastWarning" : "mine.warning")
       );
       this.updateWarnings(this.warnings);
     }
