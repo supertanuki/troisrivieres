@@ -5,6 +5,7 @@ import MiniGameUi from "../UI/MiniGameUi";
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import { dispatchUnlockEvents, eventsHas } from "../Utils/events";
 import { getUiMessage } from "../Workflow/messageWorkflow";
+import { playMiniGameTheme } from "../Utils/music";
 
 const rockPositions = [110, 175, 237];
 const tubePositionsY = [60, 125, 187];
@@ -459,6 +460,11 @@ export default class Mine extends MiniGameUi {
 
   startGame() {
     this.timeStart = Date.now();
+
+    if (urlParamHas('mine')) {
+      playMiniGameTheme(this);
+    }
+
     this.time.addEvent({
       callback: () => this.startDiscussion("mine"),
       delay: 1000,
@@ -559,15 +565,16 @@ export default class Mine extends MiniGameUi {
       (this.rockNotValidated > 35 && 1);
     if (warnings > this.warnings) {
       this.warnings++;
-      if (this.warnings === 3) {
-        this.gameOver();
-        return;
-      }
 
       this.updateMessage(
         getUiMessage(this.warnings === 2 ? "mine.lastWarning" : "mine.warning")
       );
       this.updateWarnings(this.warnings);
+
+      if (this.warnings === 3) {
+        this.gameOver();
+        return;
+      }
     }
   }
 

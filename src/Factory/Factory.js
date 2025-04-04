@@ -7,6 +7,7 @@ import { DiscussionStatus } from "../Utils/discussionStatus";
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import { getUiMessage } from "../Workflow/messageWorkflow";
 import { FONT_RESOLUTION } from "../UI/Message";
+import { playMiniGameTheme } from "../Utils/music";
 
 const COMPONENTS = {
   blue: "component-blue",
@@ -225,6 +226,10 @@ export default class Factory extends MiniGameUi {
   }
 
   startGame() {
+    if (urlParamHas('factory')) {
+      playMiniGameTheme(this);
+    }
+
     this.cameras.main.fadeIn(2000, 0, 0, 0);
 
     this.time.addEvent({

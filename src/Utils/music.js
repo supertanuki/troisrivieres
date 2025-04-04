@@ -1,4 +1,4 @@
-import { Loader } from "phaser";
+import { Loader, Scene } from "phaser";
 import Game from "../Game";
 import { urlParamHas } from "./debug";
 
@@ -35,7 +35,6 @@ export const playVillageTheme = function (scene) {
 
 /** @param {Game} scene  */
 export const playIndustryTheme = function (scene) {
-    console.log('playIndustryTheme', scene.industryTheme?.isPlaying)
   if (
     urlParamHas("nomusic") ||
     loadingIndustryTheme ||
@@ -61,9 +60,8 @@ export const playIndustryTheme = function (scene) {
   loader.start();
 };
 
-/** @param {Game} scene  */
+/** @param {Scene} scene  */
 export const playMiniGameTheme = function (scene) {
-    console.log("playMiniGameTheme")
     if (
       urlParamHas("nomusic") ||
       loadingMiniGameTheme ||
@@ -82,7 +80,6 @@ export const playMiniGameTheme = function (scene) {
     const loader = new Loader.LoaderPlugin(scene);
     loader.audio("minigame-theme", "sounds/minigame_theme_compressed.mp3");
     loader.once("complete", () => {
-        console.log("loaded minigame-theme")
       scene.miniGameTheme = scene.sound.add("minigame-theme");
       fadeInMusic(scene, scene.miniGameTheme);
       loadingMiniGameTheme = false;
@@ -106,8 +103,6 @@ const fadeOutMusic = function (scene, music) {
 
 const fadeInMusic = function (scene, music) {
   if (music.isPlaying) return;
-
-  console.log("fadeInMusic" + music)
 
   music.volume = 0;
   music.loop = true;
