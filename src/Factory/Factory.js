@@ -1,11 +1,12 @@
 import Phaser from "phaser";
 import isMobileOrTablet from "../Utils/isMobileOrTablet";
 import MiniGameUi from "../UI/MiniGameUi";
-import { urlParamHas } from "../Utils/isDebug";
+import { gameDuration, urlParamHas } from "../Utils/debug";
 import { dispatchUnlockEvents, eventsHas } from "../Utils/events";
 import { DiscussionStatus } from "../Utils/discussionStatus";
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import { getUiMessage } from "../Workflow/messageWorkflow";
+import { FONT_RESOLUTION } from "../UI/Message";
 
 const COMPONENTS = {
   blue: "component-blue",
@@ -52,6 +53,7 @@ export default class Factory extends MiniGameUi {
   }
 
   create() {
+    this.timeStart = Date.now();
     super.create();
     this.cameras.main.setBackgroundColor(0x000000);
     this.scale.setGameSize(550, 300);
@@ -184,7 +186,7 @@ export default class Factory extends MiniGameUi {
       element.anims.play("water-anim");
       this.waterCleaningAnims.push(element);
     }
-    
+
     this.initComponents();
     this.initSelectedComponent();
 
@@ -202,10 +204,18 @@ export default class Factory extends MiniGameUi {
     // Fade init
     this.cameras.main.fadeIn(1000, 0, 0, 0);
 
-    sceneEventsEmitter.on(sceneEvents.EventsUnlocked, this.listenUnlockedEvents, this);
-    sceneEventsEmitter.on(sceneEvents.EventsDispatched, this.listenDispatchedEvents, this);
+    sceneEventsEmitter.on(
+      sceneEvents.EventsUnlocked,
+      this.listenUnlockedEvents,
+      this
+    );
+    sceneEventsEmitter.on(
+      sceneEvents.EventsDispatched,
+      this.listenDispatchedEvents,
+      this
+    );
 
-    if (urlParamHas('bypassminigame')) {
+    if (urlParamHas("bypassminigame")) {
       this.endGame();
       return;
     }
@@ -232,6 +242,8 @@ export default class Factory extends MiniGameUi {
   }
 
   endGame() {
+    console.log("Validated", this.numberValidated);
+    gameDuration("Factory", this.timeStart);
     this.cameras.main.fadeOut(1000, 0, 0, 0, (cam, progress) => {
       if (progress !== 1) return;
       this.scene.stop();
@@ -477,18 +489,45 @@ export default class Factory extends MiniGameUi {
     );
 
     if (isMobileOrTablet()) {
-      const screenWidth = Number(this.sys.game.config.width);
       const delta = 80;
+      const arrowY = 225;
+
+      const arrowStyle = {
+        fontFamily: "DefaultFont",
+        fontSize: "32px",
+        fill: "#ffffff",
+      };
+
+      this.add
+        .text(70, arrowY, "←", arrowStyle)
+        .setResolution(FONT_RESOLUTION)
+        .setOrigin(0.5, 0.5)
+        .setDepth(10000);
+      this.add.circle(70, arrowY, 30, 0xff5544, 0.3).setDepth(10000);
+
+      this.add
+        .text(275, arrowY, "↑", arrowStyle)
+        .setResolution(FONT_RESOLUTION)
+        .setOrigin(0.5, 0.5)
+        .setDepth(10000);
+      this.add.circle(275, arrowY, 30, 0xff5544, 0.3).setDepth(10000);
+
+      this.add
+        .text(480, arrowY, "→", arrowStyle)
+        .setResolution(FONT_RESOLUTION)
+        .setOrigin(0.5, 0.5)
+        .setDepth(10000);
+      this.add.circle(480, arrowY, 30, 0xff5544, 0.3).setDepth(10000);
 
       this.input.on(
         "pointerdown",
         (pointer) => {
-          if (pointer.x < screenWidth / 2 - delta) {
+          if (pointer.x < 275 - delta) {
             this.left();
             return;
           }
 
-          if (pointer.x > screenWidth / 2 + delta) {
+          if (pointer.x > 275 + delta) {
             this.right();
             return;
           }
@@ -520,6 +559,8 @@ export default class Factory extends MiniGameUi {
   }
 
   right() {
+    super.handleAction();
+
     if (
       !this.enableComponentsControl ||
       this.componentsLinePosition - 1 < -1 * this.componentsLine.length + 1
@@ -554,6 +595,8 @@ export default class Factory extends MiniGameUi {
   }
 
   left() {
+    super.handleAction();
+
     if (!this.enableComponentsControl || this.componentsLinePosition + 1 > 0) {
       return;
     }
@@ -753,7 +796,7 @@ export default class Factory extends MiniGameUi {
 
       if (this.warnings === 3) {
         this.gameOver();
-        return
+        return;
       }
 
       this.time.delayedCall(2000, () => {
@@ -765,7 +808,7 @@ export default class Factory extends MiniGameUi {
 
     if (this.firstStep) {
       this.tutoEnd();
-      return;   
+      return;
     }
 
     this.destroyMotherboard();
@@ -773,7 +816,7 @@ export default class Factory extends MiniGameUi {
   }
 
   update() {
-    if (this.isCinematic) return
+    if (this.isCinematic) return;
 
     this.conveyorBackPosition += 1;
     this.conveyorInBack.setTilePosition(this.conveyorBackPosition, 0);

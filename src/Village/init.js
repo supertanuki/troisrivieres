@@ -20,7 +20,7 @@ import "../Sprites/Boy";
 import "../Sprites/TwoGuys";
 import "../Sprites/Bike";
 import { createHeroAnims } from "../Sprites/HeroAnims";
-import { urlParamHas } from "../Utils/isDebug";
+import { urlParamHas } from "../Utils/debug";
 import { addBirds } from "./birds";
 import { addButterflies } from "./butterflies";
 import { addCollisionManagement } from "./collisionManagement";

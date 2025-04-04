@@ -1,5 +1,5 @@
 import { FONT_RESOLUTION, FONT_SIZE } from "../UI/Message";
-import { urlParamHas } from "../Utils/isDebug";
+import { urlParamHas } from "../Utils/debug";
 
 export const splashScreen = function (scene) {
   scene.resetGameSize();

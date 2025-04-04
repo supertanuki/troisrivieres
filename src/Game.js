@@ -1,6 +1,6 @@
 import { Scene } from "phaser";
 import { sceneEventsEmitter, sceneEvents } from "./Events/EventsCenter";
-import { urlParamHas } from "./Utils/isDebug";
+import { urlParamHas } from "./Utils/debug";
 import { Hero } from "./Sprites/Hero";
 import { DiscussionStatus } from "./Utils/discussionStatus";
 import { eventsHas } from "./Utils/events";

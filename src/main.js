@@ -1,6 +1,6 @@
 import { AUTO, Game, Scale } from 'phaser';
 
-import { isDebug } from "./Utils/isDebug";
+import { isDebug } from "./Utils/debug";
 import Preloader from "./Preloader";
 import MainScene from "./Game";
 import Message from "./UI/Message";

@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 import "../Sprites/Hero";
-import { isDebug } from "../Utils/isDebug";
+import { isDebug } from "../Utils/debug";
 import { dispatchUnlockEvents } from "../Utils/events";
 
 export default class MineNightmare extends Phaser.Scene {
@@ -23,7 +23,6 @@ export default class MineNightmare extends Phaser.Scene {
   }
 
   create() {
-    console.log('create MineNightmare')
     this.scale.setGameSize(550, 300);
     this.cameras.main.setBackgroundColor("#ffffff");
 

@@ -656,6 +656,9 @@ const messageWorkflow = {
   mine: [
     {
       messages: [
+        isMobileOrTablet()
+          ? "Installe-toi…\n[touche pour continuer]"
+          : "Installe-toi…\n[espace pour continuer]",
         "Comme tu es nouvelle, je te mets sur un poste simple…",
         "…le nettoyage !",
         "Les roches vont avancer sur le crible…",
@@ -767,6 +770,9 @@ const messageWorkflow = {
   factory: [
     {
       messages: [
+        isMobileOrTablet()
+          ? "Installe-toi…\n[touche pour continuer]"
+          : "Installe-toi…\n[espace pour continuer]",
         "Comme tu es nouvelle, je te mets sur un poste simple…",
         "Tu dois monter les composants sur les cartes…",
         "Puis les nettoyer à l'eau pour éliminer les impuretés…",

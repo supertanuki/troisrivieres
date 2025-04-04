@@ -161,7 +161,6 @@ export default class Message extends Phaser.Scene {
   }
 
   listenEvents(data) {
-    console.log("Message listenEvents", data);
     if (eventsHas(data, "card_for_mine")) {
       this.showMineCard();
     }
@@ -172,7 +171,6 @@ export default class Message extends Phaser.Scene {
   }
 
   startDiscussion() {
-    console.log("Message startDiscussion");
     if (!this.scene.isActive()) return;
     this.currentDiscussionStatus = DiscussionStatus.STARTED;
     this.stopAction();
@@ -180,7 +178,6 @@ export default class Message extends Phaser.Scene {
 
   stopAction() {
     if (!this.scene.isActive()) return;
-    console.log("Message stopAction");
 
     this.actionText.setVisible(false);
     this.actionBackground.setVisible(false);
@@ -192,8 +189,6 @@ export default class Message extends Phaser.Scene {
     if (this.currentDiscussionStatus !== DiscussionStatus.NONE) return;
     if (this.scene.get("game")?.isCinematic) return;
 
-    console.log("Message readyToAction");
-
     this.currentDiscussionStatus = DiscussionStatus.READY;
     this.actionText.setVisible(true);
     this.actionBackground.setVisible(true);
@@ -202,7 +197,6 @@ export default class Message extends Phaser.Scene {
 
   handleDiscussionEnd() {
     if (!this.scene.isActive()) return;
-    console.log("Message handleDiscussionEnd");
 
     this.currentDiscussionStatus = DiscussionStatus.NONE;
     this.stopAction();
@@ -217,7 +211,6 @@ export default class Message extends Phaser.Scene {
 
   handleMessage(payload) {
     if (!this.scene.isActive()) return;
-    console.log("Message handleMessage");
 
     const { message, sprite } = payload;
     if (this.textObject.visible && message === this.currentText) {

@@ -4,8 +4,6 @@ import { DiscussionStatus } from "../Utils/discussionStatus";
 export const handleAction = function (scene) {
   if (scene.isCinematic) return;
 
-  console.log(scene.currentDiscussionStatus)
-
   if (scene.currentDiscussionStatus === DiscussionStatus.WAITING) {
     scene.currentDiscussionStatus = DiscussionStatus.STARTED;
     sceneEventsEmitter.emit(sceneEvents.DiscussionContinuing);

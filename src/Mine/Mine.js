@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 import isMobileOrTablet from "../Utils/isMobileOrTablet";
-import { getUrlParam, isDebug, urlParamHas } from "../Utils/isDebug";
+import { gameDuration, getUrlParam, isDebug, urlParamHas } from "../Utils/debug";
 import MiniGameUi from "../UI/MiniGameUi";
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import { dispatchUnlockEvents, eventsHas } from "../Utils/events";
@@ -271,6 +271,7 @@ export default class Mine extends MiniGameUi {
 
     sceneEventsEmitter.on(sceneEvents.EventsUnlocked, this.listenUnlockedEvents, this);
     sceneEventsEmitter.on(sceneEvents.EventsDispatched, this.listenDispatchedEvents, this);
+    this.cameras.main.fadeIn(2000, 0, 0, 0);
 
     if (urlParamHas('bypassminigame')) {
       this.endGame();
@@ -457,8 +458,7 @@ export default class Mine extends MiniGameUi {
   }
 
   startGame() {
-    this.cameras.main.fadeIn(2000, 0, 0, 0);
-
+    this.timeStart = Date.now();
     this.time.addEvent({
       callback: () => this.startDiscussion("mine"),
       delay: 1000,
@@ -466,6 +466,8 @@ export default class Mine extends MiniGameUi {
   }
 
   endGame() {
+    gameDuration('Mine', this.timeStart);
+
     this.cameras.main.fadeOut(1000, 0, 0, 0, (cam, progress) => {
       if (progress !== 1) return;
       this.scene.stop();
@@ -614,7 +616,6 @@ export default class Mine extends MiniGameUi {
 
   update(time, delta) {
     if (this.isGameOver) return;
-    //console.log('Mine update ' + time)
 
     this.rockParticles.setVisible(false);
 

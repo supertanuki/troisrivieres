@@ -3,7 +3,7 @@ import Game from "../Game";
 import { setVillageForThirdAct, toggleScreensVisibility } from "../Story/afterFactory";
 import { setVillageForSecondAct } from "../Story/afterMineNightmare";
 import { setVillageBeforeMine } from "../Story/mineAccessValidation";
-import { urlParamHas } from "../Utils/isDebug";
+import { urlParamHas } from "../Utils/debug";
 import { switchNight } from "./night";
 import { toggleRoadsVisibility } from "./roads";
 import { secondRiverLessWater } from "./secondRiverLessWater";
