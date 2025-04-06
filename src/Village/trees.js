@@ -61,7 +61,7 @@ export const createTrees = function (scene) {
     scene.pointsCollider.push(
       scene.physics.add
         .sprite(treeObject.x, treeObject.y - 10, null)
-        .setSize(16, 1)
+        .setSize(8, 1)
         .setOrigin(0.5, 1)
         .setImmovable(true)
         .setVisible(false)

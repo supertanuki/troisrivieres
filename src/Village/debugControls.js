@@ -47,7 +47,7 @@ export const addDebugControls = function (scene) {
     .on("down", () => {
       setVillageBeforeMine(scene);
       setVillageForSecondAct(scene);
-      setVillageForThirdAct(scene);
+      //setVillageForThirdAct(scene);
       //return;
 
       sceneEventsEmitter.emit(sceneEvents.PreEventsUnlocked, [
@@ -57,8 +57,9 @@ export const addDebugControls = function (scene) {
         //"pre_first_sleep",
         //"miner_ask_for_card",
         //"mine_after",
-        //"second_act_begin",
-        "third_act_begin",
+        "factory_after",
+        //"factory_after",
+        //"third_act_begin",
         //"strike_begin"
       ]);
     });

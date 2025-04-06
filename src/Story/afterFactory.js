@@ -1,9 +1,11 @@
+import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import Game from "../Game";
 import { DiscussionStatus } from "../Utils/discussionStatus";
 import { dispatchUnlockEvents } from "../Utils/events";
 import { playIndustryTheme, playVillageTheme } from "../Utils/music";
 import { noMoreBirds } from "../Village/birds";
 import { noMoreButterflies } from "../Village/butterflies";
+import { handleAction } from "../Village/handleAction";
 import { setNightState } from "../Village/night";
 import { toggleSpritesVisibility } from "../Village/spritesVisibility";
 
@@ -17,8 +19,10 @@ export const afterFactory = function (scene) {
   scene.currentDiscussionStatus = DiscussionStatus.NONE;
   setNightState(scene, true);
   toggleSpritesVisibility(scene, false, true);
+
+  scene.whiteWorker1.setVisible(false);
+  scene.whiteWorker2.setVisible(false);
   scene.whiteWorkerChief.setVisible(false);
-  scene.django.setVisible(false);
 
   scene.setHeroPosition("heroFactory");
   scene.hero.slowDown();
@@ -52,6 +56,13 @@ export const afterFactory = function (scene) {
 
         playVillageTheme(scene);
         setVillageForThirdAct(scene);
+
+        // @todo ? remove delayedcall and check when mai is near django ?
+        scene.time.delayedCall(1200, () => {
+          scene.isCinematic = false;
+          sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "django");
+          handleAction(scene);
+        });
       });
       scene.events.off("update", updateCallback);
     }
@@ -61,6 +72,7 @@ export const afterFactory = function (scene) {
 };
 
 export const setVillageForThirdAct = function (scene) {
+  console.log('setVillageForThirdAct')
   noMoreBirds(scene);
   noMoreButterflies(scene);
   setNightState(scene, false);
@@ -91,21 +103,23 @@ export const setVillageForThirdAct = function (scene) {
       scene.whiteWorker1.setPosition(spriteObject.x, spriteObject.y);
       scene.whiteWorker1.scaleX = 1;
       scene.whiteWorker1.setOffset(0, scene.whiteWorker1.height / 2);
+      scene.whiteWorker1.setVisible(true);
     }
 
     if (spriteObject.name === "afterFactoryWhiteWorker2") {
       scene.whiteWorker2.setPosition(spriteObject.x, spriteObject.y);
+      scene.whiteWorker2.setVisible(true);
     }
   });
 
   scene.ball.setVisible(false);
-  scene.setHeroPosition("heroDjango");
-  scene.hero.animateToRight();
-  scene.hero.stopAndWait();
 
   dispatchUnlockEvents(["third_act_begin"]);
   scene.cameras.main.fadeIn(1000, 0, 0, 0);
-  scene.isCinematic = false;
+
+  scene.setHeroPosition("heroDjango");
+  scene.hero.slowRight();
+  scene.hero.animateToRight();
 };
 
 export const toggleScreensVisibility = function (scene) {
