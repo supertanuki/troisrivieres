@@ -750,6 +750,14 @@ const messageWorkflow = {
       ],
       repeat: ["Je tente ma chance à l'usine."],
     },
+    {
+      messages: [
+        "Vu la non-qualité de ton travail…",
+        "Tu n'es plus la bienvenue à l'usine.",
+      ],
+      repeat: ["Tu n'es plus la bienvenue à l'usine."],
+      dependingOn: ["third_act_begin"],
+    },
   ],
   whiteWorker2: [
     {
@@ -758,6 +766,12 @@ const messageWorkflow = {
         "mais faut bien mettre du beurre dans les épinards !",
       ],
       repeat: ["Il faut bien mettre du beurre dans les épinards !"],
+    },
+    {
+      messages: [
+        "Tu ne passes plus… Ordre des chefs !",
+      ],
+      dependingOn: ["third_act_begin"],
     },
   ],
   whiteWorkerChief: [

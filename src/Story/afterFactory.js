@@ -17,8 +17,6 @@ export const afterFactory = function (scene) {
   scene.currentDiscussionStatus = DiscussionStatus.NONE;
   setNightState(scene, true);
   toggleSpritesVisibility(scene, false, true);
-  scene.whiteWorker1.setVisible(false);
-  scene.whiteWorker2.setVisible(false);
   scene.whiteWorkerChief.setVisible(false);
   scene.django.setVisible(false);
 
@@ -69,6 +67,13 @@ export const setVillageForThirdAct = function (scene) {
   toggleSpritesVisibility(scene, true, true);
   toggleScreensVisibility(scene);
 
+  scene.cameras.main.setBounds(
+    0,
+    400, // top of the village is disabled
+    2144, // mine on the right is disabled
+    scene.map.heightInPixels - 408
+  );
+
   scene.map.getObjectLayer("sprites").objects.forEach((spriteObject) => {
     if (spriteObject.name === "boyThirdAct") {
       scene.boy.setThirdAct(spriteObject.x, spriteObject.y);
@@ -80,6 +85,16 @@ export const setVillageForThirdAct = function (scene) {
 
     if (spriteObject.name === "babyThirdAct") {
       scene.baby.setPosition(spriteObject.x, spriteObject.y);
+    }
+
+    if (spriteObject.name === "afterFactoryWhiteWorker1") {
+      scene.whiteWorker1.setPosition(spriteObject.x, spriteObject.y);
+      scene.whiteWorker1.scaleX = 1;
+      scene.whiteWorker1.setOffset(0, scene.whiteWorker1.height / 2);
+    }
+
+    if (spriteObject.name === "afterFactoryWhiteWorker2") {
+      scene.whiteWorker2.setPosition(spriteObject.x, spriteObject.y);
     }
   });
 

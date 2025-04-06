@@ -58,7 +58,8 @@ export const addDebugControls = function (scene) {
         //"miner_ask_for_card",
         //"mine_after",
         //"second_act_begin",
-        "strike_begin"
+        "third_act_begin",
+        //"strike_begin"
       ]);
     });
 
