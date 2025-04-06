@@ -10,7 +10,7 @@ export const firstSleep = function (scene) {
   scene.isCinematic = true;
   scene.cameras.main.fadeOut(1000, 0, 0, 0, (cam, progress) => {
     if (progress !== 1) return;
-    endFirstSleep(scene);
+    scene.time.delayedCall(2000, () => endFirstSleep(scene));
   })
 };
 
