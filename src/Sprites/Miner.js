@@ -13,20 +13,19 @@ class Miner extends Chat {
 
     scene.anims.create({
       key: "miner-idle",
+      defaultTextureKey: "sprites",
+      duration: 2100,
+      repeat: -1,
       frames: [
         {
-          key: "sprites",
           frame: "miner-1",
           duration: 2000,
         },
         {
-          key: "sprites",
           frame: "miner-2",
-          duration: 300,
+          duration: 100,
         },
       ],
-      repeat: -1,
-      frameRate: 1,
     });
 
     this.anims.play("miner-idle", true);
