@@ -1,4 +1,4 @@
-import { AUTO, Game, Scale } from 'phaser';
+import { AUTO, Game, Scale } from "phaser";
 
 import { isDebug } from "./Utils/debug";
 import Preloader from "./Preloader";
@@ -8,6 +8,7 @@ import Workflow from "./Workflow/Workflow";
 import Factory from "./Factory/Factory";
 import MineNightmare from "./Mine/MineNightmare";
 import Mine from "./Mine/Mine";
+import RecyclingCentre from "./RecyclingCentre/RecyclingCentre";
 
 const config = {
   type: AUTO,
@@ -16,7 +17,7 @@ const config = {
   render: { pixelArt: true },
   width: 450,
   height: 250,
-  backgroundColor: '#000000',
+  backgroundColor: "#000000",
   physics: {
     default: "arcade",
     arcade: {
@@ -24,7 +25,16 @@ const config = {
       gravity: { y: 0 },
     },
   },
-  scene: [Preloader, MainScene, MineNightmare, Mine, Factory, Message, Workflow],
+  scene: [
+    Preloader,
+    MainScene,
+    MineNightmare,
+    Mine,
+    Factory,
+    RecyclingCentre,
+    Message,
+    Workflow,
+  ],
   scale: {
     mode: Scale.FIT,
     autoCenter: Scale.CENTER_BOTH,

@@ -1,7 +1,11 @@
-import Phaser from "phaser";
 import isMobileOrTablet from "../Utils/isMobileOrTablet";
 import MiniGameUi from "../UI/MiniGameUi";
-import { gameDuration, urlParamHas } from "../Utils/debug";
+import {
+  gameDuration,
+  getUrlParam,
+  isDebug,
+  urlParamHas,
+} from "../Utils/debug";
 import { dispatchUnlockEvents, eventsHas } from "../Utils/events";
 import { DiscussionStatus } from "../Utils/discussionStatus";
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
@@ -9,16 +13,31 @@ import { getUiMessage } from "../Workflow/messageWorkflow";
 import { FONT_RESOLUTION } from "../UI/Message";
 import { playMiniGameTheme } from "../Utils/music";
 
+const OBJECTS_NAMES = ["blue", "red", "green", "yellow"];
+const SPEED_INCREMENT = getUrlParam("speedIncrement", 0.5);
+const GRAVITY = getUrlParam("gravity", 0.2);
+const DELAY_DECREMENT = getUrlParam("delayDecrement", 10);
 
 export default class RecyclingCentre extends MiniGameUi {
   constructor() {
     super({
       key: "recyclingCentre",
+      physics: {
+        matter: {
+          debug: isDebug(),
+          gravity: { y: GRAVITY },
+        },
+      },
     });
+
+    this.delayBetweenObjects = 500;
+    this.objects = [];
+    this.currentObject = null;
   }
 
   preload() {
     super.preload();
+    this.load.atlas("factory", "sprites/factory.png", "sprites/factory.json");
   }
 
   create() {
@@ -32,9 +51,126 @@ export default class RecyclingCentre extends MiniGameUi {
   }
 
   startGame() {
-    if (urlParamHas('recyclingCentre')) {
+    if (urlParamHas("recyclingCentre")) {
       playMiniGameTheme(this);
     }
+
+    this.ground = this.matter.add.gameObject(
+      this.add.rectangle(275, 290, 100, 5, 0xffffff).setOrigin(0.5, 0.5),
+      { isStatic: true }
+    );
+    this.matter.add.gameObject(
+      this.add.rectangle(225, 245, 5, 90, 0xffffff).setOrigin(0.5, 0.5),
+      { isStatic: true }
+    );
+    this.matter.add.gameObject(
+      this.add.rectangle(325, 245, 5, 90, 0xffffff).setOrigin(0.5, 0.5),
+      { isStatic: true }
+    );
+
+    this.redGround = this.matter.add.gameObject(
+      this.add.rectangle(55, 290, 100, 5, 0xff5555).setOrigin(0.5, 0.5),
+      { isStatic: true }
+    );
+    this.matter.add.gameObject(
+      this.add.rectangle(5, 245, 5, 90, 0xff5555).setOrigin(0.5, 0.5),
+      { isStatic: true }
+    );
+    this.matter.add.gameObject(
+      this.add.rectangle(105, 245, 5, 90, 0xff5555).setOrigin(0.5, 0.5),
+      { isStatic: true }
+    );
+
+    this.greenGround = this.matter.add.gameObject(
+      this.add.rectangle(165, 290, 100, 5, 0x55ff55).setOrigin(0.5, 0.5),
+      { isStatic: true }
+    );
+    this.matter.add.gameObject(
+      this.add.rectangle(115, 245, 5, 90, 0x55ff55).setOrigin(0.5, 0.5),
+      { isStatic: true }
+    );
+    this.matter.add.gameObject(
+      this.add.rectangle(215, 245, 5, 90, 0x55ff55).setOrigin(0.5, 0.5),
+      { isStatic: true }
+    );
+
+    this.blueGround = this.matter.add.gameObject(
+      this.add.rectangle(385, 290, 100, 5, 0x5555ff).setOrigin(0.5, 0.5),
+      { isStatic: true }
+    );
+    this.matter.add.gameObject(
+      this.add.rectangle(335, 245, 5, 90, 0x5555ff).setOrigin(0.5, 0.5),
+      { isStatic: true }
+    );
+    this.matter.add.gameObject(
+      this.add.rectangle(435, 245, 5, 90, 0x5555ff).setOrigin(0.5, 0.5),
+      { isStatic: true }
+    );
+
+    this.yellowGround = this.matter.add.gameObject(
+      this.add.rectangle(495, 290, 100, 5, 0xffff55).setOrigin(0.5, 0.5),
+      { isStatic: true }
+    );
+
+    this.matter.add.gameObject(
+      this.add.rectangle(445, 245, 5, 90, 0xffff55).setOrigin(0.5, 0.5),
+      { isStatic: true }
+    );
+    this.matter.add.gameObject(
+      this.add.rectangle(545, 245, 5, 90, 0xffff55).setOrigin(0.5, 0.5),
+      { isStatic: true }
+    );
+
+    this.matter.add
+      .gameObject(
+        this.add.image(50, 250, "factory", `component-red`).setScale(1.4)
+      )
+      .setVelocityY(0.1);
+
+    this.matter.add
+      .gameObject(
+        this.add.image(160, 250, "factory", `component-green`).setScale(1.4)
+      )
+      .setVelocityY(0.1);
+
+    this.matter.add
+      .gameObject(
+        this.add.image(380, 250, "factory", `component-blue`).setScale(1.4)
+      )
+      .setVelocityY(0.1);
+
+    this.matter.add
+      .gameObject(
+        this.add.image(490, 250, "factory", `component-yellow`).setScale(1.4)
+      )
+      .setVelocityY(0.1);
+
+    //const support = this.matter.add.rectangle(275, 295, 550, 5, { fill: "#ffffff", isStatic: true })
+
+    this.matter.world.setBounds(0, -100, 550, 400);
+
+    this.matter.world.on("collisionstart", (event, bodyA, bodyB) => {
+      console.log({
+        event,
+        bodyA: bodyA.gameObject,
+        bodyB: bodyB.gameObject,
+        currentObject: this.currentObject,
+      });
+      if (bodyB.gameObject === this.currentObject) {
+        this.currentObject = null;
+        this.delayBetweenObjects -= DELAY_DECREMENT;
+
+        if (this.delayBetweenObjects > 0) {
+          this.time.delayedCall(this.delayBetweenObjects, () =>
+            this.initObject()
+          );
+        } else {
+          this.initObject();
+          this.time.delayedCall(1000, () => this.initObject());
+          this.time.delayedCall(2000, () => this.initObject());
+        }
+      }
+    });
 
     this.cameras.main.fadeIn(2000, 0, 0, 0);
 
@@ -44,6 +180,7 @@ export default class RecyclingCentre extends MiniGameUi {
       delay: 1000,
     });
     */
+    this.afterTuto();
   }
 
   gameOver() {
@@ -99,12 +236,12 @@ export default class RecyclingCentre extends MiniGameUi {
     this.isCinematic = false;
     this.firstStep = false;
     // start
+    this.time.delayedCall(1500, () => this.initObject());
   }
 
   createControls() {
     this.cursors = this.input.keyboard.addKeys({
       space: "space",
-      up: "up",
       down: "down",
       left: "left",
       right: "right",
@@ -113,16 +250,28 @@ export default class RecyclingCentre extends MiniGameUi {
     this.input.keyboard.on(
       "keydown",
       (event) => {
-        if (event.key === "ArrowUp") {
-          this.up();
-        } else if (event.key === "ArrowDown") {
-          this.down()
+        if (event.key === "ArrowDown") {
+          this.down();
         } else if (event.key === "ArrowLeft") {
           this.left();
         } else if (event.key === "ArrowRight") {
           this.right();
         } else if (event.keyCode === 32) {
           this.handleAction();
+        }
+      },
+      this
+    );
+
+    this.input.keyboard.on(
+      "keyup",
+      (event) => {
+        if (event.key === "ArrowLeft") {
+          this.goingLeft = false;
+        } else if (event.key === "ArrowRight") {
+          this.goingRight = false;
+        } else if (event.key === "ArrowDown") {
+          this.goingDown = false;
         }
       },
       this
@@ -181,30 +330,55 @@ export default class RecyclingCentre extends MiniGameUi {
 
   handleAction() {
     super.handleAction();
+    if (!this.currentObject) return;
 
-    if (this.currentDiscussionStatus === DiscussionStatus.NONE) {
-      this.setComponent();
-    }
+    this.tweens.add({
+      targets: this.currentObject,
+      angle: this.currentObject.angle + 90,
+      ease: "Sine.easeInOut",
+      duration: 100,
+    });
   }
 
   right() {
     super.handleAction();
+    this.goingRight = true;
   }
 
   left() {
     super.handleAction();
-  }
-
-  up() {
-    super.handleAction();
+    this.goingLeft = true;
   }
 
   down() {
     super.handleAction();
+    // once
+    console.log(this.currentObject.getVelocity().y);
+    if (this.currentObject.getVelocity().y > 4) return;
+
+    this.currentObject.setVelocityY(10);
+  }
+
+  initObject() {
+    const name = Phaser.Math.RND.pick(OBJECTS_NAMES);
+
+    const object = this.matter.add.gameObject(
+      this.add.image(275, 0, "factory", `component-${name}`).setScale(1.4)
+    );
+    object.setVelocityY(0.1 + SPEED_INCREMENT);
+    this.objects.push(object);
+    this.currentObject = object;
   }
 
   update() {
     if (this.isCinematic) return;
 
+    if (!this.currentObject) return;
+
+    if (this.goingRight) {
+      this.currentObject.setVelocityX(5);
+    } else if (this.goingLeft) {
+      this.currentObject.setVelocityX(-5);
+    }
   }
 }

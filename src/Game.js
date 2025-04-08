@@ -128,6 +128,11 @@ export default class Game extends Scene {
       return;
     }
 
+    if (urlParamHas("recyclingCentre")) {
+      this.debugRecyclingCentre();
+      return;
+    }
+
     init(this);
   }
 
@@ -144,6 +149,11 @@ export default class Game extends Scene {
   debugMine() {
     this.scene.pause("game");
     this.scene.launch("mine");
+  }
+
+  debugRecyclingCentre() {
+    this.scene.pause("game");
+    this.scene.launch("recyclingCentre");
   }
 
   resetGameSize() {
