@@ -153,8 +153,6 @@ export default class Factory extends MiniGameUi {
       .setOrigin(0, 0);
 
     // front
-    this.tube = this.add.rectangle(510, 100, 1, 1, 0x000000).setOrigin(0.5, 1);
-
     for (let i = 0; i < 3; i++) {
       this.conveyorRollings.push(
         this.add
