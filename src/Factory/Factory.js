@@ -821,14 +821,15 @@ export default class Factory extends MiniGameUi {
   }
 
   update() {
-    if (this.isCinematic) return;
-
+    // keep back conveyor always animated
     this.conveyorBackPosition += 1;
     this.conveyorInBack.setTilePosition(this.conveyorBackPosition, 0);
     this.backMotherboards.forEach((backMotherboard) => {
       backMotherboard.x--;
       if (backMotherboard.x < -100) backMotherboard.x = 600;
     });
+
+    if (this.isCinematic) return;
 
     if (!this.motherBoard.length) {
       this.conveyorRollings.forEach((element) => element.anims.stop());
