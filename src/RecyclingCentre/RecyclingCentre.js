@@ -7,13 +7,10 @@ import {
   urlParamHas,
 } from "../Utils/debug";
 import { dispatchUnlockEvents, eventsHas } from "../Utils/events";
-import { DiscussionStatus } from "../Utils/discussionStatus";
-import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
-import { getUiMessage } from "../Workflow/messageWorkflow";
 import { FONT_RESOLUTION } from "../UI/Message";
 import { playMiniGameTheme } from "../Utils/music";
 
-const OBJECTS_NAMES = ["blue", "red", "green", "yellow"];
+const OBJECTS_NAMES = ["console", "laptop", "phone", "screen"];
 const SPEED_INCREMENT = getUrlParam("speedIncrement", 0.5);
 const GRAVITY = getUrlParam("gravity", 0.2);
 const DELAY_DECREMENT = getUrlParam("delayDecrement", 10);
@@ -37,13 +34,13 @@ export default class RecyclingCentre extends MiniGameUi {
 
   preload() {
     super.preload();
-    this.load.atlas("factory", "sprites/factory.png", "sprites/factory.json");
+    this.load.atlas("recycling", "sprites/recycling.png", "sprites/recycling.json");
   }
 
   create() {
     this.timeStart = Date.now();
     super.create();
-    this.cameras.main.setBackgroundColor(0x000000);
+    this.cameras.main.setBackgroundColor(0x777777);
     this.scale.setGameSize(550, 300);
 
     this.createControls();
@@ -123,25 +120,25 @@ export default class RecyclingCentre extends MiniGameUi {
 
     this.matter.add
       .gameObject(
-        this.add.image(50, 250, "factory", `component-red`).setScale(1.4)
+        this.add.image(50, 250, "recycling", `laptop`)
       )
       .setVelocityY(0.1);
 
     this.matter.add
       .gameObject(
-        this.add.image(160, 250, "factory", `component-green`).setScale(1.4)
+        this.add.image(160, 250, "recycling", `console1`)
       )
       .setVelocityY(0.1);
 
     this.matter.add
       .gameObject(
-        this.add.image(380, 250, "factory", `component-blue`).setScale(1.4)
+        this.add.image(380, 250, "recycling", `phone`)
       )
       .setVelocityY(0.1);
 
     this.matter.add
       .gameObject(
-        this.add.image(490, 250, "factory", `component-yellow`).setScale(1.4)
+        this.add.image(490, 250, "recycling", `screen`)
       )
       .setVelocityY(0.1);
 
@@ -361,9 +358,10 @@ export default class RecyclingCentre extends MiniGameUi {
 
   initObject() {
     const name = Phaser.Math.RND.pick(OBJECTS_NAMES);
+    const consoleId = Phaser.Math.Between(1, 4);
 
     const object = this.matter.add.gameObject(
-      this.add.image(275, 0, "factory", `component-${name}`).setScale(1.4)
+      this.add.image(275, 0, "recycling", `${name}${name === 'console' ? consoleId : ''}`)
     );
     object.setVelocityY(0.1 + SPEED_INCREMENT);
     this.objects.push(object);
