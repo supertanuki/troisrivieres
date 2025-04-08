@@ -52,16 +52,8 @@ export default class RecyclingCentre extends MiniGameUi {
       playMiniGameTheme(this);
     }
 
-    this.ground = this.matter.add.gameObject(
-      this.add.rectangle(275, 290, 100, 5, 0xffffff).setOrigin(0.5, 0.5),
-      { isStatic: true }
-    );
-    this.matter.add.gameObject(
-      this.add.rectangle(225, 245, 5, 90, 0xffffff).setOrigin(0.5, 0.5),
-      { isStatic: true }
-    );
-    this.matter.add.gameObject(
-      this.add.rectangle(325, 245, 5, 90, 0xffffff).setOrigin(0.5, 0.5),
+    this.platform = this.matter.add.gameObject(
+      this.add.rectangle(80, 60, 170, 5, 0xffffff).setOrigin(0.5, 0.5),
       { isStatic: true }
     );
 
@@ -153,19 +145,22 @@ export default class RecyclingCentre extends MiniGameUi {
         bodyB: bodyB.gameObject,
         currentObject: this.currentObject,
       });
-      if (bodyB.gameObject === this.currentObject) {
-        this.currentObject = null;
-        this.delayBetweenObjects -= DELAY_DECREMENT;
 
-        if (this.delayBetweenObjects > 0) {
-          this.time.delayedCall(this.delayBetweenObjects, () =>
-            this.initObject()
-          );
-        } else {
-          this.initObject();
-          this.time.delayedCall(1000, () => this.initObject());
-          this.time.delayedCall(2000, () => this.initObject());
-        }
+      if (!this.currentObject) return;
+      if (this.currentObject.y < 60) return;
+      if (bodyB.gameObject !== this.currentObject) return;
+
+      this.currentObject = null;
+      this.delayBetweenObjects -= DELAY_DECREMENT;
+
+      if (this.delayBetweenObjects > 0) {
+        this.time.delayedCall(this.delayBetweenObjects, () =>
+          this.initObject()
+        );
+      } else {
+        this.initObject();
+        this.time.delayedCall(1000, () => this.initObject());
+        this.time.delayedCall(2000, () => this.initObject());
       }
     });
 
@@ -349,8 +344,9 @@ export default class RecyclingCentre extends MiniGameUi {
 
   down() {
     super.handleAction();
-    // once
-    console.log(this.currentObject.getVelocity().y);
+
+    if (!this.currentObject) return;
+    if (this.currentObject.y < 60) return;
     if (this.currentObject.getVelocity().y > 4) return;
 
     this.currentObject.setVelocityY(10);
@@ -361,9 +357,9 @@ export default class RecyclingCentre extends MiniGameUi {
     const consoleId = Phaser.Math.Between(1, 4);
 
     const object = this.matter.add.gameObject(
-      this.add.image(275, 0, "recycling", `${name}${name === 'console' ? consoleId : ''}`)
+      this.add.image(20, 30, "recycling", `${name}${name === 'console' ? consoleId : ''}`)
     );
-    object.setVelocityY(0.1 + SPEED_INCREMENT);
+    //object.setVelocityX(0.1 + SPEED_INCREMENT);
     this.objects.push(object);
     this.currentObject = object;
   }
@@ -372,6 +368,13 @@ export default class RecyclingCentre extends MiniGameUi {
     if (this.isCinematic) return;
 
     if (!this.currentObject) return;
+
+    console.log(this.currentObject.y)
+
+    if (this.currentObject.y < 60) {
+      this.currentObject.setVelocityX(2);
+      return;
+    }
 
     if (this.goingRight) {
       this.currentObject.setVelocityX(5);
