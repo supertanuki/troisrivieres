@@ -10,18 +10,10 @@ import { dispatchUnlockEvents, eventsHas } from "../Utils/events";
 import { FONT_RESOLUTION } from "../UI/Message";
 import { playMiniGameTheme } from "../Utils/music";
 
-const OBJECTSPECS = {
-  console: { w: 4, h: 2 },
-  laptop: { w: 4, h: 3 },
-  phone: { w: 1, h: 2 },
-  screen: { w: 3, h: 3 },
-};
-
-const MATRIX_SIZE = { w: 20, h: 30 };
-
-const STEP = 10;
-const STEPTIME = 100;
-const MATRIX_DELTA_X = 200;
+const OBJECTS_NAMES = ["console", "laptop", "phone", "screen"];
+const SPEED_INCREMENT = getUrlParam("speedIncrement", 0.5);
+const GRAVITY = getUrlParam("gravity", 0.2);
+const DELAY_DECREMENT = getUrlParam("delayDecrement", 10);
 
 export default class RecyclingCentre extends MiniGameUi {
   constructor() {
@@ -31,23 +23,12 @@ export default class RecyclingCentre extends MiniGameUi {
 
     this.delayBetweenObjects = 500;
     this.objects = [];
-    this.matrixLines = [];
     this.currentObject = null;
-    this.lastTime = 0;
-
-    this.matrix = [];
-    this.matrixPosition = 0;
   }
 
   preload() {
     super.preload();
-
-    this.load.atlas("factory", "sprites/factory.png", "sprites/factory.json");
-    this.load.atlas(
-      "recycling",
-      "sprites/recycling.png",
-      "sprites/recycling.json"
-    );
+    this.load.atlas("recycling", "sprites/recycling.png", "sprites/recycling.json");
   }
 
   create() {
@@ -55,31 +36,6 @@ export default class RecyclingCentre extends MiniGameUi {
     super.create();
     this.cameras.main.setBackgroundColor(0x777777);
     this.scale.setGameSize(550, 300);
-
-    this.matrixPositionText = this.add
-      .text(100, 60, "0")
-      .setOrigin(0.5, 0.5)
-      .setDepth(10000);
-
-    const lineColor = 0x999999;
-
-    // columns
-    for (let x = 0; x <= MATRIX_SIZE.w; x++) {
-      const realX = MATRIX_DELTA_X + x * STEP;
-      const line = this.add
-        .line(realX, 0, 0, 0, 0, 300, lineColor)
-        .setOrigin(0, 0);
-      this.matrixLines.push(line);
-    }
-
-    // rows
-    for (let y = 0; y <= MATRIX_SIZE.h; y++) {
-      const realY = y * STEP;
-      const line = this.add
-        .line(MATRIX_DELTA_X, 0, 0, realY, 200, realY, lineColor)
-        .setOrigin(0, 0);
-      this.matrixLines.push(line);
-    }
 
     this.createControls();
     this.startGame();
@@ -250,167 +206,43 @@ export default class RecyclingCentre extends MiniGameUi {
     super.handleAction();
     if (!this.currentObject) return;
 
-    /*
     this.tweens.add({
       targets: this.currentObject,
       angle: this.currentObject.angle + 90,
       ease: "Sine.easeInOut",
       duration: 100,
     });
-    */
   }
 
   right() {
     super.handleAction();
-    if (!this.checkObjectSidePosition('left')) return
-
     this.goingRight = true;
-    this.matrixPosition++;
-    this.currentObjectX--;
-    this.matrixPositionText.setText("" + this.matrixPosition);
-    for (const object of this.objects) object.x += STEP;
-    for (const line of this.matrixLines) line.x += STEP;
   }
 
   left() {
     super.handleAction();
-    if (!this.checkObjectSidePosition('right')) return
-
     this.goingLeft = true;
-    this.matrixPosition--;
-    this.currentObjectX++;
-    this.matrixPositionText.setText("" + this.matrixPosition);
-    for (const object of this.objects) object.x -= STEP;
-    for (const line of this.matrixLines) line.x -= STEP;
   }
 
   down() {
     super.handleAction();
-    if (!this.checkObjectDownPosition()) {
-      this.stopCurrentObject();
-      return;
-    }
-
-    this.currentObject.y += STEP;
-    this.currentObjectY++;
-  }
-
-  setCurrentObjectPositionInMatrix() {
-    for (let x = 0; x < OBJECTSPECS[this.currentObjectName].w; x++) {
-      this.setMatrixPosition(
-        this.currentObjectName,
-        this.currentObjectX + x,
-        this.currentObjectY
-      );
-    }
-  }
-
-  getMatrixPosition(x, y) {
-    return this.matrix?.[x]?.[y];
-  }
-
-  setMatrixPosition(objectName, x, y) {
-    if (!this.matrix[x]) this.matrix[x] = [];
-    if (this.matrix[x][y]) throw new Error(`Object exists in ${x} / ${y}`);
-    this.matrix[x][y] = objectName;
-  }
-
-  checkObjectSidePosition(side) {
-    if (!this.currentObject) return;
-
-    if (this.currentObjectX + OBJECTSPECS[this.currentObjectName].w === 20)
-      return false;
-
-    if (this.currentObjectX === 0) return false;
-
-    // there is an object next to it
-    if (side === 'left') {
-      for (let y = 0; y < OBJECTSPECS[this.currentObjectName].h; y++) {
-        if (this.getMatrixPosition(this.currentObjectX - 1, this.currentObjectY + y)) return false
-      }
-    }
-
-    if (side === 'right') {
-      for (let y = 0; y < OBJECTSPECS[this.currentObjectName].h; y++) {
-        if (this.getMatrixPosition(this.currentObjectX + OBJECTSPECS[this.currentObjectName].w, this.currentObjectY + y)) return false
-      }
-    }
-
-    return true
-  }
-
-  checkObjectDownPosition() {
-    // last position
-    if (
-      this.currentObjectY + OBJECTSPECS[this.currentObjectName].h ===
-      MATRIX_SIZE.h
-    )
-      return false;
-
-    // there is an object under it
-    for (let x = 0; x < OBJECTSPECS[this.currentObjectName].w; x++) {
-      if (
-        this.getMatrixPosition(this.currentObjectX + x, this.currentObjectY + OBJECTSPECS[this.currentObjectName].h)
-      )
-        return false;
-    }
-
-    return true;
-  }
-
-  resetMatrixPosition() {
-    const resetFactor = STEP * -this.matrixPosition;
-    for (const object of this.objects) object.x += resetFactor;
-    for (const line of this.matrixLines) line.x += resetFactor;
-    this.matrixPosition = 0;
   }
 
   initObject() {
-    this.resetMatrixPosition();
-    this.currentObjectName = Phaser.Math.RND.pick(Object.keys(OBJECTSPECS));
-    this.currentObjectX = Phaser.Math.Between(9, 11);
-    this.currentObjectY = 0;
-    const newObject = this.add
-      .image(
-        MATRIX_DELTA_X +
-          this.matrixPosition * STEP +
-          this.currentObjectX * STEP,
-        this.currentObjectY,
-        "recycling",
-        `${this.currentObjectName}${
-          this.currentObjectName === "console" ? 1 : ""
-        }`
-      )
-      .setOrigin(0, 0);
-    this.currentObject = newObject;
-  }
+    const name = Phaser.Math.RND.pick(OBJECTS_NAMES);
+    const consoleId = Phaser.Math.Between(1, 4);
 
-  stopCurrentObject() {
-    this.setCurrentObjectPositionInMatrix();
-    this.objects.push(this.currentObject);
-    this.currentObject = null;
-    this.time.delayedCall(500, () => this.initObject());
+    const object = this.matter.add.gameObject(
+      this.add.image(20, 30, "recycling", `${name}${name === 'console' ? consoleId : ''}`)
+    );
+    //object.setVelocityX(0.1 + SPEED_INCREMENT);
+    this.objects.push(object);
+    this.currentObject = object;
   }
 
   update(time, delta) {
+    console.log(time, delta)
     if (this.isCinematic) return;
     if (!this.currentObject) return;
-
-    if (this.lastTime < time - STEPTIME) {
-      this.lastTime = time;
-
-      /*
-      if (this.goingLeft) this.left()
-      else if (this.goingRight) this.right()
-      */
-      //this.currentObject.y += STEP
-      this.down();
-    }
-
-    /*
-    if (this.currentObjectY >= 10) {
-      this.stopCurrentObject();
-    }
-      */
   }
 }
