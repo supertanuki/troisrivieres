@@ -14,16 +14,14 @@ export default class Baby extends Chat {
         {
           key: "sprites",
           frame: "baby-1",
-          duration: 1000,
         },
         {
           key: "sprites",
           frame: "baby-2",
-          duration: 1000,
         },
       ],
       repeat: -1,
-      frameRate: 1,
+      frameRate: 2,
     });
 
     this.anims.play("baby-idle", true);

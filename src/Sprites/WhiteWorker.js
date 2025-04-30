@@ -48,12 +48,10 @@ export const createWhiteWorkerAnimation = function (scene) {
       {
         key: "sprites",
         frame: "white-worker-1",
-        duration: 4,
       },
       {
         key: "sprites",
         frame: "white-worker-2",
-        duration: 1,
       },
     ],
     repeat: -1,
@@ -66,12 +64,10 @@ export const createWhiteWorkerAnimation = function (scene) {
       {
         key: "sprites",
         frame: "white-worker-2",
-        duration: 1,
       },
       {
         key: "sprites",
         frame: "white-worker-1",
-        duration: 3,
       },
     ],
     repeat: -1,
@@ -84,17 +80,14 @@ export const createWhiteWorkerAnimation = function (scene) {
       {
         key: "sprites",
         frame: "white-worker-1",
-        duration: 2,
       },
       {
         key: "sprites",
         frame: "white-worker-1",
-        duration: 2,
       },
       {
         key: "sprites",
         frame: "white-worker-2",
-        duration: 1,
       },
     ],
     repeat: -1,

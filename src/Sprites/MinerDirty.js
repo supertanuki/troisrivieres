@@ -57,12 +57,10 @@ export const createDirtyMinerAnimation = function (scene) {
       {
         key: "sprites",
         frame: "miner-dirty-1",
-        duration: 4,
       },
       {
         key: "sprites",
         frame: "miner-dirty-2",
-        duration: 1,
       },
     ],
     repeat: -1,
@@ -75,12 +73,10 @@ export const createDirtyMinerAnimation = function (scene) {
       {
         key: "sprites",
         frame: "miner-dirty-2",
-        duration: 1,
       },
       {
         key: "sprites",
         frame: "miner-dirty-1",
-        duration: 3,
       },
     ],
     repeat: -1,
@@ -93,17 +89,14 @@ export const createDirtyMinerAnimation = function (scene) {
       {
         key: "sprites",
         frame: "miner-dirty-1",
-        duration: 2,
       },
       {
         key: "sprites",
         frame: "miner-dirty-1",
-        duration: 2,
       },
       {
         key: "sprites",
         frame: "miner-dirty-2",
-        duration: 1,
       },
     ],
     repeat: -1,

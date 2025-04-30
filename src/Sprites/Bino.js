@@ -15,22 +15,18 @@ export default class Bino extends Chat {
         {
           key: "sprites",
           frame: "bino-1",
-          duration: 1,
         },
         {
           key: "sprites",
           frame: "bino-2",
-          duration: 1,
         },
         {
           key: "sprites",
           frame: "bino-3",
-          duration: 1,
         },
         {
           key: "sprites",
           frame: "bino-2",
-          duration: 1,
         },
       ],
       repeat: -1,

@@ -14,17 +14,14 @@ export default class TwoWomen extends Chat {
         {
           key: "sprites",
           frame: "twowomen-1",
-          duration: 2,
         },
         {
           key: "sprites",
           frame: "twowomen-2",
-          duration: 2,
         },
         {
           key: "sprites",
           frame: "twowomen-3",
-          duration: 1,
         },
       ],
       repeat: -1,
