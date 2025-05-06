@@ -5,7 +5,7 @@
 			"format": "RGBA8888",
 			"size": {
 				"w": 40,
-				"h": 80
+				"h": 137
 			},
 			"scale": 1,
 			"frames": [
@@ -52,6 +52,69 @@
 					}
 				},
 				{
+					"filename": "console2",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 40,
+						"h": 19
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 40,
+						"h": 19
+					},
+					"frame": {
+						"x": 0,
+						"y": 50,
+						"w": 40,
+						"h": 19
+					}
+				},
+				{
+					"filename": "console3",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 40,
+						"h": 19
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 40,
+						"h": 19
+					},
+					"frame": {
+						"x": 0,
+						"y": 69,
+						"w": 40,
+						"h": 19
+					}
+				},
+				{
+					"filename": "console4",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 40,
+						"h": 19
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 40,
+						"h": 19
+					},
+					"frame": {
+						"x": 0,
+						"y": 88,
+						"w": 40,
+						"h": 19
+					}
+				},
+				{
 					"filename": "screen",
 					"rotated": false,
 					"trimmed": false,
@@ -67,7 +130,7 @@
 					},
 					"frame": {
 						"x": 0,
-						"y": 50,
+						"y": 107,
 						"w": 30,
 						"h": 30
 					}
@@ -88,7 +151,7 @@
 					},
 					"frame": {
 						"x": 30,
-						"y": 50,
+						"y": 107,
 						"w": 10,
 						"h": 20
 					}

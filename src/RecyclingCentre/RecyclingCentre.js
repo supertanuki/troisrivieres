@@ -2,8 +2,6 @@ import isMobileOrTablet from "../Utils/isMobileOrTablet";
 import MiniGameUi from "../UI/MiniGameUi";
 import {
   gameDuration,
-  getUrlParam,
-  isDebug,
   urlParamHas,
 } from "../Utils/debug";
 import { dispatchUnlockEvents, eventsHas } from "../Utils/events";
@@ -11,17 +9,29 @@ import { FONT_RESOLUTION } from "../UI/Message";
 import { playMiniGameTheme } from "../Utils/music";
 
 const OBJECTSPECS = {
-  console: { w: 4, h: 2 },
+  console1: { w: 4, h: 2 },
+  console2: { w: 4, h: 2 },
+  //console3: { w: 4, h: 2 },
+  //console4: { w: 4, h: 2 },
   laptop: { w: 4, h: 3 },
   phone: { w: 1, h: 2 },
   screen: { w: 3, h: 3 },
 };
 
-const MATRIX_SIZE = { w: 20, h: 30 };
-
+const MATRIX_SIZE = { w: 20, h: 29 };
 const STEP = 10;
-const STEPTIME = 100;
+const STEPTIME = 400;
+const DECREMENTSTEPTIME = 20;
 const MATRIX_DELTA_X = 200;
+
+const uniqueObjects = (objects) => {
+  const seen = new Set();
+  return objects.filter((element) => {
+    const duplicate = seen.has(element.id);
+    seen.add(element.id);
+    return !duplicate;
+  });
+};
 
 export default class RecyclingCentre extends MiniGameUi {
   constructor() {
@@ -33,10 +43,13 @@ export default class RecyclingCentre extends MiniGameUi {
     this.objects = [];
     this.matrixLines = [];
     this.currentObject = null;
+    this.currentObjectId = 0;
     this.lastTime = 0;
 
     this.matrix = [];
     this.matrixPosition = 0;
+    this.container = [];
+    this.stepTime = STEPTIME;
   }
 
   preload() {
@@ -56,18 +69,13 @@ export default class RecyclingCentre extends MiniGameUi {
     this.cameras.main.setBackgroundColor(0x777777);
     this.scale.setGameSize(550, 300);
 
-    this.matrixPositionText = this.add
-      .text(100, 60, "0")
-      .setOrigin(0.5, 0.5)
-      .setDepth(10000);
-
     const lineColor = 0x999999;
 
     // columns
     for (let x = 0; x <= MATRIX_SIZE.w; x++) {
       const realX = MATRIX_DELTA_X + x * STEP;
       const line = this.add
-        .line(realX, 0, 0, 0, 0, 300, lineColor)
+        .line(realX, 0, 0, 0, 0, MATRIX_SIZE.h * STEP, lineColor)
         .setOrigin(0, 0);
       this.matrixLines.push(line);
     }
@@ -80,6 +88,41 @@ export default class RecyclingCentre extends MiniGameUi {
         .setOrigin(0, 0);
       this.matrixLines.push(line);
     }
+
+    const y = MATRIX_SIZE.h * STEP - 1;
+    this.container.push(
+      this.add.line(MATRIX_DELTA_X, 0, 0, y, 200, y, 0x000000).setOrigin(0, 0)
+    );
+
+    this.container.push(
+      this.add
+        .line(MATRIX_DELTA_X, 0, 0, y - 20, 0, y, 0x000000)
+        .setOrigin(0, 0)
+    );
+
+    this.container.push(
+      this.add
+        .line(MATRIX_DELTA_X, 0, 200, y - 20, 200, y, 0x000000)
+        .setOrigin(0, 0)
+    );
+
+    const newState = !this.matrixLines[0].visible;
+    for (const line of this.matrixLines) line.setVisible(newState);
+
+    // init default objects
+    this.initObject("console1", 1, MATRIX_SIZE.h - OBJECTSPECS["console1"].h);
+    this.setCurrentObjectPositionInMatrix();
+    this.initObject("console1", 2, MATRIX_SIZE.h - 2 * OBJECTSPECS["console1"].h);
+    this.setCurrentObjectPositionInMatrix();
+    this.initObject("laptop", 7, MATRIX_SIZE.h - OBJECTSPECS["laptop"].h);
+    this.setCurrentObjectPositionInMatrix();
+    this.initObject("phone", 12, MATRIX_SIZE.h - OBJECTSPECS["phone"].h);
+    this.setCurrentObjectPositionInMatrix();
+    this.initObject("screen", 14, MATRIX_SIZE.h - OBJECTSPECS["screen"].h);
+    this.setCurrentObjectPositionInMatrix();
+    this.initObject("screen", 15, MATRIX_SIZE.h - 2 * OBJECTSPECS["screen"].h);
+    this.setCurrentObjectPositionInMatrix();
+    this.currentObject = null; // important
 
     this.createControls();
     this.startGame();
@@ -158,6 +201,19 @@ export default class RecyclingCentre extends MiniGameUi {
   }
 
   createControls() {
+    this.input.keyboard
+      .addKey(Phaser.Input.Keyboard.KeyCodes.G)
+      .on("down", () => {
+        const newState = !this.matrixLines[0].visible;
+        for (const line of this.matrixLines) line.setVisible(newState);
+      });
+
+    this.input.keyboard
+      .addKey(Phaser.Input.Keyboard.KeyCodes.S)
+      .on("down", () => {
+        this.isCinematic = true;
+      });
+
     this.cursors = this.input.keyboard.addKeys({
       space: "space",
       down: "down",
@@ -250,38 +306,46 @@ export default class RecyclingCentre extends MiniGameUi {
     super.handleAction();
     if (!this.currentObject) return;
 
-    /*
+    this.currentObjectY = this.getAvailableY(this.currentObjectName, this.currentObjectX, this.currentObjectY);
+    this.isCinematic = true;
     this.tweens.add({
       targets: this.currentObject,
-      angle: this.currentObject.angle + 90,
+      y: this.currentObjectY * STEP,
       ease: "Sine.easeInOut",
       duration: 100,
+      onComplete: () => {
+        this.isCinematic = false;
+        this.stopCurrentObject();
+      }
     });
-    */
   }
 
   right() {
     super.handleAction();
-    if (!this.checkObjectSidePosition('left')) return
+    if (!this.checkObjectSidePosition("left")) return;
 
     this.goingRight = true;
     this.matrixPosition++;
     this.currentObjectX--;
-    this.matrixPositionText.setText("" + this.matrixPosition);
-    for (const object of this.objects) object.x += STEP;
+    for (const objectPosition of this.objects) objectPosition.object.x += STEP;
     for (const line of this.matrixLines) line.x += STEP;
+    for (const line of this.container) line.x += STEP;
+
+    this.shadowObject.y = STEP * this.getAvailableY(this.currentObjectName, this.currentObjectX, this.currentObjectY);
   }
 
   left() {
     super.handleAction();
-    if (!this.checkObjectSidePosition('right')) return
+    if (!this.checkObjectSidePosition("right")) return;
 
     this.goingLeft = true;
     this.matrixPosition--;
     this.currentObjectX++;
-    this.matrixPositionText.setText("" + this.matrixPosition);
-    for (const object of this.objects) object.x -= STEP;
+    for (const objectPosition of this.objects) objectPosition.object.x -= STEP;
     for (const line of this.matrixLines) line.x -= STEP;
+    for (const line of this.container) line.x -= STEP;
+
+    this.shadowObject.y = STEP * this.getAvailableY(this.currentObjectName, this.currentObjectX, this.currentObjectY);
   }
 
   down() {
@@ -295,13 +359,49 @@ export default class RecyclingCentre extends MiniGameUi {
     this.currentObjectY++;
   }
 
+  getAvailableY(name, xInMatrix, yInMatrix) {
+    for (let y = yInMatrix; y < MATRIX_SIZE.h; y++) {
+      for (let x = 0; x < OBJECTSPECS[name].w; x++) {
+        if (this.getMatrixPosition(xInMatrix + x, y + OBJECTSPECS[name].h)) {
+          return y;
+        }
+      }
+    }
+
+    return (MATRIX_SIZE.h - OBJECTSPECS[name].h)
+  }
+
   setCurrentObjectPositionInMatrix() {
     for (let x = 0; x < OBJECTSPECS[this.currentObjectName].w; x++) {
-      this.setMatrixPosition(
-        this.currentObjectName,
-        this.currentObjectX + x,
-        this.currentObjectY
-      );
+      for (let y = 0; y < OBJECTSPECS[this.currentObjectName].h; y++) {
+        this.setMatrixPosition(
+          this.currentObjectId,
+          this.currentObjectName,
+          this.currentObject,
+          this.currentObjectX + x,
+          this.currentObjectY + y
+        );
+      }
+    }
+
+    this.objects.push({
+      id: this.currentObjectId,
+      object: this.currentObject,
+      name: this.currentObjectName,
+      x: this.currentObjectX,
+      y: this.currentObjectY,
+    });
+  }
+
+  removeObjectPositionInMatrix(id) {
+    const object = this.objects.filter((object) => object.id === id)?.[0];
+    if (!object) return;
+
+    const { x: xOrigin, y: yOrigin, name } = object;
+    for (let x = 0; x < OBJECTSPECS[name].w; x++) {
+      for (let y = 0; y < OBJECTSPECS[name].h; y++) {
+        this.matrix[xOrigin + x][yOrigin + y] = null;
+      }
     }
   }
 
@@ -309,34 +409,50 @@ export default class RecyclingCentre extends MiniGameUi {
     return this.matrix?.[x]?.[y];
   }
 
-  setMatrixPosition(objectName, x, y) {
+  setMatrixPosition(id, name, object, x, y) {
     if (!this.matrix[x]) this.matrix[x] = [];
-    if (this.matrix[x][y]) throw new Error(`Object exists in ${x} / ${y}`);
-    this.matrix[x][y] = objectName;
+    if (this.matrix[x][y]) {
+      throw new Error(`Object exists in ${x} / ${y}`);
+    }
+    this.matrix[x][y] = { id, name, object };
   }
 
   checkObjectSidePosition(side) {
     if (!this.currentObject) return;
 
-    if (this.currentObjectX + OBJECTSPECS[this.currentObjectName].w === 20)
-      return false;
+    if (side === "left") {
+      if (this.currentObjectX === 0) return false;
 
-    if (this.currentObjectX === 0) return false;
-
-    // there is an object next to it
-    if (side === 'left') {
       for (let y = 0; y < OBJECTSPECS[this.currentObjectName].h; y++) {
-        if (this.getMatrixPosition(this.currentObjectX - 1, this.currentObjectY + y)) return false
+        if (
+          this.getMatrixPosition(
+            this.currentObjectX - 1,
+            this.currentObjectY + y
+          )
+        )
+          return false;
       }
     }
 
-    if (side === 'right') {
+    if (side === "right") {
+      if (
+        this.currentObjectX + OBJECTSPECS[this.currentObjectName].w ===
+        MATRIX_SIZE.w
+      )
+        return false;
+
       for (let y = 0; y < OBJECTSPECS[this.currentObjectName].h; y++) {
-        if (this.getMatrixPosition(this.currentObjectX + OBJECTSPECS[this.currentObjectName].w, this.currentObjectY + y)) return false
+        if (
+          this.getMatrixPosition(
+            this.currentObjectX + OBJECTSPECS[this.currentObjectName].w,
+            this.currentObjectY + y
+          )
+        )
+          return false;
       }
     }
 
-    return true
+    return true;
   }
 
   checkObjectDownPosition() {
@@ -350,7 +466,10 @@ export default class RecyclingCentre extends MiniGameUi {
     // there is an object under it
     for (let x = 0; x < OBJECTSPECS[this.currentObjectName].w; x++) {
       if (
-        this.getMatrixPosition(this.currentObjectX + x, this.currentObjectY + OBJECTSPECS[this.currentObjectName].h)
+        this.getMatrixPosition(
+          this.currentObjectX + x,
+          this.currentObjectY + OBJECTSPECS[this.currentObjectName].h
+        )
       )
         return false;
     }
@@ -360,43 +479,147 @@ export default class RecyclingCentre extends MiniGameUi {
 
   resetMatrixPosition() {
     const resetFactor = STEP * -this.matrixPosition;
-    for (const object of this.objects) object.x += resetFactor;
+    for (const objectPosition of this.objects)
+      objectPosition.object.x += resetFactor;
     for (const line of this.matrixLines) line.x += resetFactor;
+    for (const line of this.container) line.x += resetFactor;
     this.matrixPosition = 0;
   }
 
-  initObject() {
+  initObject(name, x, y) {
+    this.currentObjectId++;
     this.resetMatrixPosition();
-    this.currentObjectName = Phaser.Math.RND.pick(Object.keys(OBJECTSPECS));
-    this.currentObjectX = Phaser.Math.Between(9, 11);
-    this.currentObjectY = 0;
-    const newObject = this.add
-      .image(
-        MATRIX_DELTA_X +
-          this.matrixPosition * STEP +
-          this.currentObjectX * STEP,
-        this.currentObjectY,
-        "recycling",
-        `${this.currentObjectName}${
-          this.currentObjectName === "console" ? 1 : ""
-        }`
-      )
-      .setOrigin(0, 0);
-    this.currentObject = newObject;
+
+    this.currentObjectName =
+      name || Phaser.Math.RND.pick(Object.keys(OBJECTSPECS));
+    this.currentObjectX = x || Phaser.Math.Between(7, 13);
+    this.currentObjectY = y || 0;
+
+    if (this.currentObjectY === 0) {
+      this.shadowObject = this.add
+        .image(
+          MATRIX_DELTA_X +
+            this.matrixPosition * STEP +
+            this.currentObjectX * STEP,
+          STEP * this.getAvailableY(this.currentObjectName, this.currentObjectX, this.currentObjectY),
+          "recycling",
+          this.currentObjectName
+        )
+        .setAlpha(0.3)
+        .setOrigin(0, 0);
+    }
+
+    this.currentObject = this.add
+    .image(
+      MATRIX_DELTA_X +
+        this.matrixPosition * STEP +
+        this.currentObjectX * STEP,
+      this.currentObjectY * STEP,
+      "recycling",
+      this.currentObjectName
+    )
+    .setOrigin(0, 0);
   }
 
   stopCurrentObject() {
     this.setCurrentObjectPositionInMatrix();
-    this.objects.push(this.currentObject);
+    this.checkObjectsGroup();
+
+    if (this.shadowObject) {
+      this.shadowObject.destroy();
+      this.shadowObject = null;
+    }
     this.currentObject = null;
     this.time.delayedCall(500, () => this.initObject());
+  }
+
+  checkObjectsGroup() {
+    // pour chaque objet de la matrice,
+    // vérifier parmi les autres objets si un ou plusieurs sont à coté
+    // si oui -> vérifier pour cet objet si un ou plusieurs parmi les autres sont à côté en enlevant à chaque fois celui d'origine
+
+    // vérifier si au moins un objet identique est à côté
+    // -> vérifier si au moins un objet identique est à côté mais un autre par rapport à l'initial
+
+    for (const objectPosition of this.objects) {
+      const foundObjects = [];
+      foundObjects.push(objectPosition, ...this.getAround(objectPosition));
+
+      const uniqueFoundObjects = uniqueObjects(foundObjects);
+      for (const otherObjectPosition of uniqueFoundObjects) {
+        uniqueFoundObjects.push(...this.getAround(otherObjectPosition));
+      }
+
+      const objectsToDelete = uniqueObjects(uniqueFoundObjects);
+      
+      if (objectsToDelete.length >= 3) {
+        for (const objectToDelete of objectsToDelete) {
+          const { id, object } = objectToDelete;
+          this.tweens.add({
+            targets: object,
+            alpha: 0,
+            ease: "Sine.easeInOut",
+            duration: 500,
+            onComplete: () => object.destroy(),
+          });
+
+          this.removeObjectPositionInMatrix(id);
+          this.objects = this.objects.filter((object) => object.id !== id);
+        }
+
+        this.stepTime -= DECREMENTSTEPTIME;
+        console.log("stepTime", this.stepTime)
+      }
+    }
+  }
+
+  getAround(objectPosition) {
+    const foundObjects = [];
+    const { id, x, y, name, object } = objectPosition;
+    if (!name) return [];
+
+    for (let xPos = x; xPos < x + OBJECTSPECS[name].w; xPos++) {
+      // on top
+      const otherObjectOnTop = this.getMatrixPosition(xPos, y - 1);
+      if (otherObjectOnTop?.name === name) {
+        foundObjects.push(otherObjectOnTop);
+      }
+
+      // on bottom
+      const otherObjectOnBottom = this.getMatrixPosition(
+        xPos,
+        y + OBJECTSPECS[name].h
+      );
+      if (otherObjectOnBottom?.name === name) {
+        foundObjects.push(otherObjectOnBottom);
+      }
+    }
+
+    for (let yPos = y; yPos < y + OBJECTSPECS[name].h; yPos++) {
+      // on left
+      const otherObjectOnLeft = this.getMatrixPosition(x - 1, yPos);
+      if (otherObjectOnLeft?.name === name) {
+        foundObjects.push(otherObjectOnLeft);
+      }
+
+      // on right
+      const otherObjectOnRight = this.getMatrixPosition(
+        x + OBJECTSPECS[name].w,
+        yPos
+      );
+      if (otherObjectOnRight?.name === name) {
+        foundObjects.push(otherObjectOnRight);
+      }
+    }
+
+    return foundObjects;
   }
 
   update(time, delta) {
     if (this.isCinematic) return;
     if (!this.currentObject) return;
 
-    if (this.lastTime < time - STEPTIME) {
+    if (this.lastTime < time - this.stepTime) {
       this.lastTime = time;
 
       /*
@@ -406,11 +629,5 @@ export default class RecyclingCentre extends MiniGameUi {
       //this.currentObject.y += STEP
       this.down();
     }
-
-    /*
-    if (this.currentObjectY >= 10) {
-      this.stopCurrentObject();
-    }
-      */
   }
 }

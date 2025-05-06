@@ -43,6 +43,12 @@ export const addDebugControls = function (scene) {
     });
 
   scene.input.keyboard
+    .addKey(Phaser.Input.Keyboard.KeyCodes.R)
+    .on("down", () => {
+      scene.setHeroPosition("heroRecycling");
+    });
+
+  scene.input.keyboard
     .addKey(Phaser.Input.Keyboard.KeyCodes.S)
     .on("down", () => {
       setVillageBeforeMine(scene);
