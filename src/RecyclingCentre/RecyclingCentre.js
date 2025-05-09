@@ -10,7 +10,7 @@ import { playMiniGameTheme } from "../Utils/music";
 
 const OBJECTSPECS = {
   console1: { w: 4, h: 2 },
-  console2: { w: 4, h: 2 },
+  //console2: { w: 4, h: 2 },
   //console3: { w: 4, h: 2 },
   //console4: { w: 4, h: 2 },
   laptop: { w: 4, h: 3 },
@@ -41,7 +41,6 @@ export default class RecyclingCentre extends MiniGameUi {
 
     this.delayBetweenObjects = 500;
     this.objects = [];
-    this.matrixLines = [];
     this.currentObject = null;
     this.currentObjectId = 0;
     this.lastTime = 0;
@@ -50,6 +49,9 @@ export default class RecyclingCentre extends MiniGameUi {
     this.matrixPosition = 0;
     this.container = [];
     this.stepTime = STEPTIME;
+
+    this.lastObjectWasDropped = false;
+    this.objectsGroupValidated = 0;
   }
 
   preload() {
@@ -69,26 +71,6 @@ export default class RecyclingCentre extends MiniGameUi {
     this.cameras.main.setBackgroundColor(0x777777);
     this.scale.setGameSize(550, 300);
 
-    const lineColor = 0x999999;
-
-    // columns
-    for (let x = 0; x <= MATRIX_SIZE.w; x++) {
-      const realX = MATRIX_DELTA_X + x * STEP;
-      const line = this.add
-        .line(realX, 0, 0, 0, 0, MATRIX_SIZE.h * STEP, lineColor)
-        .setOrigin(0, 0);
-      this.matrixLines.push(line);
-    }
-
-    // rows
-    for (let y = 0; y <= MATRIX_SIZE.h; y++) {
-      const realY = y * STEP;
-      const line = this.add
-        .line(MATRIX_DELTA_X, 0, 0, realY, 200, realY, lineColor)
-        .setOrigin(0, 0);
-      this.matrixLines.push(line);
-    }
-
     const y = MATRIX_SIZE.h * STEP - 1;
     this.container.push(
       this.add.line(MATRIX_DELTA_X, 0, 0, y, 200, y, 0x000000).setOrigin(0, 0)
@@ -106,8 +88,16 @@ export default class RecyclingCentre extends MiniGameUi {
         .setOrigin(0, 0)
     );
 
-    const newState = !this.matrixLines[0].visible;
-    for (const line of this.matrixLines) line.setVisible(newState);
+    this.container.push(
+      this.add
+        .circle(MATRIX_DELTA_X + 20, y - 10, 10, 0x000000)
+        .setOrigin(0, 0)
+    );
+    this.container.push(
+      this.add
+        .circle((MATRIX_DELTA_X + (MATRIX_SIZE.w -1) * STEP) - 30, y - 10, 10, 0x000000)
+        .setOrigin(0, 0)
+    );
 
     // init default objects
     this.initObject("console1", 1, MATRIX_SIZE.h - OBJECTSPECS["console1"].h);
@@ -201,13 +191,6 @@ export default class RecyclingCentre extends MiniGameUi {
   }
 
   createControls() {
-    this.input.keyboard
-      .addKey(Phaser.Input.Keyboard.KeyCodes.G)
-      .on("down", () => {
-        const newState = !this.matrixLines[0].visible;
-        for (const line of this.matrixLines) line.setVisible(newState);
-      });
-
     this.input.keyboard
       .addKey(Phaser.Input.Keyboard.KeyCodes.S)
       .on("down", () => {
@@ -303,9 +286,53 @@ export default class RecyclingCentre extends MiniGameUi {
   }
 
   handleAction() {
+    if (this.isCinematic) return;
     super.handleAction();
     if (!this.currentObject) return;
+    this.moveObjectToBottom();
+  }
 
+  right() {
+    if (this.isCinematic) return;
+    super.handleAction();
+    if (!this.checkObjectSidePosition("left")) return;
+
+    this.goingRight = true;
+    this.matrixPosition++;
+    this.currentObjectX--;
+    for (const objectPosition of this.objects) objectPosition.object.x += STEP;
+    for (const line of this.container) line.x += STEP;
+
+    this.shadowObject.y = STEP * this.getAvailableY(this.currentObjectName, this.currentObjectX, this.currentObjectY);
+  }
+
+  left() {
+    if (this.isCinematic) return;
+    super.handleAction();
+    if (!this.checkObjectSidePosition("right")) return;
+
+    this.goingLeft = true;
+    this.matrixPosition--;
+    this.currentObjectX++;
+    for (const objectPosition of this.objects) objectPosition.object.x -= STEP;
+    for (const line of this.container) line.x -= STEP;
+
+    this.shadowObject.y = STEP * this.getAvailableY(this.currentObjectName, this.currentObjectX, this.currentObjectY);
+  }
+
+  down() {
+    if (this.isCinematic) return;
+    super.handleAction();
+    if (!this.checkObjectDownPosition()) {
+      this.stopCurrentObject();
+      return;
+    }
+
+    this.currentObject.y += STEP;
+    this.currentObjectY++;
+  }
+
+  moveObjectToBottom() {
     this.currentObjectY = this.getAvailableY(this.currentObjectName, this.currentObjectX, this.currentObjectY);
     this.isCinematic = true;
     this.tweens.add({
@@ -318,45 +345,6 @@ export default class RecyclingCentre extends MiniGameUi {
         this.stopCurrentObject();
       }
     });
-  }
-
-  right() {
-    super.handleAction();
-    if (!this.checkObjectSidePosition("left")) return;
-
-    this.goingRight = true;
-    this.matrixPosition++;
-    this.currentObjectX--;
-    for (const objectPosition of this.objects) objectPosition.object.x += STEP;
-    for (const line of this.matrixLines) line.x += STEP;
-    for (const line of this.container) line.x += STEP;
-
-    this.shadowObject.y = STEP * this.getAvailableY(this.currentObjectName, this.currentObjectX, this.currentObjectY);
-  }
-
-  left() {
-    super.handleAction();
-    if (!this.checkObjectSidePosition("right")) return;
-
-    this.goingLeft = true;
-    this.matrixPosition--;
-    this.currentObjectX++;
-    for (const objectPosition of this.objects) objectPosition.object.x -= STEP;
-    for (const line of this.matrixLines) line.x -= STEP;
-    for (const line of this.container) line.x -= STEP;
-
-    this.shadowObject.y = STEP * this.getAvailableY(this.currentObjectName, this.currentObjectX, this.currentObjectY);
-  }
-
-  down() {
-    super.handleAction();
-    if (!this.checkObjectDownPosition()) {
-      this.stopCurrentObject();
-      return;
-    }
-
-    this.currentObject.y += STEP;
-    this.currentObjectY++;
   }
 
   getAvailableY(name, xInMatrix, yInMatrix) {
@@ -412,7 +400,8 @@ export default class RecyclingCentre extends MiniGameUi {
   setMatrixPosition(id, name, object, x, y) {
     if (!this.matrix[x]) this.matrix[x] = [];
     if (this.matrix[x][y]) {
-      throw new Error(`Object exists in ${x} / ${y}`);
+      console.error(`Object exists in ${x} / ${y}`, this.matrix);
+      throw new Error('Object exists')
     }
     this.matrix[x][y] = { id, name, object };
   }
@@ -477,16 +466,41 @@ export default class RecyclingCentre extends MiniGameUi {
     return true;
   }
 
+  // known issue: reset + move left/right in same time
   resetMatrixPosition() {
     const resetFactor = STEP * -this.matrixPosition;
-    for (const objectPosition of this.objects)
-      objectPosition.object.x += resetFactor;
-    for (const line of this.matrixLines) line.x += resetFactor;
-    for (const line of this.container) line.x += resetFactor;
+    for (const objectPosition of this.objects) {
+      this.tweens.add({
+        targets: objectPosition.object,
+        x: objectPosition.object.x + resetFactor,
+        ease: "Sine.easeInOut",
+        duration: 0,
+      });
+    }
+
+    for (const line of this.container) {
+      this.tweens.add({
+        targets: line,
+        x: line.x + resetFactor,
+        ease: "Sine.easeInOut",
+        duration: 0,
+      });
+    }
     this.matrixPosition = 0;
   }
 
   initObject(name, x, y) {
+    if (this.isCinematic) return;
+
+    if (this.objectsGroupValidated > 1  && !this.lastObjectWasDropped && 1 === Phaser.Math.Between(1, 3)) {
+      this.isCinematic = true;
+      this.updateMessage('Je t\'envoie un déchet, récupère le !');
+      this.time.delayedCall(1500, () => this.moveObjectToBottom());
+      this.lastObjectWasDropped = true;
+    } else {
+      this.lastObjectWasDropped = false;
+    }
+
     this.currentObjectId++;
     this.resetMatrixPosition();
 
@@ -533,14 +547,46 @@ export default class RecyclingCentre extends MiniGameUi {
     this.time.delayedCall(500, () => this.initObject());
   }
 
+  dropObjects() {
+    console.log('dropObjects')
+    for (const { id, name, x, y, object } of this.objects) {
+      const availableY = this.getAvailableY(name, x, y);
+      if (availableY === y) continue;
+
+      console.log({ id, name, x, y, availableY, object })
+      this.removeObjectPositionInMatrix(id);
+      object.y = availableY * STEP
+      this.currentObject = object;
+      this.currentObjectId = id;
+      this.currentObjectName = name;
+      this.currentObjectX = x;
+      this.currentObjectY = availableY;
+      this.stopCurrentObject();
+      //this.dropObjects();
+      /*
+      this.isCinematic = true;
+      this.tweens.add({
+        targets: object,
+        y: availableY * STEP,
+        ease: "Sine.easeInOut",
+        duration: 100,
+        onComplete: () => {
+          this.isCinematic = false;
+          this.currentObject = object;
+          this.currentObjectId = id;
+          this.currentObjectName = name;
+          this.currentObjectX = x;
+          this.currentObjectY = availableY;
+          this.stopCurrentObject();
+          this.dropObjects();
+        }
+      });
+      */
+      break;
+    }
+  }
+
   checkObjectsGroup() {
-    // pour chaque objet de la matrice,
-    // vérifier parmi les autres objets si un ou plusieurs sont à coté
-    // si oui -> vérifier pour cet objet si un ou plusieurs parmi les autres sont à côté en enlevant à chaque fois celui d'origine
-
-    // vérifier si au moins un objet identique est à côté
-    // -> vérifier si au moins un objet identique est à côté mais un autre par rapport à l'initial
-
     for (const objectPosition of this.objects) {
       const foundObjects = [];
       foundObjects.push(objectPosition, ...this.getAround(objectPosition));
@@ -553,8 +599,11 @@ export default class RecyclingCentre extends MiniGameUi {
       const objectsToDelete = uniqueObjects(uniqueFoundObjects);
       
       if (objectsToDelete.length >= 3) {
+        this.objectsGroupValidated++;
         for (const objectToDelete of objectsToDelete) {
           const { id, object } = objectToDelete;
+          this.removeObjectPositionInMatrix(id);
+          this.objects = this.objects.filter((object) => object.id !== id);
           this.tweens.add({
             targets: object,
             alpha: 0,
@@ -562,11 +611,9 @@ export default class RecyclingCentre extends MiniGameUi {
             duration: 500,
             onComplete: () => object.destroy(),
           });
-
-          this.removeObjectPositionInMatrix(id);
-          this.objects = this.objects.filter((object) => object.id !== id);
         }
 
+        //this.dropObjects();
         this.stepTime -= DECREMENTSTEPTIME;
         console.log("stepTime", this.stepTime)
       }
@@ -575,7 +622,7 @@ export default class RecyclingCentre extends MiniGameUi {
 
   getAround(objectPosition) {
     const foundObjects = [];
-    const { id, x, y, name, object } = objectPosition;
+    const {  x, y, name } = objectPosition;
     if (!name) return [];
 
     for (let xPos = x; xPos < x + OBJECTSPECS[name].w; xPos++) {
