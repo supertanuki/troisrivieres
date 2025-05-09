@@ -28,6 +28,8 @@ export default class Preloader extends Phaser.Scene {
     this.load.image("tiles", "tiles/Asset_Atlas_01.png");
     this.load.tilemapTiledJSON("map", "tiles/3rivers.json");
 
+    this.load.image("splash", "img/Splash_Art.webp");
+
     this.load.atlas("mai", "sprites/mai.png", "sprites/mai.json");
     this.load.atlas("trees", "sprites/trees.png", "sprites/trees.json");
     this.load.atlas("sprites", "sprites/sprites.png", "sprites/sprites.json");
