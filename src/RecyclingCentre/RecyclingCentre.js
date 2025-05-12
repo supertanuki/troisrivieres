@@ -18,10 +18,11 @@ const COMPONENTS = {
 };
 
 const OBJECTS_NAMES = ["console1", "laptop", "phone", "screen"];
-const SPEED_INCREMENT = getUrlParam("speedIncrement", 0.5);
-const initialY = 265;
+const SPEED_INCREMENT = getUrlParam("speedIncrement", 0.8);
+const initialY = 252;
 const initialX = 275;
 const step = 90;
+const GRAVITY = 7;
 
 export default class RecyclingCentre extends MiniGameUi {
   constructor() {
@@ -33,13 +34,24 @@ export default class RecyclingCentre extends MiniGameUi {
     this.objects = [];
     this.containers = [];
     this.containersObject = [];
-    this.validatedObjects = 0
+    this.validatedObjects = 0;
+    this.screwFrontPosition = 0;
+    this.screwBackPosition = 0;
+    this.conveyorPosition = 0;
+    this.speed = SPEED_INCREMENT;
+    this.waterLevel = 100;
   }
 
   preload() {
     super.preload();
-    this.load.atlas("recycling", "sprites/recycling.png", "sprites/recycling.json");
+    this.load.atlas(
+      "recycling",
+      "sprites/recycling.png",
+      "sprites/recycling.json"
+    );
     this.load.atlas("factory", "sprites/factory.png", "sprites/factory.json");
+    this.load.image("screw-1", "img/screw-1.png");
+    this.load.image("screw-2", "img/screw-2.png");
   }
 
   create() {
@@ -48,6 +60,42 @@ export default class RecyclingCentre extends MiniGameUi {
     this.cameras.main.setBackgroundColor(0x777777);
     this.scale.setGameSize(550, 300);
 
+    this.add.rectangle(0, 220, 550, 100, 0x4e5050).setOrigin(0, 0);
+    this.water = this.add.rectangle(0, 300, 550, 50, 0x0dfae7).setOrigin(0, 1);
+
+    this.conveyor = this.add
+      .tileSprite(520, 0, 220, 480, "factory", "tapis")
+      .setRotation(1.5708)
+      .setOrigin(0, 0);
+
+    this.screwBack = this.add
+      .tileSprite(0, 201, 550, 19, "screw-2")
+      .setOrigin(0, 0);
+    this.screwFront = this.add
+      .tileSprite(0, 201, 550, 19, "screw-1")
+      .setOrigin(0, 0)
+      .setDepth(1);
+
+    let i = 0;
+    for (const name in COMPONENTS) {
+      this.containers.push(
+        this.add.image(initialX + step * i, initialY, "factory", `tray-${name}`)
+      );
+      i++;
+    }
+
+    i = 0;
+    for (const name of OBJECTS_NAMES) {
+      const x = initialX + step * i;
+      this.containersObject.push({
+        name,
+        destroyed: 0,
+        image: this.add.image(x, initialY, "recycling", name),
+        text: this.add.text(x - 6, initialY - 30, "0"),
+      });
+      i++;
+    }
+
     this.createControls();
     this.startGame();
   }
@@ -55,25 +103,6 @@ export default class RecyclingCentre extends MiniGameUi {
   startGame() {
     if (urlParamHas("recyclingCentre")) {
       playMiniGameTheme(this);
-    }
-
-    let i = 0;
-    for (const name in COMPONENTS) {
-      this.containers.push(
-        this.add.image(
-        initialX + step * i,
-        initialY,
-        "factory",
-        `tray-${name}`
-        )
-      );
-      i++
-    }
-
-    i = 0;
-    for (const name of OBJECTS_NAMES) {
-      this.containersObject.push(this.add.image(initialX + step * i, initialY, "recycling", name));
-      i++
     }
 
     this.cameras.main.fadeIn(2000, 0, 0, 0);
@@ -145,6 +174,8 @@ export default class RecyclingCentre extends MiniGameUi {
 
   handleAction() {
     super.handleAction();
+    this.waterLevel += 10;
+    if (this.waterLevel > 100) this.waterLevel = 100;
   }
 
   right() {
@@ -171,35 +202,108 @@ export default class RecyclingCentre extends MiniGameUi {
     const name = Phaser.Math.RND.pick(OBJECTS_NAMES);
     const consoleId = Phaser.Math.Between(1, 4);
 
-    const object = this.physics.add.sprite(Phaser.Math.Between(100, 400), -30, "recycling", `${name}${name === 'console' ? consoleId : ''}`)
-    object.setVelocityY(50);
+    const object = this.physics.add.sprite(
+      Phaser.Math.Between(100, 400),
+      -30,
+      "recycling",
+      `${name}${name === "console" ? consoleId : ""}`
+    );
+    //object.setVelocityY(50);
     this.objects.push(object);
 
     this.delayBetweenObjects -= 10;
-    if ( this.delayBetweenObjects < 100) this.delayBetweenObjects = 100;
-    this.time.delayedCall(this.validatedObjects > 5 ? this.delayBetweenObjects : Phaser.Math.Between(1800, 2500), () => this.initObject());
+    if (this.delayBetweenObjects < 100) this.delayBetweenObjects = 100;
+    this.time.delayedCall(
+      this.validatedObjects > 5
+        ? this.delayBetweenObjects
+        : Phaser.Math.Between(1800, 2500),
+      () => this.initObject()
+    );
   }
 
   update() {
     if (this.isCinematic) return;
-      
-    if (this.goingRight) {
+
+    this.screwBackPosition--;
+    this.screwBack.setTilePosition(this.screwBackPosition, 0);
+    this.screwFrontPosition++;
+    this.screwFront.setTilePosition(this.screwFrontPosition, 0);
+
+    this.conveyorPosition -= this.speed;
+    this.conveyor.setTilePosition(this.conveyorPosition, 0);
+
+    if (this.waterLevel > 1) {
+      if (this.goingRight) {
         for (const container of this.containers) container.x += 3;
-        for (const object of this.containersObject) object.x += 3;
-        for (const object of this.objects) object.x -= 1;
-    } else if (this.goingLeft) {
+        for (const { image, text } of this.containersObject) {
+          image.x += 3;
+          text.x += 3;
+        }
+        /*
+          for (const object of this.objects) {
+            object.x -= 1;
+            this.conveyor.x--;
+          }
+            */
+      } else if (this.goingLeft) {
         for (const container of this.containers) container.x -= 3;
-        for (const object of this.containersObject) object.x -= 3;
-        for (const object of this.objects) object.x += 1;
+        for (const { image, text } of this.containersObject) {
+          image.x -= 3;
+          text.x -= 3;
+        }
+        /*
+          for (const object of this.objects) {
+            object.x += 1;
+            this.conveyor.x++;
+          }
+          */
+      }
     }
 
     for (const object of this.objects) {
-      if (object.y > initialY - 5 && object.y < initialY + 5) {
-        this.validatedObjects++;
-        this.createDebris(object.x, object.y);
-        object.destroy();
-        this.objects = this.objects.filter(thisObject => thisObject !== object)
+      object.y = object.y + this.speed;
+      if (object.y < 200) continue;
+
+      this.validatedObjects++;
+      this.createDebris(object.x, object.y);
+      object.destroy();
+      this.objects = this.objects.filter((thisObject) => thisObject !== object);
+
+      for (const index in this.containersObject) {
+        const containerObject = this.containersObject[index];
+        if (object.frame.name !== containerObject.name) continue;
+
+        const image = this.containersObject[index].image;
+        if (object.x < image.x - 30 || object.x > image.x + 30) break;
+
+        this.containersObject[index].destroyed++;
+        this.containersObject[index].text.setText(
+          `${this.containersObject[index].destroyed}`
+        );
+
+        if (image.scale === 1) {
+          this.tweens.add({
+            targets: image,
+            scale: 2,
+            yoyo: 1,
+            duration: 100,
+          });
+        }
+
+        break;
       }
+    }
+
+    if (this.waterLevel < 20) {
+      this.updateMessage(
+        "Niveau d'eau faible, appuie sur espace pour recharger !"
+      );
+    }
+
+    if (this.waterLevel > 0) {
+      this.waterLevel -= 0.25;
+      this.water.height = (50 * this.waterLevel) / 100;
+      this.water.y = 300 + 50 - this.water.height;
     }
   }
 
@@ -295,14 +399,17 @@ export default class RecyclingCentre extends MiniGameUi {
 
 class RockDebris extends Phaser.GameObjects.Rectangle {
   constructor(scene, x, y, width, height, color = 0x555555, gravity = false) {
-    width = width || Phaser.Math.Between(5, 15);
-    height = height || Phaser.Math.Between(5, 15);
+    color =
+      color |
+      Phaser.Math.RND.pick([0x555555, 0x222222, 0xff0000, 0x00ff00, 0x0000ff]);
+    width = width || Phaser.Math.Between(2, 6);
+    height = height || Phaser.Math.Between(2, 6);
     super(scene, x, y, width, height, color);
     scene.add.existing(this);
     scene.physics.add.existing(this);
-    this.body.setAllowGravity(false);
-    this.body.setVelocityX(Phaser.Math.Between(-300, 300));
-    this.body.setVelocityY(Phaser.Math.Between(-200, 200));
+    //this.body.setAllowGravity(true);
+    this.body.setVelocityX(Phaser.Math.Between(-200, 200));
+    this.body.setVelocityY(Phaser.Math.Between(-100, 100));
 
     this.init();
   }
