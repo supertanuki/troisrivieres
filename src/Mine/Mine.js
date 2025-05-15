@@ -43,15 +43,7 @@ const tubeDeltaEffect = getUrlParam("tubeDeltaEffect", 40);
 
 export default class Mine extends MiniGameUi {
   constructor() {
-    super({
-      key: "mine",
-      physics: {
-        matter: {
-          debug: isDebug(),
-          gravity: { y: 0.5 },
-        },
-      },
-    });
+    super("mine");
     this.rocks = [];
     this.movingCable = false;
     this.rockValidated = 0;
