@@ -11,11 +11,12 @@ import { FONT_RESOLUTION } from "../UI/Message";
 import { playMiniGameTheme } from "../Utils/music";
 
 const OBJECTS_NAMES = ["console1", "laptop", "phone", "screen"];
+const CONTAINER_COLORS = [0x97cfe0, 0x97e0b7, 0xbbaa8e, 0x8f8ebb];
 const SPEED_INCREMENT = getUrlParam("speedIncrement", 0.8);
 const initialY = 252;
 const initialX = 200;
 const step = 80;
-const GRAVITY = 0.05;
+const GRAVITY = 0.1//0.05;
 const STEPX = 3;
 
 export default class RecyclingCentre extends MiniGameUi {
@@ -41,8 +42,6 @@ export default class RecyclingCentre extends MiniGameUi {
     this.speed = SPEED_INCREMENT;
     this.screwBack = [];
     this.screwFront = [];
-    this.selectedObject = "console1";
-    this.warnings = 0;
   }
 
   preload() {
@@ -61,55 +60,47 @@ export default class RecyclingCentre extends MiniGameUi {
     super.create();
     this.cameras.main.setBackgroundColor(0x444444);
     this.scale.setGameSize(550, 300);
+
     this.matter.world.setBounds(0, -100, 550, 400);
 
     this.add.rectangle(0, 220, 550, 100, 0x4e5050).setOrigin(0, 0);
-    this.leftCable = this.add.graphics().setDepth(1);
-    this.rightCable = this.add.graphics().setDepth(1);
 
-    this.containers.push(
-      this.add.rectangle(initialX, initialY, 80, 70, 0x111111).setDepth(1)
-    );
+    for (let i = 0; i<4; i++) {
+      const x = initialX + step * i;
+      this.containers.push(
+        this.add.rectangle(x, initialY, 80, 70, CONTAINER_COLORS[i]).setDepth(1)
+      );
+    }
+    this.screwBack.push(this.add
+      .tileSprite(initialX - 40, initialY - 35, 320, 19, "screw-2")
+      .setOrigin(0, 1));
+    this.screwFront.push(this.add
+      .tileSprite(initialX - 40, initialY - 35, 320, 19, "screw-1")
+      .setOrigin(0, 1)
+      .setDepth(1));
 
-    this.screwBack.push(
-      this.add
-        .tileSprite(initialX - 40, initialY - 35, 80, 19, "screw-2")
-        .setOrigin(0, 1)
-    );
-    this.screwFront.push(
-      this.add
-        .tileSprite(initialX - 40, initialY - 35, 80, 19, "screw-1")
-        .setOrigin(0, 1)
-        .setDepth(1)
-    );
-
+    let i = 0;
     for (const name of OBJECTS_NAMES) {
+      const x = initialX + step * i;
       this.containersObject.push({
         name,
         destroyed: 0,
-        image: this.add
-          .image(initialX, initialY, "recycling", name)
-          .setDepth(1)
-          .setVisible(name === this.selectedObject),
+        image: this.add.image(x, initialY, "recycling", name).setDepth(1),
+        text: this.add.text(x - 6, initialY - 30, "0").setDepth(1),
       });
+      i++;
     }
 
-    this.previousObject = this.add.image(initialX, initialY - 25, "recycling", "screen").setDepth(1).setScale(0.5).setAlpha(0.4)
-    this.nextObject = this.add.image(initialX, initialY + 25, "recycling", "laptop").setDepth(1).setScale(0.5).setAlpha(0.4)
-
-    /*
     this.matter.world.on("collisionstart", (event, bodyA, bodyB) => {
       console.log({
         event,
         bodyA: bodyA.gameObject,
         bodyB: bodyB.gameObject,
       });
-      if (bodyB?.gameObject?.y < 50) return;
       bodyB?.gameObject?.setTint(0x555555);
       bodyA?.gameObject?.setTint(0x555555);
       //this.moveContainersY(bodyB?.gameObject?.y)
     });
-    */
 
     this.createControls();
     this.startGame();
@@ -134,11 +125,6 @@ export default class RecyclingCentre extends MiniGameUi {
   gameOver() {
     this.isCinematic = true;
     this.isGameOver = true;
-    
-    // todo : to remove
-    this.updateMessage('Game over');
-    return;
-
     dispatchUnlockEvents(["recyclingcentre_game_over"]);
     this.startDiscussion("recyclingCentre");
   }
@@ -206,31 +192,8 @@ export default class RecyclingCentre extends MiniGameUi {
     this.goingLeft = true;
   }
 
-  getObjectNameByDirection(direction) {
-    const index = OBJECTS_NAMES.indexOf(this.selectedObject);
-    let nextIndex = index + direction
-    nextIndex = nextIndex > OBJECTS_NAMES.length - 1 ? 0 : nextIndex;
-    nextIndex = nextIndex < 0 ? OBJECTS_NAMES.length - 1 : nextIndex;
-   return OBJECTS_NAMES[nextIndex];
-  }
-
-  setSelectedObject(direction) {
-    this.selectedObject = this.getObjectNameByDirection(direction);
-
-    for (const { image } of this.containersObject) {
-      image.setVisible(image.frame.name === this.selectedObject);
-    }
-
-    this.previousObject.setFrame(this.getObjectNameByDirection(-1))
-    this.nextObject.setFrame(this.getObjectNameByDirection(1))
-  }
-
-  up() {
-    this.setSelectedObject(-1) 
-  }
-
   down() {
-    this.setSelectedObject(1) 
+    super.handleAction();
   }
 
   createDebris(x, y) {
@@ -240,30 +203,15 @@ export default class RecyclingCentre extends MiniGameUi {
   }
 
   initObject() {
-    if (this.isCinematic) return;
-
-    const warnings = Math.round(this.objects.length/30);
-    if (warnings > this.warnings) {
-      this.warnings = warnings;
-      this.updateWarnings(this.warnings);
-    }
-
-    if (this.objects.length > 120) {
-      this.gameOver();
-      return;
-    }
-
     const name = Phaser.Math.RND.pick(OBJECTS_NAMES);
     const consoleId = Phaser.Math.Between(1, 4);
 
-    const object = this.matter.add.gameObject(
-      this.add.image(
-        Phaser.Math.Between(150, 400),
-        -30,
-        "recycling",
-        `${name}${name === "console" ? consoleId : ""}`
-      )
-    );
+    const object = this.matter.add.gameObject(this.add.image(
+      Phaser.Math.Between(150, 400),
+      -30,
+      "recycling",
+      `${name}${name === "console" ? consoleId : ""}`
+    ));
     //object.setVelocityY(0);
     this.objects.push(object);
 
@@ -294,41 +242,12 @@ export default class RecyclingCentre extends MiniGameUi {
     for (const screwFront of this.screwFront) screwFront.y += stepY;
   }
 
-  updateCable() {
-    const containerX = this.containers[0].x;
-
-    this.leftCable.clear();
-    this.leftCable.lineStyle(10, 0x000000);
-    const start = new Phaser.Math.Vector2(10, 200);
-    const end = new Phaser.Math.Vector2(containerX - 35, 250);
-    const control = new Phaser.Math.Vector2((containerX - 10) / 2, 300);
-    const curve = new Phaser.Curves.QuadraticBezier(start, control, end);
-    curve.draw(this.leftCable);
-
-    this.rightCable.clear();
-    this.rightCable.lineStyle(10, 0x000000);
-    const startRight = new Phaser.Math.Vector2(540, 200);
-    const endRight = new Phaser.Math.Vector2(containerX + 35, 250);
-    const controlRight = new Phaser.Math.Vector2(
-      (540 + containerX + 80) / 2,
-      300
-    );
-    const curveRight = new Phaser.Curves.QuadraticBezier(
-      startRight,
-      controlRight,
-      endRight
-    );
-    curveRight.draw(this.rightCable);
-  }
-
   updateContainers() {
     // to optimize if there is one screw back and one screw front
-    this.screwBackPosition++;
-    for (const screwBack of this.screwBack)
-      screwBack.setTilePosition(this.screwBackPosition, 0);
-    this.screwFrontPosition--;
-    for (const screwFront of this.screwFront)
-      screwFront.setTilePosition(this.screwFrontPosition, 0);
+    this.screwBackPosition--;
+    for (const screwBack of this.screwBack) screwBack.setTilePosition(this.screwBackPosition, 0);
+    this.screwFrontPosition++;
+    for (const screwFront of this.screwFront) screwFront.setTilePosition(this.screwFrontPosition, 0);
 
     const containerX = this.containers[0].x;
 
@@ -337,10 +256,8 @@ export default class RecyclingCentre extends MiniGameUi {
       for (const container of this.containers) container.x += realStepX;
       for (const { image, text } of this.containersObject) {
         image.x += realStepX;
-        //text.x += realStepX;
+        text.x += realStepX;
       }
-      this.previousObject.x += realStepX;
-      this.nextObject.x += realStepX;
       for (const screwBack of this.screwBack) screwBack.x += realStepX;
       for (const screwFront of this.screwFront) screwFront.x += realStepX;
       /*
@@ -350,14 +267,12 @@ export default class RecyclingCentre extends MiniGameUi {
         }
           */
     } else if (this.goingLeft) {
-      const realStepX = containerX < 150 ? 0 : STEPX;
+      const realStepX = containerX < -100 ? 0 : STEPX;
       for (const container of this.containers) container.x -= realStepX;
       for (const { image, text } of this.containersObject) {
         image.x -= realStepX;
-        //text.x -= realStepX;
+        text.x -= realStepX;
       }
-      this.previousObject.x -= realStepX;
-      this.nextObject.x -= realStepX;
       for (const screwBack of this.screwBack) screwBack.x -= realStepX;
       for (const screwFront of this.screwFront) screwFront.x -= realStepX;
       /*
@@ -371,30 +286,25 @@ export default class RecyclingCentre extends MiniGameUi {
 
   updateObjects() {
     for (const object of this.objects) {
-
-      if (object.y > 210) {
-        object.setTint(0x555555);
-        continue;
-      }
-
-      if (object.y < 190 || object.frame.name !== this.selectedObject) continue;
-      if (object.x < this.containersObject[0].image.x - 30 || object.x > this.containersObject[0].image.x + 30) continue;
+      //object.y = object.y + this.speed;
+      if (object.y < 190 || object.y > 210) continue;
 
       for (const index in this.containersObject) {
+        const containerObject = this.containersObject[index];
+        if (object.frame.name !== containerObject.name) continue;
+
         const image = this.containersObject[index].image;
-        if (this.selectedObject !== image.frame.name) continue;
+        if (object.x < image.x - 30 || object.x > image.x + 30) break;
 
         this.validatedObjects++;
         this.createDebris(object.x, object.y);
-        this.objects = this.objects.filter(
-          (thisObject) => thisObject !== object
-        );
+        this.objects = this.objects.filter((thisObject) => thisObject !== object);
         object.destroy();
 
         this.containersObject[index].destroyed++;
-        /*this.containersObject[index].text.setText(
+        this.containersObject[index].text.setText(
           `${this.containersObject[index].destroyed}`
-        );*/
+        );
 
         if (image.scale === 1) {
           this.tweens.add({
@@ -415,7 +325,6 @@ export default class RecyclingCentre extends MiniGameUi {
 
     this.updateContainers();
     this.updateObjects();
-    this.updateCable();
   }
 
   createControls() {
@@ -431,8 +340,6 @@ export default class RecyclingCentre extends MiniGameUi {
       (event) => {
         if (event.key === "ArrowDown") {
           this.down();
-        } else if (event.key === "ArrowUp") {
-            this.up();
         } else if (event.key === "ArrowLeft") {
           this.left();
         } else if (event.key === "ArrowRight") {
@@ -451,6 +358,8 @@ export default class RecyclingCentre extends MiniGameUi {
           this.goingLeft = false;
         } else if (event.key === "ArrowRight") {
           this.goingRight = false;
+        } else if (event.key === "ArrowDown") {
+          this.goingDown = false;
         }
       },
       this
@@ -518,7 +427,7 @@ class RockDebris extends Phaser.GameObjects.Rectangle {
     super(scene, x, y, width, height, color);
     scene.add.existing(this);
     scene.physics.add.existing(this);
-    this.body.setAllowGravity(true);
+    //this.body.setAllowGravity(true);
     this.body.setVelocityX(Phaser.Math.Between(-200, 200));
     this.body.setVelocityY(Phaser.Math.Between(-100, 100));
 
