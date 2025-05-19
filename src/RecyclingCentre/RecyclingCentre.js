@@ -14,9 +14,8 @@ const OBJECTS_NAMES = ["console1", "laptop", "phone", "screen"];
 const SPEED_INCREMENT = getUrlParam("speedIncrement", 0.8);
 const initialY = 252;
 const initialX = 200;
-const step = 80;
 const GRAVITY = 0.05;
-const STEPX = 3;
+const STEPX = 5;
 
 export default class RecyclingCentre extends MiniGameUi {
   constructor() {
@@ -33,14 +32,12 @@ export default class RecyclingCentre extends MiniGameUi {
     this.delayBetweenObjects = 1000;
     this.objects = [];
     this.containers = [];
-    this.containersObject = [];
+    this.containersObject = null;
     this.validatedObjects = 0;
     this.screwFrontPosition = 0;
     this.screwBackPosition = 0;
     this.conveyorPosition = 0;
     this.speed = SPEED_INCREMENT;
-    this.screwBack = [];
-    this.screwFront = [];
     this.selectedObject = "console1";
     this.warnings = 0;
   }
@@ -67,35 +64,50 @@ export default class RecyclingCentre extends MiniGameUi {
     this.leftCable = this.add.graphics().setDepth(1);
     this.rightCable = this.add.graphics().setDepth(1);
 
-    this.containers.push(
-      this.add.rectangle(initialX, initialY, 80, 70, 0x111111).setDepth(1)
-    );
+    const containerBase = this.add.rectangle(0, 0, 80, 70, 0x111111).setDepth(1);
+    this.screwBack = this.add.tileSprite(-40, -35, 80, 19, "screw-2").setOrigin(0, 1);
+    this.screwFront = this.add.tileSprite(-40, -35, 80, 19, "screw-1").setOrigin(0, 1).setDepth(1);
+    this.currentObject = this.add.image(0, 0, "recycling", this.selectedObject).setDepth(1);
+    this.previousObject = this.add.image(0, -25, "recycling", "screen").setScale(0.5).setAlpha(0.4);
+    this.nextObject = this.add.image(0, 25, "recycling", "laptop").setScale(0.5).setAlpha(0.4);
 
-    this.screwBack.push(
-      this.add
-        .tileSprite(initialX - 40, initialY - 35, 80, 19, "screw-2")
-        .setOrigin(0, 1)
-    );
-    this.screwFront.push(
-      this.add
-        .tileSprite(initialX - 40, initialY - 35, 80, 19, "screw-1")
-        .setOrigin(0, 1)
-        .setDepth(1)
-    );
+    const arrowStyle = {
+      fontFamily: "DefaultFont",
+      fontSize: "16px",
+      fill: "#ffffff",
+    };
+    this.arrowUp = this.add
+      .text(15, -25, "↑", arrowStyle)
+      .setResolution(FONT_RESOLUTION)
+      .setOrigin(0.5, 0.5)
+      .setDepth(1);
+    this.arrowDown = this.add
+      .text(15, 25, "↓", arrowStyle)
+      .setResolution(FONT_RESOLUTION)
+      .setOrigin(0.5, 0.5)
+      .setDepth(1);
+      
 
-    for (const name of OBJECTS_NAMES) {
-      this.containersObject.push({
-        name,
-        destroyed: 0,
-        image: this.add
-          .image(initialX, initialY, "recycling", name)
-          .setDepth(1)
-          .setVisible(name === this.selectedObject),
-      });
-    }
+    // Créer le container Phaser
+    this.containersObject = this.add.container(initialX, initialY, [
+      containerBase,
+      this.screwBack,
+      this.screwFront,
+      this.currentObject,
+      this.previousObject,
+      this.nextObject,
+      this.arrowUp,
+      this.arrowDown,
+    ]);
 
-    this.previousObject = this.add.image(initialX, initialY - 25, "recycling", "screen").setDepth(1).setScale(0.5).setAlpha(0.4)
-    this.nextObject = this.add.image(initialX, initialY + 25, "recycling", "laptop").setDepth(1).setScale(0.5).setAlpha(0.4)
+    this.physics.add.existing(this.containersObject);
+    this.containersObject.setDepth(1);
+    const body = this.containersObject.body;
+    body.setAllowGravity(false);
+    body.setMaxVelocity(200);
+    body.setDamping(true);
+    body.setDrag(0.01);
+
 
     /*
     this.matter.world.on("collisionstart", (event, bodyA, bodyB) => {
@@ -216,11 +228,7 @@ export default class RecyclingCentre extends MiniGameUi {
 
   setSelectedObject(direction) {
     this.selectedObject = this.getObjectNameByDirection(direction);
-
-    for (const { image } of this.containersObject) {
-      image.setVisible(image.frame.name === this.selectedObject);
-    }
-
+    this.currentObject.setFrame(this.selectedObject)
     this.previousObject.setFrame(this.getObjectNameByDirection(-1))
     this.nextObject.setFrame(this.getObjectNameByDirection(1))
   }
@@ -270,13 +278,14 @@ export default class RecyclingCentre extends MiniGameUi {
     this.delayBetweenObjects -= 10;
     if (this.delayBetweenObjects < 100) this.delayBetweenObjects = 100;
     this.time.delayedCall(
-      this.validatedObjects > 5
+      this.validatedObjects > 10
         ? this.delayBetweenObjects
         : Phaser.Math.Between(1800, 2500),
       () => this.initObject()
     );
   }
 
+  /*
   moveContainersY(toY) {
     if (!toY) return;
 
@@ -285,17 +294,14 @@ export default class RecyclingCentre extends MiniGameUi {
 
     if (stepY >= 0 && this.containers[0].y + stepY < 100) return;
 
-    for (const container of this.containers) container.y += stepY;
-    for (const { image, text } of this.containersObject) {
-      image.y += stepY;
-      text.y += stepY;
-    }
-    for (const screwBack of this.screwBack) screwBack.y += stepY;
-    for (const screwFront of this.screwFront) screwFront.y += stepY;
+    this.containerObject.y += stepY;
+    this.screwBack.y += stepY;
+    this.screwFront.y += stepY;
   }
+    */
 
   updateCable() {
-    const containerX = this.containers[0].x;
+    const containerX = this.containersObject.x;
 
     this.leftCable.clear();
     this.leftCable.lineStyle(10, 0x000000);
@@ -321,101 +327,65 @@ export default class RecyclingCentre extends MiniGameUi {
     curveRight.draw(this.rightCable);
   }
 
-  updateContainers() {
-    // to optimize if there is one screw back and one screw front
-    this.screwBackPosition++;
-    for (const screwBack of this.screwBack)
-      screwBack.setTilePosition(this.screwBackPosition, 0);
-    this.screwFrontPosition--;
-    for (const screwFront of this.screwFront)
-      screwFront.setTilePosition(this.screwFrontPosition, 0);
+  moveContainers(stepX) {
+    this.containersObject.body.setAccelerationX(stepX*100);
+  }
 
-    const containerX = this.containers[0].x;
+  updateContainers() {
+    this.screwBackPosition++;
+    this.screwBack.setTilePosition(this.screwBackPosition, 0);
+    this.screwFrontPosition--;
+    this.screwFront.setTilePosition(this.screwFrontPosition, 0);
+
+    const containerX = this.containersObject.x;
 
     if (this.goingRight) {
       const realStepX = containerX > 400 ? 0 : STEPX;
-      for (const container of this.containers) container.x += realStepX;
-      for (const { image, text } of this.containersObject) {
-        image.x += realStepX;
-        //text.x += realStepX;
-      }
-      this.previousObject.x += realStepX;
-      this.nextObject.x += realStepX;
-      for (const screwBack of this.screwBack) screwBack.x += realStepX;
-      for (const screwFront of this.screwFront) screwFront.x += realStepX;
-      /*
-        for (const object of this.objects) {
-          object.x -= 1;
-          this.conveyor.x--;
-        }
-          */
+      this.moveContainers(realStepX)
     } else if (this.goingLeft) {
       const realStepX = containerX < 150 ? 0 : STEPX;
-      for (const container of this.containers) container.x -= realStepX;
-      for (const { image, text } of this.containersObject) {
-        image.x -= realStepX;
-        //text.x -= realStepX;
-      }
-      this.previousObject.x -= realStepX;
-      this.nextObject.x -= realStepX;
-      for (const screwBack of this.screwBack) screwBack.x -= realStepX;
-      for (const screwFront of this.screwFront) screwFront.x -= realStepX;
-      /*
-        for (const object of this.objects) {
-          object.x += 1;
-          this.conveyor.x++;
-        }
-        */
+      this.moveContainers(-realStepX)
+    } else {
+      this.containersObject.body.setAccelerationX(0);
     }
   }
 
   updateObjects() {
     for (const object of this.objects) {
-
       if (object.y > 210) {
         object.setTint(0x555555);
         continue;
       }
 
       if (object.y < 190 || object.frame.name !== this.selectedObject) continue;
-      if (object.x < this.containersObject[0].image.x - 30 || object.x > this.containersObject[0].image.x + 30) continue;
+      if (object.x < this.containersObject.x - 45 || object.x > this.containersObject.x + 45) continue;
 
-      for (const index in this.containersObject) {
-        const image = this.containersObject[index].image;
-        if (this.selectedObject !== image.frame.name) continue;
+      this.validatedObjects++;
+      this.createDebris(object.x, object.y);
+      this.objects = this.objects.filter(
+        (thisObject) => thisObject !== object
+      );
+      object.destroy();
 
-        this.validatedObjects++;
-        this.createDebris(object.x, object.y);
-        this.objects = this.objects.filter(
-          (thisObject) => thisObject !== object
-        );
-        object.destroy();
-
-        this.containersObject[index].destroyed++;
-        /*this.containersObject[index].text.setText(
-          `${this.containersObject[index].destroyed}`
-        );*/
-
-        if (image.scale === 1) {
-          this.tweens.add({
-            targets: image,
-            scale: 2,
-            yoyo: 1,
-            duration: 100,
-          });
-        }
-
-        break;
+      if (this.currentObject.scale === 1) {
+        this.tweens.add({
+          targets: this.currentObject,
+          scale: 2,
+          yoyo: 1,
+          duration: 100,
+        });
       }
     }
   }
 
   update() {
+    this.containersObject.body.setAccelerationX(0);
+    this.updateCable();
+
     if (this.isCinematic) return;
 
     this.updateContainers();
     this.updateObjects();
-    this.updateCable();
   }
 
   createControls() {
