@@ -373,5 +373,7 @@ export default class Game extends Scene {
     ) {
       this.stopMoving();
     }
+
+    this.hero.updateShadow();
   }
 }
