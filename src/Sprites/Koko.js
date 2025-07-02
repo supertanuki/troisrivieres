@@ -5,7 +5,7 @@ export const SPRITE_ID = "koko";
 
 export default class Koko extends Chat {
   constructor(scene, x, y) {
-    super(scene, x, y, "sprites", "koko", -2, -2);
+    super(scene, x, y, "sprites", "koko-1", -2, -2);
     this.spriteId = SPRITE_ID;
 
     scene.anims

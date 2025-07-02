@@ -13,19 +13,12 @@ export default class Django extends Chat {
         key: "django-idle",
         frames: this.anims.generateFrameNames("sprites", {
           start: 1,
-          end: 4,
+          end: 3,
           prefix: "django-",
         }),
         repeat: -1,
         frameRate: 6,
       })
-      .addFrame(
-        this.anims.generateFrameNames("sprites", {
-          start: 3,
-          end: 3,
-          prefix: "django-",
-        })
-      )
       .addFrame(
         this.anims.generateFrameNames("sprites", {
           start: 2,

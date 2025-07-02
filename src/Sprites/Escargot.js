@@ -5,7 +5,7 @@ export const SPRITE_ID = "escargot";
 
 export default class Escargot extends Chat {
   constructor(scene, x, y) {
-    super(scene, x, y, "sprites", "escargot", 0, 0, true);
+    super(scene, x, y, "sprites", "escargot-1", 0, 0, true);
     this.spriteId = SPRITE_ID;
 
     scene.anims

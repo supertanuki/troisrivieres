@@ -5,7 +5,7 @@ export const SPRITE_ID = "nono";
 
 export default class Nono extends Chat {
   constructor(scene, x, y) {
-    super(scene, x, y, "sprites", "nono", -2, -2);
+    super(scene, x, y, "sprites", "nono-1", -2, -2);
     this.spriteId = SPRITE_ID;
 
     scene.anims

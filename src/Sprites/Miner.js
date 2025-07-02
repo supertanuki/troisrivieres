@@ -4,7 +4,7 @@ export const SPRITE_ID = "miner";
 
 class Miner extends Chat {
   constructor(scene, x, y, texture, frame) {
-    super(scene, x, y, "sprites", "miner", 0, -5);
+    super(scene, x, y, "sprites", "miner-1", 0, -5);
     this.spriteId = SPRITE_ID;
     this.delta = 40;
 
