@@ -104,6 +104,11 @@ export const init = function (scene) {
     .setCollisionByProperty({ collide: true })
     .setVisible(false);
 
+  scene.obstacleRecyclingLayer = scene.map
+    .createLayer("obstacleRecycling", scene.tileset)
+    .setCollisionByProperty({ collide: true })
+    .setVisible(false);
+
   scene.cameras.main.fadeIn(1000, 0, 0, 0);
 
   playVillageTheme(scene);

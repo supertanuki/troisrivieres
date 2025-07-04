@@ -4,6 +4,7 @@ import { setVillageForThirdAct, toggleScreensVisibility } from "../Story/afterFa
 import { setVillageForSecondAct } from "../Story/afterMineNightmare";
 import { setVillageBeforeMine } from "../Story/mineAccessValidation";
 import { urlParamHas } from "../Utils/debug";
+import { beforeRecyclingCentre } from "./beforeRecyclingCentre";
 import { switchNight } from "./night";
 import { toggleRoadsVisibility } from "./roads";
 import { secondRiverLessWater } from "./secondRiverLessWater";
@@ -45,6 +46,7 @@ export const addDebugControls = function (scene) {
   scene.input.keyboard
     .addKey(Phaser.Input.Keyboard.KeyCodes.R)
     .on("down", () => {
+      beforeRecyclingCentre(scene);
       scene.setHeroPosition("heroRecycling");
     });
 

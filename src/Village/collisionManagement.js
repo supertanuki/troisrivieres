@@ -67,6 +67,7 @@ export const addCollisionManagement = function (scene) {
   scene.physics.add.collider(scene.hero, scene.water);
   scene.physics.add.collider(scene.hero, scene.land);
   scene.physics.add.collider(scene.hero, scene.obstacles);
+  scene.obstacleRecyclingCollider = scene.physics.add.collider(scene.hero, scene.obstacleRecyclingLayer);
   scene.physics.add.collider(scene.hero, scene.topObjects);
   scene.physics.add.collider(scene.hero, scene.potagerTop);
   scene.physics.add.collider(scene.hero, scene.bottomObjects);
