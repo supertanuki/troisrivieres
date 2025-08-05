@@ -1,0 +1,586 @@
+{
+	"textures": [
+		{
+			"image": "recyclingCentre",
+			"format": "RGBA8888",
+			"size": {
+				"w": 645,
+				"h": 401
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "background",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 550,
+						"h": 300
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 550,
+						"h": 300
+					},
+					"frame": {
+						"x": 0,
+						"y": 0,
+						"w": 550,
+						"h": 300
+					}
+				},
+				{
+					"filename": "water-tank",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 95,
+						"h": 215
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 95,
+						"h": 215
+					},
+					"frame": {
+						"x": 550,
+						"y": 0,
+						"w": 95,
+						"h": 215
+					}
+				},
+				{
+					"filename": "water-level",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 92,
+						"h": 186
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 92,
+						"h": 186
+					},
+					"frame": {
+						"x": 550,
+						"y": 215,
+						"w": 92,
+						"h": 186
+					}
+				},
+				{
+					"filename": "shredder",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 102,
+						"h": 95
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 102,
+						"h": 95
+					},
+					"frame": {
+						"x": 0,
+						"y": 300,
+						"w": 102,
+						"h": 95
+					}
+				},
+				{
+					"filename": "track",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 332,
+						"h": 20
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 332,
+						"h": 20
+					},
+					"frame": {
+						"x": 102,
+						"y": 300,
+						"w": 332,
+						"h": 20
+					}
+				},
+				{
+					"filename": "trap3",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 68,
+						"h": 50
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 68,
+						"h": 49
+					},
+					"frame": {
+						"x": 434,
+						"y": 300,
+						"w": 68,
+						"h": 49
+					}
+				},
+				{
+					"filename": "trap4",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 68,
+						"h": 50
+					},
+					"spriteSourceSize": {
+						"x": 1,
+						"y": 0,
+						"w": 66,
+						"h": 50
+					},
+					"frame": {
+						"x": 102,
+						"y": 320,
+						"w": 66,
+						"h": 50
+					}
+				},
+				{
+					"filename": "trap1",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 68,
+						"h": 50
+					},
+					"spriteSourceSize": {
+						"x": 5,
+						"y": 0,
+						"w": 58,
+						"h": 46
+					},
+					"frame": {
+						"x": 168,
+						"y": 320,
+						"w": 58,
+						"h": 46
+					}
+				},
+				{
+					"filename": "trap2",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 68,
+						"h": 50
+					},
+					"spriteSourceSize": {
+						"x": 6,
+						"y": 0,
+						"w": 56,
+						"h": 46
+					},
+					"frame": {
+						"x": 226,
+						"y": 320,
+						"w": 56,
+						"h": 46
+					}
+				},
+				{
+					"filename": "shredder-laptop-2",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 76,
+						"h": 18
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 76,
+						"h": 18
+					},
+					"frame": {
+						"x": 282,
+						"y": 320,
+						"w": 76,
+						"h": 18
+					}
+				},
+				{
+					"filename": "shredder-laptop-1",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 76,
+						"h": 18
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 75,
+						"h": 18
+					},
+					"frame": {
+						"x": 358,
+						"y": 320,
+						"w": 75,
+						"h": 18
+					}
+				},
+				{
+					"filename": "shredder-phone-1",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 76,
+						"h": 18
+					},
+					"spriteSourceSize": {
+						"x": 1,
+						"y": 2,
+						"w": 73,
+						"h": 16
+					},
+					"frame": {
+						"x": 282,
+						"y": 338,
+						"w": 73,
+						"h": 16
+					}
+				},
+				{
+					"filename": "shredder-phone-2",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 76,
+						"h": 18
+					},
+					"spriteSourceSize": {
+						"x": 2,
+						"y": 2,
+						"w": 72,
+						"h": 16
+					},
+					"frame": {
+						"x": 355,
+						"y": 338,
+						"w": 72,
+						"h": 16
+					}
+				},
+				{
+					"filename": "laptop-broken",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 38,
+						"h": 23
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 38,
+						"h": 23
+					},
+					"frame": {
+						"x": 502,
+						"y": 300,
+						"w": 38,
+						"h": 23
+					}
+				},
+				{
+					"filename": "laptop",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 38,
+						"h": 23
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 38,
+						"h": 23
+					},
+					"frame": {
+						"x": 502,
+						"y": 323,
+						"w": 38,
+						"h": 23
+					}
+				},
+				{
+					"filename": "shredder-console-1",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 76,
+						"h": 18
+					},
+					"spriteSourceSize": {
+						"x": 1,
+						"y": 6,
+						"w": 72,
+						"h": 12
+					},
+					"frame": {
+						"x": 427,
+						"y": 349,
+						"w": 72,
+						"h": 12
+					}
+				},
+				{
+					"filename": "shredder-console-2",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 76,
+						"h": 18
+					},
+					"spriteSourceSize": {
+						"x": 1,
+						"y": 6,
+						"w": 72,
+						"h": 12
+					},
+					"frame": {
+						"x": 282,
+						"y": 354,
+						"w": 72,
+						"h": 12
+					}
+				},
+				{
+					"filename": "console-broken",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 38,
+						"h": 21
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 38,
+						"h": 21
+					},
+					"frame": {
+						"x": 502,
+						"y": 346,
+						"w": 38,
+						"h": 21
+					}
+				},
+				{
+					"filename": "console",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 38,
+						"h": 19
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 38,
+						"h": 19
+					},
+					"frame": {
+						"x": 354,
+						"y": 354,
+						"w": 38,
+						"h": 19
+					}
+				},
+				{
+					"filename": "laptop-little",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 26,
+						"h": 19
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 26,
+						"h": 19
+					},
+					"frame": {
+						"x": 392,
+						"y": 354,
+						"w": 26,
+						"h": 19
+					}
+				},
+				{
+					"filename": "wheel",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 22,
+						"h": 22
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 22,
+						"h": 22
+					},
+					"frame": {
+						"x": 418,
+						"y": 361,
+						"w": 22,
+						"h": 22
+					}
+				},
+				{
+					"filename": "phone-broken",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 16,
+						"h": 25
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 16,
+						"h": 25
+					},
+					"frame": {
+						"x": 440,
+						"y": 361,
+						"w": 16,
+						"h": 25
+					}
+				},
+				{
+					"filename": "console-little",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 28,
+						"h": 14
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 28,
+						"h": 14
+					},
+					"frame": {
+						"x": 456,
+						"y": 361,
+						"w": 28,
+						"h": 14
+					}
+				},
+				{
+					"filename": "phone",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 14,
+						"h": 25
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 14,
+						"h": 25
+					},
+					"frame": {
+						"x": 484,
+						"y": 361,
+						"w": 14,
+						"h": 25
+					}
+				},
+				{
+					"filename": "phone-little",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 10,
+						"h": 18
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 10,
+						"h": 18
+					},
+					"frame": {
+						"x": 540,
+						"y": 300,
+						"w": 10,
+						"h": 18
+					}
+				},
+				{
+					"filename": "button-blue",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 8,
+						"h": 21
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 8,
+						"h": 21
+					},
+					"frame": {
+						"x": 540,
+						"y": 318,
+						"w": 8,
+						"h": 21
+					}
+				},
+				{
+					"filename": "button-red",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 8,
+						"h": 21
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 8,
+						"h": 21
+					},
+					"frame": {
+						"x": 540,
+						"y": 339,
+						"w": 8,
+						"h": 21
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "http://free-tex-packer.com",
+		"version": "0.6.7"
+	}
+}
