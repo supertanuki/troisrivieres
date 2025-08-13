@@ -55,7 +55,7 @@ export const init = function (scene) {
 
   scene.potagerBottom = scene.map
     .createLayer("potagerBottom", scene.tileset)
-    .setDepth(80);
+    .setDepth(70);
 
   createTrees(scene);
 

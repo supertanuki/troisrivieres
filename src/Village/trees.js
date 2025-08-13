@@ -30,7 +30,15 @@ export const createTrees = function (scene) {
     repeat: -1,
     frameRate: 1,
   });
-  const treesLayer = scene.map.getObjectLayer("trees");
+
+  createTreesLayer("trees", scene);
+
+  scene.map.createLayer("bottomStaticTrees", scene.tileset).setDepth(130);
+  scene.map.createLayer("staticTrees", scene.tileset).setDepth(150);
+};
+
+export const createTreesLayer = function (layerName, scene) {
+  const treesLayer = scene.map.getObjectLayer(layerName);
   // sort tress in order to draw trees from top to down
   treesLayer.objects.sort((a, b) => a.y - b.y);
   // Add trees base
@@ -41,9 +49,7 @@ export const createTrees = function (scene) {
       .setOrigin(0.5, 1);
   });
 
-  scene.map.createLayer("bottomStaticTrees", scene.tileset).setDepth(130);
-
-  // Add trees top after hero was created
+  // Add trees top
   treesLayer.objects.forEach((treeObject) => {
     const tree = scene.physics.add
       .sprite(
@@ -67,6 +73,4 @@ export const createTrees = function (scene) {
         .setVisible(false)
     );
   });
-
-  scene.map.createLayer("staticTrees", scene.tileset).setDepth(150);
-};
+}

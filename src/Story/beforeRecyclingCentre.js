@@ -3,9 +3,9 @@ import Game from "../Game";
 /** @param {Game} scene  */
 export const beforeRecyclingCentre = function (scene) {
   scene.cameras.main.setBounds(
+    470, // left is disabled
     0,
-    0,
-    2144, // mine on the right is disabled
+    2144 - 470, // mine on the right is disabled
     scene.map.heightInPixels - 8
   );
 
@@ -27,23 +27,16 @@ export const beforeRecyclingCentre = function (scene) {
 
   scene.topRecyclingLayer = scene.map
     .createLayer("topRecycling", scene.tileset)
-    .setDepth(120)
+    .setDepth(119)
     .setCollisionByProperty({ collide: true });
   scene.physics.add.collider(scene.hero, scene.topRecyclingLayer);
 
   scene.topRecyclingObjectsLayer = scene.map
     .createLayer("topRecyclingObjects", scene.tileset)
-    .setDepth(120)
+    .setDepth(119)
     .setCollisionByProperty({ collide: true });
 
   scene.obstacleRecyclingLayer.setCollisionByProperty({ collide: false });
   scene.obstacleRecyclingLayer.destroy();
   scene.obstacleRecyclingCollider.destroy();
-
-  scene.cameras.main.setBounds(
-    470, // left is disabled
-    0,
-    2144 - 470, // mine on the right is disabled
-    scene.map.heightInPixels - 8
-  );
 };

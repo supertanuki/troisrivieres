@@ -4,7 +4,7 @@ import { setVillageForThirdAct, toggleScreensVisibility } from "../Story/afterFa
 import { setVillageForSecondAct } from "../Story/afterMineNightmare";
 import { setVillageBeforeMine } from "../Story/mineAccessValidation";
 import { urlParamHas } from "../Utils/debug";
-import { beforeRecyclingCentre } from "./beforeRecyclingCentre";
+import { beforeRecyclingCentre } from "../Story/beforeRecyclingCentre";
 import { switchNight } from "./night";
 import { toggleRoadsVisibility } from "./roads";
 import { secondRiverLessWater } from "./secondRiverLessWater";
@@ -12,6 +12,18 @@ import { secondRiverLessWater } from "./secondRiverLessWater";
 /** @param {Game} scene  */
 export const addDebugControls = function (scene) {
   if (!urlParamHas('debugcontrols')) return;
+
+  scene.input.keyboard
+    .addKey(Phaser.Input.Keyboard.KeyCodes.M)
+    .on("down", () => {
+      scene.cameras.main.zoomTo(scene.cameras.main.zoom === 2 ? 1 : 0.18, 100);
+    });
+
+  scene.input.keyboard
+    .addKey(Phaser.Input.Keyboard.KeyCodes.P)
+    .on("down", () => {
+      scene.cameras.main.zoomTo(scene.cameras.main.zoom === 0.18 ? 1 : 2, 100);
+    });
 
   scene.input.keyboard
     .addKey(Phaser.Input.Keyboard.KeyCodes.F)
@@ -54,7 +66,7 @@ export const addDebugControls = function (scene) {
     .addKey(Phaser.Input.Keyboard.KeyCodes.S)
     .on("down", () => {
       setVillageBeforeMine(scene);
-      setVillageForSecondAct(scene);
+      //setVillageForSecondAct(scene);
       //setVillageForThirdAct(scene);
       //return;
 
@@ -65,7 +77,8 @@ export const addDebugControls = function (scene) {
         //"pre_first_sleep",
         //"miner_ask_for_card",
         //"mine_after",
-        "factory_after",
+        "second_act_begin",
+        //"factory_after",
         //"factory_after",
         //"third_act_begin",
         //"strike_begin"
@@ -85,18 +98,6 @@ export const addDebugControls = function (scene) {
     .addKey(Phaser.Input.Keyboard.KeyCodes.C)
     .on("down", () => {
       sceneEventsEmitter.emit(sceneEvents.PreEventsUnlocked, ["card_for_mine"]);
-    });
-
-  scene.input.keyboard
-    .addKey(Phaser.Input.Keyboard.KeyCodes.M)
-    .on("down", () => {
-      scene.cameras.main.zoomTo(scene.cameras.main.zoom === 2 ? 1 : 0.18, 100);
-    });
-
-  scene.input.keyboard
-    .addKey(Phaser.Input.Keyboard.KeyCodes.P)
-    .on("down", () => {
-      scene.cameras.main.zoomTo(scene.cameras.main.zoom === 0.18 ? 1 : 2, 100);
     });
 
   scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.T).on("down", () => {

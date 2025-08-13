@@ -16,6 +16,7 @@ import { secondRiverLessWater } from "../Village/secondRiverLessWater";
 import { toggleSpritesVisibility } from "../Village/spritesVisibility";
 import { villageStateAfterFirstSleep } from "./firstSleep";
 import { playVillageTheme } from "../Utils/music";
+import { createTreesLayer } from "../Village/trees";
 
 /** @param {Game} scene  */
 export const afterMineNightmare = function (scene) {
@@ -52,6 +53,13 @@ export const setVillageForSecondAct = function (scene) {
   toggleSpritesVisibility(scene, true, true, true);
   lessBirds(scene);
   lessButterflies(scene);
+
+  createTreesLayer('treesLimitForest', scene);
+  scene.obstaclesForestLayer = scene.map
+    .createLayer("obstaclesForest", scene.tileset)
+    .setCollisionByProperty({ collide: true })
+    .setVisible(false);
+  scene.physics.add.collider(scene.hero, scene.obstaclesForestLayer);
 
   createWhiteWorkerAnimation(scene);
 
