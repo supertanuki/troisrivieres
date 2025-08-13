@@ -11,10 +11,11 @@ const sceneEvents = {
 	'DiscussionInProgress': 'DiscussionInProgress',
 	'DiscussionEnded': 'DiscussionEnded',
 	'DiscussionContinuing': 'DiscussionContinuing',
+	'HasUnreadMessage': 'HasUnreadMessage',
 	'MessageSent': 'MessageSent',
 	'EventsUnlocked': 'EventsUnlocked',
 	'EventsDispatched': 'EventsDispatched',
-	'PreEventsUnlocked': 'PreEventsUnlocked', // for debug
+	'PreEventsUnlocked': 'PreEventsUnlocked',
 }
 
 export {

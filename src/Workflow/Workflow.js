@@ -6,8 +6,13 @@ export default class Workflow {
     this.currentSprite = null;
     this.unlockedEvents = [];
 
-    this.spritePosition = {}
+    this.spritePosition = {};
 
+    sceneEventsEmitter.on(
+      sceneEvents.DiscussionReady,
+      this.preDiscussion,
+      this
+    );
     sceneEventsEmitter.on(
       sceneEvents.DiscussionStarted,
       this.startDiscussion,
@@ -53,27 +58,77 @@ export default class Workflow {
 
   getCurrentMessage() {
     const currentThread = this.getCurrentThread();
-    const currentMessagePosition = this.spritePosition?.[this.currentSprite]?.currentMessagePosition
+    const currentMessagePosition =
+      this.spritePosition?.[this.currentSprite]?.currentMessagePosition;
 
-    if (undefined == currentThread || undefined == currentMessagePosition) return
+    if (undefined == currentThread || undefined == currentMessagePosition)
+      return;
 
-    const dependingOn = messageWorkflow[this.currentSprite][currentThread]?.dependingOn;
-    if (!this.isValidDependingOn(this.currentSprite, dependingOn)) return
+    const dependingOn =
+      messageWorkflow[this.currentSprite][currentThread]?.dependingOn;
+    if (!this.isValidDependingOn(this.currentSprite, dependingOn)) return;
 
-    if (this.spritePosition[this.currentSprite].threadRead.includes(currentThread)) {
-      const repeat = messageWorkflow[this.currentSprite][currentThread]?.repeat
-      if (!!repeat)         return repeat?.[currentMessagePosition];
-      
+    if (
+      this.spritePosition[this.currentSprite].threadRead.includes(currentThread)
+    ) {
+      const repeat = messageWorkflow[this.currentSprite][currentThread]?.repeat;
+      if (!!repeat) return repeat?.[currentMessagePosition];
     }
 
-    return messageWorkflow[this.currentSprite][currentThread]?.messages?.[currentMessagePosition];
+    return messageWorkflow[this.currentSprite][currentThread]?.messages?.[
+      currentMessagePosition
+    ];
+  }
+
+  hasUnreadMessage(sprite) {
+    this.initSpriteThreadIfNeeded(sprite);
+    this.currentSprite = sprite;
+    const nextAvailableThread = this.getNextAvailableThread(
+      sprite,
+      this.getCurrentThread()
+    );
+
+    if (undefined !== nextAvailableThread) {
+      this.setCurrentThread(sprite, nextAvailableThread);
+      this.resetMessagePosition(sprite);
+    }
+
+    const currentThread = this.getCurrentThread();
+    const currentMessagePosition =
+      this.spritePosition?.[this.currentSprite]?.currentMessagePosition;
+
+    if (undefined == currentThread || undefined == currentMessagePosition)
+      return false;
+
+    const dependingOn =
+      messageWorkflow[this.currentSprite][currentThread]?.dependingOn;
+    if (!this.isValidDependingOn(this.currentSprite, dependingOn)) return false;
+
+    if (
+      this.spritePosition[this.currentSprite].threadRead.includes(currentThread)
+    ) {
+      return false;
+    }
+
+    return true;
+  }
+
+  preDiscussion(sprite) {
+    console.log("preDiscussion", sprite);
+
+    if (this.hasUnreadMessage(sprite))
+      sceneEventsEmitter.emit(sceneEvents.HasUnreadMessage, sprite);
   }
 
   startDiscussion(sprite) {
     this.initSpriteThreadIfNeeded(sprite);
     this.currentSprite = sprite;
-    const nextAvailableThread = this.getNextAvailableThread(sprite, this.getCurrentThread())
-    
+    const nextAvailableThread = this.getNextAvailableThread(
+      sprite,
+      this.getCurrentThread()
+    );
+    console.log("startDiscussion", nextAvailableThread);
+
     if (undefined !== nextAvailableThread) {
       this.setCurrentThread(sprite, nextAvailableThread);
       this.resetMessagePosition(sprite);
@@ -92,9 +147,12 @@ export default class Workflow {
     if (!messageWorkflow[sprite][currentThread]) return;
 
     const dependingOn = messageWorkflow[sprite][currentThread]?.dependingOn;
-    if (dependingOn && this.isValidDependingOn(sprite, dependingOn) &&
+    if (
+      dependingOn &&
+      this.isValidDependingOn(sprite, dependingOn) &&
       !this.spritePosition[sprite].threadRead.includes(currentThread)
-    ) return currentThread;
+    )
+      return currentThread;
 
     return this.getNextAvailableThread(sprite, currentThread + 1);
   }
@@ -111,7 +169,10 @@ export default class Workflow {
       this.endThread();
 
       // next thread ?
-      const nextAvailableThread = this.getNextAvailableThread(this.currentSprite, this.getCurrentThread())
+      const nextAvailableThread = this.getNextAvailableThread(
+        this.currentSprite,
+        this.getCurrentThread()
+      );
       if (undefined === nextAvailableThread) {
         this.endDiscussion();
         return;
@@ -130,7 +191,9 @@ export default class Workflow {
   }
 
   endThread() {
-    this.spritePosition[this.currentSprite].threadRead.push(this.getCurrentThread())
+    this.spritePosition[this.currentSprite].threadRead.push(
+      this.getCurrentThread()
+    );
     this.preSaveUnlockedEvent();
   }
 
@@ -147,10 +210,16 @@ export default class Workflow {
   }
 
   saveUnlockedEvent(unlockedEvents) {
-    if (!unlockedEvents) return
-    sceneEventsEmitter.emit(sceneEvents.EventsDispatched, { newUnlockedEvents: unlockedEvents });
+    if (!unlockedEvents) return;
+    sceneEventsEmitter.emit(sceneEvents.EventsDispatched, {
+      newUnlockedEvents: unlockedEvents,
+    });
 
-    if (!unlockedEvents.filter(event => !this.unlockedEvents.includes(event)).length) return;
+    if (
+      !unlockedEvents.filter((event) => !this.unlockedEvents.includes(event))
+        .length
+    )
+      return;
 
     sceneEventsEmitter.emit(sceneEvents.EventsUnlocked, {
       newUnlockedEvents: unlockedEvents,
@@ -170,15 +239,20 @@ export default class Workflow {
     for (const sprite in messageWorkflow) {
       this.initSpriteThreadIfNeeded(sprite);
       for (const threadIndex in messageWorkflow[sprite]) {
-        const dependingOn = messageWorkflow[sprite][threadIndex]?.dependingOn
+        const dependingOn = messageWorkflow[sprite][threadIndex]?.dependingOn;
 
         if (!dependingOn) {
           continue;
         }
 
-        const missingEvents = dependingOn.filter(event => !this.unlockedEvents.includes(event))
+        const missingEvents = dependingOn.filter(
+          (event) => !this.unlockedEvents.includes(event)
+        );
 
-        if (missingEvents.length > 0 && missingEvents.every(event => data.newUnlockedEvents.includes(event))) {
+        if (
+          missingEvents.length > 0 &&
+          missingEvents.every((event) => data.newUnlockedEvents.includes(event))
+        ) {
           this.spritePosition[sprite].currentThread = Number(threadIndex);
           this.spritePosition[sprite].currentMessagePosition = 0;
         }

@@ -36,6 +36,7 @@ export default class Chat extends Phaser.Physics.Arcade.Sprite {
     this.chatImageUi.anims.play("exclam", true);
 
     sceneEventsEmitter.on(sceneEvents.DiscussionReady, this.readyToChat, this);
+    sceneEventsEmitter.on(sceneEvents.HasUnreadMessage, this.hasUnreadMessage, this);
   }
 
   isHeroNearMe() {
@@ -82,16 +83,19 @@ export default class Chat extends Phaser.Physics.Arcade.Sprite {
     if (this.afterStopChatting) this.afterStopChatting();
   }
 
-  readyToChat(spriteId) {
-    if (this.spriteId !== spriteId) return;
-    if (this.scene.isCinematic) return;
+  hasUnreadMessage(spriteId) {
+    if (this.disableChatIcon || this.spriteId !== spriteId) return;
 
     this.chatImageUi.setPosition(
       this.x + this.chatIconDeltaX,
       this.y - 13 + this.chatIconDeltaY
     );
-    this.chatImageUi.setVisible(!this.disableChatIcon);
+    this.chatImageUi.setVisible(true);
+  }
 
+  readyToChat(spriteId) {
+    if (this.spriteId !== spriteId) return;
+    if (this.scene.isCinematic) return;
     if (this.afterReadyToChat) this.afterReadyToChat();
   }
 }
