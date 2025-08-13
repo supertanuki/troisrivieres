@@ -1,17 +1,19 @@
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import Game from "../Game";
-import { setVillageForThirdAct, toggleScreensVisibility } from "../Story/afterFactory";
+import {
+  setVillageForThirdAct,
+  toggleScreensVisibility,
+} from "../Story/afterFactory";
 import { setVillageForSecondAct } from "../Story/afterMineNightmare";
 import { setVillageBeforeMine } from "../Story/mineAccessValidation";
 import { urlParamHas } from "../Utils/debug";
-import { beforeRecyclingCentre } from "../Story/beforeRecyclingCentre";
 import { switchNight } from "./night";
 import { toggleRoadsVisibility } from "./roads";
 import { secondRiverLessWater } from "./secondRiverLessWater";
 
 /** @param {Game} scene  */
 export const addDebugControls = function (scene) {
-  if (!urlParamHas('debugcontrols')) return;
+  if (!urlParamHas("debugcontrols")) return;
 
   scene.input.keyboard
     .addKey(Phaser.Input.Keyboard.KeyCodes.M)
@@ -58,7 +60,9 @@ export const addDebugControls = function (scene) {
   scene.input.keyboard
     .addKey(Phaser.Input.Keyboard.KeyCodes.R)
     .on("down", () => {
-      beforeRecyclingCentre(scene);
+      setVillageBeforeMine(scene);
+      setVillageForSecondAct(scene);
+      setVillageForThirdAct(scene);
       scene.setHeroPosition("heroRecycling");
     });
 
@@ -85,7 +89,7 @@ export const addDebugControls = function (scene) {
       ]);
     });
 
-    scene.input.keyboard
+  scene.input.keyboard
     .addKey(Phaser.Input.Keyboard.KeyCodes.E)
     .on("down", () => {
       sceneEventsEmitter.emit(sceneEvents.PreEventsUnlocked, [
@@ -100,14 +104,20 @@ export const addDebugControls = function (scene) {
       sceneEventsEmitter.emit(sceneEvents.PreEventsUnlocked, ["card_for_mine"]);
     });
 
-  scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.T).on("down", () => {
-    toggleRoadsVisibility(scene);
-  });
+  scene.input.keyboard
+    .addKey(Phaser.Input.Keyboard.KeyCodes.T)
+    .on("down", () => {
+      toggleRoadsVisibility(scene);
+    });
 
-  scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.O).on("down", () => {
-    sceneEventsEmitter.emit(sceneEvents.PreEventsUnlocked, ["mine_access_validation"]);
-    scene.setHeroPosition("heroMine");
-  });
+  scene.input.keyboard
+    .addKey(Phaser.Input.Keyboard.KeyCodes.O)
+    .on("down", () => {
+      sceneEventsEmitter.emit(sceneEvents.PreEventsUnlocked, [
+        "mine_access_validation",
+      ]);
+      scene.setHeroPosition("heroMine");
+    });
 
   scene.input.keyboard
     .addKey(Phaser.Input.Keyboard.KeyCodes.A)

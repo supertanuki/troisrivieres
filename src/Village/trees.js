@@ -31,10 +31,9 @@ export const createTrees = function (scene) {
     frameRate: 1,
   });
 
-  createTreesLayer("trees", scene);
-
   scene.map.createLayer("bottomStaticTrees", scene.tileset).setDepth(130);
   scene.map.createLayer("staticTrees", scene.tileset).setDepth(150);
+  createTreesLayer("trees", scene);
 };
 
 export const createTreesLayer = function (layerName, scene) {
