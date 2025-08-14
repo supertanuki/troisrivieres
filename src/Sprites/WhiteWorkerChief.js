@@ -35,6 +35,7 @@ class WhiteWorkerChief extends Chat {
     });
 
     this.anims.play("white-worker-chief-idle", true);
+    this.hasUnreadMessage(this.spriteId);
   }
 }
 

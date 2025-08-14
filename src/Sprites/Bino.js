@@ -34,6 +34,7 @@ export default class Bino extends Chat {
     });
 
     this.anims.play("bino-idle", true);
+    this.hasUnreadMessage(this.spriteId);
   }
 
   setCleaningRoadPosition(x, y) {

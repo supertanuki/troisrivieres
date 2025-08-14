@@ -334,7 +334,7 @@ const messageWorkflow = {
         "Peu étonnant qu'il y ait foule pour aller à la mine,",
         "c'est devenu l'attraction des alentours.",
       ],
-      repeat: ["On vit une ère très intrigante, tu ne trouves pas ?"],
+      repeat: ["La situation de nos rivières est perturbante…"],
       dependingOn: ["second_act_begin"],
     },
     {

@@ -28,6 +28,7 @@ export default class Nono extends Chat {
       );
 
     this.anims.play("nono-idle", true);
+    this.hasUnreadMessage(this.spriteId);
   }
 }
 

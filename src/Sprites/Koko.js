@@ -28,6 +28,7 @@ export default class Koko extends Chat {
     );
 
     this.anims.play("koko-idle", true);
+    this.hasUnreadMessage(this.spriteId);
   }
 }
 

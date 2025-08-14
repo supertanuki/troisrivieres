@@ -6,6 +6,7 @@ const sceneEvents = {
 	'HEARTSCHANGED': 'HEARTSCHANGED',
 	'GAMEOVER': 'GAMEOVER',
 	'DiscussionReady': 'DiscussionReady',
+	'DiscussionAbort': 'DiscussionAbort',
 	'DiscussionStarted': 'DiscussionStarted',
 	'DiscussionWaiting': 'DiscussionWaiting',
 	'DiscussionInProgress': 'DiscussionInProgress',

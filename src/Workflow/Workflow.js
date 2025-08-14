@@ -9,11 +9,6 @@ export default class Workflow {
     this.spritePosition = {};
 
     sceneEventsEmitter.on(
-      sceneEvents.DiscussionReady,
-      this.preDiscussion,
-      this
-    );
-    sceneEventsEmitter.on(
       sceneEvents.DiscussionStarted,
       this.startDiscussion,
       this
@@ -78,46 +73,6 @@ export default class Workflow {
     return messageWorkflow[this.currentSprite][currentThread]?.messages?.[
       currentMessagePosition
     ];
-  }
-
-  hasUnreadMessage(sprite) {
-    this.initSpriteThreadIfNeeded(sprite);
-    this.currentSprite = sprite;
-    const nextAvailableThread = this.getNextAvailableThread(
-      sprite,
-      this.getCurrentThread()
-    );
-
-    if (undefined !== nextAvailableThread) {
-      this.setCurrentThread(sprite, nextAvailableThread);
-      this.resetMessagePosition(sprite);
-    }
-
-    const currentThread = this.getCurrentThread();
-    const currentMessagePosition =
-      this.spritePosition?.[this.currentSprite]?.currentMessagePosition;
-
-    if (undefined == currentThread || undefined == currentMessagePosition)
-      return false;
-
-    const dependingOn =
-      messageWorkflow[this.currentSprite][currentThread]?.dependingOn;
-    if (!this.isValidDependingOn(this.currentSprite, dependingOn)) return false;
-
-    if (
-      this.spritePosition[this.currentSprite].threadRead.includes(currentThread)
-    ) {
-      return false;
-    }
-
-    return true;
-  }
-
-  preDiscussion(sprite) {
-    console.log("preDiscussion", sprite);
-
-    if (this.hasUnreadMessage(sprite))
-      sceneEventsEmitter.emit(sceneEvents.HasUnreadMessage, sprite);
   }
 
   startDiscussion(sprite) {
@@ -255,6 +210,10 @@ export default class Workflow {
         ) {
           this.spritePosition[sprite].currentThread = Number(threadIndex);
           this.spritePosition[sprite].currentMessagePosition = 0;
+
+          if (!this.spritePosition[this.currentSprite].threadRead.includes(threadIndex)) {
+            sceneEventsEmitter.emit(sceneEvents.HasUnreadMessage, sprite);
+          }
         }
       }
     }

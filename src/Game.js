@@ -209,6 +209,11 @@ export default class Game extends Scene {
       this
     );
     sceneEventsEmitter.on(
+      sceneEvents.DiscussionAbort,
+      this.handleDiscussionAbort,
+      this
+    );
+    sceneEventsEmitter.on(
       sceneEvents.DiscussionInProgress,
       this.handleDiscussionInProgress,
       this
@@ -297,6 +302,14 @@ export default class Game extends Scene {
 
     this.currentDiscussionStatus = DiscussionStatus.NONE;
     this[sprite]?.stopChatting();
+  }
+
+  handleDiscussionAbort(sprite) {
+    if (!this.scene.isActive()) return;
+    if (!sprite || !this[sprite]) return;
+
+    this.currentDiscussionStatus = DiscussionStatus.NONE;
+    this[sprite]?.abortChatting();
   }
 
   update(time, delta) {

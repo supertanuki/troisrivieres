@@ -35,6 +35,7 @@ class MinerChief extends Chat {
     });
 
     this.anims.play("miner-chief-idle", true);
+    this.hasUnreadMessage(this.spriteId);
   }
 }
 

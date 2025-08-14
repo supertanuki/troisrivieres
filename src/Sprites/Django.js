@@ -28,6 +28,7 @@ export default class Django extends Chat {
       );
 
     this.anims.play("django-idle", true);
+    this.hasUnreadMessage(this.spriteId);
   }
 
   afterStopChatting() {

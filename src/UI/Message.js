@@ -118,6 +118,11 @@ export default class Message extends Phaser.Scene {
       this
     );
     sceneEventsEmitter.on(
+      sceneEvents.DiscussionAbort,
+      this.handleDiscussionEnd,
+      this
+    );
+    sceneEventsEmitter.on(
       sceneEvents.DiscussionReady,
       this.readyToAction,
       this

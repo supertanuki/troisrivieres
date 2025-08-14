@@ -29,11 +29,13 @@ export default class Chat extends Phaser.Physics.Arcade.Sprite {
     this.chatIconDeltaY = chatIconDeltaY || 0;
     this.disableChatIcon = disableChatIcon;
 
-    this.chatImageUi = scene.add
-      .sprite(0, 0, "sprites", "exclam-3")
-      .setDepth(1000)
-      .setVisible(false);
-    this.chatImageUi.anims.play("exclam", true);
+    if (!this.disableChatIcon) {
+      this.chatImageUi = scene.add
+        .sprite(0, 0, "sprites", "exclam-3")
+        .setDepth(1000)
+        .setVisible(true);
+      this.chatImageUi.anims.play("exclam", true);
+    }
 
     sceneEventsEmitter.on(sceneEvents.DiscussionReady, this.readyToChat, this);
     sceneEventsEmitter.on(sceneEvents.HasUnreadMessage, this.hasUnreadMessage, this);
@@ -62,7 +64,7 @@ export default class Chat extends Phaser.Physics.Arcade.Sprite {
         sceneEventsEmitter.emit(
           isHeroNearMe
             ? sceneEvents.DiscussionReady
-            : sceneEvents.DiscussionEnded,
+            : sceneEvents.DiscussionAbort,
           this.spriteId
         );
       }
@@ -79,7 +81,13 @@ export default class Chat extends Phaser.Physics.Arcade.Sprite {
   }
 
   stopChatting() {
-    this.chatImageUi.setVisible(false);
+    console.log('stopChatting', this.spriteId)
+    if (this.chatImageUi) this.chatImageUi.setVisible(false);
+    if (this.afterStopChatting) this.afterStopChatting();
+  }
+
+  abortChatting() {
+    console.log('abortChatting', this.spriteId);
     if (this.afterStopChatting) this.afterStopChatting();
   }
 
