@@ -70,8 +70,9 @@ export const addDebugControls = function (scene) {
     .addKey(Phaser.Input.Keyboard.KeyCodes.S)
     .on("down", () => {
       setVillageBeforeMine(scene);
-      //setVillageForSecondAct(scene);
-      //setVillageForThirdAct(scene);
+      setVillageForSecondAct(scene);
+      setVillageForThirdAct(scene);
+      scene.isCinematic = false;
       //return;
 
       sceneEventsEmitter.emit(sceneEvents.PreEventsUnlocked, [
@@ -81,10 +82,10 @@ export const addDebugControls = function (scene) {
         //"pre_first_sleep",
         //"miner_ask_for_card",
         //"mine_after",
-        "second_act_begin",
+        //"second_act_begin",
         //"factory_after",
         //"factory_after",
-        //"third_act_begin",
+        "third_act_begin",
         //"strike_begin"
       ]);
     });

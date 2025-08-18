@@ -92,7 +92,7 @@ export default class Chat extends Phaser.Physics.Arcade.Sprite {
   }
 
   hasUnreadMessage(spriteId) {
-    if (this.disableChatIcon || this.spriteId !== spriteId) return;
+    if (this.disableChatIcon || this.spriteId !== spriteId || !this.chatImageUi) return;
 
     this.chatImageUi.setPosition(
       this.x + this.chatIconDeltaX,

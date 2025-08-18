@@ -211,7 +211,7 @@ export default class Workflow {
           this.spritePosition[sprite].currentThread = Number(threadIndex);
           this.spritePosition[sprite].currentMessagePosition = 0;
 
-          if (!this.spritePosition[this.currentSprite].threadRead.includes(threadIndex)) {
+          if (!this.spritePosition[this.currentSprite]?.threadRead?.includes(threadIndex)) {
             sceneEventsEmitter.emit(sceneEvents.HasUnreadMessage, sprite);
           }
         }

@@ -56,6 +56,10 @@ export const afterFactory = function (scene) {
 
         playVillageTheme(scene);
         setVillageForThirdAct(scene);
+        scene.cameras.main.fadeIn(1000, 0, 0, 0);
+        scene.setHeroPosition("heroDjango");
+        scene.hero.slowRight();
+        scene.hero.animateToRight();
 
         // @todo ? remove delayedcall and check when mai is near django ?
         scene.time.delayedCall(1200, () => {
@@ -146,11 +150,6 @@ export const setVillageForThirdAct = function (scene) {
   scene.ball.setVisible(false);
 
   dispatchUnlockEvents(["third_act_begin"]);
-  scene.cameras.main.fadeIn(1000, 0, 0, 0);
-
-  scene.setHeroPosition("heroDjango");
-  scene.hero.slowRight();
-  scene.hero.animateToRight();
 };
 
 export const toggleScreensVisibility = function (scene) {

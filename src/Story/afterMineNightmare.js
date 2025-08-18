@@ -24,6 +24,9 @@ export const afterMineNightmare = function (scene) {
   playVillageTheme(scene);
   scene.currentDiscussionStatus = DiscussionStatus.NONE;
   setVillageForSecondAct(scene);
+  scene.setHeroPosition("heroDjango");
+  scene.hero.slowRight();
+  scene.hero.animateToRight();
 
   // @todo ? remove delayedcall and check when mai is near django ?
   scene.time.delayedCall(1200, () => {
@@ -45,10 +48,6 @@ export const setVillageForSecondAct = function (scene) {
   hideBikes(scene);
   hidePotager(scene);
   scene.bino.setCleaningRoad();
-
-  scene.setHeroPosition("heroDjango");
-  scene.hero.slowRight();
-  scene.hero.animateToRight();
 
   toggleSpritesVisibility(scene, true, true, true);
   lessBirds(scene);
