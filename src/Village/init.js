@@ -28,7 +28,7 @@ import { addDebugControls } from "./debugControls";
 import { createTrees } from "./trees";
 import { intro } from "../Story/intro";
 import { handleAction } from "./handleAction";
-import { playVillageTheme } from "../Utils/music";
+import { playVillageTheme, preloadSound } from "../Utils/music";
 
 /** @param {Game} scene  */
 export const init = function (scene) {
@@ -265,4 +265,10 @@ export const delayedInit = function (scene) {
   });
 
   addCollisionManagement(scene);
+
+  for (const element of ['hommes', 'femmes', 'enfants', 'ouvriers']) {
+    for (let i = 1; i <= 4; i++) {
+      preloadSound(`sfx_voix_${element}_${i}`, scene);
+    }
+  }
 };

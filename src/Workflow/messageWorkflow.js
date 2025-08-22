@@ -15,6 +15,15 @@ const spriteNames = {
   escargot: "L'escargot",
 };
 
+export const spriteSounds = {
+  django: "sfx_voix_hommes",
+  miner: "sfx_voix_ouvriers",
+  boy: "sfx_voix_enfants",
+  girl: "sfx_voix_enfants",
+  koko: "sfx_voix_femmes",
+  nono: "sfx_voix_hommes",
+};
+
 const messageWorkflow = {
   bino: [
     {

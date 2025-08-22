@@ -1,9 +1,10 @@
 import Phaser from "phaser";
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
-import { spriteNames } from "../Workflow/messageWorkflow";
+import { spriteNames, spriteSounds } from "../Workflow/messageWorkflow";
 import isMobileOrTablet from "../Utils/isMobileOrTablet";
 import { DiscussionStatus } from "../Utils/discussionStatus";
 import { eventsHas } from "../Utils/events";
+import { playSound } from "../Utils/music";
 
 export const FONT_SIZE = "16px";
 export const FONT_RESOLUTION = 20;
@@ -220,6 +221,9 @@ export default class Message extends Phaser.Scene {
     if (this.textObject.visible && message === this.currentText) {
       return;
     }
+
+    const gameScene = this.scene.get("game");
+    playSound(`${spriteSounds[sprite] || 'sfx_voix_hommes'}_${Phaser.Math.Between(1, 4)}`, gameScene, false, 0.5);
 
     this.dialogBackground.setVisible(true);
     this.dialogBackgroundColor.setVisible(true);

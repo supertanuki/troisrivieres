@@ -117,6 +117,7 @@ const fadeInMusic = function (scene, music) {
 };
 
 export const preloadSound = function (soundName, scene) {
+  if (scene.sounds[soundName]) return;
   const loader = new Loader.LoaderPlugin(scene);
   loader.audio(soundName, `sounds/sfx/${soundName}.mp3`);
   loader.once("complete", () => {
