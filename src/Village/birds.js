@@ -1,7 +1,9 @@
 import "../Sprites/Bird";
+import { playSound, preloadSound } from "../Utils/music";
 
 export const addBirds = function (scene) {
   createBirdAnims(scene);
+  preloadSound("sfx_oiseaux_volent", scene);
 
   scene.map.getObjectLayer("birds").objects.forEach((birdPosition) => {
     scene.birds.push(
@@ -10,6 +12,12 @@ export const addBirds = function (scene) {
   });
 
   scene.physics.add.collider(scene.birds, scene.hero, (bird) => {
+    playSound(
+      "sfx_oiseaux_volent",
+      scene,
+      true,
+      Phaser.Math.Between(4, 8) / 10
+    );
     bird.fly();
   });
 };

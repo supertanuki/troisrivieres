@@ -62,30 +62,30 @@ export const playIndustryTheme = function (scene) {
 
 /** @param {Scene} scene  */
 export const playMiniGameTheme = function (scene) {
-    if (
-      urlParamHas("nomusic") ||
-      loadingMiniGameTheme ||
-      (scene.miniGameTheme && scene.miniGameTheme.isPlaying)
-    )
-      return;
-  
-    fadeOutMusic(scene, scene.industryTheme);
-    fadeOutMusic(scene, scene.villageTheme);
-    if (scene.miniGameTheme && scene.sound.get("minigame-theme")) {
-      fadeInMusic(scene, scene.miniGameTheme);
-      return;
-    }
-  
-    loadingMiniGameTheme = true;
-    const loader = new Loader.LoaderPlugin(scene);
-    loader.audio("minigame-theme", "sounds/minigame_theme_compressed.mp3");
-    loader.once("complete", () => {
-      scene.miniGameTheme = scene.sound.add("minigame-theme");
-      fadeInMusic(scene, scene.miniGameTheme);
-      loadingMiniGameTheme = false;
-    });
-    loader.start();
-  };
+  if (
+    urlParamHas("nomusic") ||
+    loadingMiniGameTheme ||
+    (scene.miniGameTheme && scene.miniGameTheme.isPlaying)
+  )
+    return;
+
+  fadeOutMusic(scene, scene.industryTheme);
+  fadeOutMusic(scene, scene.villageTheme);
+  if (scene.miniGameTheme && scene.sound.get("minigame-theme")) {
+    fadeInMusic(scene, scene.miniGameTheme);
+    return;
+  }
+
+  loadingMiniGameTheme = true;
+  const loader = new Loader.LoaderPlugin(scene);
+  loader.audio("minigame-theme", "sounds/minigame_theme_compressed.mp3");
+  loader.once("complete", () => {
+    scene.miniGameTheme = scene.sound.add("minigame-theme");
+    fadeInMusic(scene, scene.miniGameTheme);
+    loadingMiniGameTheme = false;
+  });
+  loader.start();
+};
 
 const fadeOutMusic = function (scene, music) {
   if (!music || !music.isPlaying) return;
@@ -114,4 +114,33 @@ const fadeInMusic = function (scene, music) {
     duration: 2000,
     ease: "Linear",
   });
+};
+
+export const preloadSound = function (soundName, scene) {
+  const loader = new Loader.LoaderPlugin(scene);
+  loader.audio(soundName, `sounds/sfx/${soundName}.mp3`);
+  loader.once("complete", () => {
+    scene.sounds[soundName] = scene.sound.add(soundName);
+  });
+  loader.start();
+};
+
+export const playSound = function (
+  soundName,
+  scene,
+  simultaneous = false,
+  volume = 1,
+  loop = false
+) {
+  if (!scene.sounds[soundName]) return;
+
+  if (simultaneous) {
+    scene.sound.play(soundName, { volume, loop });
+    return;
+  }
+
+  if (scene.sounds[soundName].isPlaying) return;
+
+  const sound = scene.sounds[soundName];
+  sound.play({ volume, loop });
 };

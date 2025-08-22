@@ -55,6 +55,7 @@ export default class Game extends Scene {
     this.villageTheme = null;
     this.industryTheme = null;
     this.miniGameTheme = null;
+    this.sounds = [];
 
     this.django = null;
     this.koko = null;

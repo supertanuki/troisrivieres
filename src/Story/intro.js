@@ -1,3 +1,5 @@
+import { playSound, preloadSound } from "../Utils/music";
+
 export const intro = function (scene) {
   scene.anims.create({
     key: "tent",
@@ -22,6 +24,8 @@ export const intro = function (scene) {
     delay: 1000,
   });
 
+  preloadSound('sfx_tente', scene);
+
   scene.events.on("update", () => {
     if (!scene.isIntro) return;
 
@@ -30,12 +34,13 @@ export const intro = function (scene) {
     }
 
     if (scene.hero.y > scene.heroPositions["hero"].y + 5) {
+      scene.isIntro = false;
       scene.goingDown = false;
       scene.tent.anims.play("tent", true);
+      playSound('sfx_tente', scene)
       scene.tent.on("animationcomplete", () => {
         scene.tent.destroy();
         scene.isCinematic = false;
-        scene.isIntro = false;
       });
     }
   });
