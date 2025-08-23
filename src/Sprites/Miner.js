@@ -29,6 +29,7 @@ class Miner extends Chat {
     });
 
     this.anims.play("miner-idle", true);
+    this.hasUnreadMessage(this.spriteId);
   }
 
   unlockAccessToMine(x, y) {

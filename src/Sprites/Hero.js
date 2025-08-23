@@ -1,3 +1,5 @@
+import { playSound, preloadSound, stopSound } from "../Utils/music";
+
 const SPEED = 80;
 const SPEED_SLOW = 20;
 const SPEED_DIAGONAL = 70;
@@ -7,25 +9,39 @@ export class Hero extends Phaser.Physics.Arcade.Sprite {
     super(scene, x, y, texture, frame);
     this.scene = scene;
     this.shadow = scene.add.ellipse(x, y + 10, 12, 8, 0x000000, 0.1);
+    preloadSound('sfx_bruits_de_pas', scene);
+  }
+
+  playMoveSound() {
+    //playSound('sfx_bruits_de_pas', this.scene);
+  }
+
+  stopMoveSound() {
+    //stopSound('sfx_bruits_de_pas', this.scene);
   }
 
   resetVelocity() {
+    this.stopMoveSound()
     this.setVelocity(0);
   }
 
   goLeft() {
+    this.playMoveSound();
     this.setVelocityX(-SPEED);
     this.scaleX = -1;
     this.body.offset.x = this.width;
   }
 
   goRight() {
+    this.playMoveSound();
     this.setVelocityX(SPEED);
     this.scaleX = 1;
     this.body.offset.x = 2;
   }
 
   goUp() {
+    this.playMoveSound();
+
     if (this.body.velocity.x)
       this.setVelocity(this.body.velocity.x > 0 ? SPEED_DIAGONAL : -SPEED_DIAGONAL, -SPEED_DIAGONAL);
     else
@@ -36,6 +52,8 @@ export class Hero extends Phaser.Physics.Arcade.Sprite {
   }
 
   goDown() {
+    this.playMoveSound();
+
     if (this.body.velocity.x)
       this.setVelocity(this.body.velocity.x > 0 ? SPEED_DIAGONAL : -SPEED_DIAGONAL, SPEED_DIAGONAL);
     else
@@ -82,6 +100,8 @@ export class Hero extends Phaser.Physics.Arcade.Sprite {
   }
 
   stopAndWait() {
+    this.playMoveSound();
+
     if (null === this.anims.currentAnim) {
       return;
     }

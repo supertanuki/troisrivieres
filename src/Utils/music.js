@@ -117,7 +117,7 @@ const fadeInMusic = function (scene, music) {
 };
 
 export const preloadSound = function (soundName, scene) {
-  if (scene.sounds[soundName]) return;
+  if (scene?.sounds[soundName]) return;
   const loader = new Loader.LoaderPlugin(scene);
   loader.audio(soundName, `sounds/sfx/${soundName}.mp3`);
   loader.once("complete", () => {
@@ -142,6 +142,14 @@ export const playSound = function (
 
   if (scene.sounds[soundName].isPlaying) return;
 
-  const sound = scene.sounds[soundName];
-  sound.play({ volume, loop });
+  console.log(soundName, scene.sounds[soundName].isPlaying);
+
+  scene.sounds[soundName].play({ volume, loop });
+};
+
+export const stopSound = function (soundName, scene) {
+  if (!scene.sounds[soundName]) return;
+  if (!scene.sounds[soundName].isPlaying) return;
+
+  scene.sounds[soundName].stop();
 };
