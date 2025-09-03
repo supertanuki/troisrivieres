@@ -131,4 +131,8 @@ export const addDebugControls = function (scene) {
   scene.input.keyboard
     .addKey(Phaser.Input.Keyboard.KeyCodes.Z)
     .on("down", () => toggleScreensVisibility(scene));
+
+  scene.input.on("pointerdown", (pointer) =>
+    console.log({pointer: [pointer.x, pointer.y], hero: [scene.hero.x, scene.hero.y]})
+  );
 };

@@ -22,3 +22,14 @@ export const goToFactory = function (scene) {
     scene.sleepGame();
   });
 };
+
+/** @param {Game} scene  */
+export const goToRecycling = function (scene) {
+  scene.isCinematic = true;
+  playMiniGameTheme(scene);
+  scene.cameras.main.fadeOut(3000, 0, 0, 0, (cam, progress) => {
+    if (progress !== 1) return;
+    scene.scene.launch("recyclingCentre");
+    scene.sleepGame();
+  });
+};

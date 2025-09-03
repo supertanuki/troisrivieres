@@ -12,7 +12,7 @@ import { afterMine } from "./Story/afterMine";
 import { minerFirstMet } from "./Story/minerFirstMet";
 import { splashScreen } from "./Village/splashScreen";
 import { mineAccessValidation } from "./Story/mineAccessValidation";
-import { goToFactory, goToMine } from "./Story/goToGame";
+import { goToFactory, goToMine, goToRecycling } from "./Story/goToGame";
 import { handleAction } from "./Village/handleAction";
 import { afterFactory } from "./Story/afterFactory";
 import { strike } from "./Story/strike";
@@ -74,7 +74,7 @@ export default class Game extends Scene {
 
     this.ball = null;
     this.tent = null;
-    this.checkDjangoDoor = true
+    this.checkDjangoDoor = true;
 
     /** @type {Phaser.Tilemaps.Tilemap | null} */
     this.map = null;
@@ -83,7 +83,7 @@ export default class Game extends Scene {
   }
 
   preload() {
-    if (!urlParamHas('noanims')) {
+    if (!urlParamHas("noanims")) {
       this.load.scenePlugin(
         "AnimatedTiles",
         "plugins/AnimatedTiles.js",
@@ -184,7 +184,7 @@ export default class Game extends Scene {
     this.scene.wake("message");
     this.resetGameSize();
 
-    const color = fadeInFromWhite ? 255 : 0; 
+    const color = fadeInFromWhite ? 255 : 0;
     this.cameras.main.fadeIn(1000, color, color, color);
   }
 
@@ -256,13 +256,17 @@ export default class Game extends Scene {
       afterFactory(this);
     }
 
+    if (eventsHas(data, "recycling_start")) {
+      goToRecycling(this);
+    }
+
     if (eventsHas(data, "strike_begin")) {
       strike(this);
     }
 
     if (eventsHas(data, "game_over")) {
       gameOver(this);
-      gameDuration('Game', this.timeStart);
+      gameDuration("Game", this.timeStart);
     }
   }
 
@@ -373,9 +377,17 @@ export default class Game extends Scene {
 
     if (urlParamHas("nomusic")) {
       // do nothing
-    } else if (this.hero.y < 445 || this.miner && this.hero.x > this.miner.x + 25) {
+    } else if (
+      this.hero.y < 445 // factory
+      || (this.miner && this.hero.x > this.miner.x + 25) // mine
+      || (this.hero.x < 880 && this.hero.y < 615) // recycling
+    ) {
       playIndustryTheme(this);
-    } else if (this.hero.y > 450 && this.miner && this.hero.x < this.miner.x + 20) {
+    } else if (
+      this.hero.y > 450 &&
+      this.miner &&
+      this.hero.x < this.miner.x + 20
+    ) {
       playVillageTheme(this);
     }
 

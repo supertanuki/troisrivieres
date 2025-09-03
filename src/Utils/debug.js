@@ -16,10 +16,3 @@ export function gameDuration(label, timeStart) {
   const durationTime = Math.round((Date.now() - timeStart) / 1000);
   console.log("*** Game duration for: " + label, durationTime);
 }
-
-/*
-// @to remove
-this.input.on("pointerdown", (pointer) =>
-  console.log(pointer.x, pointer.y)
-);
-*/

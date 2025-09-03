@@ -803,6 +803,14 @@ const messageWorkflow = {
       unlockEvents: ["factory_start"],
     },
   ],
+  blueWorkerChief: [
+    {
+      messages: [
+        "Bla bla bla !",
+      ],
+      unlockEvents: ["recycling_start"],
+    },
+  ],
   factory: [
     {
       messages: [

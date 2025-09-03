@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.1-99-gec89c545" orientation="orthogonal" renderorder="right-down" width="190" height="87" tilewidth="16" tileheight="16" infinite="0" nextlayerid="63" nextobjectid="1320">
+<map version="1.10" tiledversion="1.11.1-99-gec89c545" orientation="orthogonal" renderorder="right-down" width="190" height="87" tilewidth="16" tileheight="16" infinite="0" nextlayerid="63" nextobjectid="1321">
  <editorsettings>
   <export target="public/tiles/3rivers.json" format="json"/>
  </editorsettings>
@@ -8277,7 +8277,7 @@
    <point/>
   </object>
  </objectgroup>
- <objectgroup id="11" name="sprites" visible="0">
+ <objectgroup id="11" name="sprites">
   <object id="848" name="bino" x="1923.33" y="923.333">
    <point/>
   </object>
@@ -8447,6 +8447,9 @@
    <point/>
   </object>
   <object id="1303" name="afterFactoryWhiteWorker1" x="1239" y="446.5">
+   <point/>
+  </object>
+  <object id="1320" name="blueWorkerChief" x="522" y="339.667">
    <point/>
   </object>
  </objectgroup>

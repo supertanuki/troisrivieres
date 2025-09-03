@@ -8,6 +8,7 @@ import { noMoreButterflies } from "../Village/butterflies";
 import { handleAction } from "../Village/handleAction";
 import { setNightState } from "../Village/night";
 import { toggleSpritesVisibility } from "../Village/spritesVisibility";
+import "../Sprites/BlueWorkerChief";
 
 /** @param {Game} scene  */
 export const afterFactory = function (scene) {
@@ -121,7 +122,7 @@ export const setVillageForThirdAct = function (scene) {
   scene.obstacleRecyclingLayer.destroy();
   scene.obstacleRecyclingCollider.destroy();
 
-  scene.map.getObjectLayer("sprites").objects.forEach((spriteObject) => {
+  for (const spriteObject of scene.map.getObjectLayer("sprites").objects) {
     if (spriteObject.name === "boyThirdAct") {
       scene.boy.setThirdAct(spriteObject.x, spriteObject.y);
     }
@@ -145,7 +146,25 @@ export const setVillageForThirdAct = function (scene) {
       scene.whiteWorker2.setPosition(spriteObject.x, spriteObject.y);
       scene.whiteWorker2.setVisible(true);
     }
-  });
+
+    if (spriteObject.name === "blueWorkerChief") {
+      scene.blueWorkerChief = scene.add.blueWorkerChief(
+        spriteObject.x,
+        spriteObject.y
+      );
+      scene.blueWorkerChief.on(
+        "pointerdown",
+        () => handleAction(scene),
+        scene
+      );
+      scene.physics.add.collider(scene.blueWorkerChief, scene.hero, () => {
+        sceneEventsEmitter.emit(
+          sceneEvents.DiscussionReady,
+          "blueWorkerChief"
+        );
+      });
+    }
+  };
 
   scene.ball.setVisible(false);
 
