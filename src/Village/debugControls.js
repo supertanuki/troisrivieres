@@ -5,6 +5,7 @@ import {
   toggleScreensVisibility,
 } from "../Story/afterFactory";
 import { setVillageForSecondAct } from "../Story/afterMineNightmare";
+import { setVillageForFourthAct } from "../Story/afterRecycling";
 import { setVillageBeforeMine } from "../Story/mineAccessValidation";
 import { urlParamHas } from "../Utils/debug";
 import { switchNight } from "./night";
@@ -72,6 +73,7 @@ export const addDebugControls = function (scene) {
       setVillageBeforeMine(scene);
       setVillageForSecondAct(scene);
       setVillageForThirdAct(scene);
+      setVillageForFourthAct(scene);
       scene.isCinematic = false;
       //return;
 

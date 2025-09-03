@@ -40,28 +40,22 @@ export const createTreesLayer = function (layerName, scene) {
   const treesLayer = scene.map.getObjectLayer(layerName);
   // sort tress in order to draw trees from top to down
   treesLayer.objects.sort((a, b) => a.y - b.y);
-  // Add trees base
+
   treesLayer.objects.forEach((treeObject) => {
-    scene.add
+    // Add trees base
+    const treeBase = scene.add
       .image(treeObject.x, treeObject.y - 8, "trees", `${treeObject.name}-base`)
       .setDepth(90)
       .setOrigin(0.5, 1);
-  });
 
-  // Add trees top
-  treesLayer.objects.forEach((treeObject) => {
-    const tree = scene.physics.add
-      .sprite(
-        treeObject.x,
-        treeObject.y - 24,
-        "trees",
-        `${treeObject.name}-1`
-      )
+    // Add trees top
+    const treeTop = scene.physics.add
+      .sprite(treeObject.x, treeObject.y - 24, "trees", `${treeObject.name}-1`)
       .setOrigin(0.5, 1)
       .setImmovable(true)
       .setDepth(130);
 
-    tree.anims.play(treeObject.name);
+    treeTop.anims.play(treeObject.name);
 
     scene.pointsCollider.push(
       scene.physics.add
@@ -71,5 +65,14 @@ export const createTreesLayer = function (layerName, scene) {
         .setImmovable(true)
         .setVisible(false)
     );
+
+    if (
+      treeObject.x > 1097 &&
+      treeObject.x < 1336 &&
+      treeObject.y > 1000 &&
+      treeObject.y < 1220
+    ) {
+      scene.treesOfDc.push({ treeBase, treeTop });
+    }
   });
-}
+};

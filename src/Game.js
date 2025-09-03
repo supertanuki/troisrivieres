@@ -41,6 +41,7 @@ export default class Game extends Scene {
     this.currentDiscussionStatus = DiscussionStatus.NONE;
     this.currentDiscussionSprite = null;
 
+    this.treesOfDc = [];
     this.birds = [];
     this.butterflies = [];
     this.pointsCollider = [];
