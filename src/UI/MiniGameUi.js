@@ -2,8 +2,14 @@ import Phaser from "phaser";
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import { DiscussionStatus } from "../Utils/discussionStatus";
 import { FONT_RESOLUTION, FONT_SIZE } from "./Message";
+import { playSound, preloadSound } from "../Utils/music";
 
 export default class MiniGameUi extends Phaser.Scene {
+  constructor(name) {
+    super(name);
+    this.sounds = [];
+  }
+
   preload() {
     this.load.atlas("ui", "sprites/ui.png", "sprites/ui.json");
   }
@@ -113,6 +119,10 @@ export default class MiniGameUi extends Phaser.Scene {
       this
     );
     sceneEventsEmitter.on(sceneEvents.MessageSent, this.handleMessage, this);
+
+    preloadSound('sfx_mini-jeu_haut-parleur', this);
+    preloadSound('sfx_mini-jeu_erreur_2', this);
+    preloadSound('sfx_mini-jeu_erreur_3', this);
   }
 
   startDiscussion(key) {
@@ -125,7 +135,9 @@ export default class MiniGameUi extends Phaser.Scene {
   }
 
   updateMessage(message, waitUserAction = false) {
-    if (!this.scene.isActive()) return
+    if (!this.scene.isActive()) return;
+
+    playSound('sfx_mini-jeu_haut-parleur', this, true, 0.5);
 
     this.dialogBackground.setVisible(true);
     this.speaker.anims.play("speaker-on-anim");
@@ -146,6 +158,8 @@ export default class MiniGameUi extends Phaser.Scene {
   }
 
   updateWarnings(warningCount) {
+    playSound(warningCount <= 2 ? 'sfx_mini-jeu_erreur_3' : 'sfx_mini-jeu_erreur_2', this, true, 1);
+
     if (warningCount > 3) warningCount = 3;
     for (let i = 0; i < warningCount; i++)
       this.scores[i].setTexture("ui", "scoreko");

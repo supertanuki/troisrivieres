@@ -1,11 +1,16 @@
 import Phaser from "phaser";
 import isMobileOrTablet from "../Utils/isMobileOrTablet";
-import { gameDuration, getUrlParam, isDebug, urlParamHas } from "../Utils/debug";
+import { gameDuration, getUrlParam, urlParamHas } from "../Utils/debug";
 import MiniGameUi from "../UI/MiniGameUi";
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import { dispatchUnlockEvents, eventsHas } from "../Utils/events";
 import { getUiMessage } from "../Workflow/messageWorkflow";
-import { playMiniGameTheme } from "../Utils/music";
+import {
+  playMiniGameTheme,
+  playSound,
+  preloadSound,
+  stopSound,
+} from "../Utils/music";
 
 const rockPositions = [110, 175, 237];
 const tubePositionsY = [60, 125, 187];
@@ -225,6 +230,7 @@ export default class Mine extends MiniGameUi {
       if (this.isCinematic) return;
 
       if (!this.rechargeWater && this.action && this.waterStockPercentage > 0) {
+        playSound("sfx_mini-jeu_jet-eau", this, false, 0.5, true);
         this.water.emitParticleAt(this.tubeEnd.x, this.tubeEnd.y);
 
         this.water.forEachAlive((particle) => {
@@ -245,6 +251,7 @@ export default class Mine extends MiniGameUi {
           this.updateMessage(getUiMessage("mine.waterEmpty"));
         }
       } else {
+        stopSound("sfx_mini-jeu_jet-eau", this);
         this.waterStockPercentage += waterRefillFactor;
 
         if (this.waterStockPercentage >= 100) {
@@ -262,17 +269,30 @@ export default class Mine extends MiniGameUi {
       this.waterStock.setVisible(this.waterStockPercentage > 5);
     });
 
-    sceneEventsEmitter.on(sceneEvents.EventsUnlocked, this.listenUnlockedEvents, this);
-    sceneEventsEmitter.on(sceneEvents.EventsDispatched, this.listenDispatchedEvents, this);
+    sceneEventsEmitter.on(
+      sceneEvents.EventsUnlocked,
+      this.listenUnlockedEvents,
+      this
+    );
+    sceneEventsEmitter.on(
+      sceneEvents.EventsDispatched,
+      this.listenDispatchedEvents,
+      this
+    );
     this.cameras.main.fadeIn(2000, 0, 0, 0);
 
-    if (urlParamHas('bypassminigame')) {
+    if (urlParamHas("bypassminigame")) {
       this.endGame();
       return;
     }
 
     this.createControls();
     this.startGame();
+
+    preloadSound("sfx_mini-jeu_jet-eau", this);
+    preloadSound("sfx_mini-jeu_caillou_desagrege", this);
+    preloadSound("sfx_mini-jeu_deplacement_tuyau", this);
+    preloadSound("sfx_mini-jeu_reussite_3", this);
   }
 
   createControls() {
@@ -433,12 +453,14 @@ export default class Mine extends MiniGameUi {
   }
 
   tutoEnd() {
+    stopSound("sfx_mini-jeu_jet-eau", this);
     this.isCinematic = true;
     dispatchUnlockEvents(["mine_tuto_end"]);
     this.startDiscussion("mine");
   }
 
   tutoMissed() {
+    stopSound("sfx_mini-jeu_jet-eau", this);
     dispatchUnlockEvents(["mine_tuto_missed"]);
     this.isCinematic = true;
     this.startDiscussion("mine");
@@ -453,7 +475,7 @@ export default class Mine extends MiniGameUi {
   startGame() {
     this.timeStart = Date.now();
 
-    if (urlParamHas('mine')) {
+    if (urlParamHas("mine")) {
       playMiniGameTheme(this);
     }
 
@@ -464,7 +486,7 @@ export default class Mine extends MiniGameUi {
   }
 
   endGame() {
-    gameDuration('Mine', this.timeStart);
+    gameDuration("Mine", this.timeStart);
 
     this.cameras.main.fadeOut(1000, 0, 0, 0, (cam, progress) => {
       if (progress !== 1) return;
@@ -510,6 +532,8 @@ export default class Mine extends MiniGameUi {
   gameOver() {
     this.isCinematic = true;
     this.isGameOver = true;
+    stopSound("sfx_mini-jeu_jet-eau", this);
+    stopSound("sfx_mini-jeu_deplacement_tuyau", this);
     this.rockParticles.setVisible(false);
     dispatchUnlockEvents(["mine_game_over"]);
     this.startDiscussion("mine");
@@ -575,22 +599,30 @@ export default class Mine extends MiniGameUi {
   }
 
   up() {
-    if (this.movingCable) return;
+    if (this.movingCable) {
+      this.tubeMoving = true;
+      return;
+    }
 
     if (this.tubeCurrentY > 0) {
       this.tubeCurrentY--;
       this.moveCable();
       this.updateWaterDepth();
+      this.tubeMoving = true;
     }
   }
 
   down() {
-    if (this.movingCable) return;
+    if (this.movingCable) {
+      this.tubeMoving = true;
+      return;
+    }
 
     if (this.tubeCurrentY < 2) {
       this.tubeCurrentY++;
       this.moveCable();
       this.updateWaterDepth();
+      this.tubeMoving = true;
     }
   }
 
@@ -609,8 +641,16 @@ export default class Mine extends MiniGameUi {
   }
 
   setRockTexture(rock, refined) {
-    const rockTextureId = Math.round((refined * 6) / numberIsRefined);
+    const rockTextureId = Math.floor((refined * 6) / numberIsRefined);
     rock.setTexture("mine", "rock-" + (rockTextureId || 1));
+  }
+
+  whenTubeMoving() {
+    playSound("sfx_mini-jeu_deplacement_tuyau", this, false, 1, true);
+  }
+
+  stopTubeMoving() {
+    stopSound("sfx_mini-jeu_deplacement_tuyau", this);
   }
 
   update(time, delta) {
@@ -622,6 +662,8 @@ export default class Mine extends MiniGameUi {
       (tubeRolling, index) => (tubeRolling.x = this.tubeEnd.x - 22 + 16 * index)
     );
 
+    this.tubeMoving = false;
+
     if (this.goingUp && this.tubeEnd.y > 50) {
       this.up();
     } else if (this.goingDown && this.tubeEnd.y < 200) {
@@ -630,9 +672,14 @@ export default class Mine extends MiniGameUi {
 
     if (this.goingLeft && this.tubeEnd.x > 100) {
       this.tubeEnd.x -= tubeSpeed;
+      this.tubeMoving = true;
     } else if (this.goingRight && this.tubeEnd.x < 450) {
       this.tubeEnd.x += tubeSpeed;
+      this.tubeMoving = true;
     }
+
+    if (this.tubeMoving) this.whenTubeMoving();
+    else this.stopTubeMoving();
 
     this.tube.x = this.tubeEnd.x;
     this.tube.y = this.tubeEnd.y - 34;
@@ -641,8 +688,6 @@ export default class Mine extends MiniGameUi {
       this.conveyorPosition[index] += this.speed[index];
       conveyor.setTilePosition(this.conveyorPosition[index], 0);
     });
-
-    //if (this.isCinematic) return
 
     for (const index in this.rocks) {
       const element = this.rocks[index];
@@ -653,13 +698,13 @@ export default class Mine extends MiniGameUi {
         this.rocks.splice(index, 1);
         rock.destroy();
 
-        if (element.refined <= numberIsRefined) {
+        if (element.refined < numberIsRefined) {
           this.rockNotValidated++;
           this.updateStep();
         }
       }
 
-      if (element.refined > numberIsRefined) {
+      if (element.refined >= numberIsRefined) {
         continue;
       }
 
@@ -671,13 +716,15 @@ export default class Mine extends MiniGameUi {
         rock.x > this.tubeEnd.x - tubeDeltaEffect &&
         rock.x < this.tubeEnd.x + tubeDeltaEffect
       ) {
+        playSound("sfx_mini-jeu_caillou_desagrege", this, false, 1);
         element.refined++;
         this.setRockTexture(rock, element.refined);
         this.rockParticles.setVisible(true);
         this.rockParticles.setDepth(rock.depth);
         this.rockParticles.setPosition(rock.x, rock.y - 25);
 
-        if (element.refined > numberIsRefined) {
+        if (element.refined >= numberIsRefined) {
+          playSound("sfx_mini-jeu_reussite_3", this, true);
           this.rockValidated++;
           this.updateStep();
         }
