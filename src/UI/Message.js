@@ -133,6 +133,8 @@ export default class Message extends Phaser.Scene {
   }
 
   showMineCard() {
+    playSound("sfx_objet_inventaire", this.scene.get("game"), false, 1);
+
     this.mineCard = this.add
       .image(225, 125, "ui", "card")
       .setScrollFactor(0)

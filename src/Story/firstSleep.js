@@ -4,6 +4,7 @@ import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import { handleAction } from "../Village/handleAction";
 import { switchNight } from "../Village/night";
 import { toggleSpritesVisibility } from "../Village/spritesVisibility";
+import { preloadSound } from "../Utils/music";
 
 /** @param {Game} scene  */
 export const firstSleep = function (scene) {
@@ -43,6 +44,7 @@ export const villageStateAfterFirstSleep = function (scene) {
   scene.fisherman.setSad();
 
   addNono(scene);
+  preloadSound("sfx_objet_inventaire", scene);
 };
 
 const addNono = function (scene) {
