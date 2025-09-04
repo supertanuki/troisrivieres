@@ -19,7 +19,7 @@ import "../Sprites/Boy";
 import "../Sprites/TwoGuys";
 import "../Sprites/Bike";
 import { createHeroAnims } from "../Sprites/HeroAnims";
-import { urlParamHas } from "../Utils/debug";
+import { gameDuration, urlParamHas } from "../Utils/debug";
 import { addBirds } from "./birds";
 import { addButterflies } from "./butterflies";
 import { addCollisionManagement } from "./collisionManagement";
@@ -258,6 +258,18 @@ export const delayedInit = function (scene) {
         scene.physics.add
           .sprite(tile.getCenterX(), tile.getCenterY(), null)
           .setSize(10, 1)
+          .setImmovable(true)
+          .setVisible(false)
+      );
+    }
+  });
+
+  scene.land.forEachTile((tile) => {
+    if (tile.properties?.topCollide === true) {
+      scene.pointsCollider.push(
+        scene.physics.add
+          .sprite(tile.getCenterX(), tile.getCenterY() - 8, null)
+          .setSize(16, 1)
           .setImmovable(true)
           .setVisible(false)
       );
