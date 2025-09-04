@@ -95,7 +95,6 @@ export default class Message extends Phaser.Scene {
       .setScrollFactor(0)
       .setDepth(3000)
       .setWordWrapWidth(245)
-      
       .setVisible(false);
 
     this.spriteNameObject = this.add
@@ -225,7 +224,17 @@ export default class Message extends Phaser.Scene {
     }
 
     const gameScene = this.scene.get("game");
-    playSound(`${spriteSounds[sprite] || 'sfx_voix_hommes'}_${Phaser.Math.Between(1, 4)}`, gameScene, false, 0.5);
+    if (spriteSounds[sprite]) {
+      playSound(
+        `${spriteSounds[sprite].sound}_${Phaser.Math.Between(
+          1,
+          spriteSounds[sprite]?.versions
+        )}`,
+        gameScene,
+        false,
+        0.5
+      );
+    }
 
     this.dialogBackground.setVisible(true);
     this.dialogBackgroundColor.setVisible(true);

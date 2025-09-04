@@ -283,4 +283,13 @@ export const delayedInit = function (scene) {
       preloadSound(`sfx_voix_${element}_${i}`, scene);
     }
   }
+
+  preloadSound("sfx_chat_1", scene);
+  preloadSound("sfx_chat_2", scene);
+
+  preloadSound("sfx_chien_1", scene);
+  preloadSound("sfx_chien_2", scene);
+
+  preloadSound("sfx_vache_1", scene);
+  preloadSound("sfx_vache_2", scene);
 };

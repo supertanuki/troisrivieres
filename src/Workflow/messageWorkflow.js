@@ -16,12 +16,15 @@ const spriteNames = {
 };
 
 export const spriteSounds = {
-  django: "sfx_voix_hommes",
-  miner: "sfx_voix_ouvriers",
-  boy: "sfx_voix_enfants",
-  girl: "sfx_voix_enfants",
-  koko: "sfx_voix_femmes",
-  nono: "sfx_voix_hommes",
+  django: { sound: "sfx_voix_hommes", versions: 4 },
+  miner: { sound: "sfx_voix_ouvriers", versions: 4 },
+  boy: { sound: "sfx_voix_enfants", versions: 4 },
+  girl: { sound: "sfx_voix_enfants", versions: 4 },
+  koko: { sound: "sfx_voix_femmes", versions: 4 },
+  nono: { sound: "sfx_voix_hommes", versions: 4 },
+  cat: { sound: "sfx_chat", versions: 2 },
+  dog: { sound: "sfx_chien", versions: 2 },
+  cow: { sound: "sfx_vache", versions: 2 },
 };
 
 const messageWorkflow = {
