@@ -24,7 +24,8 @@ export const spriteSounds = {
   nono: { sound: "sfx_voix_hommes", versions: 4 },
   cat: { sound: "sfx_chat", versions: 2 },
   dog: { sound: "sfx_chien", versions: 2 },
-  cow: { sound: "sfx_vache", versions: 2 },
+  cow: { sound: "sfx_vache", versions: 1 },
+  veal: { sound: "sfx_vache", versions: 2 },
 };
 
 const messageWorkflow = {
