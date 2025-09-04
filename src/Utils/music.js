@@ -87,7 +87,7 @@ export const playMiniGameTheme = function (scene) {
   loader.start();
 };
 
-const fadeOutMusic = function (scene, music) {
+export const fadeOutMusic = function (scene, music) {
   if (!music || !music.isPlaying) return;
 
   scene.tweens.add({

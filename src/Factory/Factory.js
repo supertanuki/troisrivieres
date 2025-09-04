@@ -7,7 +7,7 @@ import { DiscussionStatus } from "../Utils/discussionStatus";
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import { getUiMessage } from "../Workflow/messageWorkflow";
 import { FONT_RESOLUTION } from "../UI/Message";
-import { playMiniGameTheme } from "../Utils/music";
+import { fadeOutMusic, playMiniGameTheme, playSound, preloadSound } from "../Utils/music";
 
 const COMPONENTS = {
   blue: "component-blue",
@@ -46,6 +46,7 @@ export default class Factory extends MiniGameUi {
     this.warnings = 0;
     this.motherBoardComponents = [];
     this.firstStep = false;
+    this.indexSoundComponentValidated = 1;
   }
 
   preload() {
@@ -221,6 +222,14 @@ export default class Factory extends MiniGameUi {
 
     this.createControls();
     this.startGame();
+
+    preloadSound("sfx_mini-jeu_roulement_puces", this);
+    preloadSound("sfx_mini-jeu_puce-bonne_1", this);
+    preloadSound("sfx_mini-jeu_puce-bonne_2", this);
+    preloadSound("sfx_mini-jeu_puce-bonne_3", this);
+    preloadSound("sfx_mini-jeu_puce-mauvaise_2", this);
+    preloadSound("sfx_mini-jeu_reussite_3", this);
+    preloadSound("sfx_mini-jeu_jet-eau", this);
   }
 
   startGame() {
@@ -570,6 +579,8 @@ export default class Factory extends MiniGameUi {
     ) {
       return;
     }
+
+    playSound("sfx_mini-jeu_roulement_puces", this, false, 0.5);
     this.componentsLinePosition--;
     this.refreshComponentsLine();
 
@@ -603,12 +614,10 @@ export default class Factory extends MiniGameUi {
     if (!this.enableComponentsControl || this.componentsLinePosition + 1 > 0) {
       return;
     }
+
+    playSound("sfx_mini-jeu_roulement_puces", this, false, 0.5);
     this.componentsLinePosition++;
     this.refreshComponentsLine();
-
-    if (this.movingHand) {
-      //return
-    }
 
     if (this.handAnimation) {
       this.handAnimation.destroy();
@@ -686,6 +695,11 @@ export default class Factory extends MiniGameUi {
 
     if (validatedComponent) {
       const { component, name } = validatedComponent;
+
+      playSound(`sfx_mini-jeu_puce-bonne_${this.indexSoundComponentValidated}`, this, true, 1);
+      this.indexSoundComponentValidated++;
+      if (this.indexSoundComponentValidated > 3) this.indexSoundComponentValidated = 1;
+
       this.tweens.add({
         targets: selectedComponent,
         x: component.x + 10,
@@ -719,6 +733,7 @@ export default class Factory extends MiniGameUi {
         },
       });
     } else {
+      playSound("sfx_mini-jeu_puce-mauvaise_2", this, true, 1);
       this.tweens.add({
         targets: selectedComponent,
         y: 150,
@@ -756,9 +771,12 @@ export default class Factory extends MiniGameUi {
   }
 
   validateMotherboard() {
+    playSound("sfx_mini-jeu_reussite_3", this, true, 1);
     this.isMotherboardValidated = true;
     this.numberValidated++;
     this.waterCleaningAnims.forEach((element) => element.setVisible(true));
+    playSound("sfx_mini-jeu_jet-eau", this, false, 0.5);
+    fadeOutMusic(this, this.sounds["sfx_mini-jeu_jet-eau"])
 
     this.time.delayedCall(1000, () =>
       this.waterCleaningAnims.forEach((element) => element.setVisible(false))
