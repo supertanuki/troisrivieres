@@ -365,11 +365,12 @@ export default class RecyclingCentre extends MiniGameUi {
 
     const name = Phaser.Math.RND.pick(OBJECTS_NAMES);
     const x = Phaser.Math.Between(150, 400);
+    playSound("sfx_mini-jeu_trappe_dechet", this, true, 1);
 
     if (!this.isTrapAnimating) {
       this.isTrapAnimating = true;
       this.objectSource.anims.play("trap-open", true);
-      playSound("sfx_mini-jeu_trappe_dechet", this, true, 1);
+
       this.time.delayedCall(1200, () => {
         this.objectSource.anims.play("trap-close", true);
         this.isTrapAnimating = false;
