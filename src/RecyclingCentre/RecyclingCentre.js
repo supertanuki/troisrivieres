@@ -156,17 +156,17 @@ export default class RecyclingCentre extends MiniGameUi {
       .image(50, 45, "recyclingCentre", "wheel")
       .setDepth(2);
 
-    const buttonLeftTop = this.add
-      .image(-37, 0, "recyclingCentre", "button-red")
+    this.buttonLeftTop = this.add
+      .image(-37, 0, "recyclingCentre", "button-blue")
       .setDepth(1);
-    const buttonLeftBottom = this.add
-      .image(-37, 22, "recyclingCentre", "button-red")
+    this.buttonLeftBottom = this.add
+      .image(-37, 22, "recyclingCentre", "button-blue")
       .setDepth(1);
-    const buttonRightTop = this.add
-      .image(37, 0, "recyclingCentre", "button-red")
+    this.buttonRightTop = this.add
+      .image(37, 0, "recyclingCentre", "button-blue")
       .setDepth(1);
-    const buttonRightBottom = this.add
-      .image(37, 22, "recyclingCentre", "button-red")
+    this.buttonRightBottom = this.add
+      .image(37, 22, "recyclingCentre", "button-blue")
       .setDepth(1);
 
     this.currentObject = this.add
@@ -183,10 +183,10 @@ export default class RecyclingCentre extends MiniGameUi {
       wheelLeft,
       wheelRight,
       this.shredder,
-      buttonLeftTop,
-      buttonLeftBottom,
-      buttonRightTop,
-      buttonRightBottom,
+      this.buttonLeftTop,
+      this.buttonLeftBottom,
+      this.buttonRightTop,
+      this.buttonRightBottom,
       containerBase,
       this.currentObject,
       this.previousObject,
@@ -335,11 +335,22 @@ export default class RecyclingCentre extends MiniGameUi {
   up() {
     if (this.isCinematic) return;
     this.setSelectedObject(-1);
+    this.feedbackButton(this.buttonLeftTop);
+    this.feedbackButton(this.buttonRightTop);
   }
 
   down() {
     if (this.isCinematic) return;
     this.setSelectedObject(1);
+    this.feedbackButton(this.buttonLeftBottom);
+    this.feedbackButton(this.buttonRightBottom);
+  }
+
+  feedbackButton(button) {
+    button.setTexture("recyclingCentre", "button-red");
+    this.time.delayedCall(300, () => {
+        button.setTexture("recyclingCentre", "button-blue");
+    });
   }
 
   createDebris(x, y, name) {
