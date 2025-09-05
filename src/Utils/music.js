@@ -101,7 +101,7 @@ export const fadeOutMusic = function (scene, music) {
   });
 };
 
-const fadeInMusic = function (scene, music) {
+export const fadeInMusic = function (scene, music) {
   if (music.isPlaying) return;
 
   music.volume = 0;

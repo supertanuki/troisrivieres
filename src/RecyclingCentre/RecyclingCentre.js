@@ -8,7 +8,7 @@ import {
 } from "../Utils/debug";
 import { dispatchUnlockEvents, eventsHas } from "../Utils/events";
 import { FONT_RESOLUTION } from "../UI/Message";
-import { playMiniGameTheme } from "../Utils/music";
+import { playMiniGameTheme, playSound, preloadSound } from "../Utils/music";
 
 const OBJECTS_NAMES = ["console", "laptop", "phone"];
 const OBJECTS_COLORS = {
@@ -203,6 +203,11 @@ export default class RecyclingCentre extends MiniGameUi {
 
     this.createControls();
     this.startGame();
+
+    preloadSound("sfx_mini-jeu_broyeur", this);
+    preloadSound("sfx_mini-jeu_roulement_broyeur", this);
+    preloadSound("sfx_mini-jeu_trappe_dechet", this);
+    preloadSound("sfx_mini-jeu_reussite", this);
   }
 
   startGame() {
@@ -310,6 +315,7 @@ export default class RecyclingCentre extends MiniGameUi {
     this.currentObject.setFrame(this.selectedObject);
     this.previousObject.setFrame(this.getObjectNameByDirection(-1) + "-little");
     this.nextObject.setFrame(this.getObjectNameByDirection(1) + "-little");
+    playSound('sfx_mini-jeu_reussite', this, true, 0.1);
 
     this.tweens.add({
       targets: this.shredder,
@@ -363,6 +369,7 @@ export default class RecyclingCentre extends MiniGameUi {
     if (!this.isTrapAnimating) {
       this.isTrapAnimating = true;
       this.objectSource.anims.play("trap-open", true);
+      playSound("sfx_mini-jeu_trappe_dechet", this, true, 1);
       this.time.delayedCall(1200, () => {
         this.objectSource.anims.play("trap-close", true);
         this.isTrapAnimating = false;
@@ -428,6 +435,7 @@ export default class RecyclingCentre extends MiniGameUi {
 
   moveContainers(stepX) {
     this.containersObject.body.setAccelerationX(stepX * 100);
+    playSound("sfx_mini-jeu_roulement_broyeur", this, false, 0.5);
   }
 
   updateContainers() {
@@ -456,12 +464,14 @@ export default class RecyclingCentre extends MiniGameUi {
         object.frame.name !== this.selectedObject + "-broken"
       )
         continue;
+
       if (
         object.x < this.containersObject.x - 45 ||
         object.x > this.containersObject.x + 45
       )
         continue;
 
+      playSound('sfx_mini-jeu_broyeur', this, false, 1);
       this.validatedObjects++;
       this.createDebris(object.x, object.y, this.selectedObject);
       this.objects = this.objects.filter((thisObject) => thisObject !== object);
