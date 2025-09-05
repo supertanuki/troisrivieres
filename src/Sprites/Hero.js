@@ -13,35 +13,30 @@ export class Hero extends Phaser.Physics.Arcade.Sprite {
   }
 
   playMoveSound() {
-    //playSound('sfx_bruits_de_pas', this.scene);
+    playSound('sfx_bruits_de_pas', this.scene, false, 0.3, true);
   }
 
   stopMoveSound() {
-    //stopSound('sfx_bruits_de_pas', this.scene);
+    stopSound('sfx_bruits_de_pas', this.scene);
   }
 
   resetVelocity() {
-    this.stopMoveSound()
     this.setVelocity(0);
   }
 
   goLeft() {
-    this.playMoveSound();
     this.setVelocityX(-SPEED);
     this.scaleX = -1;
     this.body.offset.x = this.width;
   }
 
   goRight() {
-    this.playMoveSound();
     this.setVelocityX(SPEED);
     this.scaleX = 1;
     this.body.offset.x = 2;
   }
 
   goUp() {
-    this.playMoveSound();
-
     if (this.body.velocity.x)
       this.setVelocity(this.body.velocity.x > 0 ? SPEED_DIAGONAL : -SPEED_DIAGONAL, -SPEED_DIAGONAL);
     else
@@ -52,8 +47,6 @@ export class Hero extends Phaser.Physics.Arcade.Sprite {
   }
 
   goDown() {
-    this.playMoveSound();
-
     if (this.body.velocity.x)
       this.setVelocity(this.body.velocity.x > 0 ? SPEED_DIAGONAL : -SPEED_DIAGONAL, SPEED_DIAGONAL);
     else
@@ -100,7 +93,7 @@ export class Hero extends Phaser.Physics.Arcade.Sprite {
   }
 
   stopAndWait() {
-    this.playMoveSound();
+    this.stopMoveSound();
 
     if (null === this.anims.currentAnim) {
       return;

@@ -352,6 +352,12 @@ export default class Game extends Scene {
       this.hero.goDown();
     }
 
+    if (this.goingLeft || this.goingUp || this.goingDown || this.goingRight) {
+      this.hero.playMoveSound();
+    } else {
+      this.hero.stopMoveSound();
+    }
+
     if (this.goingUp) {
       this.hero.animateToUp();
 
