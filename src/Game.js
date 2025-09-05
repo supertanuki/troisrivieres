@@ -294,6 +294,7 @@ export default class Game extends Scene {
 
   handleDiscussionStarted() {
     if (!this.scene.isActive()) return;
+    console.log('handleDiscussionStarted')
     this.currentDiscussionStatus = DiscussionStatus.STARTED;
   }
 
@@ -304,8 +305,9 @@ export default class Game extends Scene {
 
   handleDiscussionEnded(sprite) {
     if (!this.scene.isActive()) return;
-    if (!sprite || !this[sprite]) return;
+    if ((!sprite || !this[sprite]) && "screen" !== sprite.substring(0, 6)) return;
 
+    console.log('handleDiscussionEnded', sprite)
     this.currentDiscussionStatus = DiscussionStatus.NONE;
     this[sprite]?.stopChatting();
   }
@@ -336,6 +338,7 @@ export default class Game extends Scene {
         DiscussionStatus.INPROGRESS,
       ].includes(this.currentDiscussionStatus)
     ) {
+      console.log('stopAndWait', this.currentDiscussionStatus)
       this.hero.stopAndWait();
       return;
     }

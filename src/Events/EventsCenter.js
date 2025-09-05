@@ -17,6 +17,7 @@ const sceneEvents = {
 	'EventsUnlocked': 'EventsUnlocked',
 	'EventsDispatched': 'EventsDispatched',
 	'PreEventsUnlocked': 'PreEventsUnlocked',
+	'screenShutdown': 'screenShutdown',
 }
 
 export {

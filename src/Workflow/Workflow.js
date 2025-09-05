@@ -76,6 +76,11 @@ export default class Workflow {
   }
 
   startDiscussion(sprite) {
+    if ("screen" === sprite.substring(0, 6)) {
+      sceneEventsEmitter.emit(sceneEvents.screenShutdown, { sprite });
+      return;
+    }
+
     this.initSpriteThreadIfNeeded(sprite);
     this.currentSprite = sprite;
     const nextAvailableThread = this.getNextAvailableThread(
