@@ -1,14 +1,11 @@
 import isMobileOrTablet from "../Utils/isMobileOrTablet";
 import MiniGameUi from "../UI/MiniGameUi";
-import {
-  gameDuration,
-  getUrlParam,
-  isDebug,
-  urlParamHas,
-} from "../Utils/debug";
+import { gameDuration, isDebug, urlParamHas } from "../Utils/debug";
 import { dispatchUnlockEvents, eventsHas } from "../Utils/events";
 import { FONT_RESOLUTION } from "../UI/Message";
 import { playMiniGameTheme, playSound, preloadSound } from "../Utils/music";
+import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
+import { getUiMessage } from "../Workflow/messageWorkflow";
 
 const OBJECTS_NAMES = ["console", "laptop", "phone"];
 const OBJECTS_COLORS = {
@@ -16,10 +13,8 @@ const OBJECTS_COLORS = {
   laptop: 0x6ec9c6,
   phone: 0xc09e5a,
 };
-const SPEED_INCREMENT = getUrlParam("speedIncrement", 0.8);
 const initialY = 252;
 const initialX = 200;
-const GRAVITY = 0.05;
 const STEPX = 5;
 
 export default class RecyclingCentre extends MiniGameUi {
@@ -29,18 +24,17 @@ export default class RecyclingCentre extends MiniGameUi {
       physics: {
         matter: {
           debug: isDebug(),
-          gravity: { y: GRAVITY },
+          gravity: { y: 0.04 },
         },
       },
     });
 
-    this.delayBetweenObjects = 1000;
+    this.delayBetweenObjects = 1500;
     this.objects = [];
     this.containers = [];
     this.containersObject = null;
     this.validatedObjects = 0;
     this.conveyorPosition = 0;
-    this.speed = SPEED_INCREMENT;
     this.selectedObject = "console";
     this.warnings = 0;
   }
@@ -201,6 +195,22 @@ export default class RecyclingCentre extends MiniGameUi {
     body.setDamping(true);
     body.setDrag(0.01);
 
+    if (urlParamHas("bypassminigame")) {
+      this.endGame();
+      return;
+    }
+
+    sceneEventsEmitter.on(
+      sceneEvents.EventsUnlocked,
+      this.listenUnlockedEvents,
+      this
+    );
+    sceneEventsEmitter.on(
+      sceneEvents.EventsDispatched,
+      this.listenDispatchedEvents,
+      this
+    );
+
     this.createControls();
     this.startGame();
 
@@ -217,13 +227,10 @@ export default class RecyclingCentre extends MiniGameUi {
 
     this.cameras.main.fadeIn(2000, 0, 0, 0);
 
-    /*
     this.time.addEvent({
-      callback: () => this.startDiscussion("factory"),
+      callback: () => this.startDiscussion("recyclingCentre"),
       delay: 1000,
     });
-    */
-    this.afterTuto();
   }
 
   gameOver() {
@@ -231,11 +238,7 @@ export default class RecyclingCentre extends MiniGameUi {
     this.isGameOver = true;
     this.shredder.anims.stop();
 
-    // todo : to remove
-    this.updateMessage("Game over");
-    return;
-
-    dispatchUnlockEvents(["recyclingcentre_game_over"]);
+    dispatchUnlockEvents(["recycling_game_over"]);
     this.startDiscussion("recyclingCentre");
   }
 
@@ -244,41 +247,53 @@ export default class RecyclingCentre extends MiniGameUi {
     this.cameras.main.fadeOut(1000, 0, 0, 0, (cam, progress) => {
       if (progress !== 1) return;
       this.scene.stop();
-      dispatchUnlockEvents(["recyclingcentre_after"]);
+      dispatchUnlockEvents(["recycling_after"]);
     });
   }
 
   listenDispatchedEvents(data) {
-    if (eventsHas(data, "recyclingcentre_tuto_begin")) {
+    if (eventsHas(data, "recycling_tuto_begin")) {
       this.tutoBegin();
     }
   }
 
   listenUnlockedEvents(data) {
-    if (eventsHas(data, "recyclingcentre_after_tuto")) {
+    if (eventsHas(data, "recycling_after_tuto")) {
       this.afterTuto();
     }
 
-    if (eventsHas(data, "recyclingcentre_end")) {
+    if (eventsHas(data, "recycling_end")) {
       this.endGame();
     }
   }
 
   tutoBegin() {
+    for (const object of this.objects) {
+      this.tweens.add({
+        targets: object,
+        alpha: 0,
+        duration: 1000,
+        onComplete: () => {
+          object.destroy();
+        },
+      });
+    }
+    this.objects = [];
     this.isCinematic = false;
     this.firstStep = true;
+    this.time.delayedCall(1500, () => this.initObject());
   }
 
   tutoMissed() {
-    dispatchUnlockEvents(["recyclingcentre_tuto_missed"]);
+    dispatchUnlockEvents(["recycling_tuto_missed"]);
     this.isCinematic = true;
-    this.startDiscussion("recyclingcentre");
+    this.startDiscussion("recyclingCentre");
   }
 
   tutoEnd() {
     this.isCinematic = true;
-    dispatchUnlockEvents(["recyclingcentre_tuto_end"]);
-    this.startDiscussion("recyclingcentre");
+    dispatchUnlockEvents(["recycling_tuto_end"]);
+    this.startDiscussion("recyclingCentre");
   }
 
   afterTuto() {
@@ -290,16 +305,6 @@ export default class RecyclingCentre extends MiniGameUi {
 
   handleAction() {
     super.handleAction();
-  }
-
-  right() {
-    super.handleAction();
-    this.goingRight = true;
-  }
-
-  left() {
-    super.handleAction();
-    this.goingLeft = true;
   }
 
   getObjectNameByDirection(direction) {
@@ -315,7 +320,7 @@ export default class RecyclingCentre extends MiniGameUi {
     this.currentObject.setFrame(this.selectedObject);
     this.previousObject.setFrame(this.getObjectNameByDirection(-1) + "-little");
     this.nextObject.setFrame(this.getObjectNameByDirection(1) + "-little");
-    playSound('sfx_mini-jeu_reussite', this, true, 0.1);
+    playSound("sfx_mini-jeu_reussite", this, true, 0.05);
 
     this.tweens.add({
       targets: this.shredder,
@@ -330,6 +335,16 @@ export default class RecyclingCentre extends MiniGameUi {
         });
       },
     });
+  }
+
+  right() {
+    super.handleAction();
+    this.goingRight = true;
+  }
+
+  left() {
+    super.handleAction();
+    this.goingLeft = true;
   }
 
   up() {
@@ -349,13 +364,13 @@ export default class RecyclingCentre extends MiniGameUi {
   feedbackButton(button) {
     button.setTexture("recyclingCentre", "button-red");
     this.time.delayedCall(300, () => {
-        button.setTexture("recyclingCentre", "button-blue");
+      button.setTexture("recyclingCentre", "button-blue");
     });
   }
 
   createDebris(x, y, name) {
     const color = OBJECTS_COLORS[name];
-    Array(Phaser.Math.Between(10, 30))
+    Array(Phaser.Math.Between(20, 40))
       .fill(0)
       .forEach((i) => new ObjectDebris(this, x, y, color));
   }
@@ -363,18 +378,23 @@ export default class RecyclingCentre extends MiniGameUi {
   initObject() {
     if (this.isCinematic) return;
 
-    const warnings = Math.round(this.objects.length / 30);
+    const warnings =
+      (this.objects.length > 2 && 1) +
+      (this.objects.length > 10 && 1) +
+      (this.objects.length > 60 && 1);
+
     if (warnings > this.warnings) {
       this.warnings = warnings;
       this.updateWarnings(this.warnings);
+      this.updateMessage(getUiMessage("recycling.error"));
     }
 
-    if (this.objects.length > 120) {
+    if (warnings === 3) {
       this.gameOver();
       return;
     }
 
-    const name = Phaser.Math.RND.pick(OBJECTS_NAMES);
+    const name = this.firstStep ? 'laptop' : Phaser.Math.RND.pick(OBJECTS_NAMES);
     const x = Phaser.Math.Between(150, 400);
     playSound("sfx_mini-jeu_trappe_dechet", this, true, 1);
 
@@ -401,14 +421,15 @@ export default class RecyclingCentre extends MiniGameUi {
       },
     });
 
+    if (this.firstStep) return;
+
     this.delayBetweenObjects -= 10;
     if (this.delayBetweenObjects < 100) this.delayBetweenObjects = 100;
-    this.time.delayedCall(
+    const delay =
       this.validatedObjects > 10
         ? this.delayBetweenObjects
-        : Phaser.Math.Between(1800, 2500),
-      () => this.initObject()
-    );
+        : Phaser.Math.Between(1500, 2500);
+    this.time.delayedCall(delay, () => this.initObject());
   }
 
   updateCable() {
@@ -465,9 +486,12 @@ export default class RecyclingCentre extends MiniGameUi {
   }
 
   updateObjects() {
+    if (this.isCinematic) return;
+
     for (const object of this.objects) {
       if (object.y > 210) {
         object.setTint(0x555555);
+        if (this.firstStep) this.tutoMissed();
         continue;
       }
 
@@ -483,11 +507,9 @@ export default class RecyclingCentre extends MiniGameUi {
       )
         continue;
 
-      playSound('sfx_mini-jeu_broyeur', this, false, 1);
       this.validatedObjects++;
-      this.createDebris(object.x, object.y, this.selectedObject);
-      this.objects = this.objects.filter((thisObject) => thisObject !== object);
-      object.destroy();
+      this.destroyObject(object);
+      if (this.firstStep) this.tutoEnd();
 
       if (this.currentObject.scale === 1) {
         this.tweens.add({
@@ -498,6 +520,13 @@ export default class RecyclingCentre extends MiniGameUi {
         });
       }
     }
+  }
+
+  destroyObject(object) {
+    this.objects = this.objects.filter((thisObject) => thisObject !== object);
+    playSound("sfx_mini-jeu_broyeur", this, false, 1);
+    this.createDebris(object.x, object.y, this.selectedObject);
+    object.destroy();
   }
 
   update() {

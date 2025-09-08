@@ -243,7 +243,6 @@ export default class Factory extends MiniGameUi {
       callback: () => this.startDiscussion("factory"),
       delay: 1000,
     });
-    //this.initMotherboard();
   }
 
   gameOver() {

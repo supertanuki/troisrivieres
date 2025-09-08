@@ -1,3 +1,4 @@
+import RecyclingCentre from "../RecyclingCentre/RecyclingCentre";
 import isMobileOrTablet from "../Utils/isMobileOrTablet";
 
 const spriteNames = {
@@ -880,10 +881,49 @@ const messageWorkflow = {
       unlockEvents: ["factory_end"],
     },
   ],
+  recyclingCentre: [
+    {
+      messages: [
+        isMobileOrTablet()
+          ? "Installe-toi…\n[touche pour continuer]"
+          : "Installe-toi…\n[espace pour continuer]",
+        "Comme tu es nouvelle, je te mets sur un poste simple…",
+        "C'est parti !",
+      ],
+      unlockEvents: ["recycling_tuto_begin"],
+    },
+    {
+      messages: [
+        "Tu n'as pas compris comment ça fonctionne ?",
+        "Laisse moi te réexpliquer",
+        "Il faut... bla bla bla",
+      ],
+      dependingOn: ["recycling_tuto_missed"],
+      unlockEvents: ["recycling_tuto_begin"],
+    },
+    {
+      messages: [
+        "Tu sembles avoir compris comment ça fonctionne…",
+        "Au boulot !"
+      ],
+      dependingOn: ["recycling_tuto_end"],
+      unlockEvents: ["recycling_after_tuto"],
+    },
+    {
+      messages: [
+        "C'est bien ce qu'il me semblait…",
+        "tu ne peux pas tenir un rythme aussi soutenu !",
+        "On arrête les frais pour aujourd'hui.",
+        "Allez… Rentre chez toi !",
+      ],
+      dependingOn: ["recycling_game_over"],
+      unlockEvents: ["recycling_end"],
+    },
+  ],
   gameOver: [
     {
       messages: [
-        "Fin de la démo.\nMerci d'avoir tester !",
+        "Fin de la démo.\nMerci d'avoir testé !",
       ]
     }
   ]
@@ -901,6 +941,8 @@ const uiMessages = {
   "factory.faster": "Validé ! Plus vite maintenant !!!",
   "factory.welldone": "C'est bien, tu es productive !",
   "factory.error": "C'est quoi ce boulot ? Ressaisis-toi la nouvelle !",
+
+  "recycling.error": "Attention, c'est du travail baclé !",
 };
 
 const getUiMessage = (name) => uiMessages[name];
