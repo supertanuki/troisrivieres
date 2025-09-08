@@ -1,7 +1,6 @@
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import Game from "../Game";
 import { DiscussionStatus } from "../Utils/discussionStatus";
-import { dispatchUnlockEvents } from "../Utils/events";
 import { playIndustryTheme, playVillageTheme } from "../Utils/music";
 import { noMoreBirds } from "../Village/birds";
 import { noMoreButterflies } from "../Village/butterflies";
@@ -52,22 +51,8 @@ export const afterFactory = function (scene) {
     if (scene.hero.y > djangoDoor.y + 11 && scene.hero.y < djangoDoor.y + 15) {
       scene.cameras.main.fadeOut(1000, 0, 0, 0);
       scene.time.delayedCall(3000, () => {
-        //scene.scene.launch("mine-nightmare");
-        //scene.sleepGame();
-
-        playVillageTheme(scene);
-        setVillageForThirdAct(scene);
-        scene.cameras.main.fadeIn(1000, 0, 0, 0);
-        scene.setHeroPosition("heroDjango");
-        scene.hero.slowRight();
-        scene.hero.animateToRight();
-
-        // @todo ? remove delayedcall and check when mai is near django ?
-        scene.time.delayedCall(1200, () => {
-          scene.isCinematic = false;
-          sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "django");
-          handleAction(scene);
-        });
+        scene.scene.launch("factory-nightmare");
+        scene.sleepGame();
       });
       scene.events.off("update", updateCallback);
     }
@@ -76,8 +61,24 @@ export const afterFactory = function (scene) {
   scene.events.on("update", updateCallback);
 };
 
+/** @param {Game} scene  */
+export const afterFactoryNightmare = function (scene) {
+  scene.wakeGame(true);
+  playVillageTheme(scene);
+  setVillageForThirdAct(scene);
+  scene.cameras.main.fadeIn(1000, 0, 0, 0);
+  scene.setHeroPosition("heroDjango");
+  scene.hero.slowRight();
+  scene.hero.animateToRight();
+  scene.time.delayedCall(1200, () => {
+    scene.isCinematic = false;
+    sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "django");
+    handleAction(scene);
+  });
+};
+
 export const setVillageForThirdAct = function (scene) {
-  console.log('setVillageForThirdAct')
+  console.log("setVillageForThirdAct");
   noMoreBirds(scene);
   noMoreButterflies(scene);
   setNightState(scene, false);
@@ -152,23 +153,14 @@ export const setVillageForThirdAct = function (scene) {
         spriteObject.x,
         spriteObject.y
       );
-      scene.blueWorkerChief.on(
-        "pointerdown",
-        () => handleAction(scene),
-        scene
-      );
+      scene.blueWorkerChief.on("pointerdown", () => handleAction(scene), scene);
       scene.physics.add.collider(scene.blueWorkerChief, scene.hero, () => {
-        sceneEventsEmitter.emit(
-          sceneEvents.DiscussionReady,
-          "blueWorkerChief"
-        );
+        sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "blueWorkerChief");
       });
     }
-  };
+  }
 
   scene.ball.setVisible(false);
-
-  dispatchUnlockEvents(["third_act_begin"]);
 };
 
 export const toggleScreensVisibility = function (scene) {

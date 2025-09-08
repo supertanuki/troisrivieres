@@ -14,7 +14,7 @@ import { splashScreen } from "./Village/splashScreen";
 import { mineAccessValidation } from "./Story/mineAccessValidation";
 import { goToFactory, goToMine, goToRecycling } from "./Story/goToGame";
 import { handleAction } from "./Village/handleAction";
-import { afterFactory } from "./Story/afterFactory";
+import { afterFactory, afterFactoryNightmare } from "./Story/afterFactory";
 import { strike } from "./Story/strike";
 import { gameOver } from "./Village/gameOver";
 import { playIndustryTheme, playVillageTheme } from "./Utils/music";
@@ -120,6 +120,11 @@ export default class Game extends Scene {
   startGame() {
     if (urlParamHas("dreamMine")) {
       this.gotoScene("mine-nightmare");
+      return;
+    }
+
+    if (urlParamHas("dreamFactory")) {
+      this.gotoScene("factory-nightmare");
       return;
     }
 
@@ -263,6 +268,10 @@ export default class Game extends Scene {
 
     if (eventsHas(data, "factory_after")) {
       afterFactory(this);
+    }
+
+    if (eventsHas(data, "third_act_begin")) {
+      afterFactoryNightmare(this);
     }
 
     if (eventsHas(data, "recycling_start")) {
