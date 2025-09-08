@@ -18,6 +18,7 @@ import { afterFactory } from "./Story/afterFactory";
 import { strike } from "./Story/strike";
 import { gameOver } from "./Village/gameOver";
 import { playIndustryTheme, playVillageTheme } from "./Utils/music";
+import { afterScreenShutdown } from "./Story/afterScreenShutdown";
 
 export default class Game extends Scene {
   constructor() {
@@ -76,6 +77,8 @@ export default class Game extends Scene {
     this.ball = null;
     this.tent = null;
     this.checkDjangoDoor = true;
+
+    this.screenShutDownCount = 0;
 
     /** @type {Phaser.Tilemaps.Tilemap | null} */
     this.map = null;
@@ -220,6 +223,11 @@ export default class Game extends Scene {
       this.handleDiscussionInProgress,
       this
     );
+    sceneEventsEmitter.on(
+      sceneEvents.ScreenShutdown,
+      this.handleScreenShutdown,
+      this
+    );
 
     sceneEventsEmitter.on(sceneEvents.EventsUnlocked, this.listenEvents, this);
   }
@@ -318,6 +326,11 @@ export default class Game extends Scene {
 
     this.currentDiscussionStatus = DiscussionStatus.NONE;
     this[sprite]?.abortChatting();
+  }
+
+  handleScreenShutdown(sprite) {
+    this.screenShutDownCount++;
+    if (this.screenShutDownCount === 3) afterScreenShutdown(this);
   }
 
   update(time, delta) {

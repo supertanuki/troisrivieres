@@ -77,7 +77,7 @@ export default class Workflow {
 
   startDiscussion(sprite) {
     if ("screen" === sprite.substring(0, 6)) {
-      sceneEventsEmitter.emit(sceneEvents.screenShutdown, { sprite });
+      sceneEventsEmitter.emit(sceneEvents.ScreenShutdown, { sprite });
       return;
     }
 

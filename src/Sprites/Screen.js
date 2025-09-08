@@ -2,21 +2,21 @@ import Phaser from "phaser";
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 
 export default class Screen extends Phaser.Physics.Arcade.Sprite {
-  constructor(
-    scene,
-    x,
-    y,
-    screenIndex
-  ) {
+  constructor(scene, x, y, screenIndex) {
     super(scene, x, y, "sprites", "screen-off-1");
     this.scene = scene;
     this.setDepth(250);
 
-    this.spriteId = 'screen' + screenIndex;
+    this.spriteId = "screen" + screenIndex;
     this.heroNearMe = false;
     this.previousChatImageUiVisibility = false;
+    this.isShutDown = false;
 
-    sceneEventsEmitter.on(sceneEvents.screenShutdown, this.screenShutdown, this);
+    sceneEventsEmitter.on(
+      sceneEvents.ScreenShutdown,
+      this.screenShutdown,
+      this
+    );
   }
 
   isHeroNearMe() {
@@ -31,6 +31,7 @@ export default class Screen extends Phaser.Physics.Arcade.Sprite {
 
   preUpdate(time, delta) {
     super.preUpdate(time, delta);
+    if (this.isShutDown) return;
 
     const isHeroNearMe = this.isHeroNearMe();
     if (this.heroNearMe !== isHeroNearMe) {
@@ -50,7 +51,10 @@ export default class Screen extends Phaser.Physics.Arcade.Sprite {
   screenShutdown(payload) {
     if (this.spriteId !== payload.sprite) return;
 
-    this.scene.time.delayedCall(200, () => sceneEventsEmitter.emit(sceneEvents.DiscussionEnded, payload.sprite));
+    this.scene.time.delayedCall(200, () =>
+      sceneEventsEmitter.emit(sceneEvents.DiscussionEnded, payload.sprite)
+    );
+    this.isShutDown = true;
     this.setVisible(true);
     this.anims.play("screen-off", true);
   }
