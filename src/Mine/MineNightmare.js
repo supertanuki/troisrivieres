@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 import "../Sprites/Hero";
-import { isDebug } from "../Utils/debug";
+import { gameDuration, isDebug } from "../Utils/debug";
 import { dispatchUnlockEvents } from "../Utils/events";
 
 export default class MineNightmare extends Phaser.Scene {
@@ -23,10 +23,24 @@ export default class MineNightmare extends Phaser.Scene {
   }
 
   create() {
+    this.timeStart = Date.now();
+
+    this.anims.create({
+      key: "mai-sleeping",
+      frames: this.anims.generateFrameNames("mai", {
+        start: 1,
+        end: 3,
+        prefix: "sleeping-",
+      }),
+      repeat: -1,
+      yoyo: true,
+      frameRate: 2,
+    });
     this.scale.setGameSize(550, 300);
     this.cameras.main.setBackgroundColor("#ffffff");
 
-    this.hero = this.add.hero(275, 150, "mai", "idle-down-1");
+    this.hero = this.add.sprite(275, 150, "mai", "sleeping-1");
+    this.hero.anims.play("mai-sleeping", true);
     this.hero.setAlpha(0);
 
     this.tweens.add({
@@ -109,6 +123,7 @@ export default class MineNightmare extends Phaser.Scene {
   endScene() {
     this.cameras.main.fadeOut(1000, 255, 255, 255, (cam, progress) => {
       if (progress !== 1) return;
+      gameDuration("Dream mine", this.timeStart);
       this.scene.stop();
       dispatchUnlockEvents(["second_act_begin"]);
     });
