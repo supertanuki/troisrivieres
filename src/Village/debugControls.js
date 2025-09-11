@@ -75,7 +75,6 @@ export const addDebugControls = function (scene) {
       setVillageForThirdAct(scene);
       setVillageForFourthAct(scene);
       scene.isCinematic = false;
-      //return;
 
       sceneEventsEmitter.emit(sceneEvents.PreEventsUnlocked, [
         //"django_met",
@@ -85,7 +84,6 @@ export const addDebugControls = function (scene) {
         //"miner_ask_for_card",
         //"mine_after",
         //"second_act_begin",
-        //"factory_after",
         //"factory_after",
         "third_act_begin",
         //"strike_begin"

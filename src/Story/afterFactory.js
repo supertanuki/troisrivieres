@@ -141,11 +141,13 @@ export const setVillageForThirdAct = function (scene) {
       scene.whiteWorker1.scaleX = 1;
       scene.whiteWorker1.setOffset(0, scene.whiteWorker1.height / 2);
       scene.whiteWorker1.setVisible(true);
+      scene.whiteWorker1.disableChatIcon();
     }
 
     if (spriteObject.name === "afterFactoryWhiteWorker2") {
       scene.whiteWorker2.setPosition(spriteObject.x, spriteObject.y);
       scene.whiteWorker2.setVisible(true);
+      scene.whiteWorker2.disableChatIcon();
     }
 
     if (spriteObject.name === "blueWorkerChief") {

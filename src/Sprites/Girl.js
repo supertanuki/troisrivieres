@@ -66,7 +66,7 @@ export default class Girl extends Chat {
   }
 
   setThirdAct(x, y) {
-    this.disableChatIcon = false;
+    this.disabledChatIcon = false;
     this.setPosition(x, y);
     this.body.setSize(this.width, 1);
     this.scaleX = -1;

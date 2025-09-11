@@ -78,6 +78,7 @@ export const setVillageForSecondAct = function (scene) {
   for (const spriteObject of scene.map.getObjectLayer("sprites").objects) {
     if (spriteObject.name === `minerAfterMine`) {
       scene.miner.setPositionAfterMine(spriteObject.x, spriteObject.y);
+      scene.miner.disableChatIcon();
     }
 
     if (spriteObject.name === `minoAfterMine`) {
@@ -86,8 +87,10 @@ export const setVillageForSecondAct = function (scene) {
 
     for (let i = 2; i <= 4; i++) {
       if (spriteObject.name === `afterMineMiner${i}`) {
-        scene[`minerDirty${i}`].setPosition(spriteObject.x, spriteObject.y);
-        scene[`minerDirty${i}`].scaleX = 1;
+        const miner = scene[`minerDirty${i}`];
+        miner.setPosition(spriteObject.x, spriteObject.y);
+        miner.disableChatIcon();
+        miner.scaleX = 1;
       }
     }
 
