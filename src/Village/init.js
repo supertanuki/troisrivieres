@@ -276,6 +276,11 @@ export const delayedInit = function (scene) {
     }
   });
 
+  scene.obstaclesFactoryLayer = scene.map
+    .createLayer("obstaclesFactory", scene.tileset)
+    .setCollisionByProperty({ collide: true })
+    .setVisible(false);
+
   addCollisionManagement(scene);
 
   for (const element of ['hommes', 'femmes', 'enfants', 'ouvriers']) {

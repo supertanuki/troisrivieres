@@ -194,6 +194,7 @@ export const toggleScreensVisibility = function (scene) {
   scene.adsTop.setVisible(state);
   scene.ads.setVisible(state);
 
+  /** @todo: to move? */
   scene.obstacleBridgeLayer.setCollisionByProperty({ collide: false });
   scene.obstacleBridgeLayer.destroy();
   scene.obstacleBridgeLayerCollider.destroy();

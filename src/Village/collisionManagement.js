@@ -72,4 +72,5 @@ export const addCollisionManagement = function (scene) {
   scene.physics.add.collider(scene.hero, scene.potagerTop);
   scene.physics.add.collider(scene.hero, scene.bottomObjects);
   scene.physics.add.collider(scene.hero, scene.pointsCollider);
+  scene.obstaclesFactoryCollider = scene.physics.add.collider(scene.hero, scene.obstaclesFactoryLayer);
 };

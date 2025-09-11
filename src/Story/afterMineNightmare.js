@@ -62,6 +62,10 @@ export const setVillageForSecondAct = function (scene) {
     scene.obstacleBridgeLayer
   );
 
+  scene.obstaclesFactoryLayer.setCollisionByProperty({ collide: false });
+  scene.obstaclesFactoryLayer.destroy();
+  scene.obstaclesFactoryCollider.destroy();
+
   createTreesLayer("treesLimitForest", scene);
   scene.obstaclesForestLayer = scene.map
     .createLayer("obstaclesForest", scene.tileset)
