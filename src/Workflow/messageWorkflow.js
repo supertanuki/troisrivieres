@@ -227,9 +227,10 @@ const messageWorkflow = {
     },
     {
       messages: [
-        "Je me demande ce qui est arrivé à la rivière.",
+        "Je vois que tu as le badge de Nono…",
+        "Fais attention à toi, Maï !"
       ],
-      dependingOn: ["nono_first_met"],
+      dependingOn: ["card_for_mine"],
     },
     {
       messages: [
@@ -310,29 +311,13 @@ const messageWorkflow = {
         "Et le rythme de travail y est extrêmement soutenu !",
         "Mais je m'en remettrai.",
         "Je vois dans ton regard que tu es déterminée à y aller.",
-        "Si jamais tu rencontres quelconque problème là-bas…",
-        "Reviens me voir !",
-      ],
-      repeat: ["Si tu as un problème à la mine, reviens me voir !"],
-      unlockEvents: ["nono_first_met"],
-    },
-    {
-      messages: [
-        "Ah, tu t'es faite refoulée à l'entrée ?",
-        "J'imagine que suite à mon accident…",
-        "l'accès à la mine a été un peu mieux sécurisé.",
-        "Comme je te l'ai dit, je suis prêt à t'aider.",
-        "Et donc à te prêter mon laissez-passer.",
-        "Néanmoins, je le répète…",
-        "je veux que tu sois sûre de savoir où tu mets les pieds !",
-        "…",
-        "Oui… Cette flamme de la curiosité brûle dans tes yeux…",
-        "et elle ne sera satisfaite que si tu y vas, je le crains.",
-        "Tiens, prends mon badge.",
+        "Je suis prêt à t'aider et te prêter mon laissez-passer.",
+        "Néanmoins…",
+        "Je veux que tu sois sûre de savoir où tu mets les pieds !",
+        "Tiens, prends mon laissez-passer.",
         "Et surtout fais bien attention à toi !",
       ],
       repeat: ["Fais bon usage de mon badge… et sois prudente."],
-      dependingOn: ["nono_first_met", "miner_ask_for_card"],
       unlockEvents: ["card_for_mine"],
     },
     {
@@ -620,7 +605,6 @@ const messageWorkflow = {
       ],
       repeat: ["Je t'ai dit qu'il faut un laissez-passer…"],
       dependingOn: ["first_sleep"],
-      unlockEvents: ["miner_ask_for_card"],
     },
     {
       messages: [
