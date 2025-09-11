@@ -73,6 +73,7 @@ export default class Mine extends MiniGameUi {
   preload() {
     super.preload();
     this.load.atlas("mine", "sprites/mine.png", "sprites/mine.json");
+    this.load.image("vignette", "img/vignette.png");
   }
 
   create() {
@@ -80,6 +81,8 @@ export default class Mine extends MiniGameUi {
 
     this.cameras.main.setBackgroundColor(0x30221e);
     this.scale.setGameSize(550, 300);
+
+    this.vignette = this.add.image(0,0, "vignette").setOrigin(0).setAlpha(0.5).setDepth(100000)
 
     this.add
       .image(275, 0, "mine", "background")

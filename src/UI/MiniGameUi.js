@@ -168,6 +168,8 @@ export default class MiniGameUi extends Phaser.Scene {
   handleAction() {
     if (!this.scene.isActive()) return
 
+    this.vignette.setVisible(!this.vignette.visible)
+
     if (this.currentDiscussionStatus === DiscussionStatus.WAITING) {
       this.currentDiscussionStatus = DiscussionStatus.STARTED;
       sceneEventsEmitter.emit(sceneEvents.DiscussionContinuing);
