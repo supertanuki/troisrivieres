@@ -618,7 +618,7 @@ const messageWorkflow = {
         "Il faut un laissez-passer pour passer.",
         "Nouvelle directive des chefs !",
       ],
-      repeat: ["Il faut un laissez-passer pour accéder à la mine."],
+      repeat: ["Je t'ai dit qu'il faut un laissez-passer…"],
       dependingOn: ["first_sleep"],
       unlockEvents: ["miner_ask_for_card"],
     },
