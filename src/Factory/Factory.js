@@ -205,11 +205,6 @@ export default class Factory extends MiniGameUi {
     this.cameras.main.fadeIn(1000, 0, 0, 0);
 
     sceneEventsEmitter.on(
-      sceneEvents.EventsUnlocked,
-      this.listenUnlockedEvents,
-      this
-    );
-    sceneEventsEmitter.on(
       sceneEvents.EventsDispatched,
       this.listenDispatchedEvents,
       this
@@ -269,6 +264,8 @@ export default class Factory extends MiniGameUi {
   }
 
   listenUnlockedEvents(data) {
+    super.listenUnlockedEvents(data);
+
     if (eventsHas(data, "factory_after_tuto")) {
       this.afterTuto();
     }

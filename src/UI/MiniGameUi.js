@@ -3,6 +3,9 @@ import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import { DiscussionStatus } from "../Utils/discussionStatus";
 import { FONT_RESOLUTION, FONT_SIZE } from "./Message";
 import { playSound, preloadSound } from "../Utils/music";
+import { eventsHas } from "../Utils/events";
+
+const DEPTH = 2000;
 
 export default class MiniGameUi extends Phaser.Scene {
   constructor(name) {
@@ -12,9 +15,11 @@ export default class MiniGameUi extends Phaser.Scene {
 
   preload() {
     this.load.atlas("ui", "sprites/ui.png", "sprites/ui.json");
+    this.load.image("vignette", "img/vignette.png");
   }
 
   create() {
+    this.vignette = this.add.image(0,0, "vignette").setOrigin(0).setAlpha(0.5).setDepth(100000)
     this.currentDiscussionStatus = DiscussionStatus.NONE;
 
     this.anims.create({
@@ -61,30 +66,34 @@ export default class MiniGameUi extends Phaser.Scene {
       frameRate: 8,
     });
 
-    this.add
+    const scoreBoard = this.add
       .sprite(4, 0, "ui", "scoreboard")
-      .setOrigin(0, 0)
-      .setDepth(2000);
+      .setOrigin(0, 0);
 
     this.scores = [];
     for (let i = 0; i <= 2; i++) {
       this.scores.push(
-        this.add
-          .sprite(12 + 24 * i, 22, "ui", "scoreok")
-          .setOrigin(0, 0)
-          .setDepth(2000)
+        this.add.sprite(12 + 24 * i, 22, "ui", "scoreok").setOrigin(0, 0)
       );
     }
+
+    this.scoreBoardContainer = this.add.container(0, -50, [
+      scoreBoard,
+      this.scores[0],
+      this.scores[1],
+      this.scores[2],
+    ]);
+    this.scoreBoardContainer.setDepth(DEPTH);
 
     this.speaker = this.add
       .sprite(470, 0, "ui", "speaker-off")
       .setOrigin(0, 0)
-      .setDepth(2000);
+      .setDepth(DEPTH);
 
     this.dialogBackground = this.add
       .sprite(345, 50, "ui", "dialog-shout-1")
       .setOrigin(0.5, 0.5)
-      .setDepth(2000)
+      .setDepth(DEPTH)
       .setAlpha(0.8)
       .setVisible(false);
 
@@ -99,7 +108,7 @@ export default class MiniGameUi extends Phaser.Scene {
       .setResolution(FONT_RESOLUTION)
       .setOrigin(0.5, 0.5)
       .setScrollFactor(0)
-      .setDepth(2000)
+      .setDepth(DEPTH)
       .setWordWrapWidth(240)
       .setVisible(false);
 
@@ -118,11 +127,40 @@ export default class MiniGameUi extends Phaser.Scene {
       this.handleDiscussionEnded,
       this
     );
+    sceneEventsEmitter.on(
+      sceneEvents.EventsUnlocked,
+      this.listenUnlockedEvents,
+      this
+    );
     sceneEventsEmitter.on(sceneEvents.MessageSent, this.handleMessage, this);
 
-    preloadSound('sfx_mini-jeu_haut-parleur', this);
-    preloadSound('sfx_mini-jeu_erreur_2', this);
-    preloadSound('sfx_mini-jeu_erreur_3', this);
+    preloadSound("sfx_mini-jeu_haut-parleur", this);
+    preloadSound("sfx_mini-jeu_erreur_2", this);
+    preloadSound("sfx_mini-jeu_erreur_3", this);
+    preloadSound("sfx_mini-jeu_apparition_panneau_erreurs_2", this);
+
+    // test vignette
+          this.input.keyboard
+        .addKey(Phaser.Input.Keyboard.KeyCodes.V)
+        .on("down", () => {
+          this.vignette.setVisible(!this.vignette.visible);
+        });
+  }
+
+  listenUnlockedEvents(data) {
+    if (eventsHas(data, "show_score_board")) {
+      this.showScoreBoard();
+    }
+  }
+
+  showScoreBoard() {
+    playSound("sfx_mini-jeu_apparition_panneau_erreurs_2", this);
+    this.tweens.add({
+      targets: this.scoreBoardContainer,
+      y: 0,
+      ease: "Sine.easeInOut",
+      duration: 1500,
+    });
   }
 
   startDiscussion(key) {
@@ -137,7 +175,7 @@ export default class MiniGameUi extends Phaser.Scene {
   updateMessage(message, waitUserAction = false) {
     if (!this.scene.isActive()) return;
 
-    playSound('sfx_mini-jeu_haut-parleur', this, true, 0.5);
+    playSound("sfx_mini-jeu_haut-parleur", this, true, 0.5);
 
     this.dialogBackground.setVisible(true);
     this.speaker.anims.play("speaker-on-anim");
@@ -158,7 +196,12 @@ export default class MiniGameUi extends Phaser.Scene {
   }
 
   updateWarnings(warningCount) {
-    playSound(warningCount <= 2 ? 'sfx_mini-jeu_erreur_3' : 'sfx_mini-jeu_erreur_2', this, true, 1);
+    playSound(
+      warningCount <= 2 ? "sfx_mini-jeu_erreur_3" : "sfx_mini-jeu_erreur_2",
+      this,
+      true,
+      1
+    );
 
     if (warningCount > 3) warningCount = 3;
     for (let i = 0; i < warningCount; i++)
@@ -166,9 +209,7 @@ export default class MiniGameUi extends Phaser.Scene {
   }
 
   handleAction() {
-    if (!this.scene.isActive()) return
-
-    this.vignette.setVisible(!this.vignette.visible)
+    if (!this.scene.isActive()) return;
 
     if (this.currentDiscussionStatus === DiscussionStatus.WAITING) {
       this.currentDiscussionStatus = DiscussionStatus.STARTED;
@@ -178,17 +219,17 @@ export default class MiniGameUi extends Phaser.Scene {
   }
 
   handleDiscussionStarted() {
-    if (!this.scene.isActive()) return
+    if (!this.scene.isActive()) return;
     this.currentDiscussionStatus = DiscussionStatus.STARTED;
   }
 
   handleDiscussionWaiting() {
-    if (!this.scene.isActive()) return
+    if (!this.scene.isActive()) return;
     this.currentDiscussionStatus = DiscussionStatus.WAITING;
   }
 
   handleDiscussionEnded() {
-    if (!this.scene.isActive()) return
+    if (!this.scene.isActive()) return;
     this.currentDiscussionStatus = DiscussionStatus.NONE;
     this.textObject.setVisible(false);
     this.speaker.anims.play("speaker-off-anim");

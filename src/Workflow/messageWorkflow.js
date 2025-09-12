@@ -714,6 +714,12 @@ const messageWorkflow = {
       messages: [
         "Tu as compris comment ça fonctionne…",
         "Passons aux choses sérieuses !",
+      ],
+      dependingOn: ["mine_tuto_end"],
+      unlockEvents: ["show_score_board"],
+    },
+    {
+      messages: [
         "Ça, c'est ce qui va dorénavant contrôler ta vie.",
         "Si tu rates trop souvent, une croix s'allumera.",
         "Au bout de trois croix…",
@@ -726,7 +732,7 @@ const messageWorkflow = {
         "On ne fait pas n'importe quoi !",
         "Bon, arrête de poser des questions, au boulot !",
       ],
-      dependingOn: ["mine_tuto_end"],
+      dependingOn: ["show_score_board"],
       unlockEvents: ["mine_after_tuto"],
     },
     {
@@ -841,6 +847,12 @@ const messageWorkflow = {
       messages: [
         "Tu sembles avoir compris comment ça fonctionne…",
         "Passons aux choses sérieuses !",
+      ],
+      dependingOn: ["factory_tuto_end"],
+      unlockEvents: ["show_score_board"],
+    },
+    {
+      messages: [
         "Si tu rates l'assemblage, une croix s'allumera.",
         "Au bout de trois croix…",
         "je viendrai moi-même t'accompagner à la sortie !",
@@ -851,7 +863,7 @@ const messageWorkflow = {
         "d'avoir des téléphones derniers cris !",
         "Arrête de te poser des questions et au boulot."
       ],
-      dependingOn: ["factory_tuto_end"],
+      dependingOn: ["show_score_board"],
       unlockEvents: ["factory_after_tuto"],
     },
     {
@@ -888,9 +900,21 @@ const messageWorkflow = {
     {
       messages: [
         "Tu sembles avoir compris comment ça fonctionne…",
-        "Au boulot !"
+        "Passons aux choses sérieuses !",
       ],
       dependingOn: ["recycling_tuto_end"],
+      unlockEvents: ["show_score_board"],
+    },
+    {
+      messages: [
+        "Si tu rates l'assemblage, une croix s'allumera.",
+        "Au bout de trois croix…",
+        "je viendrai moi-même t'accompagner à la sortie !",
+        "As-tu d'autres questions ???",
+        "...",
+        "Au boulot !",
+      ],
+      dependingOn: ["show_score_board"],
       unlockEvents: ["recycling_after_tuto"],
     },
     {

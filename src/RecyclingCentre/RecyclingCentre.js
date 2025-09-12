@@ -201,11 +201,6 @@ export default class RecyclingCentre extends MiniGameUi {
     }
 
     sceneEventsEmitter.on(
-      sceneEvents.EventsUnlocked,
-      this.listenUnlockedEvents,
-      this
-    );
-    sceneEventsEmitter.on(
       sceneEvents.EventsDispatched,
       this.listenDispatchedEvents,
       this
@@ -258,6 +253,8 @@ export default class RecyclingCentre extends MiniGameUi {
   }
 
   listenUnlockedEvents(data) {
+    super.listenUnlockedEvents(data);
+
     if (eventsHas(data, "recycling_after_tuto")) {
       this.afterTuto();
     }
@@ -338,12 +335,10 @@ export default class RecyclingCentre extends MiniGameUi {
   }
 
   right() {
-    super.handleAction();
     this.goingRight = true;
   }
 
   left() {
-    super.handleAction();
     this.goingLeft = true;
   }
 
@@ -489,8 +484,8 @@ export default class RecyclingCentre extends MiniGameUi {
     if (this.isCinematic) return;
 
     for (const object of this.objects) {
-      if (object.y > 210) {
-        object.setTint(0x555555);
+      if (object.y > 220) {
+        object.setTint(0x777777);
         if (this.firstStep) this.tutoMissed();
         continue;
       }
