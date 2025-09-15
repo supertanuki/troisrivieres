@@ -65,6 +65,7 @@ export const addDebugControls = function (scene) {
       setVillageForSecondAct(scene);
       setVillageForThirdAct(scene);
       scene.setHeroPosition("heroRecycling");
+      scene.isCinematic = false;
     });
 
   scene.input.keyboard
@@ -72,8 +73,8 @@ export const addDebugControls = function (scene) {
     .on("down", () => {
       setVillageBeforeMine(scene);
       setVillageForSecondAct(scene);
-      setVillageForThirdAct(scene);
-      setVillageForFourthAct(scene);
+      //setVillageForThirdAct(scene);
+      //setVillageForFourthAct(scene);
       scene.isCinematic = false;
 
       sceneEventsEmitter.emit(sceneEvents.PreEventsUnlocked, [

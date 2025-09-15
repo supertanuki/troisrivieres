@@ -85,7 +85,7 @@ const messageWorkflow = {
         "(…une idée de destination de vacances.)",
       ],
       dependingOn: ["third_act_begin"],
-      unlockEvents: ["bino_met_third_act"],
+      //unlockEvents: ["bino_met_third_act"],
     },
     {
       messages: [
@@ -256,16 +256,17 @@ const messageWorkflow = {
         "Pour rester au courant de tout…",
         "Je m'acheterais bien un nouveau smartphone.",
         "Le mien est déjà trop lent.",
-        "Car j'aimerais prendre des nouvelles de Bino.",
-        "Celui là, toujours occupé à désherber…",
+        "Je vais le déposer dans la benne…",
+        "Tu n'es pas au courant ?",
+        "Une usine de recylage est apparue à l'Ouest du village.",
       ],
       repeat: [
-        "Je m'acheterais bien un nouveau smartphone.",
-        "Cela fait un moment…",
-        "que je n'ai pas de nouvelles de Bino."
+        "Pour rejoindre l'usine de recyclage",
+        "Sors du village à l'Ouest."
       ],
       dependingOn: ["third_act_begin"],
     },
+    /*
     {
       messages: [
         "… Maï…",
@@ -295,6 +296,7 @@ const messageWorkflow = {
       ],
       dependingOn: ["strike_begin"],
     },
+    */
   ],
   nono: [
     {
@@ -343,6 +345,7 @@ const messageWorkflow = {
       ],
       dependingOn: ["third_act_begin"],
     },
+    /*
     {
       messages: [
         "Maï, je trouve que toutes ces expériences…",
@@ -353,6 +356,7 @@ const messageWorkflow = {
       ],
       dependingOn: ["strike_begin"],
     },
+    */
   ],
   django: [
     {
@@ -425,7 +429,17 @@ const messageWorkflow = {
       ],
       dependingOn: ["third_act_begin"],
     },
-
+    {
+      messages: [
+        "Salut Maï",
+        "Tu dis que l'usine de recyclage est dégueu ?",
+      ],
+      repeat: [
+        "L'usine de recyclage pompe toute l'eau…",
+      ],
+      dependingOn: ["fourth_act_begin"],
+    },
+    /*
     {
       messages: [
         "Tu as raison, Maï…",
@@ -452,6 +466,7 @@ const messageWorkflow = {
       dependingOn: ["strike_after_begin"],
       unlockEvents: ["game_over"],
     },
+    */
   ],
   fisherman: [
     {

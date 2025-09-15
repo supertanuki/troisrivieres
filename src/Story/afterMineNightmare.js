@@ -37,6 +37,12 @@ export const afterMineNightmare = function (scene) {
 };
 
 export const setVillageForSecondAct = function (scene) {
+  scene.cameras.main.setBounds(
+    0,
+    0,
+    2144, // mine on the right is disabled
+    scene.map.heightInPixels - 8
+  );
   scene.hero.stopAndWait();
   scene.isCinematic = true;
   switchNight(scene);
@@ -135,11 +141,4 @@ export const setVillageForSecondAct = function (scene) {
       }
     }
   }
-
-  scene.cameras.main.setBounds(
-    0,
-    0,
-    2144, // mine on the right is disabled
-    scene.map.heightInPixels - 8
-  );
 };

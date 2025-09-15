@@ -190,6 +190,7 @@ export const toggleScreensVisibility = function (scene) {
   }
 
   const state = !scene.screens.visible;
+  console.log(scene.screens, state)
 
   scene.screensTop.setVisible(state);
   scene.screens.setVisible(state);

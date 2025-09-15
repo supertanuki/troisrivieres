@@ -19,6 +19,7 @@ import { strike } from "./Story/strike";
 import { gameOver } from "./Village/gameOver";
 import { playIndustryTheme, playVillageTheme } from "./Utils/music";
 import { afterScreenShutdown } from "./Story/afterScreenShutdown";
+import { afterRecycling, afterRecyclingNightmare } from "./Story/afterRecycling";
 
 export default class Game extends Scene {
   constructor() {
@@ -276,6 +277,14 @@ export default class Game extends Scene {
 
     if (eventsHas(data, "recycling_start")) {
       goToRecycling(this);
+    }
+
+    if (eventsHas(data, "recycling_after")) {
+      afterRecycling(this);
+    }
+
+    if (eventsHas(data, "fourth_act_begin")) {
+      afterRecyclingNightmare(this);
     }
 
     if (eventsHas(data, "strike_begin")) {

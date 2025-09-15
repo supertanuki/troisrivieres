@@ -1,5 +1,4 @@
 import Phaser from "phaser";
-import "../Sprites/Hero";
 import { gameDuration, isDebug } from "../Utils/debug";
 import { dispatchUnlockEvents } from "../Utils/events";
 

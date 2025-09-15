@@ -10,6 +10,7 @@ import MineNightmare from "./Mine/MineNightmare";
 import Mine from "./Mine/Mine";
 import RecyclingCentre from "./RecyclingCentre/RecyclingCentre";
 import FactoryNightmare from "./Factory/FactoryNightmare";
+import RecyclingCentreNightmare from "./RecyclingCentre/RecyclingCentreNightmare";
 
 const config = {
   type: AUTO,
@@ -33,6 +34,7 @@ const config = {
     Mine,
     FactoryNightmare,
     Factory,
+    RecyclingCentreNightmare,
     RecyclingCentre,
     Message,
     Workflow,
