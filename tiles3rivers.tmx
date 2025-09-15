@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.1-99-gec89c545" orientation="orthogonal" renderorder="right-down" width="190" height="87" tilewidth="16" tileheight="16" infinite="0" nextlayerid="66" nextobjectid="1339">
+<map version="1.10" tiledversion="1.11.1-99-gec89c545" orientation="orthogonal" renderorder="right-down" width="190" height="87" tilewidth="16" tileheight="16" infinite="0" nextlayerid="66" nextobjectid="1343">
  <editorsettings>
   <export target="public/tiles/3rivers.json" format="json"/>
  </editorsettings>
@@ -8271,7 +8271,7 @@
   <object id="1271" name="heroFactory" x="1567" y="150.667">
    <point/>
   </object>
-  <object id="1301" name="heroStrike" x="1377.92" y="1238.67">
+  <object id="1301" name="heroStrike" x="1376.25" y="1192.33">
    <point/>
   </object>
   <object id="1322" name="heroRecycling" x="527.667" y="354">
@@ -8420,13 +8420,13 @@
   <object id="1323" name="djangoStrike" x="1378.67" y="1054">
    <point/>
   </object>
-  <object id="1324" name="nonoStrike" x="1348.66" y="1032.25">
+  <object id="1324" name="nonoStrike" x="1342.66" y="1024.92">
    <point/>
   </object>
   <object id="1325" name="binoStrike" x="1422.09" y="1098">
    <point/>
   </object>
-  <object id="1326" name="boyStrike" x="1336.75" y="1018.08">
+  <object id="1326" name="boyStrike" x="1435.08" y="1014.75">
    <point/>
   </object>
   <object id="1327" name="girlStrike" x="1423.67" y="1021.58">
@@ -8444,22 +8444,34 @@
   <object id="1332" name="twoWomenStrike" x="1369" y="1017.33">
    <point/>
   </object>
-  <object id="1333" name="twoGuysStrike" x="1342" y="988.333">
+  <object id="1333" name="twoGuysStrike" x="1353.67" y="1000.67">
    <point/>
   </object>
-  <object id="1334" name="minoStrike" x="1432.33" y="1032.67">
+  <object id="1334" name="minoStrike" x="1434" y="1033">
    <point/>
   </object>
-  <object id="1335" name="dcWorker1" x="1299.67" y="1059">
+  <object id="1335" name="strikeDcWorker1" x="1313.33" y="1084.33">
    <point/>
   </object>
-  <object id="1336" name="dcWorker2" x="1308" y="1095.33">
+  <object id="1336" name="dcWorker2" x="1285.67" y="1111.67">
    <point/>
   </object>
   <object id="1337" name="catStrike" x="1451" y="1021">
    <point/>
   </object>
   <object id="1338" name="kokoStrike" x="1398.67" y="1118">
+   <point/>
+  </object>
+  <object id="1339" name="dcWorker1" x="1342" y="1092">
+   <point/>
+  </object>
+  <object id="1340" name="dcWorker3" x="1302.67" y="1108.33">
+   <point/>
+  </object>
+  <object id="1341" name="dcWorker4" x="1245" y="1047.33">
+   <point/>
+  </object>
+  <object id="1342" name="strikeDcWorker4" x="1309.33" y="1051">
    <point/>
   </object>
  </objectgroup>

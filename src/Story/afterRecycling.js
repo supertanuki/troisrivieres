@@ -1,5 +1,4 @@
 import Game from "../Game";
-import { dispatchUnlockEvents } from "../Utils/events";
 import { setNightState } from "../Village/night";
 import { toggleSpritesVisibility } from "../Village/spritesVisibility";
 import "../Sprites/Screen";
@@ -106,6 +105,29 @@ export const setVillageForFourthAct = function (scene) {
     scene.hero,
     scene.obstacleDcLayer
   );
+
+  for (const spriteObject of scene.map.getObjectLayer("sprites").objects) {
+    for (let i=1; i<=4; i++) {
+      const spriteId = `dcWorker${i}`
+      if (spriteObject.name === spriteId) {
+        scene[`dcWorker${i}`] = scene.add.minerDirty(spriteObject.x, spriteObject.y, null, null, i);
+        const sprite = scene[`dcWorker${i}`];
+
+        if (i === 1) {
+          sprite.spriteId = spriteId;
+          sprite.enableChatIcon();
+          sprite.on("pointerdown", () => handleAction(scene), this);
+          scene.physics.add.collider(sprite, scene.hero, () => {
+            sceneEventsEmitter.emit(sceneEvents.DiscussionReady, `dcWorker${i}`);
+          });
+          continue;
+        }
+
+        sprite.disableChatIcon();
+        sprite.setDepth(1000);
+      }
+    }
+  }
 
   // delete trees from DC space
   scene.treesOfDc.forEach((treeObject) => {

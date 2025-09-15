@@ -14,6 +14,7 @@ const spriteNames = {
   koko: "Koko",
   nono: "Nono",
   escargot: "L'escargot",
+  dcWorker1: "L'ouvrier",
 };
 
 export const spriteSounds = {
@@ -432,10 +433,13 @@ const messageWorkflow = {
     {
       messages: [
         "Salut Maï",
-        "Tu dis que l'usine de recyclage est dégueu ?",
+        "L'usine de recyclage pompe l'eau de la rivière ?",
+        "Ça ne m'étonne même pas.",
+        "Vois donc le chantier juste près de chez moi.",
+        "Je ne sais pas encore ce qui se passe…"
       ],
       repeat: [
-        "L'usine de recyclage pompe toute l'eau…",
+        "Un chantier au milieu de notre village…",
       ],
       dependingOn: ["fourth_act_begin"],
     },
@@ -941,6 +945,19 @@ const messageWorkflow = {
       ],
       dependingOn: ["recycling_game_over"],
       unlockEvents: ["recycling_end"],
+    },
+  ],
+  dcWorker1: [
+    {
+      messages: [
+        "Grosse demande de l'IA...",
+        "On construit un datacenter",
+        "près de la rivière",
+        "pour pouvoir refroidir les serveurs",
+        "grâce à l'eau de la rivière",
+        "Ça te gène ? Laisse nous bosser. Dégage !!!",
+      ],
+      repeat: ["On construit un datacenter, ça te gène ?"]
     },
   ],
   gameOver: [

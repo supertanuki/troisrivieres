@@ -24,30 +24,48 @@ const setVillageOnStrike = function (scene) {
   scene.setHeroPosition("heroStrike");
   scene.hero.slowUp();
   scene.hero.animateToUp();
+  scene.dcWorker3.scaleX = 1;
 
   scene.map.getObjectLayer("sprites").objects.forEach((o) => {
+    if (o.name === "strikeDcWorker1") {
+      scene.dcWorker1.setPosition(o.x, o.y);
+      scene.dcWorker1.disableChatIcon();
+      scene.dcWorker1.setDepth(1000);
+    }
+
+    if (o.name === "strikeDcWorker4") {
+      scene.dcWorker4.setPosition(o.x, o.y);
+      scene.dcWorker4.scaleX = 1;
+    }    
+
     if (o.name === "djangoStrike") {
       scene.django.setPosition(o.x, o.y);
     }
 
     if (o.name === "girlStrike") {
       scene.girl.setPosition(o.x, o.y);
+      scene.girl.disableChatIcon();
     }
 
     if (o.name === "boyStrike") {
       scene.boy.setPosition(o.x, o.y);
+      scene.boy.disableChatIcon();
+      scene.boy.scaleX = -1;
     }
 
     if (o.name === "binoStrike") {
       scene.bino.setPosition(o.x, o.y);
+      scene.bino.disableChatIcon();
     }
 
     if (o.name === "minoStrike") {
       scene.fisherman.setOnStrike(o.x, o.y);
+      scene.fisherman.disableChatIcon();
     }
 
     if (o.name === "babyStrike") {
       scene.baby.setPosition(o.x, o.y);
+      scene.baby.disableChatIcon();
     }
 
     if (o.name === "dogStrike") {
@@ -56,18 +74,22 @@ const setVillageOnStrike = function (scene) {
 
     if (o.name === "catStrike") {
       scene.cat.setPosition(o.x, o.y);
+      scene.cat.scaleX = 1;
     }
 
     if (o.name === "nonoStrike") {
       scene.nono.setPosition(o.x, o.y);
+      scene.nono.disableChatIcon();
     }
 
     if (o.name === "twoGuysStrike") {
       scene.twoGuys.setPosition(o.x, o.y);
+      scene.twoGuys.disableChatIcon();
     }
 
     if (o.name === "twoWomenStrike") {
       scene.twoWomen.setPosition(o.x, o.y);
+      scene.twoWomen.disableChatIcon();
     }
 
     if (o.name === "sleepingGuyStrike") {

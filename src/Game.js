@@ -349,7 +349,7 @@ export default class Game extends Scene {
 
   handleScreenShutdown(sprite) {
     this.screenShutDownCount++;
-    if (this.screenShutDownCount === 3) dispatchUnlockEvents(["strike_begin"]);
+    if (this.screenShutDownCount === 1/*3*/) dispatchUnlockEvents(["strike_begin"]);
   }
 
   update(time, delta) {
