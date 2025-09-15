@@ -3,7 +3,7 @@ import { sceneEventsEmitter, sceneEvents } from "./Events/EventsCenter";
 import { gameDuration, urlParamHas } from "./Utils/debug";
 import { Hero } from "./Sprites/Hero";
 import { DiscussionStatus } from "./Utils/discussionStatus";
-import { eventsHas } from "./Utils/events";
+import { dispatchUnlockEvents, eventsHas } from "./Utils/events";
 import { updateNightPosition } from "./Village/night";
 import { init } from "./Village/init";
 import { afterMineNightmare } from "./Story/afterMineNightmare";
@@ -18,7 +18,6 @@ import { afterFactory, afterFactoryNightmare } from "./Story/afterFactory";
 import { strike } from "./Story/strike";
 import { gameOver } from "./Village/gameOver";
 import { playIndustryTheme, playVillageTheme } from "./Utils/music";
-import { afterScreenShutdown } from "./Story/afterScreenShutdown";
 import { afterRecycling, afterRecyclingNightmare } from "./Story/afterRecycling";
 
 export default class Game extends Scene {
@@ -79,6 +78,8 @@ export default class Game extends Scene {
     this.tent = null;
     this.checkDjangoDoor = true;
 
+    this.screens = null;
+    this.screenOffSprites = [];
     this.screenShutDownCount = 0;
 
     /** @type {Phaser.Tilemaps.Tilemap | null} */
@@ -348,7 +349,7 @@ export default class Game extends Scene {
 
   handleScreenShutdown(sprite) {
     this.screenShutDownCount++;
-    if (this.screenShutDownCount === 3) afterScreenShutdown(this);
+    if (this.screenShutDownCount === 3) dispatchUnlockEvents(["strike_begin"]);
   }
 
   update(time, delta) {

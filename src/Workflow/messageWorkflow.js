@@ -281,9 +281,10 @@ const messageWorkflow = {
       repeat: [
         "Va voir Django, on verra quelle action mener.",
       ],
-      dependingOn: ["bino_met_third_act"],
-      unlockEvents: ["go_see_django_third_act"],
+      dependingOn: ["..."],
+      unlockEvents: ["..."],
     },
+    */
     {
       messages: [
         "Merci Maï pour tout ce que tu as fait.",
@@ -296,7 +297,6 @@ const messageWorkflow = {
       ],
       dependingOn: ["strike_begin"],
     },
-    */
   ],
   nono: [
     {
@@ -450,9 +450,10 @@ const messageWorkflow = {
         "Je suis partant pour une mobilisation générale !",
         "J'amène ma guitare et j'arrive.",
       ],
-      dependingOn: ["go_see_django_third_act"],
+      dependingOn: ["strike_begin"],
       unlockEvents: ["strike_begin"],
     },
+    */
     {
       messages: [
         "Chers habitants et chères habitantes de Trois-Rivières,",
@@ -463,10 +464,9 @@ const messageWorkflow = {
         "et qui assechent nos rivières.",
         "La lutte ne fait que commencer !",
       ],
-      dependingOn: ["strike_after_begin"],
+      dependingOn: ["strike_begin"],
       unlockEvents: ["game_over"],
     },
-    */
   ],
   fisherman: [
     {

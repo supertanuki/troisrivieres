@@ -73,8 +73,8 @@ export const addDebugControls = function (scene) {
     .on("down", () => {
       setVillageBeforeMine(scene);
       setVillageForSecondAct(scene);
-      //setVillageForThirdAct(scene);
-      //setVillageForFourthAct(scene);
+      setVillageForThirdAct(scene);
+      setVillageForFourthAct(scene);
       scene.isCinematic = false;
 
       sceneEventsEmitter.emit(sceneEvents.PreEventsUnlocked, [
@@ -86,7 +86,7 @@ export const addDebugControls = function (scene) {
         //"mine_after",
         //"second_act_begin",
         //"factory_after",
-        "third_act_begin",
+        //"third_act_begin",
         //"strike_begin"
       ]);
     });

@@ -128,10 +128,12 @@ export const setVillageForFourthAct = function (scene) {
   let screenIndex = 1;
   scene.screens.forEachTile((tile) => {
     if (tile.properties?.screen === true) {
-      scene.add.screen(
-        tile.getCenterX() + 1,
-        tile.getCenterY() - 3,
-        screenIndex
+      scene.screenOffSprites.push(
+        scene.add.screen(
+          tile.getCenterX() + 1,
+          tile.getCenterY() - 3,
+          screenIndex
+        )
       );
       screenIndex++;
     }

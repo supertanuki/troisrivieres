@@ -58,6 +58,12 @@ export default class Screen extends Phaser.Physics.Arcade.Sprite {
     this.setVisible(true);
     this.anims.play("screen-off", true);
   }
+
+  shutdown() {
+    this.isShutDown = true;
+    this.setVisible(true);
+    this.setTexture("sprites", "screen-off-3");
+  }
 }
 
 Phaser.GameObjects.GameObjectFactory.register(

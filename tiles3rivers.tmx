@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.1-99-gec89c545" orientation="orthogonal" renderorder="right-down" width="190" height="87" tilewidth="16" tileheight="16" infinite="0" nextlayerid="66" nextobjectid="1323">
+<map version="1.10" tiledversion="1.11.1-99-gec89c545" orientation="orthogonal" renderorder="right-down" width="190" height="87" tilewidth="16" tileheight="16" infinite="0" nextlayerid="66" nextobjectid="1339">
  <editorsettings>
   <export target="public/tiles/3rivers.json" format="json"/>
  </editorsettings>
@@ -8271,7 +8271,7 @@
   <object id="1271" name="heroFactory" x="1567" y="150.667">
    <point/>
   </object>
-  <object id="1301" name="heroStrike" x="1352.25" y="964">
+  <object id="1301" name="heroStrike" x="1377.92" y="1238.67">
    <point/>
   </object>
   <object id="1322" name="heroRecycling" x="527.667" y="354">
@@ -8399,42 +8399,6 @@
   <object id="1274" name="whiteWorkerChief" x="1550.33" y="128.333">
    <point/>
   </object>
-  <object id="1285" name="nonoStrike" x="1336.58" y="803.25">
-   <point/>
-  </object>
-  <object id="1286" name="djangoStrike" x="1386.42" y="780.417">
-   <point/>
-  </object>
-  <object id="1287" name="binoStrike" x="1387.67" y="839.333">
-   <point/>
-  </object>
-  <object id="1288" name="boyStrike" x="1341" y="833.417">
-   <point/>
-  </object>
-  <object id="1289" name="girlStrike" x="1441.92" y="784.917">
-   <point/>
-  </object>
-  <object id="1290" name="minoStrike" x="1464.5" y="826.083">
-   <point/>
-  </object>
-  <object id="1291" name="babyStrike" x="1411.25" y="772.5">
-   <point/>
-  </object>
-  <object id="1293" name="dogStrike" x="1465.08" y="803.583">
-   <point/>
-  </object>
-  <object id="1294" name="sleepingGuyStrike" x="1418.42" y="856.667">
-   <point/>
-  </object>
-  <object id="1295" name="catStrike" x="1308.42" y="776.583">
-   <point/>
-  </object>
-  <object id="1296" name="twoWomenStrike" x="1352.58" y="772.667">
-   <point/>
-  </object>
-  <object id="1297" name="twoGuysStrike" x="1326.25" y="869.333">
-   <point/>
-  </object>
   <object id="1298" name="boyThirdAct" x="1389" y="1111.33">
    <point/>
   </object>
@@ -8451,6 +8415,51 @@
    <point/>
   </object>
   <object id="1320" name="blueWorkerChief" x="522" y="339.667">
+   <point/>
+  </object>
+  <object id="1323" name="djangoStrike" x="1378.67" y="1054">
+   <point/>
+  </object>
+  <object id="1324" name="nonoStrike" x="1348.66" y="1032.25">
+   <point/>
+  </object>
+  <object id="1325" name="binoStrike" x="1422.09" y="1098">
+   <point/>
+  </object>
+  <object id="1326" name="boyStrike" x="1336.75" y="1018.08">
+   <point/>
+  </object>
+  <object id="1327" name="girlStrike" x="1423.67" y="1021.58">
+   <point/>
+  </object>
+  <object id="1328" name="babyStrike" x="1411" y="1030.17">
+   <point/>
+  </object>
+  <object id="1329" name="dogStrike" x="1392.83" y="1010.92">
+   <point/>
+  </object>
+  <object id="1330" name="sleepingGuyStrike" x="1406.17" y="1014">
+   <point/>
+  </object>
+  <object id="1332" name="twoWomenStrike" x="1369" y="1017.33">
+   <point/>
+  </object>
+  <object id="1333" name="twoGuysStrike" x="1342" y="988.333">
+   <point/>
+  </object>
+  <object id="1334" name="minoStrike" x="1432.33" y="1032.67">
+   <point/>
+  </object>
+  <object id="1335" name="dcWorker1" x="1299.67" y="1059">
+   <point/>
+  </object>
+  <object id="1336" name="dcWorker2" x="1308" y="1095.33">
+   <point/>
+  </object>
+  <object id="1337" name="catStrike" x="1451" y="1021">
+   <point/>
+  </object>
+  <object id="1338" name="kokoStrike" x="1398.67" y="1118">
    <point/>
   </object>
  </objectgroup>
