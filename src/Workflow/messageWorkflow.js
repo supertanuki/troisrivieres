@@ -267,7 +267,6 @@ const messageWorkflow = {
       ],
       dependingOn: ["third_act_begin"],
     },
-    /*
     {
       messages: [
         "… Maï…",
@@ -276,16 +275,16 @@ const messageWorkflow = {
         "que les oiseaux et les papillons ont disparu !",
         "QUOI ? Tu dis qu'il faut se mobiliser ?",
         "C'est une bonne idée !",
-        "Tu peux aller chercher Django ?",
-        "Et on voit ce qu'on fait…",
+        "Autre bonne idée, les enfants m'ont dit…",
+        "(…qu'il est possible d'éteindre les écrans pub…)",
+        "(…en passant par derrière…)",
+        "C'est risqué, mais ça ferrait du bien de s'en débarrasser !"
       ],
       repeat: [
-        "Va voir Django, on verra quelle action mener.",
+        "On peut éteindre les écrans pub par derrière…",
       ],
-      dependingOn: ["..."],
-      unlockEvents: ["..."],
+      dependingOn: ["fourth_act_begin"],
     },
-    */
     {
       messages: [
         "Merci Maï pour tout ce que tu as fait.",
