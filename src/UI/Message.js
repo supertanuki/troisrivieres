@@ -98,18 +98,19 @@ export default class Message extends Phaser.Scene {
       .setVisible(false);
 
     this.spriteNameObject = this.add
-      .text(config.width / 2 - 132, config.height - 64, "", {
+      .text(config.width / 2 - 128, config.height - 68, "", {
         fontFamily: "DefaultFont",
         fontSize: FONT_SIZE,
         fill: "#000000",
+        backgroundColor:"#ffffff",
         padding: 4,
       })
+      .setAlpha(0.8)
       .setResolution(FONT_RESOLUTION)
       .setOrigin(0, 0.5)
       .setScrollFactor(0)
       .setDepth(3000)
       .setVisible(false);
-    //.setShadow(0, 0, "rgba(255,255,255,1)", 3);
 
     sceneEventsEmitter.on(sceneEvents.MessageSent, this.handleMessage, this);
     sceneEventsEmitter.on(
@@ -240,7 +241,7 @@ export default class Message extends Phaser.Scene {
     this.dialogBackgroundColor.setVisible(true);
 
     this.spriteNameObject.text = spriteNames[sprite];
-    this.spriteNameObject.setVisible(true);
+    this.spriteNameObject.setVisible(!!this.spriteNameObject.text);
 
     this.textObject.text = message;
     this.currentText = message;
