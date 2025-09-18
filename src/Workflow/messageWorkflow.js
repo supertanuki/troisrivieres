@@ -442,7 +442,6 @@ const messageWorkflow = {
       ],
       dependingOn: ["fourth_act_begin"],
     },
-    /*
     {
       messages: [
         "Tu as raison, Maï…",
@@ -453,10 +452,9 @@ const messageWorkflow = {
         "Je suis partant pour une mobilisation générale !",
         "J'amène ma guitare et j'arrive.",
       ],
-      dependingOn: ["strike_begin"],
-      unlockEvents: ["strike_begin"],
+      dependingOn: ["screens_shutdown"],
+      unlockEvents: ["django_ready_for_strike"],
     },
-    */
     {
       messages: [
         "Chers habitants et chères habitantes de Trois-Rivières,",

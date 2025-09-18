@@ -15,7 +15,7 @@ import { mineAccessValidation } from "./Story/mineAccessValidation";
 import { goToFactory, goToMine, goToRecycling } from "./Story/goToGame";
 import { handleAction } from "./Village/handleAction";
 import { afterFactory, afterFactoryNightmare } from "./Story/afterFactory";
-import { strike } from "./Story/strike";
+import { beforeStrike, strike } from "./Story/strike";
 import { gameOver } from "./Village/gameOver";
 import { playIndustryTheme, playVillageTheme } from "./Utils/music";
 import { afterRecycling, afterRecyclingNightmare } from "./Story/afterRecycling";
@@ -288,7 +288,7 @@ export default class Game extends Scene {
       afterRecyclingNightmare(this);
     }
 
-    if (eventsHas(data, "strike_begin")) {
+    if (eventsHas(data, "django_ready_for_strike")) {
       strike(this);
     }
 
@@ -349,7 +349,10 @@ export default class Game extends Scene {
 
   handleScreenShutdown(sprite) {
     this.screenShutDownCount++;
-    if (this.screenShutDownCount === 1/*3*/) dispatchUnlockEvents(["strike_begin"]);
+    if (this.screenShutDownCount === 1/*3*/) {
+      dispatchUnlockEvents(["screens_shutdown"]);
+      beforeStrike(this);
+    }
   }
 
   update(time, delta) {

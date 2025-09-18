@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.1-99-gec89c545" orientation="orthogonal" renderorder="right-down" width="190" height="87" tilewidth="16" tileheight="16" infinite="0" nextlayerid="66" nextobjectid="1343">
+<map version="1.10" tiledversion="1.11.1-99-gec89c545" orientation="orthogonal" renderorder="right-down" width="190" height="87" tilewidth="16" tileheight="16" infinite="0" nextlayerid="66" nextobjectid="1344">
  <editorsettings>
   <export target="public/tiles/3rivers.json" format="json"/>
  </editorsettings>
@@ -8275,6 +8275,9 @@
    <point/>
   </object>
   <object id="1322" name="heroRecycling" x="527.667" y="354">
+   <point/>
+  </object>
+  <object id="1343" name="heroDjangoRight" x="1237.33" y="1312.67">
    <point/>
   </object>
  </objectgroup>

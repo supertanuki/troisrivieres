@@ -1,5 +1,27 @@
+import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import Game from "../Game";
 import { dispatchUnlockEvents } from "../Utils/events";
+import { handleAction } from "../Village/handleAction";
+
+/** @param {Game} scene  */
+export const beforeStrike = function (scene) {
+  scene.isCinematic = true;
+  scene.cameras.main.fadeOut(1000, 0, 0, 0, (cam, progress) => {
+    if (progress !== 1) return;
+
+    scene.screenOffSprites.forEach((screen) => screen.shutdown());
+    scene.setHeroPosition("heroDjangoRight");
+    scene.hero.slowLeft();
+    scene.hero.animateToLeft();
+
+    scene.cameras.main.fadeIn(1000, 0, 0, 0, (cam, progress) => {
+      if (progress !== 1) return;
+      scene.isCinematic = false;
+      sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "django");
+      handleAction(scene);
+    });
+  });
+};
 
 /** @param {Game} scene  */
 export const strike = function (scene) {
@@ -11,7 +33,7 @@ export const strike = function (scene) {
 
     scene.cameras.main.fadeIn(1000, 0, 0, 0, (cam, progress) => {
       if (progress !== 1) return;
-      dispatchUnlockEvents(["strike_after_begin"]);
+      dispatchUnlockEvents(["strike_begin"]);
       scene.isCinematic = false;
     });
   });
@@ -19,7 +41,6 @@ export const strike = function (scene) {
 
 /** @param {Game} scene  */
 const setVillageOnStrike = function (scene) {
-  scene.screenOffSprites.forEach((screen) => screen.shutdown())
   scene.checkDjangoDoor = false;
   scene.setHeroPosition("heroStrike");
   scene.hero.slowUp();
