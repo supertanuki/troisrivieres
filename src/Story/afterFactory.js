@@ -84,6 +84,7 @@ export const setVillageForThirdAct = function (scene) {
   setNightState(scene, false);
   toggleSpritesVisibility(scene, true, true);
   toggleScreensVisibility(scene);
+  scene.ball.setVisible(false);
 
   scene.cameras.main.setBounds(
     470, // left is disabled
@@ -112,7 +113,7 @@ export const setVillageForThirdAct = function (scene) {
     .createLayer("topRecycling", scene.tileset)
     .setDepth(119)
     .setCollisionByProperty({ collide: true });
-  scene.physics.add.collider(scene.hero, scene.topRecyclingLayer);
+  scene.topRecyclingCollider = scene.physics.add.collider(scene.hero, scene.topRecyclingLayer);
 
   scene.topRecyclingObjectsLayer = scene.map
     .createLayer("topRecyclingObjects", scene.tileset)
@@ -161,8 +162,6 @@ export const setVillageForThirdAct = function (scene) {
       });
     }
   }
-
-  scene.ball.setVisible(false);
 };
 
 export const toggleScreensVisibility = function (scene) {
@@ -172,6 +171,9 @@ export const toggleScreensVisibility = function (scene) {
       .setCollisionByProperty({ collide: true })
       .setDepth(49)
       .setVisible(false);
+
+    scene.screensCollider = scene.physics.add.collider(scene.hero, scene.screens);
+
     scene.screensTop = scene.map
       .createLayer("screensTop", scene.tileset)
       .setDepth(149)
@@ -185,8 +187,6 @@ export const toggleScreensVisibility = function (scene) {
       .createLayer("adsTop", scene.tileset)
       .setDepth(150)
       .setVisible(false);
-
-    scene.physics.add.collider(scene.hero, scene.screens);
   }
 
   const state = !scene.screens.visible;

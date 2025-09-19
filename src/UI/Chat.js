@@ -49,6 +49,7 @@ export default class Chat extends Phaser.Physics.Arcade.Sprite {
   setPosition(x, y) {
     super.setPosition(x, y);
     this.updateChatIconPosition();
+    return this;
   }
 
   setVisible(value) {

@@ -81,19 +81,16 @@ export const setVillageForFourthAct = function (scene) {
   scene.dcBottomLayer = scene.map
     .createLayer("dcBottom", scene.tileset)
     .setDepth(120)
-    //.setCollisionByProperty({ collide: true })
     .setCullPadding(2, 2);
 
   scene.dcBarriersFrontLayer = scene.map
     .createLayer("dcBarriersFront", scene.tileset)
     .setDepth(120)
-    //.setCollisionByProperty({ collide: true })
     .setCullPadding(2, 2);
 
   scene.dcBarriersSideLayer = scene.map
     .createLayer("dcBarriersSide", scene.tileset)
     .setDepth(120)
-    //.setCollisionByProperty({ collide: true })
     .setCullPadding(2, 2);
 
   scene.obstacleDcLayer = scene.map
@@ -110,15 +107,15 @@ export const setVillageForFourthAct = function (scene) {
     for (let i=1; i<=4; i++) {
       const spriteId = `dcWorker${i}`
       if (spriteObject.name === spriteId) {
-        scene[`dcWorker${i}`] = scene.add.minerDirty(spriteObject.x, spriteObject.y, null, null, i);
-        const sprite = scene[`dcWorker${i}`];
+        scene[spriteId] = scene.add.minerDirty(spriteObject.x, spriteObject.y, null, null, i);
+        const sprite = scene[spriteId];
 
         if (i === 1) {
           sprite.spriteId = spriteId;
           sprite.enableChatIcon();
           sprite.on("pointerdown", () => handleAction(scene), this);
           scene.physics.add.collider(sprite, scene.hero, () => {
-            sceneEventsEmitter.emit(sceneEvents.DiscussionReady, `dcWorker${i}`);
+            sceneEventsEmitter.emit(sceneEvents.DiscussionReady, spriteId);
           });
           continue;
         }
@@ -131,9 +128,10 @@ export const setVillageForFourthAct = function (scene) {
 
   // delete trees from DC space
   scene.treesOfDc.forEach((treeObject) => {
-    treeObject.treeBase.setVisible(false);
-    treeObject.treeTop.setVisible(false);
+    treeObject.treeBase.destroy();
+    treeObject.treeTop.destroy();
   });
+  scene.treesOfDcCollider.forEach(e => e.destroy());
 
   // Add screens off
   scene.anims.create({

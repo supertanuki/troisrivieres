@@ -19,6 +19,7 @@ import { beforeStrike, strike } from "./Story/strike";
 import { gameOver } from "./Village/gameOver";
 import { playIndustryTheme, playVillageTheme } from "./Utils/music";
 import { afterRecycling, afterRecyclingNightmare } from "./Story/afterRecycling";
+import { beforeFinal } from "./Story/final";
 
 export default class Game extends Scene {
   constructor() {
@@ -43,6 +44,7 @@ export default class Game extends Scene {
     this.currentDiscussionSprite = null;
 
     this.treesOfDc = [];
+    this.treesOfDcCollider = [];
     this.birds = [];
     this.butterflies = [];
     this.pointsCollider = [];
@@ -292,6 +294,10 @@ export default class Game extends Scene {
       strike(this);
     }
 
+    if (eventsHas(data, "strike_end")) {
+      beforeFinal(this);
+    }
+
     if (eventsHas(data, "game_over")) {
       gameOver(this);
       gameDuration("Game", this.timeStart);
@@ -349,7 +355,7 @@ export default class Game extends Scene {
 
   handleScreenShutdown(sprite) {
     this.screenShutDownCount++;
-    if (this.screenShutDownCount === 1/*3*/) {
+    if (this.screenShutDownCount === 3) {
       dispatchUnlockEvents(["screens_shutdown"]);
       beforeStrike(this);
     }

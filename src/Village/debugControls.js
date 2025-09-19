@@ -6,6 +6,7 @@ import {
 } from "../Story/afterFactory";
 import { setVillageForSecondAct } from "../Story/afterMineNightmare";
 import { setVillageForFourthAct } from "../Story/afterRecycling";
+import { setVillageFinalVersion } from "../Story/final";
 import { setVillageBeforeMine } from "../Story/mineAccessValidation";
 import { urlParamHas } from "../Utils/debug";
 import { switchNight } from "./night";
@@ -59,7 +60,7 @@ export const addDebugControls = function (scene) {
     });
 
   scene.input.keyboard
-    .addKey(Phaser.Input.Keyboard.KeyCodes.R)
+    .addKey(Phaser.Input.Keyboard.KeyCodes.E)
     .on("down", () => {
       setVillageBeforeMine(scene);
       setVillageForSecondAct(scene);
@@ -71,29 +72,63 @@ export const addDebugControls = function (scene) {
   scene.input.keyboard
     .addKey(Phaser.Input.Keyboard.KeyCodes.S)
     .on("down", () => {
-      setVillageBeforeMine(scene);
-      setVillageForSecondAct(scene);
-      setVillageForThirdAct(scene);
-      //setVillageForFourthAct(scene);
-      scene.isCinematic = false;
+      scene.isCinematic = true; 
+      scene.time.delayedCall(2000, () => {
+        scene.setHeroPosition("heroKoko");
+        setVillageBeforeMine(scene);
+        setVillageForSecondAct(scene);
+        setVillageForThirdAct(scene);
+        //setVillageForFourthAct(scene);
+        scene.isCinematic = false;
 
-      sceneEventsEmitter.emit(sceneEvents.PreEventsUnlocked, [
-        //"django_met",
-        //"miner_first_met",
-        //"first_sleep",
-        //"pre_first_sleep",
-        //"miner_ask_for_card",
-        //"mine_after",
-        //"second_act_begin",
-        //"factory_after",
-        //"third_act_begin",
-        "fourth_act_begin",
-        //"strike_begin"
-      ]);
+        sceneEventsEmitter.emit(sceneEvents.PreEventsUnlocked, [
+          //"django_met",
+          //"miner_first_met",
+          //"first_sleep",
+          //"pre_first_sleep",
+          //"miner_ask_for_card",
+          //"mine_after",
+          //"second_act_begin",
+          //"factory_after",
+          //"third_act_begin",
+          "fourth_act_begin",
+          //"strike_begin",
+          //"strike_end",
+        ]);
+      })
     });
 
   scene.input.keyboard
-    .addKey(Phaser.Input.Keyboard.KeyCodes.E)
+    .addKey(Phaser.Input.Keyboard.KeyCodes.W)
+    .on("down", () => {
+      scene.isCinematic = true; 
+      scene.time.delayedCall(2000, () => {
+        scene.setHeroPosition("heroKoko");
+        setVillageBeforeMine(scene);
+        setVillageForSecondAct(scene);
+        setVillageForThirdAct(scene);
+        setVillageForFourthAct(scene);
+        scene.isCinematic = false;
+
+        sceneEventsEmitter.emit(sceneEvents.PreEventsUnlocked, [
+          //"django_met",
+          //"miner_first_met",
+          //"first_sleep",
+          //"pre_first_sleep",
+          //"miner_ask_for_card",
+          //"mine_after",
+          //"second_act_begin",
+          //"factory_after",
+          //"third_act_begin",
+          //"fourth_act_begin",
+          //"strike_begin",
+          "strike_end",
+        ]);
+      })
+    });
+
+  scene.input.keyboard
+    .addKey(Phaser.Input.Keyboard.KeyCodes.Y)
     .on("down", () => {
       sceneEventsEmitter.emit(sceneEvents.PreEventsUnlocked, [
         "django_met",
@@ -124,14 +159,14 @@ export const addDebugControls = function (scene) {
 
   scene.input.keyboard
     .addKey(Phaser.Input.Keyboard.KeyCodes.A)
-    .on("down", () => secondRiverLessWater(scene));
+    .on("down", () => toggleRoadsVisibility(scene));
 
   scene.input.keyboard
     .addKey(Phaser.Input.Keyboard.KeyCodes.L)
     .on("down", () => switchNight(scene));
 
   scene.input.keyboard
-    .addKey(Phaser.Input.Keyboard.KeyCodes.Z)
+    .addKey(Phaser.Input.Keyboard.KeyCodes.E)
     .on("down", () => toggleScreensVisibility(scene));
 
   scene.input.on("pointerdown", (pointer) =>

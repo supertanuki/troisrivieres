@@ -57,14 +57,14 @@ export const createTreesLayer = function (layerName, scene) {
 
     treeTop.anims.play(treeObject.name);
 
-    scene.pointsCollider.push(
-      scene.physics.add
-        .sprite(treeObject.x, treeObject.y - 10, null)
-        .setSize(8, 1)
-        .setOrigin(0.5, 1)
-        .setImmovable(true)
-        .setVisible(false)
-    );
+    const collider = scene.physics.add.sprite(treeObject.x, treeObject.y - 10, null)
+      .setSize(8, 1)
+      .setOrigin(0.5, 1)
+      .setImmovable(true)
+      .setVisible(false);
+
+    scene.pointsCollider.push(collider);
+    scene.treesOfDcCollider.push(collider);
 
     if (
       treeObject.x > 1097 &&

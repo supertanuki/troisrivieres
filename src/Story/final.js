@@ -1,0 +1,184 @@
+import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
+import Game from "../Game";
+import { dispatchUnlockEvents, eventsHas } from "../Utils/events";
+import { handleAction } from "../Village/handleAction";
+import { showBikes } from "../Village/hideBikes";
+
+/** @param {Game} scene  */
+export const beforeFinal = function (scene) {
+  scene.isCinematic = true;
+  scene.cameras.main.fadeOut(3000, 0, 0, 0, (cam, progress) => {
+    if (progress !== 1) return;
+
+    setVillageFinalVersion(scene);
+
+    scene.setHeroPosition("heroFinal");
+    scene.hero.slowRight();
+    scene.hero.animateToRight();
+
+    scene.cameras.main.fadeIn(2000, 0, 0, 0, (cam, progress) => {
+      if (progress !== 1) return;
+      scene.isCinematic = false;
+    });
+  });
+};
+
+/** @param {Game} scene  */
+export const setVillageFinalVersion = function (scene) {
+  scene.cameras.main.setBounds(
+    470, // left is disabled
+    400, // top is disabled
+    2144 - 470, // mine on the right is disabled
+    scene.map.heightInPixels - 408
+  );
+  scene.checkDjangoDoor = false;
+
+  scene.ball.setVisible(false);
+  showBikes(scene);
+
+  scene.obstacleDcLayer.destroy();
+  scene.obstacleDcLayerCollider.destroy();
+
+  scene.roads.destroy();
+  scene.roadsTop.destroy();
+  scene.carsTop.destroy();
+  scene.carsBottom.destroy();
+
+  scene.carsBottomCollides.forEach((e) => e.destroy());
+  scene.carsBottomCollider.destroy();
+
+  scene.dcBottomLayer.destroy();
+  scene.dcBarriersFrontLayer.destroy();
+  scene.dcBarriersSideLayer.destroy();
+  scene.obstacleDcLayer.destroy();
+
+  scene.potagerBottom.setVisible(true);
+  scene.potagerTop.setVisible(true);
+  scene.physics.add.collider(scene.hero, scene.potagerTop);
+
+  scene.riverPolluted.destroy();
+  scene.landUpRiverPolluted.destroy();
+  scene.bridgesShadowPolluted.destroy();
+
+  const riverFinalLayer = scene.map.createLayer("riverFinal", scene.tileset).setCollisionByProperty({ collide: true }).setDepth(45);
+  scene.physics.add.collider(scene.hero, riverFinalLayer);
+  scene.map.createLayer("riverFinalTop", scene.tileset).setDepth(45);  
+
+  scene.topRecyclingCollider.destroy();
+  scene.topRecyclingLayer.destroy();
+  scene.topRecyclingObjectsLayer.destroy();
+  scene.landRecyclingLayer.destroy();
+  scene.bottomRecyclingLayer.destroy();
+
+  scene.screensCollider.destroy();
+  scene.ads.destroy();
+  scene.adsTop.destroy();
+  scene.screens.destroy();
+  scene.screensTop.destroy();
+
+  scene.screenOffSprites.forEach((screen) => screen.destroy());
+  const screensDamaged = scene.map
+    .createLayer("screensDamaged", scene.tileset)
+    .setCollisionByProperty({ collide: true })
+    .setDepth(49);
+  scene.physics.add.collider(scene.hero, screensDamaged);
+
+  scene.map.createLayer("screensDamagedTop", scene.tileset).setDepth(149);
+  scene.map.createLayer("carsDamagedBottom", scene.tileset).setDepth(98);
+
+  const carsTop = scene.map
+    .createLayer("carsDamagedTop", scene.tileset)
+    .setDepth(120);
+
+  carsTop.forEachTile((tile) => {
+    if (tile.properties?.bottomCollide === true) {
+      scene.pointsCollider.push(
+        scene.physics.add
+          .sprite(tile.getCenterX(), tile.getCenterY() + 8, null)
+          .setSize(16, 1)
+          .setImmovable(true)
+          .setVisible(false)
+      );
+    }
+  });
+
+  scene.map.createLayer("roadsDamaged", scene.tileset).setDepth(96);
+
+  for (let i = 1; i <= 4; i++) {
+    const spriteId = `dcWorker${i}`;
+    scene[spriteId].disableChatIcon();
+    scene[spriteId].destroy();
+  }
+
+  scene.miner.destroy();
+  for (let i = 2; i <= 4; i++) {
+    scene[`minerDirty${i}`].destroy();
+  }
+
+  scene.whiteWorker1.destroy();
+  scene.whiteWorker2.destroy();
+  scene.whiteWorkerChief.destroy();
+
+  scene.baby.disableChatIcon();
+  scene.baby.destroy();
+
+  scene.map.getObjectLayer("sprites").objects.forEach((o) => {
+    if (o.name === "binoFinal") scene.bino.setPosition(o.x, o.y).disableChatIcon();
+
+    if (o.name === "minoFinal") scene.fisherman.setPosition(o.x, o.y).disableChatIcon();
+
+    if (o.name === "kokoFinal") scene.koko.setPosition(o.x, o.y).disableChatIcon();
+
+    if (o.name === "nonoFinal") scene.nono.setPosition(o.x, o.y).disableChatIcon();
+
+    if (o.name === "djangoFinal") scene.django.setPosition(o.x, o.y).disableChatIcon();
+
+    if (o.name === "girlFinal") scene.girl.setPosition(o.x, o.y).disableChatIcon();
+
+    if (o.name === "boyFinal") scene.boy.setPosition(o.x, o.y).disableChatIcon();
+
+    if (o.name === "dogFinal") scene.dog.setPosition(o.x, o.y);
+
+    if (o.name === "catFinal") scene.cat.setPosition(o.x, o.y);
+
+    if (o.name === "twoGuysFinal") scene.twoGuys.setPosition(o.x, o.y);
+
+    if (o.name === "twoWomenFinal") scene.twoWomen.setPosition(o.x, o.y);
+  });
+
+  sceneEventsEmitter.on(sceneEvents.EventsUnlocked, (data) => {
+    console.log(data);
+    if (eventsHas(data, "django_final_end")) {
+      scene.time.delayedCall(200, () => {
+        sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "bino");
+        handleAction(scene);
+      });
+    }
+  });
+
+  const updateCallback = () => {
+    const djangoDoor = scene.heroPositions["heroDjangoDoor"];
+    const delta = 130;
+    // hero next to django
+    if (scene.hero.x > scene.django.x - delta && scene.hero.y > scene.django.y - delta && scene.hero.y < scene.django.y + delta) {
+      dispatchUnlockEvents(["django_final"]);
+      scene.events.off("update", updateCallback);
+      scene.isCinematic = true;
+      scene.cameras.main.fadeOut(500, 0, 0, 0, (cam, progress) => {
+        if (progress !== 1) return;
+        scene.setHeroPosition("heroDjangoFinal");
+        scene.hero.slowUp();
+        scene.hero.animateToUp();
+
+        scene.cameras.main.fadeIn(500, 0, 0, 0, (cam, progress) => {
+          if (progress !== 1) return;
+          scene.isCinematic = false;
+          sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "django");
+          handleAction(scene);
+        });
+      });
+    }
+  };
+
+  scene.events.on("update", updateCallback);
+};

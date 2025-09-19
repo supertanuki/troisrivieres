@@ -4,9 +4,7 @@ import Game from "../Game";
 export const hidePotager = function (scene) {
   scene.potagerBottom.setVisible(false);
   scene.potagerTop.setVisible(false);
-  scene.potagerTop.forEachTile((tile) => {
-    tile.setCollision(false, false, false, false);
-  });
+  scene.potagerCollider.destroy();
 
   scene.cow.setVisible(false);
   scene.cow.setActive(false);

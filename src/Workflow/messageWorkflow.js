@@ -86,7 +86,6 @@ const messageWorkflow = {
         "(…une idée de destination de vacances.)",
       ],
       dependingOn: ["third_act_begin"],
-      //unlockEvents: ["bino_met_third_act"],
     },
     {
       messages: [
@@ -95,6 +94,13 @@ const messageWorkflow = {
       ],
       repeat: ["(Allez, ça ne va pas se désherber tout seul…)"],
       dependingOn: ["strike_begin"],
+    },
+    {
+      messages: [
+        "Attendez… Je prends les tomates !",
+      ],
+      dependingOn: ["django_final_end"],
+      unlockEvents: ["game_over"],
     },
   ],
   twoGuys: [
@@ -130,6 +136,12 @@ const messageWorkflow = {
       ],
       dependingOn: ["strike_begin"],
     },
+    {
+      messages: [
+        "Salut Maï, tu es attendue près de chez Bino.",
+      ],
+      dependingOn: ["strike_end"],
+    },
   ],
   twoWomen: [
     {
@@ -156,6 +168,13 @@ const messageWorkflow = {
         "- Je te sens rebelle, c'est Maï qui t'inspire ?",
       ],
       dependingOn: ["strike_begin"],
+    },
+    {
+      messages: [
+        "- Salut Maï, ça fait un bail !",
+        "- Tu es attendue à l'est du village !"
+      ],
+      dependingOn: ["strike_end"],
     },
   ],
   baby: [
@@ -345,7 +364,6 @@ const messageWorkflow = {
       ],
       dependingOn: ["third_act_begin"],
     },
-    /*
     {
       messages: [
         "Maï, je trouve que toutes ces expériences…",
@@ -356,7 +374,6 @@ const messageWorkflow = {
       ],
       dependingOn: ["strike_begin"],
     },
-    */
   ],
   django: [
     {
@@ -466,7 +483,20 @@ const messageWorkflow = {
         "La lutte ne fait que commencer !",
       ],
       dependingOn: ["strike_begin"],
-      unlockEvents: ["game_over"],
+      unlockEvents: ["strike_end"],
+    },
+    {
+      messages: [
+        "Salut Maï ! Tu as fait bonne route ?",
+        "ça fait un bail !",
+        "T'as vu ? Notre village va mieux",
+        "Il n’y avait plus rien à exploiter ici.",
+        "Les industriels sont partis ailleurs",
+        "pour continuer leurs business.",
+        "Viens ! On va pique-niquer.",
+      ],
+      dependingOn: ["django_final"],
+      unlockEvents: ["django_final_end"],
     },
   ],
   fisherman: [
