@@ -17,8 +17,15 @@ import { handleAction } from "./Village/handleAction";
 import { afterFactory, afterFactoryNightmare } from "./Story/afterFactory";
 import { beforeStrike, strike } from "./Story/strike";
 import { gameOver } from "./Village/gameOver";
-import { playDjangoTheme, playIndustryTheme, playVillageTheme } from "./Utils/music";
-import { afterRecycling, afterRecyclingNightmare } from "./Story/afterRecycling";
+import {
+  playDjangoTheme,
+  playIndustryTheme,
+  playVillageTheme,
+} from "./Utils/music";
+import {
+  afterRecycling,
+  afterRecyclingNightmare,
+} from "./Story/afterRecycling";
 import { afterFinalMessage, beforeFinal } from "./Story/final";
 
 export default class Game extends Scene {
@@ -61,6 +68,7 @@ export default class Game extends Scene {
     this.miniGameTheme = null;
     this.djangoTheme = null;
     this.djangoThemeEnabled = true;
+    this.datacentreThemeEnabled = false;
     this.sounds = [];
 
     this.django = null;
@@ -333,7 +341,7 @@ export default class Game extends Scene {
 
   handleDiscussionStarted() {
     if (!this.scene.isActive()) return;
-    console.log('handleDiscussionStarted')
+    console.log("handleDiscussionStarted");
     this.currentDiscussionStatus = DiscussionStatus.STARTED;
   }
 
@@ -344,9 +352,10 @@ export default class Game extends Scene {
 
   handleDiscussionEnded(sprite) {
     if (!this.scene.isActive()) return;
-    if ((!sprite || !this[sprite]) && "screen" !== sprite.substring(0, 6)) return;
+    if ((!sprite || !this[sprite]) && "screen" !== sprite.substring(0, 6))
+      return;
 
-    console.log('handleDiscussionEnded', sprite)
+    console.log("handleDiscussionEnded", sprite);
     this.currentDiscussionStatus = DiscussionStatus.NONE;
     this[sprite]?.stopChatting();
   }
@@ -385,7 +394,7 @@ export default class Game extends Scene {
         DiscussionStatus.INPROGRESS,
       ].includes(this.currentDiscussionStatus)
     ) {
-      console.log('stopAndWait', this.currentDiscussionStatus)
+      console.log("stopAndWait", this.currentDiscussionStatus);
       this.hero.stopAndWait();
       return;
     }
@@ -435,12 +444,17 @@ export default class Game extends Scene {
     if (urlParamHas("nomusic")) {
       // do nothing
     } else if (
-      this.hero.y < 445 // factory
-      || (this.miner && this.hero.x > this.miner.x + 25) // mine
-      || (this.hero.x < 880 && this.hero.y < 615) // recycling
+      this.hero.y < 445 || // factory
+      (this.miner && this.hero.x > this.miner.x + 25) || // mine
+      (this.hero.x < 880 && this.hero.y < 615) || // recycling
+      (this.datacentreThemeEnabled &&
+        this.hero.x > 1110 &&
+        this.hero.x < 1500 &&
+        this.hero.y > 984 &&
+        this.hero.y < 1210) // datacentre
     ) {
       playIndustryTheme(this);
-    } else if (this.hero.x > 1160 && this.hero.y > 1244) { // Django
+    } else if (this.hero.x > 1160 && this.hero.y > 1244) {
       playDjangoTheme(this);
     } else {
       playVillageTheme(this);

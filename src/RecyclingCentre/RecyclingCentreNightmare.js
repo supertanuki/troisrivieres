@@ -1,7 +1,6 @@
 import Phaser from "phaser";
 import { gameDuration, isDebug } from "../Utils/debug";
 import { dispatchUnlockEvents } from "../Utils/events";
-import { playVillageTheme } from "../Utils/music";
 
 export default class RecyclingCentreNightmare extends Phaser.Scene {
   constructor() {

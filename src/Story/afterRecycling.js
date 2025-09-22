@@ -2,7 +2,7 @@ import Game from "../Game";
 import { setNightState } from "../Village/night";
 import { toggleSpritesVisibility } from "../Village/spritesVisibility";
 import "../Sprites/Screen";
-import { playIndustryTheme, playVillageTheme } from "../Utils/music";
+import { playDjangoTheme, playIndustryTheme } from "../Utils/music";
 import { DiscussionStatus } from "../Utils/discussionStatus";
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import { handleAction } from "../Village/handleAction";
@@ -59,9 +59,11 @@ export const afterRecycling = function (scene) {
 /** @param {Game} scene  */
 export const afterRecyclingNightmare = function (scene) {
   scene.wakeGame(true);
-  playVillageTheme(scene);
+  scene.isCinematic = true;
+  playDjangoTheme(scene);
   setVillageForFourthAct(scene);
   scene.cameras.main.fadeIn(1000, 0, 0, 0);
+  scene.datacentreThemeEnabled = true;
   scene.setHeroPosition("heroDjango");
   scene.hero.slowRight();
   scene.hero.animateToRight();

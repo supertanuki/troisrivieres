@@ -1,6 +1,5 @@
 import Phaser from "phaser";
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
-import { playDjangoTheme, playVillageTheme } from "../Utils/music";
 
 const INITIAL_DEPTH = 99;
 const FRONT_HERO_DEPTH = 101;

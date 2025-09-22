@@ -105,7 +105,8 @@ export const playDjangoTheme = function (scene) {
   fadeOutMusic(scene, scene.villageTheme);
   fadeOutMusic(scene, scene.miniGameTheme);
   fadeOutMusic(scene, scene.industryTheme);
-  if (scene.villageTheme && scene.sound.get("django-theme")) {
+  if (scene.djangoTheme && scene.sound.get("django-theme")) {
+    console.log('play dango theme')
     fadeInMusic(scene, scene.djangoTheme);
     return;
   }

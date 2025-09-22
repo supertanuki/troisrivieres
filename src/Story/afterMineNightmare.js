@@ -15,13 +15,13 @@ import { toggleRoadsVisibility } from "../Village/roads";
 import { secondRiverLessWater } from "../Village/secondRiverLessWater";
 import { toggleSpritesVisibility } from "../Village/spritesVisibility";
 import { villageStateAfterFirstSleep } from "./firstSleep";
-import { playVillageTheme } from "../Utils/music";
+import { playDjangoTheme } from "../Utils/music";
 import { createTreesLayer } from "../Village/trees";
 
 /** @param {Game} scene  */
 export const afterMineNightmare = function (scene) {
   scene.wakeGame(true);
-  playVillageTheme(scene);
+  playDjangoTheme(scene);
   scene.currentDiscussionStatus = DiscussionStatus.NONE;
   setVillageForSecondAct(scene);
   scene.setHeroPosition("heroDjango");
