@@ -11,6 +11,7 @@ import Mine from "./Mine/Mine";
 import RecyclingCentre from "./RecyclingCentre/RecyclingCentre";
 import FactoryNightmare from "./Factory/FactoryNightmare";
 import RecyclingCentreNightmare from "./RecyclingCentre/RecyclingCentreNightmare";
+import FinalMessage from "./UI/FinalMessage";
 
 const config = {
   type: AUTO,
@@ -38,6 +39,7 @@ const config = {
     RecyclingCentre,
     Message,
     Workflow,
+    FinalMessage,
   ],
   scale: {
     mode: Scale.FIT,

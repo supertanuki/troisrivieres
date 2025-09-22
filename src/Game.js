@@ -19,7 +19,7 @@ import { beforeStrike, strike } from "./Story/strike";
 import { gameOver } from "./Village/gameOver";
 import { playDjangoTheme, playIndustryTheme, playVillageTheme } from "./Utils/music";
 import { afterRecycling, afterRecyclingNightmare } from "./Story/afterRecycling";
-import { beforeFinal } from "./Story/final";
+import { afterFinalMessage, beforeFinal } from "./Story/final";
 
 export default class Game extends Scene {
   constructor() {
@@ -297,6 +297,10 @@ export default class Game extends Scene {
 
     if (eventsHas(data, "strike_end")) {
       beforeFinal(this);
+    }
+
+    if (eventsHas(data, "after_final_message")) {
+      afterFinalMessage(this);
     }
 
     if (eventsHas(data, "game_over")) {

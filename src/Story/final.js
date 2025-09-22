@@ -7,19 +7,25 @@ import { showBikes } from "../Village/hideBikes";
 /** @param {Game} scene  */
 export const beforeFinal = function (scene) {
   scene.isCinematic = true;
-  scene.cameras.main.fadeOut(3000, 0, 0, 0, (cam, progress) => {
+  scene.cameras.main.fadeOut(2000, 0, 0, 0, (cam, progress) => {
     if (progress !== 1) return;
+    scene.sleepGame();
+    scene.scene.launch("final-message");
+  });
+}
 
-    setVillageFinalVersion(scene);
+/** @param {Game} scene  */
+export const afterFinalMessage = function (scene) {
+  scene.wakeGame();
+  setVillageFinalVersion(scene);
 
-    scene.setHeroPosition("heroFinal");
-    scene.hero.slowRight();
-    scene.hero.animateToRight();
+  scene.setHeroPosition("heroFinal");
+  scene.hero.slowRight();
+  scene.hero.animateToRight();
 
-    scene.cameras.main.fadeIn(2000, 0, 0, 0, (cam, progress) => {
-      if (progress !== 1) return;
-      scene.isCinematic = false;
-    });
+  scene.cameras.main.fadeIn(2000, 0, 0, 0, (cam, progress) => {
+    if (progress !== 1) return;
+    scene.isCinematic = false;
   });
 };
 
