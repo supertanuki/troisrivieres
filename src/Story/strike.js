@@ -1,6 +1,7 @@
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import Game from "../Game";
 import { dispatchUnlockEvents } from "../Utils/events";
+import { playIndustryTheme } from "../Utils/music";
 import { handleAction } from "../Village/handleAction";
 
 /** @param {Game} scene  */
@@ -61,6 +62,7 @@ const setVillageOnStrike = function (scene) {
 
     if (o.name === "djangoStrike") {
       scene.django.setPosition(o.x, o.y);
+      scene.djangoThemeEnabled = false;
     }
 
     if (o.name === "girlStrike") {

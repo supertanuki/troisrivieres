@@ -97,6 +97,7 @@ export const playDjangoTheme = function (scene) {
   if (
     urlParamHas("nomusic") ||
     loadingDjangoTheme ||
+    !scene.djangoThemeEnabled ||
     (scene.djangoTheme && scene.djangoTheme.isPlaying)
   )
     return;
