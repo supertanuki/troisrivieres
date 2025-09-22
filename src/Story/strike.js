@@ -7,6 +7,7 @@ import { handleAction } from "../Village/handleAction";
 /** @param {Game} scene  */
 export const beforeStrike = function (scene) {
   scene.isCinematic = true;
+  scene.hero.stopAndWait();
   scene.cameras.main.fadeOut(1000, 0, 0, 0, (cam, progress) => {
     if (progress !== 1) return;
 
