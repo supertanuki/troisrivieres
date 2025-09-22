@@ -17,7 +17,7 @@ import { handleAction } from "./Village/handleAction";
 import { afterFactory, afterFactoryNightmare } from "./Story/afterFactory";
 import { beforeStrike, strike } from "./Story/strike";
 import { gameOver } from "./Village/gameOver";
-import { playIndustryTheme, playVillageTheme } from "./Utils/music";
+import { playDjangoTheme, playIndustryTheme, playVillageTheme } from "./Utils/music";
 import { afterRecycling, afterRecyclingNightmare } from "./Story/afterRecycling";
 import { beforeFinal } from "./Story/final";
 
@@ -59,6 +59,7 @@ export default class Game extends Scene {
     this.villageTheme = null;
     this.industryTheme = null;
     this.miniGameTheme = null;
+    this.djangoTheme = null;
     this.sounds = [];
 
     this.django = null;
@@ -434,11 +435,9 @@ export default class Game extends Scene {
       || (this.hero.x < 880 && this.hero.y < 615) // recycling
     ) {
       playIndustryTheme(this);
-    } else if (
-      this.hero.y > 450 &&
-      this.miner &&
-      this.hero.x < this.miner.x + 20
-    ) {
+    } else if (this.hero.x > 1160 && this.hero.y > 1244) { // Django
+      playDjangoTheme(this);
+    } else {
       playVillageTheme(this);
     }
 

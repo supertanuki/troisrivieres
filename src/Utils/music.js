@@ -5,6 +5,7 @@ import { urlParamHas } from "./debug";
 let loadingVillageTheme = false;
 let loadingIndustryTheme = false;
 let loadingMiniGameTheme = false;
+let loadingDjangoTheme = false;
 
 /** @param {Game} scene  */
 export const playVillageTheme = function (scene) {
@@ -17,6 +18,7 @@ export const playVillageTheme = function (scene) {
 
   fadeOutMusic(scene, scene.industryTheme);
   fadeOutMusic(scene, scene.miniGameTheme);
+  fadeOutMusic(scene, scene.djangoTheme);
   if (scene.villageTheme && scene.sound.get("village-theme")) {
     console.log('fadeIn villageTheme');
     fadeInMusic(scene, scene.villageTheme);
@@ -45,6 +47,7 @@ export const playIndustryTheme = function (scene) {
 
   fadeOutMusic(scene, scene.villageTheme);
   fadeOutMusic(scene, scene.miniGameTheme);
+  fadeOutMusic(scene, scene.djangoTheme);
   if (scene.industryTheme && scene.sound.get("industry-theme")) {
     fadeInMusic(scene, scene.industryTheme);
     return;
@@ -72,6 +75,7 @@ export const playMiniGameTheme = function (scene) {
 
   fadeOutMusic(scene, scene.industryTheme);
   fadeOutMusic(scene, scene.villageTheme);
+  fadeOutMusic(scene, scene.djangoTheme);
   if (scene.miniGameTheme && scene.sound.get("minigame-theme")) {
     fadeInMusic(scene, scene.miniGameTheme);
     return;
@@ -84,6 +88,34 @@ export const playMiniGameTheme = function (scene) {
     scene.miniGameTheme = scene.sound.add("minigame-theme");
     fadeInMusic(scene, scene.miniGameTheme);
     loadingMiniGameTheme = false;
+  });
+  loader.start();
+};
+
+/** @param {Game} scene  */
+export const playDjangoTheme = function (scene) {
+  if (
+    urlParamHas("nomusic") ||
+    loadingDjangoTheme ||
+    (scene.djangoTheme && scene.djangoTheme.isPlaying)
+  )
+    return;
+
+  fadeOutMusic(scene, scene.villageTheme);
+  fadeOutMusic(scene, scene.miniGameTheme);
+  fadeOutMusic(scene, scene.industryTheme);
+  if (scene.villageTheme && scene.sound.get("django-theme")) {
+    fadeInMusic(scene, scene.djangoTheme);
+    return;
+  }
+
+  loadingDjangoTheme = true;
+  const loader = new Loader.LoaderPlugin(scene);
+  loader.audio("django-theme", "sounds/zik_django.mp3");
+  loader.once("complete", () => {
+    scene.djangoTheme = scene.sound.add("django-theme");
+    fadeInMusic(scene, scene.djangoTheme);
+    loadingDjangoTheme = false;
   });
   loader.start();
 };
