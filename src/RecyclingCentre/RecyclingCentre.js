@@ -389,7 +389,9 @@ export default class RecyclingCentre extends MiniGameUi {
       return;
     }
 
-    const name = this.firstStep ? 'laptop' : Phaser.Math.RND.pick(OBJECTS_NAMES);
+    const name = this.firstStep
+      ? "laptop"
+      : Phaser.Math.RND.pick(OBJECTS_NAMES);
     const x = Phaser.Math.Between(150, 400);
     playSound("sfx_mini-jeu_trappe_dechet", this, true, 1);
 
@@ -420,11 +422,16 @@ export default class RecyclingCentre extends MiniGameUi {
 
     this.delayBetweenObjects -= 10;
     if (this.delayBetweenObjects < 100) this.delayBetweenObjects = 100;
+
     const delay =
       this.validatedObjects > 10
         ? this.delayBetweenObjects
         : Phaser.Math.Between(1500, 2500);
     this.time.delayedCall(delay, () => this.initObject());
+
+    if (this.validatedObjects === 11) {
+      this.updateMessage(getUiMessage("recycling.faster"));
+    }
   }
 
   updateCable() {
