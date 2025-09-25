@@ -137,103 +137,103 @@ export const delayedInit = function (scene) {
     })
     .addFrame([{ key: "sprites", frame: "exclam-2", duration: 1 }]);
 
-  scene.map.getObjectLayer("sprites").objects.forEach((spriteObject) => {
-    if (spriteObject.name === "django") {
-      scene.django = scene.add.django(spriteObject.x, spriteObject.y);
+  scene.map.getObjectLayer("sprites").objects.forEach((o) => {
+    if (o.name === "django") {
+      scene.django = scene.add.django(o.x, o.y);
       scene.django.on("pointerdown", () => handleAction(scene), this);
     }
 
-    if (spriteObject.name === "koko") {
-      scene.koko = scene.add.koko(spriteObject.x, spriteObject.y);
+    if (o.name === "koko") {
+      scene.koko = scene.add.koko(o.x, o.y);
       scene.koko.on("pointerdown", () => handleAction(scene), this);
     }
 
-    if (spriteObject.name === "sleepingGuy") {
-      scene.sleepingGuy = scene.add.sleepingGuy(spriteObject.x, spriteObject.y);
+    if (o.name === "sleepingGuy") {
+      scene.sleepingGuy = scene.add.sleepingGuy(o.x, o.y);
       scene.sleepingGuy.on("pointerdown", () => handleAction(scene), this);
     }
 
-    if (spriteObject.name === "twoGuys") {
-      scene.twoGuys = scene.add.twoGuys(spriteObject.x, spriteObject.y);
+    if (o.name === "twoGuys") {
+      scene.twoGuys = scene.add.twoGuys(o.x, o.y);
       scene.twoGuys.on("pointerdown", () => handleAction(scene), this);
     }
 
-    if (spriteObject.name === "twoWomen") {
-      scene.twoWomen = scene.add.twoWomen(spriteObject.x, spriteObject.y);
+    if (o.name === "twoWomen") {
+      scene.twoWomen = scene.add.twoWomen(o.x, o.y);
       scene.twoWomen.on("pointerdown", () => handleAction(scene), this);
     }
 
-    if (spriteObject.name === "baby") {
-      scene.baby = scene.add.baby(spriteObject.x, spriteObject.y);
+    if (o.name === "baby") {
+      scene.baby = scene.add.baby(o.x, o.y);
       scene.baby.on("pointerdown", () => handleAction(scene), this);
     }
 
-    if (spriteObject.name === "bino") {
-      scene.bino = scene.add.bino(spriteObject.x, spriteObject.y);
+    if (o.name === "bino") {
+      scene.bino = scene.add.bino(o.x, o.y);
       scene.bino.on("pointerdown", () => handleAction(scene), this);
     }
 
-    if (spriteObject.name === "binoCleaningRoad") {
-      scene.bino.setCleaningRoadPosition(spriteObject.x, spriteObject.y);
+    if (o.name === "binoCleaningRoad") {
+      scene.bino.setCleaningRoadPosition(o.x, o.y);
     }
 
-    if (spriteObject.name === "mino") {
-      scene.fisherman = scene.add.fisherman(spriteObject.x, spriteObject.y);
+    if (o.name === "mino") {
+      scene.fisherman = scene.add.fisherman(o.x, o.y);
       scene.fisherman.on("pointerdown", () => handleAction(scene), this);
     }
 
-    if (spriteObject.name === "cat") {
-      scene.cat = scene.add.cat(spriteObject.x, spriteObject.y);
+    if (o.name === "cat") {
+      scene.cat = scene.add.cat(o.x, o.y);
       scene.cat.on("pointerdown", () => handleAction(scene), this);
     }
 
-    if (spriteObject.name === "dog") {
-      scene.dog = scene.add.dog(spriteObject.x, spriteObject.y);
+    if (o.name === "dog") {
+      scene.dog = scene.add.dog(o.x, o.y);
       scene.dog.on("pointerdown", () => handleAction(scene), this);
     }
 
-    if (spriteObject.name === "escargot") {
-      scene.escargot = scene.add.escargot(spriteObject.x, spriteObject.y);
+    if (o.name === "escargot") {
+      scene.escargot = scene.add.escargot(o.x, o.y);
       scene.escargot.on("pointerdown", () => handleAction(scene), this);
     }
 
-    if (spriteObject.name === "cow") {
-      scene.cow = scene.add.cow(spriteObject.x, spriteObject.y);
+    if (o.name === "cow") {
+      scene.cow = scene.add.cow(o.x, o.y);
       scene.cow.on("pointerdown", () => handleAction(scene), this);
     }
 
-    if (spriteObject.name === "veal") {
-      scene.veal = scene.add.veal(spriteObject.x, spriteObject.y);
+    if (o.name === "veal") {
+      scene.veal = scene.add.veal(o.x, o.y);
     }
 
-    if (spriteObject.name === "miner") {
-      scene.miner = scene.add.miner(spriteObject.x, spriteObject.y);
+    if (o.name === "miner") {
+      scene.miner = scene.add.miner(o.x, o.y);
       scene.miner.on("pointerdown", () => handleAction(scene), this);
     }
 
-    if (spriteObject.name === "ball") {
-      scene.ball = scene.add.ball(spriteObject.x, spriteObject.y);
+    if (o.name === "ball") {
+      scene.ball = scene.add.ball(o.x, o.y);
     }
 
-    if (spriteObject.name === "girl") {
-      scene.girl = scene.add.girl(spriteObject.x, spriteObject.y);
+    if (o.name === "girl") {
+      scene.girl = scene.add.girl(o.x, o.y);
     }
 
-    if (spriteObject.name === "boy") {
-      scene.boy = scene.add.boy(spriteObject.x, spriteObject.y);
+    if (o.name === "boy") {
+      scene.boy = scene.add.boy(o.x, o.y);
       scene.boy.on("pointerdown", () => handleAction(scene), this);
     }
 
-    if (spriteObject.name === "bike") {
-      scene.bikes.push(scene.add.bike(spriteObject.x, spriteObject.y));
+    if (o.name === "bike") {
+      scene.bikes.push(scene.add.bike(o.x, o.y));
     }
 
-    if (spriteObject.name === "boySad") {
-      scene.boy.setSadPosition(spriteObject.x, spriteObject.y);
+    if (o.name === "boySad") {
+      scene.boy.setSadPosition(o.x, o.y);
     }
 
-    if (spriteObject.name === "girlSad") {
-      scene.girl.setSadPosition(spriteObject.x, spriteObject.y);
+    if (o.name === "girlSad") {
+      scene.girl.setSadPosition(o.x, o.y);
     }
   });
 
@@ -283,7 +283,7 @@ export const delayedInit = function (scene) {
 
   addCollisionManagement(scene);
 
-  for (const element of ['hommes', 'femmes', 'enfants', 'ouvriers']) {
+  for (const element of ["hommes", "femmes", "enfants", "ouvriers"]) {
     for (let i = 1; i <= 4; i++) {
       preloadSound(`sfx_voix_${element}_${i}`, scene);
     }
