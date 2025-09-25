@@ -938,7 +938,7 @@ const messageWorkflow = {
           ? "Voilà votre poste…\n[touche pour continuer]"
           : "Voilà votre poste…\n[espace pour continuer]",
         "Des déchets tombent… de la trappe en haut.",
-        "Et vous devez les réceptionner… avec le chariot en bas.",
+        "Vous devez les réceptionner… avec le chariot en bas.",
         isMobileOrTablet()
           ? "Bougez le chariot en appuyant à gauche ou à droite."
           : "Bougez le chariot avec les flèches ← →",
@@ -978,8 +978,8 @@ const messageWorkflow = {
         "Ça, c'est le panneau d'erreurs.",
         "Si vous ratez plusieurs déchets… une croix s'allume.",
         "Au bout de trois croix euh… j'arrête votre journée.",
-        "Et je le répète, mais c'est très important ce qu'on fait ici.",
-        "On démantèle et on recycle en d'autres équipements.",
+        "Je le répète, c'est très important ce qu'on fait ici.",
+        "On démantèle et on recycle les équipements.",
         "On est pour ainsi dire euh… super écolo.",
         "Toute l'eau qu'on pollue et gaspille…",
         "C'est pour un bien encore plus grand.",
@@ -1029,8 +1029,8 @@ const uiMessages = {
   "factory.welldone": "C'est bien, tu es productive !",
   "factory.error": "C'est quoi ce boulot ? Ressaisis-toi la nouvelle !",
 
-  "recycling.faster": "Allez, on augmente le rythme !",
-  "recycling.error": "Euh… il va falloir faire mieux que ça !",
+  "recycling.faster": "Allez, on augmente le rythme !",
+  "recycling.error": "Euh… il va falloir faire mieux que ça !",
 };
 
 const getUiMessage = (name) => uiMessages[name];

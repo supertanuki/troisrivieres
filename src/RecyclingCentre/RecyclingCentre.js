@@ -34,6 +34,7 @@ export default class RecyclingCentre extends MiniGameUi {
     this.containers = [];
     this.containersObject = null;
     this.validatedObjects = 0;
+    this.notValidatedObjects = 0;
     this.conveyorPosition = 0;
     this.selectedObject = "console";
     this.warnings = 0;
@@ -374,7 +375,7 @@ export default class RecyclingCentre extends MiniGameUi {
     if (this.isCinematic) return;
 
     const warnings =
-      (this.objects.length > 2 && 1) +
+      (this.notValidatedObjects > 2 && 1) +
       (this.objects.length > 10 && 1) +
       (this.objects.length > 60 && 1);
 
@@ -429,7 +430,7 @@ export default class RecyclingCentre extends MiniGameUi {
         : Phaser.Math.Between(1500, 2500);
     this.time.delayedCall(delay, () => this.initObject());
 
-    if (this.validatedObjects === 11) {
+    if (this.validatedObjects === 11 || this.validatedObjects === 25) {
       this.updateMessage(getUiMessage("recycling.faster"));
     }
   }
@@ -493,6 +494,7 @@ export default class RecyclingCentre extends MiniGameUi {
     for (const object of this.objects) {
       if (object.y > 220) {
         object.setTint(0x777777);
+        this.notValidatedObjects++;
         if (this.firstStep) this.tutoMissed();
         continue;
       }
