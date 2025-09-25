@@ -8,6 +8,16 @@ export default class Deer extends Phaser.Physics.Arcade.Sprite {
       frames: [
         {
           key: "sprites",
+          frame: "deer-3",
+          duration: 1000,
+        },
+        {
+          key: "sprites",
+          frame: "deer-2",
+          duration: 500,
+        },
+        {
+          key: "sprites",
           frame: "deer-1",
           duration: 1000,
         },
@@ -29,11 +39,10 @@ export default class Deer extends Phaser.Physics.Arcade.Sprite {
         {
           key: "sprites",
           frame: "deer-5",
-          duration: 200,
+          duration: 2000,
         },
       ],
       repeat: -1,
-      duration: 3000,
       yoyo: true,
     });
     this.anims.play("deer");
