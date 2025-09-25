@@ -2,6 +2,7 @@ import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import Game from "../Game";
 import { dispatchUnlockEvents, eventsHas } from "../Utils/events";
 import { playVillageTheme } from "../Utils/music";
+import { showBirds } from "../Village/birds";
 import { handleAction } from "../Village/handleAction";
 import { showBikes } from "../Village/hideBikes";
 
@@ -44,6 +45,7 @@ export const setVillageFinalVersion = function (scene) {
 
   scene.ball.setVisible(false);
   showBikes(scene);
+  showBirds(scene);
 
   scene.obstacleDcLayer.destroy();
   scene.obstacleDcLayerCollider.destroy();

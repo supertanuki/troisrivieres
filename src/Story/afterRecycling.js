@@ -109,7 +109,12 @@ export const setVillageForFourthAct = function (scene) {
     for (let i=1; i<=4; i++) {
       const spriteId = `dcWorker${i}`
       if (spriteObject.name === spriteId) {
-        scene[spriteId] = scene.add.minerDirty(spriteObject.x, spriteObject.y, null, null, i);
+        if (i === 1) {
+          scene[spriteId] = scene.add.miner(spriteObject.x, spriteObject.y, null, null, i);
+          scene[spriteId].toRight();
+        } else {
+          scene[spriteId] = scene.add.minerDirty(spriteObject.x, spriteObject.y, null, null, i);
+        }
         const sprite = scene[spriteId];
 
         if (i === 1) {

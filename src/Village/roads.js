@@ -5,12 +5,12 @@ export const toggleRoadsVisibility = function (scene) {
   if (!scene.roads) {
     scene.roadsBottom = scene.map
       .createLayer("roadsBottom", scene.tileset)
-      .setDepth(95)
+      .setDepth(69)
       .setVisible(false);
 
     scene.roads = scene.map
       .createLayer("roads", scene.tileset)
-      .setDepth(96)
+      .setDepth(70)
       .setVisible(false);
 
     scene.roadsTop = scene.map

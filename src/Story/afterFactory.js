@@ -8,6 +8,8 @@ import { handleAction } from "../Village/handleAction";
 import { setNightState } from "../Village/night";
 import { toggleSpritesVisibility } from "../Village/spritesVisibility";
 import "../Sprites/BlueWorkerChief";
+import "../Sprites/BlueWorker";
+import { createBlueWorkerAnimation } from "../Sprites/BlueWorker";
 
 /** @param {Game} scene  */
 export const afterFactory = function (scene) {
@@ -79,12 +81,12 @@ export const afterFactoryNightmare = function (scene) {
 
 export const setVillageForThirdAct = function (scene) {
   console.log("setVillageForThirdAct");
-  noMoreBirds(scene);
-  noMoreButterflies(scene);
   setNightState(scene, false);
   toggleSpritesVisibility(scene, true, true);
   toggleScreensVisibility(scene);
   scene.ball.setVisible(false);
+  scene.time.delayedCall(1, () => noMoreBirds(scene)); // to pass after toggleSpritesVisibility
+  noMoreButterflies(scene);
 
   scene.cameras.main.setBounds(
     470, // left is disabled
@@ -113,7 +115,10 @@ export const setVillageForThirdAct = function (scene) {
     .createLayer("topRecycling", scene.tileset)
     .setDepth(119)
     .setCollisionByProperty({ collide: true });
-  scene.topRecyclingCollider = scene.physics.add.collider(scene.hero, scene.topRecyclingLayer);
+  scene.topRecyclingCollider = scene.physics.add.collider(
+    scene.hero,
+    scene.topRecyclingLayer
+  );
 
   scene.topRecyclingObjectsLayer = scene.map
     .createLayer("topRecyclingObjects", scene.tileset)
@@ -124,41 +129,60 @@ export const setVillageForThirdAct = function (scene) {
   scene.obstacleRecyclingLayer.destroy();
   scene.obstacleRecyclingCollider.destroy();
 
-  for (const spriteObject of scene.map.getObjectLayer("sprites").objects) {
-    if (spriteObject.name === "boyThirdAct") {
-      scene.boy.setThirdAct(spriteObject.x, spriteObject.y);
+  createBlueWorkerAnimation(scene);
+
+  for (const o of scene.map.getObjectLayer("sprites").objects) {
+    if (o.name === "boyThirdAct") {
+      scene.boy.setThirdAct(o.x, o.y);
     }
 
-    if (spriteObject.name === "girlThirdAct") {
-      scene.girl.setThirdAct(spriteObject.x, spriteObject.y);
+    if (o.name === "girlThirdAct") {
+      scene.girl.setThirdAct(o.x, o.y);
     }
 
-    if (spriteObject.name === "babyThirdAct") {
-      scene.baby.setPosition(spriteObject.x, spriteObject.y);
+    if (o.name === "babyThirdAct") {
+      scene.baby.setPosition(o.x, o.y);
     }
 
-    if (spriteObject.name === "afterFactoryWhiteWorker1") {
-      scene.whiteWorker1.setPosition(spriteObject.x, spriteObject.y);
+    if (o.name === "afterFactoryWhiteWorker1") {
+      scene.whiteWorker1.setPosition(o.x, o.y);
       scene.whiteWorker1.scaleX = 1;
       scene.whiteWorker1.setOffset(0, scene.whiteWorker1.height / 2);
       scene.whiteWorker1.setVisible(true);
       scene.whiteWorker1.disableChatIcon();
     }
 
-    if (spriteObject.name === "afterFactoryWhiteWorker2") {
-      scene.whiteWorker2.setPosition(spriteObject.x, spriteObject.y);
+    if (o.name === "afterFactoryWhiteWorker2") {
+      scene.whiteWorker2.setPosition(o.x, o.y);
       scene.whiteWorker2.setVisible(true);
       scene.whiteWorker2.disableChatIcon();
     }
 
-    if (spriteObject.name === "blueWorkerChief") {
-      scene.blueWorkerChief = scene.add.blueWorkerChief(
-        spriteObject.x,
-        spriteObject.y
-      );
+    if (o.name === "twoGuysRecycling") {
+      scene.twoGuys.setPosition(o.x, o.y);
+    }
+
+    if (o.name === "blueWorkerChief") {
+      scene.blueWorkerChief = scene.add.blueWorkerChief(o.x, o.y);
       scene.blueWorkerChief.on("pointerdown", () => handleAction(scene), scene);
       scene.physics.add.collider(scene.blueWorkerChief, scene.hero, () => {
         sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "blueWorkerChief");
+      });
+    }
+
+    if (o.name === "blueWorker1") {
+      scene.blueWorker1 = scene.add.blueWorker(o.x, o.y, null, null, 1);
+      scene.blueWorker1.on("pointerdown", () => handleAction(scene), scene);
+      scene.physics.add.collider(scene.blueWorker1, scene.hero, () => {
+        sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "blueWorker1");
+      });
+    }
+
+    if (o.name === "blueWorker2") {
+      scene.blueWorker2 = scene.add.blueWorker(o.x, o.y, null, null, 2);
+      scene.blueWorker2.on("pointerdown", () => handleAction(scene), scene);
+      scene.physics.add.collider(scene.blueWorker2, scene.hero, () => {
+        sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "blueWorker2");
       });
     }
   }
@@ -172,7 +196,10 @@ export const toggleScreensVisibility = function (scene) {
       .setDepth(49)
       .setVisible(false);
 
-    scene.screensCollider = scene.physics.add.collider(scene.hero, scene.screens);
+    scene.screensCollider = scene.physics.add.collider(
+      scene.hero,
+      scene.screens
+    );
 
     scene.screensTop = scene.map
       .createLayer("screensTop", scene.tileset)
@@ -190,7 +217,6 @@ export const toggleScreensVisibility = function (scene) {
   }
 
   const state = !scene.screens.visible;
-  console.log(scene.screens, state)
 
   scene.screensTop.setVisible(state);
   scene.screens.setVisible(state);

@@ -9,6 +9,7 @@ import { setVillageForFourthAct } from "../Story/afterRecycling";
 import { setVillageFinalVersion } from "../Story/final";
 import { setVillageBeforeMine } from "../Story/mineAccessValidation";
 import { urlParamHas } from "../Utils/debug";
+import { noMoreBirds, showBirds } from "./birds";
 import { switchNight } from "./night";
 import { toggleRoadsVisibility } from "./roads";
 import { secondRiverLessWater } from "./secondRiverLessWater";
@@ -64,15 +65,18 @@ export const addDebugControls = function (scene) {
     .on("down", () => {
       setVillageBeforeMine(scene);
       setVillageForSecondAct(scene);
-      setVillageForThirdAct(scene);
+      //setVillageForThirdAct(scene);
       scene.setHeroPosition("heroRecycling");
       scene.isCinematic = false;
+              sceneEventsEmitter.emit(sceneEvents.PreEventsUnlocked, [
+          "third_act_begin",
+        ]);
     });
 
   scene.input.keyboard
     .addKey(Phaser.Input.Keyboard.KeyCodes.S)
     .on("down", () => {
-      scene.isCinematic = true; 
+      scene.isCinematic = true;
       scene.time.delayedCall(2000, () => {
         scene.setHeroPosition("heroKoko");
         setVillageBeforeMine(scene);
@@ -95,13 +99,13 @@ export const addDebugControls = function (scene) {
           //"strike_begin",
           //"strike_end",
         ]);
-      })
+      });
     });
 
   scene.input.keyboard
     .addKey(Phaser.Input.Keyboard.KeyCodes.W)
     .on("down", () => {
-      scene.isCinematic = true; 
+      scene.isCinematic = true;
       scene.time.delayedCall(2000, () => {
         scene.setHeroPosition("heroKoko");
         setVillageBeforeMine(scene);
@@ -124,7 +128,7 @@ export const addDebugControls = function (scene) {
           //"strike_begin",
           "strike_end",
         ]);
-      })
+      });
     });
 
   scene.input.keyboard
@@ -170,6 +174,9 @@ export const addDebugControls = function (scene) {
     .on("down", () => toggleScreensVisibility(scene));
 
   scene.input.on("pointerdown", (pointer) =>
-    console.log({pointer: [pointer.x, pointer.y], hero: [scene.hero.x, scene.hero.y]})
+    console.log({
+      pointer: [pointer.x, pointer.y],
+      hero: [scene.hero.x, scene.hero.y],
+    })
   );
 };

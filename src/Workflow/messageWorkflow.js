@@ -120,11 +120,11 @@ const messageWorkflow = {
     },
     {
       messages: [
-        "- Tu as testé le burger sauce mystérieuse ?",
-        "- Elle a quoi de mystérieuse cette sauce ?",
-        "- Il parait que les ingrédients sont d'origine…",
-        "EXTRATERRESTRE !!!",
+        "- Il parait que ça cherche du monde à l'ouest.",
+        "- Ah oui, pourquoi faire ?",
+        "- Une histoire de déchets…",
       ],
+      repeat: ["Il parait que ça cherche du monde à l'ouest…"],
       dependingOn: ["third_act_begin"],
     },
     {
@@ -471,7 +471,7 @@ const messageWorkflow = {
         "Aujourd'hui nous leur disons stop !",
         "Comme le disait ma grand-mère…",
         "On peut couper nos branches mais pas nos racines.",
-        "La lutte ne fait que commencer !,",
+        "La lutte ne fait que commencer !",
       ],
       dependingOn: ["strike_begin"],
       unlockEvents: ["strike_end"],

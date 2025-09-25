@@ -5,7 +5,7 @@ export const SPRITE_ID = "baby";
 
 export default class Baby extends Chat {
   constructor(scene, x, y) {
-    super(scene, x, y, "sprites", "baby-1");
+    super(scene, x, y, "sprites", "baby-1", 0, 0, true);
     this.spriteId = SPRITE_ID;
 
     scene.anims.create({

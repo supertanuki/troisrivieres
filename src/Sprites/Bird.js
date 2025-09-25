@@ -70,6 +70,16 @@ export default class Bird extends Phaser.Physics.Arcade.Sprite {
     this.anims.play(`bird-idle-anim-${this.idleId}`, true);
   }
 
+  hide() {
+    this.setVisible(false);
+    this.setActive(false);
+  }
+
+  show() {
+    this.setVisible(true);
+    this.setActive(true);
+  }
+
   outOfScreen() {
     this.anims.stop()
     this.status = Status.outOfScreen;
@@ -79,6 +89,8 @@ export default class Bird extends Phaser.Physics.Arcade.Sprite {
 
   preUpdate(time, delta) {
     super.preUpdate(time, delta);
+
+    if (!this.visible) return;
 
     if (this.isOutOfScreen()) {
       const mainCamera = this.scene.cameras.main;
@@ -129,6 +141,7 @@ Phaser.GameObjects.GameObjectFactory.register("bird", function (x, y) {
 
   sprite.body.setSize(50, 50);
   sprite.setOffsetDependingOnDirection();
+  sprite.setImmovable(true);
 
   this.displayList.add(sprite);
   this.updateList.add(sprite);

@@ -32,6 +32,11 @@ class Miner extends Chat {
     this.hasUnreadMessage(this.spriteId);
   }
 
+  toRight() {
+    this.scaleX = 1;
+    this.setOffset(0, 0);
+  }
+
   unlockAccessToMine(x, y) {
     this.setPosition(x, y);
     this.setSize(5, 1);

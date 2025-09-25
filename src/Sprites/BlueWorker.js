@@ -1,22 +1,20 @@
 import Chat from "../UI/Chat";
 
-class WhiteWorker extends Chat {
+class BlueWorker extends Chat {
   constructor(scene, x, y, texture, frame) {
-    super(scene, x, y, "sprites", "white-worker-1", 0, -5, true);
+    super(scene, x, y, "sprites", "blue-worker-1", 0, 0, true);
   }
 
   setSpriteNumber(spriteNumber) {
-    this.spriteId = `whiteWorker${spriteNumber}`;
-    this.anims.play(`white-worker-idle-${spriteNumber}`, true);
-    this.scaleX = -1;   
-    this.setOffset(this.width, this.height / 2);
+    this.spriteId = `blueWorker${spriteNumber}`;
+    this.anims.play(`blue-worker-idle-${spriteNumber}`, true);
   }
 }
 
 Phaser.GameObjects.GameObjectFactory.register(
-  "whiteWorker",
+  "blueWorker",
   function (x, y, texture, frame, spriteId) {
-    const sprite = new WhiteWorker(
+    const sprite = new BlueWorker(
       this.scene,
       x,
       y,
@@ -41,17 +39,17 @@ Phaser.GameObjects.GameObjectFactory.register(
   }
 );
 
-export const createWhiteWorkerAnimation = function (scene) {
+export const createBlueWorkerAnimation = function (scene) {
   scene.anims.create({
-    key: "white-worker-idle-1",
+    key: "blue-worker-idle-1",
     frames: [
       {
         key: "sprites",
-        frame: "white-worker-1",
+        frame: "blue-worker-1",
       },
       {
         key: "sprites",
-        frame: "white-worker-2",
+        frame: "blue-worker-2",
       },
     ],
     repeat: -1,
@@ -59,38 +57,18 @@ export const createWhiteWorkerAnimation = function (scene) {
   });
 
   scene.anims.create({
-    key: "white-worker-idle-2",
+    key: "blue-worker-idle-2",
     frames: [
       {
         key: "sprites",
-        frame: "white-worker-2",
+        frame: "blue-worker-2",
       },
       {
         key: "sprites",
-        frame: "white-worker-1",
+        frame: "blue-worker-1",
       },
     ],
     repeat: -1,
     frameRate: 3,
-  });
-
-  scene.anims.create({
-    key: "white-worker-idle-3",
-    frames: [
-      {
-        key: "sprites",
-        frame: "white-worker-1",
-      },
-      {
-        key: "sprites",
-        frame: "white-worker-1",
-      },
-      {
-        key: "sprites",
-        frame: "white-worker-2",
-      },
-    ],
-    repeat: -1,
-    frameRate: 4,
   });
 };

@@ -32,8 +32,11 @@ export const lessBirds = function (scene) {
 };
 
 export const noMoreBirds = function (scene) {
-  scene.birds.forEach((bird) => bird.destroy());
-  scene.birds = [];
+  scene.birds.forEach((bird) => bird.hide());
+};
+
+export const showBirds = function (scene) {
+  scene.birds.forEach((bird) => bird.show());
 };
 
 export const createBirdAnims = function (scene) {
