@@ -18,6 +18,7 @@ import "../Sprites/Girl";
 import "../Sprites/Boy";
 import "../Sprites/TwoGuys";
 import "../Sprites/Bike";
+import "../Sprites/Deer";
 import { createHeroAnims } from "../Sprites/HeroAnims";
 import { gameDuration, urlParamHas } from "../Utils/debug";
 import { addBirds } from "./birds";
@@ -234,6 +235,10 @@ export const delayedInit = function (scene) {
 
     if (o.name === "girlSad") {
       scene.girl.setSadPosition(o.x, o.y);
+    }
+
+    if (o.name === "deer") {
+      scene.deer = scene.add.deer(o.x, o.y);
     }
   });
 
