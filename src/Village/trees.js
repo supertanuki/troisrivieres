@@ -63,9 +63,7 @@ export const createTreesLayer = function (layerName, scene) {
       .setImmovable(true)
       .setVisible(false);
 
-    scene.pointsCollider.push(collider);
-    scene.treesOfDcCollider.push(collider);
-
+    // DC zone ?
     if (
       treeObject.x > 1097 &&
       treeObject.x < 1336 &&
@@ -73,6 +71,9 @@ export const createTreesLayer = function (layerName, scene) {
       treeObject.y < 1220
     ) {
       scene.treesOfDc.push({ treeBase, treeTop });
+      scene.treesOfDcCollider.push(collider);
+    } else {
+      scene.pointsCollider.push(collider);
     }
   });
 };

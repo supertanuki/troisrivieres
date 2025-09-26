@@ -58,6 +58,7 @@ export const setVillageForSecondAct = function (scene) {
   toggleSpritesVisibility(scene, true, true, true);
   lessBirds(scene);
   lessButterflies(scene);
+  scene.deer.setVisible(false);
 
   scene.obstacleBridgeLayer = scene.map
     .createLayer("obstacleBridge", scene.tileset)
@@ -81,30 +82,27 @@ export const setVillageForSecondAct = function (scene) {
 
   createWhiteWorkerAnimation(scene);
 
-  for (const spriteObject of scene.map.getObjectLayer("sprites").objects) {
-    if (spriteObject.name === `minerAfterMine`) {
-      scene.miner.setPositionAfterMine(spriteObject.x, spriteObject.y);
+  for (const o of scene.map.getObjectLayer("sprites").objects) {
+    if (o.name === `minerAfterMine`) {
+      scene.miner.setPositionAfterMine(o.x, o.y);
       scene.miner.disableChatIcon();
     }
 
-    if (spriteObject.name === `minoAfterMine`) {
-      scene.fisherman.setPosition(spriteObject.x, spriteObject.y);
+    if (o.name === `minoAfterMine`) {
+      scene.fisherman.setPosition(o.x, o.y);
     }
 
     for (let i = 2; i <= 4; i++) {
-      if (spriteObject.name === `afterMineMiner${i}`) {
+      if (o.name === `afterMineMiner${i}`) {
         const miner = scene[`minerDirty${i}`];
-        miner.setPosition(spriteObject.x, spriteObject.y);
+        miner.setPosition(o.x, o.y);
         miner.disableChatIcon();
         miner.scaleX = 1;
       }
     }
 
-    if (spriteObject.name === "whiteWorkerChief") {
-      scene.whiteWorkerChief = scene.add.whiteWorkerChief(
-        spriteObject.x,
-        spriteObject.y
-      );
+    if (o.name === "whiteWorkerChief") {
+      scene.whiteWorkerChief = scene.add.whiteWorkerChief(o.x, o.y);
       scene.whiteWorkerChief.on(
         "pointerdown",
         () => handleAction(scene),
@@ -119,10 +117,10 @@ export const setVillageForSecondAct = function (scene) {
     }
 
     for (let i = 1; i <= 2; i++) {
-      if (spriteObject.name === `whiteWorker${i}`) {
+      if (o.name === `whiteWorker${i}`) {
         scene[`whiteWorker${i}`] = scene.add.whiteWorker(
-          spriteObject.x,
-          spriteObject.y,
+          o.x,
+          o.y,
           null,
           null,
           i

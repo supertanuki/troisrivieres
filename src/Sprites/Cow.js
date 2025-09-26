@@ -29,6 +29,11 @@ export default class Cow extends Chat {
 
     this.anims.play("cow-idle", true);
   }
+
+  toRight() {
+    this.scaleX = -1;
+    this.setOffset(this.width - 2, this.height/2);
+  }
 }
 
 Phaser.GameObjects.GameObjectFactory.register(SPRITE_ID, function (x, y) {

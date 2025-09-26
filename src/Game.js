@@ -85,6 +85,9 @@ export default class Game extends Scene {
     this.boy = null;
     this.girl = null;
     this.miner = null;
+    this.deer = null;
+    this.blueWorker1 = null;
+    this.blueWorker2 = null;
 
     this.ball = null;
     this.tent = null;
@@ -380,6 +383,8 @@ export default class Game extends Scene {
     if (this.night && this.darkOverlay) {
       updateNightPosition(this);
     }
+
+    this.hero.updateShadow();
 
     if (!this.cursors || !this.hero || this.isCinematic || !this.hero.body) {
       return;

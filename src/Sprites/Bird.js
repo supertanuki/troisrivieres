@@ -90,7 +90,7 @@ export default class Bird extends Phaser.Physics.Arcade.Sprite {
   preUpdate(time, delta) {
     super.preUpdate(time, delta);
 
-    if (!this.visible) return;
+    if (!this.active) return;
 
     if (this.isOutOfScreen()) {
       const mainCamera = this.scene.cameras.main;

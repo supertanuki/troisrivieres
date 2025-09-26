@@ -15,13 +15,14 @@ export const beforeFinal = function (scene) {
     scene.sleepGame();
     scene.scene.launch("final-message");
   });
-}
+};
 
 /** @param {Game} scene  */
 export const afterFinalMessage = function (scene) {
   scene.wakeGame();
   setVillageFinalVersion(scene);
 
+  scene.isCinematic = true;
   scene.setHeroPosition("heroFinal");
   scene.hero.slowRight();
   scene.hero.animateToRight();
@@ -71,9 +72,12 @@ export const setVillageFinalVersion = function (scene) {
   scene.landUpRiverPolluted.destroy();
   scene.bridgesShadowPolluted.destroy();
 
-  const riverFinalLayer = scene.map.createLayer("riverFinal", scene.tileset).setCollisionByProperty({ collide: true }).setDepth(45);
+  const riverFinalLayer = scene.map
+    .createLayer("riverFinal", scene.tileset)
+    .setCollisionByProperty({ collide: true })
+    .setDepth(45);
   scene.physics.add.collider(scene.hero, riverFinalLayer);
-  scene.map.createLayer("riverFinalTop", scene.tileset).setDepth(45);  
+  scene.map.createLayer("riverFinalTop", scene.tileset).setDepth(45);
 
   scene.topRecyclingCollider.destroy();
   scene.topRecyclingLayer.destroy();
@@ -134,19 +138,26 @@ export const setVillageFinalVersion = function (scene) {
   scene.baby.destroy();
 
   scene.map.getObjectLayer("sprites").objects.forEach((o) => {
-    if (o.name === "binoFinal") scene.bino.setPosition(o.x, o.y).disableChatIcon();
+    if (o.name === "binoFinal")
+      scene.bino.setPosition(o.x, o.y).disableChatIcon();
 
-    if (o.name === "minoFinal") scene.fisherman.setPosition(o.x, o.y).disableChatIcon();
+    if (o.name === "minoFinal")
+      scene.fisherman.setPosition(o.x, o.y).disableChatIcon();
 
-    if (o.name === "kokoFinal") scene.koko.setPosition(o.x, o.y).disableChatIcon();
+    if (o.name === "kokoFinal")
+      scene.koko.setPosition(o.x, o.y).disableChatIcon();
 
-    if (o.name === "nonoFinal") scene.nono.setPosition(o.x, o.y).disableChatIcon();
+    if (o.name === "nonoFinal")
+      scene.nono.setPosition(o.x, o.y).disableChatIcon();
 
-    if (o.name === "djangoFinal") scene.django.setPosition(o.x, o.y).disableChatIcon();
+    if (o.name === "djangoFinal")
+      scene.django.setPosition(o.x, o.y).disableChatIcon();
 
-    if (o.name === "girlFinal") scene.girl.setPosition(o.x, o.y).disableChatIcon();
+    if (o.name === "girlFinal")
+      scene.girl.setPosition(o.x, o.y).disableChatIcon();
 
-    if (o.name === "boyFinal") scene.boy.setPosition(o.x, o.y).disableChatIcon();
+    if (o.name === "boyFinal")
+      scene.boy.setPosition(o.x, o.y).disableChatIcon();
 
     if (o.name === "dogFinal") scene.dog.setPosition(o.x, o.y);
 
@@ -155,6 +166,24 @@ export const setVillageFinalVersion = function (scene) {
     if (o.name === "twoGuysFinal") scene.twoGuys.setPosition(o.x, o.y);
 
     if (o.name === "twoWomenFinal") scene.twoWomen.setPosition(o.x, o.y);
+
+    if (o.name === "deerFinal")
+      scene.deer.setPosition(o.x, o.y).setVisible(true);
+
+    if (o.name === "cowFinal") {
+      scene.cow.setPosition(o.x, o.y)
+      scene.cow.setVisible(true);
+      scene.cow.setActive(true);
+      scene.cow.toRight();
+      scene.cow.body.checkCollision.none = false;
+    }
+
+    if (o.name === "vealFinal") {
+      scene.veal.setPosition(o.x, o.y)
+      scene.veal.setVisible(true);
+      scene.veal.setActive(true);
+      scene.veal.body.checkCollision.none = false;
+    }
   });
 
   sceneEventsEmitter.on(sceneEvents.EventsUnlocked, (data) => {
@@ -171,7 +200,11 @@ export const setVillageFinalVersion = function (scene) {
     const djangoDoor = scene.heroPositions["heroDjangoDoor"];
     const delta = 130;
     // hero next to django
-    if (scene.hero.x > scene.django.x - delta && scene.hero.y > scene.django.y - delta && scene.hero.y < scene.django.y + delta) {
+    if (
+      scene.hero.x > scene.django.x - delta &&
+      scene.hero.y > scene.django.y - delta &&
+      scene.hero.y < scene.django.y + delta
+    ) {
       dispatchUnlockEvents(["django_final"]);
       scene.events.off("update", updateCallback);
       scene.isCinematic = true;
