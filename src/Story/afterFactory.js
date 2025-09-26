@@ -126,7 +126,6 @@ export const setVillageForThirdAct = function (scene) {
     .setCollisionByProperty({ collide: true });
 
   scene.obstacleRecyclingLayer.setCollisionByProperty({ collide: false });
-  scene.obstacleRecyclingLayer.destroy();
   scene.obstacleRecyclingCollider.destroy();
 
   createBlueWorkerAnimation(scene);

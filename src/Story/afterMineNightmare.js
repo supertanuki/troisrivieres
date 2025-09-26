@@ -70,7 +70,6 @@ export const setVillageForSecondAct = function (scene) {
   );
 
   scene.obstaclesFactoryLayer.setCollisionByProperty({ collide: false });
-  scene.obstaclesFactoryLayer.destroy();
   scene.obstaclesFactoryCollider.destroy();
 
   createTreesLayer("treesLimitForest", scene);
