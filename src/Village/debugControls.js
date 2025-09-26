@@ -81,8 +81,8 @@ export const addDebugControls = function (scene) {
         scene.setHeroPosition("heroKoko");
         setVillageBeforeMine(scene);
         setVillageForSecondAct(scene);
-        setVillageForThirdAct(scene);
-        setVillageForFourthAct(scene);
+        //setVillageForThirdAct(scene);
+        //setVillageForFourthAct(scene);
         //afterFinalMessage(scene);
 
         sceneEventsEmitter.emit(sceneEvents.PreEventsUnlocked, [
@@ -94,11 +94,11 @@ export const addDebugControls = function (scene) {
           //"mine_after",
           //"second_act_begin",
           //"factory_after",
-          //"third_act_begin",
+          "third_act_begin",
           //"fourth_act_begin",
           //"strike_begin",
           //"strike_end",
-          "after_final_message",
+          //"after_final_message",
         ]);
       });
     });

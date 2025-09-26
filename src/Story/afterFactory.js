@@ -108,7 +108,7 @@ export const setVillageForThirdAct = function (scene) {
 
   scene.riverLessWaterRecyclingLayer = scene.map
     .createLayer("riverLessWaterRecycling", scene.tileset)
-    .setDepth(70)
+    .setDepth(69)
     .setCollisionByProperty({ collide: true });
 
   scene.topRecyclingLayer = scene.map
