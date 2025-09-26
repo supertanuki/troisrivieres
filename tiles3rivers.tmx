@@ -8890,7 +8890,7 @@
   <object id="1351" name="girlFinal" x="1948.67" y="875.333">
    <point/>
   </object>
-  <object id="1352" name="minoFinal" x="2042.67" y="934.333">
+  <object id="1352" name="minoFinal" x="2053.34" y="949.333">
    <point/>
   </object>
   <object id="1353" name="dogFinal" x="1980.67" y="833">
@@ -10065,7 +10065,7 @@
   <object id="13" name="bird" x="1874.67" y="870">
    <point/>
   </object>
-  <object id="14" name="bird" x="1893.33" y="843.167">
+  <object id="14" name="bird" x="1861" y="841.834">
    <point/>
   </object>
   <object id="15" name="bird" x="1730" y="751.5">

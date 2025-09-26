@@ -49,6 +49,7 @@ const setVillageOnStrike = function (scene) {
   scene.hero.slowUp();
   scene.hero.animateToUp();
   scene.dcWorker3.scaleX = 1;
+  scene.django.beforeStrike();
 
   scene.map.getObjectLayer("sprites").objects.forEach((o) => {
     if (o.name === "strikeDcWorker1") {

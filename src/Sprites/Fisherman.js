@@ -62,6 +62,14 @@ export default class Fisherman extends Chat {
     this.scaleX = -1;
     this.setOffset(this.width, this.height/2);
   }
+
+  setFinal(x, y) {
+    this.scaleX = 1;
+    this.setOffset(0, 0);
+    this.setPosition(x, y);
+    this.disableChatIcon();
+    this.anims.play("mino-idle", true);
+  }
 }
 
 Phaser.GameObjects.GameObjectFactory.register(SPRITE_ID, function (x, y) {

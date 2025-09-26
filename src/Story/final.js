@@ -151,7 +151,7 @@ export const setVillageFinalVersion = function (scene) {
       scene.bino.setPosition(o.x, o.y).disableChatIcon();
 
     if (o.name === "minoFinal")
-      scene.fisherman.setPosition(o.x, o.y).disableChatIcon();
+      scene.fisherman.setFinal(o.x, o.y);
 
     if (o.name === "kokoFinal")
       scene.koko.setPosition(o.x, o.y).disableChatIcon();
@@ -160,7 +160,7 @@ export const setVillageFinalVersion = function (scene) {
       scene.nono.setPosition(o.x, o.y).disableChatIcon();
 
     if (o.name === "djangoFinal")
-      scene.django.setPosition(o.x, o.y).disableChatIcon();
+      scene.django.setFinal(o.x, o.y);
 
     if (o.name === "girlFinal")
       scene.girl.setPosition(o.x, o.y).disableChatIcon();
@@ -196,7 +196,6 @@ export const setVillageFinalVersion = function (scene) {
   });
 
   sceneEventsEmitter.on(sceneEvents.EventsUnlocked, (data) => {
-    console.log(data);
     if (eventsHas(data, "django_final_end")) {
       scene.time.delayedCall(200, () => {
         sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "bino");

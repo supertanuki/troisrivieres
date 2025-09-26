@@ -90,7 +90,7 @@ const messageWorkflow = {
     {
       messages: [
         "J'ai répondu à l'appel de Koko et Django…",
-        "Mais il faut désherber le panneau du village !",
+        "Mais Je ne peux pas m'empêcher de désherber partout…",
       ],
       repeat: ["(Allez, ça ne va pas se désherber tout seul…)"],
       dependingOn: ["strike_begin"],
