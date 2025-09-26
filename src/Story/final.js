@@ -134,6 +134,9 @@ export const setVillageFinalVersion = function (scene) {
   scene.whiteWorker2.destroy();
   scene.whiteWorkerChief.destroy();
 
+  scene.blueWorker1.destroy();
+  scene.blueWorker2.destroy();
+
   scene.baby.disableChatIcon();
   scene.baby.destroy();
 

@@ -129,6 +129,15 @@ const messageWorkflow = {
     },
     {
       messages: [
+        "- (Il parait qu'on peut arrêter les publicités).",
+        "- (Les écrans de publicité ? Mais comment ?)",
+        "- (Moins fort ! Il faudrait demander à Koko)",
+      ],
+      repeat: ["- (Koko a un secret au sujet des écrans…)"],
+      dependingOn: ["fourth_act_begin"],
+    },
+    {
+      messages: [
         "- Avoue, c'est ta première manif' ?",
         "- Mais pas du tout… j'ai fait les marches pour le climat !",
       ],
@@ -279,7 +288,7 @@ const messageWorkflow = {
       messages: [
         "… Maï…",
         "J'avais tellement la tête plongée dans les écrans…",
-        "que je n'ai pas remarqué l'état de nos rivières !",
+        "que j'n'ai pas remarqué l'état de nos rivières !",
         "que les oiseaux et les papillons ont disparu !",
         "QUOI ? Tu dis qu'il faut se mobiliser ?",
         "C'est une bonne idée !",
@@ -288,7 +297,11 @@ const messageWorkflow = {
         "(…en passant par derrière…)",
         "C'est risqué, mais ça ferrait du bien de s'en débarrasser !",
       ],
-      repeat: ["On peut éteindre les écrans pub par derrière…"],
+      repeat: [
+        "(il parait que…)",
+        "(on peut éteindre les écrans pub par derrière…)",
+        "(mais chut !)",
+      ],
       dependingOn: ["fourth_act_begin"],
     },
     {
@@ -839,10 +852,19 @@ const messageWorkflow = {
     {
       messages: ["C'est l'dernier endroit qui recrute dans la région."],
     },
+    {
+      messages: ["Ne reviens pas… euh… ordre du chef."],
+
+      dependingOn: ["fourth_act_begin"],
+    },
   ],
   blueWorker2: [
     {
       messages: ["J'ai cru entendre que le chef ici est un bel orateur."],
+    },
+    {
+      messages: ["T'as pas laissé un bon souvenir à l'usine."],
+      dependingOn: ["fourth_act_begin"],
     },
   ],
   blueWorkerChief: [

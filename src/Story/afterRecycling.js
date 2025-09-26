@@ -76,6 +76,12 @@ export const afterRecyclingNightmare = function (scene) {
 
 /** @param {Game} scene  */
 export const setVillageForFourthAct = function (scene) {
+  scene.cameras.main.setBounds(
+    1000, // left is disabled
+    400, // top of the village is disabled
+    2144 - 1000, // mine on the right is disabled
+    scene.map.heightInPixels - 408
+  );
   console.log("setVillageForFourthAct");
   setNightState(scene, false);
   toggleSpritesVisibility(scene, true, true);
@@ -105,15 +111,25 @@ export const setVillageForFourthAct = function (scene) {
     scene.obstacleDcLayer
   );
 
-  for (const spriteObject of scene.map.getObjectLayer("sprites").objects) {
-    for (let i=1; i<=4; i++) {
-      const spriteId = `dcWorker${i}`
-      if (spriteObject.name === spriteId) {
+  for (const o of scene.map.getObjectLayer("sprites").objects) {
+    if (o.name === "afterRecyclingBlueWorker1") {
+      scene.blueWorker1.setPosition(o.x, o.y);
+    }
+
+    if (o.name === "afterRecyclingBlueWorker2") {
+      scene.blueWorker2.setPosition(o.x, o.y);
+    }
+
+    if (o.name === "twoGuysAfterRecycling") scene.twoGuys.setPosition(o.x, o.y);
+
+    for (let i = 1; i <= 4; i++) {
+      const spriteId = `dcWorker${i}`;
+      if (o.name === spriteId) {
         if (i === 1) {
-          scene[spriteId] = scene.add.miner(spriteObject.x, spriteObject.y, null, null, i);
+          scene[spriteId] = scene.add.miner(o.x, o.y, null, null, i);
           scene[spriteId].toRight();
         } else {
-          scene[spriteId] = scene.add.minerDirty(spriteObject.x, spriteObject.y, null, null, i);
+          scene[spriteId] = scene.add.minerDirty(o.x, o.y, null, null, i);
         }
         const sprite = scene[spriteId];
 
@@ -138,7 +154,7 @@ export const setVillageForFourthAct = function (scene) {
     treeObject.treeBase.destroy();
     treeObject.treeTop.destroy();
   });
-  scene.treesOfDcCollider.forEach(e => e.destroy());
+  scene.treesOfDcCollider.forEach((e) => e.destroy());
 
   // Add screens off
   scene.anims.create({
