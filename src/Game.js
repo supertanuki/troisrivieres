@@ -384,7 +384,9 @@ export default class Game extends Scene {
       updateNightPosition(this);
     }
 
-    this.hero.updateShadow();
+    if (this.hero) {
+      this.hero.updateShadow();
+    }
 
     if (!this.cursors || !this.hero || this.isCinematic || !this.hero.body) {
       return;
