@@ -1,8 +1,9 @@
+import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import Game from "../Game";
-import { goToFactory, goToRecycling } from "../Story/goToGame";
-import { goToMine } from "../Story/goToMine";
+import { goToMine, goToFactory, goToRecycling } from "../Story/goToGame";
 import { FONT_RESOLUTION, FONT_SIZE } from "../UI/Message";
 import { urlParamHas } from "../Utils/debug";
+import { eventsHas } from "../Utils/events";
 
 /** @param {Game} scene  */
 export const splashScreen = function (scene) {
@@ -12,7 +13,7 @@ export const splashScreen = function (scene) {
     return;
   }
 
-  const isBonus = urlParamHas("bonus");
+  scene.isBonus = urlParamHas("bonus");
   let goingSomewhere = false;
 
   scene.scale.setGameSize(550, 300);
@@ -29,6 +30,7 @@ export const splashScreen = function (scene) {
     .setInteractive({ useHandCursor: true });
 
   const startGame = () => {
+    scene.isBonus = false;
     textStart.disableInteractive(true);
     textStart.setText("Chargement...");
 
@@ -49,11 +51,10 @@ export const splashScreen = function (scene) {
     .setResolution(FONT_RESOLUTION)
     .setInteractive({ useHandCursor: true });
 
-  if (!isBonus) {
+  if (!scene.isBonus) {
     const callback = () => {
       if (goingSomewhere) return;
       goingSomewhere = true;
-      scene.input.off("pointerdown");
       startGame();
     };
     scene.input.on("pointerdown", callback);
@@ -64,16 +65,12 @@ export const splashScreen = function (scene) {
   title.on("pointerdown", () => {
     if (goingSomewhere) return;
     goingSomewhere = true;
-    title.off("pointerdown");
-    textStart.off("pointerdown");
     startGame();
   });
 
   textStart.on("pointerdown", () => {
     if (goingSomewhere) return;
     goingSomewhere = true;
-    title.off("pointerdown");
-    textStart.off("pointerdown");
     startGame();
   });
 
@@ -92,7 +89,6 @@ export const splashScreen = function (scene) {
     goingSomewhere = true;
     textMine.disableInteractive(true);
     textMine.setColor("#000000");
-    textMine.off("pointerdown");
     goToMine(scene);
   });
 
@@ -111,7 +107,6 @@ export const splashScreen = function (scene) {
     goingSomewhere = true;
     textFactory.disableInteractive(true);
     textFactory.setColor("#000000");
-    textFactory.off("pointerdown");
     goToFactory(scene);
   });
 
@@ -130,7 +125,23 @@ export const splashScreen = function (scene) {
     goingSomewhere = true;
     textRecycling.disableInteractive(true);
     textRecycling.setColor("#000000");
-    textRecycling.off("pointerdown");
     goToRecycling(scene);
+  });
+
+  const wakeScreen = () => {
+    window.location.href = "?bonus";
+  };
+
+  sceneEventsEmitter.on(sceneEvents.EventsUnlocked, (data) => {
+    console.log("EventsUnlocked screen", data);
+    if (!scene.isBonus) return;
+
+    if (
+      eventsHas(data, "factory_after") ||
+      eventsHas(data, "mine_after") ||
+      eventsHas(data, "recycling_after")
+    ) {
+      wakeScreen();
+    }
   });
 };

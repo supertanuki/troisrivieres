@@ -97,6 +97,8 @@ export default class Game extends Scene {
     this.screenOffSprites = [];
     this.screenShutDownCount = 0;
 
+    this.isBonus = false;
+
     /** @type {Phaser.Tilemaps.Tilemap | null} */
     this.map = null;
     /** @type {Phaser.Tilemaps.Tileset | null} */
