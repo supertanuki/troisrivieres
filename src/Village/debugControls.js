@@ -131,6 +131,25 @@ export const addDebugControls = function (scene) {
       });
     });
 
+
+  scene.input.keyboard
+    .addKey(Phaser.Input.Keyboard.KeyCodes.G)
+    .on("down", () => {
+      scene.isCinematic = true;
+      scene.time.delayedCall(2000, () => {
+        scene.setHeroPosition("heroDjangoFinal");
+        setVillageBeforeMine(scene);
+        setVillageForSecondAct(scene);
+        setVillageForThirdAct(scene);
+        setVillageForFourthAct(scene);
+        setVillageFinalVersion(scene, true);
+
+        sceneEventsEmitter.emit(sceneEvents.PreEventsUnlocked, [
+          "game_over",
+        ]);
+      });
+    });
+
   scene.input.keyboard
     .addKey(Phaser.Input.Keyboard.KeyCodes.Y)
     .on("down", () => {

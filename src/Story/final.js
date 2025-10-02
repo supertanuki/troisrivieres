@@ -34,7 +34,7 @@ export const afterFinalMessage = function (scene) {
 };
 
 /** @param {Game} scene  */
-export const setVillageFinalVersion = function (scene) {
+export const setVillageFinalVersion = function (scene, debug = false) {
   scene.cameras.main.setBounds(
     470, // left is disabled
     400, // top is disabled
@@ -203,6 +203,8 @@ export const setVillageFinalVersion = function (scene) {
       });
     }
   });
+
+  if (debug) return;
 
   const updateCallback = () => {
     const djangoDoor = scene.heroPositions["heroDjangoDoor"];
