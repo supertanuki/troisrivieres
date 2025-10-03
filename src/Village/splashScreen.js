@@ -20,7 +20,7 @@ export const splashScreen = function (scene) {
   scene.add.image(0, 0, "splash").setOrigin(0, 0);
 
   const textStart = scene.add
-    .text(275, 164, "Démarrer", {
+    .text(275, 164, scene.isBonus ? "Nouvelle partie" : "Démarrer", {
       fontFamily: "DefaultFont",
       fontSize: FONT_SIZE,
       fill: "#ffffff",
