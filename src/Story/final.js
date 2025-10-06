@@ -1,7 +1,7 @@
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import Game from "../Game";
 import { dispatchUnlockEvents, eventsHas } from "../Utils/events";
-import { playVillageTheme } from "../Utils/music";
+import { playDjangoTheme, playVillageTheme } from "../Utils/music";
 import { showBirds } from "../Village/birds";
 import { handleAction } from "../Village/handleAction";
 import { showBikes } from "../Village/hideBikes";
@@ -215,8 +215,10 @@ export const setVillageFinalVersion = function (scene, debug = false) {
       scene.hero.y > scene.django.y - delta &&
       scene.hero.y < scene.django.y + delta
     ) {
-      dispatchUnlockEvents(["django_final"]);
       scene.events.off("update", updateCallback);
+      dispatchUnlockEvents(["django_final"]);
+      scene.isFinal = true;
+      playDjangoTheme(scene);
       scene.isCinematic = true;
       scene.cameras.main.fadeOut(500, 0, 0, 0, (cam, progress) => {
         if (progress !== 1) return;

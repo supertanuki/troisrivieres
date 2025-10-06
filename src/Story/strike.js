@@ -65,7 +65,6 @@ const setVillageOnStrike = function (scene) {
 
     if (o.name === "djangoStrike") {
       scene.django.setPosition(o.x, o.y);
-      scene.djangoThemeEnabled = false;
     }
 
     if (o.name === "girlStrike") {

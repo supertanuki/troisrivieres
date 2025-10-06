@@ -1,7 +1,7 @@
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import Game from "../Game";
 import { DiscussionStatus } from "../Utils/discussionStatus";
-import { playDjangoTheme, playIndustryTheme } from "../Utils/music";
+import { playIndustryTheme, playVillageTheme } from "../Utils/music";
 import { noMoreBirds } from "../Village/birds";
 import { noMoreButterflies } from "../Village/butterflies";
 import { handleAction } from "../Village/handleAction";
@@ -66,7 +66,7 @@ export const afterFactory = function (scene) {
 /** @param {Game} scene  */
 export const afterFactoryNightmare = function (scene) {
   scene.wakeGame(true);
-  playDjangoTheme(scene);
+  playVillageTheme(scene);
   setVillageForThirdAct(scene);
   scene.cameras.main.fadeIn(1000, 0, 0, 0);
   scene.setHeroPosition("heroDjango");

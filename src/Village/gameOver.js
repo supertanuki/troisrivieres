@@ -1,7 +1,7 @@
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import Game from "../Game";
 import { FONT_RESOLUTION, FONT_SIZE } from "../UI/Message";
-import { fadeOutMusic } from "../Utils/music";
+import { fadeOutMusic, playVillageTheme } from "../Utils/music";
 
 /** @param {Game} scene  */
 export const gameOver = function (scene) {
@@ -19,6 +19,7 @@ export const gameOver = function (scene) {
       ease: "Sine.easeIn",
       duration: 8000,
     });
+    fadeOutMusic(scene, scene.djangoTheme, 4000);
 
     scene.cameras.main.fadeOut(4000, 0, 0, 0, (cam, progress) => {
       if (progress !== 1) return;
@@ -29,6 +30,7 @@ export const gameOver = function (scene) {
         scene.map.widthInPixels,
         scene.map.heightInPixels - 8
       );
+      playVillageTheme(scene);
 
       const darkScreen = scene.add
         .rectangle(0, 0, 450, 250, 0x000000)
@@ -197,7 +199,7 @@ export const gameOver = function (scene) {
                     fadeOutMusic(scene, scene.villageTheme); // @todo whatever theme to fadeout
                     scene.cameras.main.fadeOut(2000, 0, 0, 0, (cam, progress) => {
                       if (progress !== 1) return;
-                      window.setTimeout(() => window.location.href = "?bonus", 5000);
+                      window.setTimeout(() => window.location.href = "?bonus", 2000);
                     });
                   }
                 },

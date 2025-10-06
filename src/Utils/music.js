@@ -97,7 +97,6 @@ export const playDjangoTheme = function (scene) {
   if (
     urlParamHas("nomusic") ||
     loadingDjangoTheme ||
-    !scene.djangoThemeEnabled ||
     (scene.djangoTheme && scene.djangoTheme.isPlaying)
   )
     return;
@@ -113,7 +112,7 @@ export const playDjangoTheme = function (scene) {
 
   loadingDjangoTheme = true;
   const loader = new Loader.LoaderPlugin(scene);
-  loader.audio("django-theme", "sounds/zik_django.mp3");
+  loader.audio("django-theme", "sounds/django_theme.mp3");
   loader.once("complete", () => {
     scene.djangoTheme = scene.sound.add("django-theme");
     fadeInMusic(scene, scene.djangoTheme);
@@ -122,13 +121,13 @@ export const playDjangoTheme = function (scene) {
   loader.start();
 };
 
-export const fadeOutMusic = function (scene, music) {
+export const fadeOutMusic = function (scene, music, duration = 2000) {
   if (!music || !music.isPlaying) return;
 
   scene.tweens.add({
     targets: music,
     volume: 0,
-    duration: 2000,
+    duration,
     ease: "Linear",
     onComplete: () => {
       music.stop();
@@ -183,7 +182,7 @@ export const playSound = function (
 };
 
 export const stopSound = function (soundName, scene) {
-  if (!scene?.sounds || !scene.sounds[soundName]) return;
+  if (!scene?.sounds || !scene.sounds[soundName]) return;
   if (!scene.sounds[soundName].isPlaying) return;
 
   scene.sounds[soundName].stop();

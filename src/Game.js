@@ -67,7 +67,6 @@ export default class Game extends Scene {
     this.industryTheme = null;
     this.miniGameTheme = null;
     this.djangoTheme = null;
-    this.djangoThemeEnabled = true;
     this.datacentreThemeEnabled = false;
     this.sounds = [];
 
@@ -98,6 +97,7 @@ export default class Game extends Scene {
     this.screenShutDownCount = 0;
 
     this.isBonus = false;
+    this.isFinal = true;
 
     /** @type {Phaser.Tilemaps.Tilemap | null} */
     this.map = null;
@@ -450,7 +450,7 @@ export default class Game extends Scene {
       this.hero.animateToLeft();
     }
 
-    if (urlParamHas("nomusic")) {
+    if (urlParamHas("nomusic") || this.isFinal) {
       // do nothing
     } else if (
       this.hero.y < 445 || // factory
@@ -463,8 +463,6 @@ export default class Game extends Scene {
         this.hero.y < 1210) // datacentre
     ) {
       playIndustryTheme(this);
-    } else if (this.hero.x > 1160 && this.hero.y > 1244) {
-      playDjangoTheme(this);
     } else {
       playVillageTheme(this);
     }
