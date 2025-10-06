@@ -4,7 +4,7 @@ import { playMiniGameTheme } from "../Utils/music";
 /** @param {Game} scene  */
 export const goToMine = function (scene) {
   scene.isCinematic = true;
-  playMiniGameTheme(scene);
+  window.setTimeout(() => playMiniGameTheme(scene), 1);
   scene.cameras.main.fadeOut(scene.isBonus ? 1000 : 3000, 0, 0, 0, (cam, progress) => {
     if (progress !== 1) return;
     scene.scene.launch("mine");
@@ -15,7 +15,7 @@ export const goToMine = function (scene) {
 /** @param {Game} scene  */
 export const goToFactory = function (scene) {
   scene.isCinematic = true;
-  playMiniGameTheme(scene);
+  window.setTimeout(() => playMiniGameTheme(scene), 1);
   scene.cameras.main.fadeOut(scene.isBonus ? 1000 : 3000, 0, 0, 0, (cam, progress) => {
     if (progress !== 1) return;
     scene.scene.launch("factory");
@@ -26,7 +26,7 @@ export const goToFactory = function (scene) {
 /** @param {Game} scene  */
 export const goToRecycling = function (scene) {
   scene.isCinematic = true;
-  playMiniGameTheme(scene);
+  window.setTimeout(() => playMiniGameTheme(scene), 1);
   scene.cameras.main.fadeOut(scene.isBonus ? 1000 : 3000, 0, 0, 0, (cam, progress) => {
     if (progress !== 1) return;
     scene.scene.launch("recyclingCentre");

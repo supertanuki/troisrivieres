@@ -220,6 +220,7 @@ export const setVillageFinalVersion = function (scene, debug = false) {
       scene.isCinematic = true;
       scene.cameras.main.fadeOut(500, 0, 0, 0, (cam, progress) => {
         if (progress !== 1) return;
+
         scene.setHeroPosition("heroDjangoFinal");
         scene.hero.slowUp();
         scene.hero.animateToUp();

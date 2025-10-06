@@ -17,7 +17,7 @@ export const splashScreen = function (scene) {
   let goingSomewhere = false;
 
   scene.scale.setGameSize(550, 300);
-  scene.add.image(0, 0, "splash").setOrigin(0, 0);
+  const splash = scene.add.image(0, 0, "splash").setOrigin(0, 0);
 
   const textStart = scene.add
     .text(275, 164, scene.isBonus ? "Nouvelle partie" : "Démarrer", {
@@ -34,10 +34,14 @@ export const splashScreen = function (scene) {
     textStart.disableInteractive(true);
     textStart.setText("Chargement...");
 
-    scene.time.delayedCall(100, () => {
+    scene.cameras.main.fadeOut(500, 0, 0, 0, (cam, progress) => {
+      if (progress !== 1) return;
+      
       scene.resetGameSize();
       scene.startGame();
+      splash.destroy();
       textStart.destroy();
+      title.destroy();
     });
   };
 
@@ -60,6 +64,12 @@ export const splashScreen = function (scene) {
     scene.input.on("pointerdown", callback);
 
     return;
+  }
+
+  const clickBonusGame = (textObject) => {
+    goingSomewhere = true;
+    textObject.disableInteractive(true);
+    textObject.setColor("#000000");
   }
 
   title.on("pointerdown", () => {
@@ -86,9 +96,7 @@ export const splashScreen = function (scene) {
 
   textMine.on("pointerdown", () => {
     if (goingSomewhere) return;
-    goingSomewhere = true;
-    textMine.disableInteractive(true);
-    textMine.setColor("#000000");
+    clickBonusGame(textMine);
     goToMine(scene);
   });
 
@@ -104,9 +112,7 @@ export const splashScreen = function (scene) {
 
   textFactory.on("pointerdown", () => {
     if (goingSomewhere) return;
-    goingSomewhere = true;
-    textFactory.disableInteractive(true);
-    textFactory.setColor("#000000");
+    clickBonusGame(textFactory);
     goToFactory(scene);
   });
 
@@ -122,9 +128,7 @@ export const splashScreen = function (scene) {
 
   textRecycling.on("pointerdown", () => {
     if (goingSomewhere) return;
-    goingSomewhere = true;
-    textRecycling.disableInteractive(true);
-    textRecycling.setColor("#000000");
+    clickBonusGame(textRecycling);
     goToRecycling(scene);
   });
 
