@@ -67,6 +67,7 @@ export default class Game extends Scene {
     this.industryTheme = null;
     this.miniGameTheme = null;
     this.djangoTheme = null;
+    this.industryAmbiance = null;
     this.datacentreThemeEnabled = false;
     this.sounds = [];
 
@@ -97,7 +98,7 @@ export default class Game extends Scene {
     this.screenShutDownCount = 0;
 
     this.isBonus = false;
-    this.isFinal = true;
+    this.isFinal = false;
 
     /** @type {Phaser.Tilemaps.Tilemap | null} */
     this.map = null;

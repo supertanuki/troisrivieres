@@ -6,6 +6,7 @@ let loadingVillageTheme = false;
 let loadingIndustryTheme = false;
 let loadingMiniGameTheme = false;
 let loadingDjangoTheme = false;
+let loadingIndustryAmbiance = false;
 
 /** @param {Game} scene  */
 export const playVillageTheme = function (scene) {
@@ -17,8 +18,10 @@ export const playVillageTheme = function (scene) {
     return;
 
   fadeOutMusic(scene, scene.industryTheme);
+  fadeOutMusic(scene, scene.industryAmbiance);
   fadeOutMusic(scene, scene.miniGameTheme);
   fadeOutMusic(scene, scene.djangoTheme);
+
   if (scene.villageTheme && scene.sound.get("village-theme")) {
     console.log('fadeIn villageTheme');
     fadeInMusic(scene, scene.villageTheme);
@@ -37,6 +40,32 @@ export const playVillageTheme = function (scene) {
 };
 
 /** @param {Game} scene  */
+export const playIndustryAmbiance = function (scene) {
+  if (
+    urlParamHas("nomusic") ||
+    loadingIndustryAmbiance ||
+    (scene.industryAmbiance && scene.industryAmbiance.isPlaying)
+  )
+    return;
+
+  if (scene.industryAmbiance && scene.sound.get("industry-ambiance")) {
+    fadeInMusic(scene, scene.industryAmbiance, 0.5);
+    return;
+  }
+
+  loadingIndustryAmbiance = true;
+  const loader = new Loader.LoaderPlugin(scene);
+  loader.audio("industry-ambiance", "sounds/sfx/sfx_ambiance_mine_raccourci.mp3");
+  loader.once("complete", () => {
+    scene.industryAmbiance = scene.sound.add("industry-ambiance");
+    fadeInMusic(scene, scene.industryAmbiance, 0.5);
+    loadingIndustryAmbiance = false;
+  });
+  loader.start();
+};
+
+
+/** @param {Game} scene  */
 export const playIndustryTheme = function (scene) {
   if (
     urlParamHas("nomusic") ||
@@ -47,9 +76,10 @@ export const playIndustryTheme = function (scene) {
 
   fadeOutMusic(scene, scene.villageTheme);
   fadeOutMusic(scene, scene.miniGameTheme);
-  fadeOutMusic(scene, scene.djangoTheme);
+
   if (scene.industryTheme && scene.sound.get("industry-theme")) {
     fadeInMusic(scene, scene.industryTheme);
+    playIndustryAmbiance(scene);
     return;
   }
 
@@ -58,8 +88,9 @@ export const playIndustryTheme = function (scene) {
   loader.audio("industry-theme", "sounds/industry_theme_compressed.mp3");
   loader.once("complete", () => {
     scene.industryTheme = scene.sound.add("industry-theme");
-    fadeInMusic(scene, scene.industryTheme);
     loadingIndustryTheme = false;
+    fadeInMusic(scene, scene.industryTheme);
+    playIndustryAmbiance(scene);
   });
   loader.start();
 };
@@ -74,8 +105,10 @@ export const playMiniGameTheme = function (scene) {
     return;
 
   fadeOutMusic(scene, scene.industryTheme);
+  fadeOutMusic(scene, scene.industryAmbiance);
   fadeOutMusic(scene, scene.villageTheme);
   fadeOutMusic(scene, scene.djangoTheme);
+
   if (scene.miniGameTheme && scene.sound.get("minigame-theme")) {
     fadeInMusic(scene, scene.miniGameTheme);
     return;
@@ -102,8 +135,6 @@ export const playDjangoTheme = function (scene) {
     return;
 
   fadeOutMusic(scene, scene.villageTheme);
-  fadeOutMusic(scene, scene.miniGameTheme);
-  fadeOutMusic(scene, scene.industryTheme);
   if (scene.djangoTheme && scene.sound.get("django-theme")) {
     console.log('play dango theme')
     fadeInMusic(scene, scene.djangoTheme);
@@ -135,7 +166,7 @@ export const fadeOutMusic = function (scene, music, duration = 2000) {
   });
 };
 
-export const fadeInMusic = function (scene, music) {
+export const fadeInMusic = function (scene, music, volume = 1) {
   if (music.isPlaying) return;
 
   music.volume = 0;
@@ -144,7 +175,7 @@ export const fadeInMusic = function (scene, music) {
 
   scene.tweens.add({
     targets: music,
-    volume: 1,
+    volume,
     duration: 2000,
     ease: "Linear",
   });
