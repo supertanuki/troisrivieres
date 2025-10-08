@@ -1,7 +1,11 @@
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import Game from "../Game";
 import { DiscussionStatus } from "../Utils/discussionStatus";
-import { playIndustryTheme, playVillageTheme } from "../Utils/music";
+import {
+  playIndustryTheme,
+  playVillageAmbiance,
+  playVillageTheme,
+} from "../Utils/music";
 import { noMoreBirds } from "../Village/birds";
 import { noMoreButterflies } from "../Village/butterflies";
 import { handleAction } from "../Village/handleAction";
@@ -66,7 +70,6 @@ export const afterFactory = function (scene) {
 /** @param {Game} scene  */
 export const afterFactoryNightmare = function (scene) {
   scene.wakeGame(true);
-  playVillageTheme(scene);
   setVillageForThirdAct(scene);
   scene.cameras.main.fadeIn(1000, 0, 0, 0);
   scene.setHeroPosition("heroDjango");
@@ -85,8 +88,14 @@ export const setVillageForThirdAct = function (scene) {
   toggleSpritesVisibility(scene, true, true);
   toggleScreensVisibility(scene);
   scene.ball.setVisible(false);
-  scene.time.delayedCall(1, () => noMoreBirds(scene)); // to pass after toggleSpritesVisibility
-  noMoreButterflies(scene);
+
+  // after toggleSpritesVisibility
+  scene.time.delayedCall(1, () => {
+    noMoreBirds(scene);
+    noMoreButterflies(scene);
+    playVillageTheme(scene);
+    playVillageAmbiance(scene);
+  });
 
   scene.cameras.main.setBounds(
     470, // left is disabled

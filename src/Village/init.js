@@ -30,7 +30,7 @@ import { addDebugControls } from "./debugControls";
 import { createTrees } from "./trees";
 import { intro } from "../Story/intro";
 import { handleAction } from "./handleAction";
-import { playVillageTheme, preloadSound } from "../Utils/music";
+import { preloadSound } from "../Utils/music";
 
 /** @param {Game} scene  */
 export const init = function (scene) {
@@ -113,7 +113,7 @@ export const init = function (scene) {
 
   scene.cameras.main.fadeIn(1000, 0, 0, 0);
 
-  playVillageTheme(scene);
+  //playVillageTheme(scene);
 
   scene.time.delayedCall(2000, () => delayedInit(scene));
 

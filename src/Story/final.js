@@ -1,7 +1,7 @@
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import Game from "../Game";
 import { dispatchUnlockEvents, eventsHas } from "../Utils/events";
-import { playDjangoTheme, playVillageTheme } from "../Utils/music";
+import { playDjangoTheme, playVillageAmbiance, playVillageTheme } from "../Utils/music";
 import { showBirds } from "../Village/birds";
 import { handleAction } from "../Village/handleAction";
 import { showBikes } from "../Village/hideBikes";
@@ -9,6 +9,7 @@ import { showBikes } from "../Village/hideBikes";
 /** @param {Game} scene  */
 export const beforeFinal = function (scene) {
   playVillageTheme(scene);
+  playVillageAmbiance(scene);
   scene.isCinematic = true;
   scene.cameras.main.fadeOut(2000, 0, 0, 0, (cam, progress) => {
     if (progress !== 1) return;

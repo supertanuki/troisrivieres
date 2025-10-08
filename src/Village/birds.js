@@ -32,10 +32,12 @@ export const lessBirds = function (scene) {
 };
 
 export const noMoreBirds = function (scene) {
+  scene.isNoMoreBirds = true;
   scene.birds.forEach((bird) => bird.hide());
 };
 
 export const showBirds = function (scene) {
+  scene.isNoMoreBirds = false;
   scene.birds.forEach((bird) => bird.show());
 };
 

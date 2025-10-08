@@ -20,6 +20,9 @@ import { gameOver } from "./Village/gameOver";
 import {
   playDjangoTheme,
   playIndustryTheme,
+  playNightAmbiance,
+  playVillageAmbiance,
+  playVillageAmbianceV1,
   playVillageTheme,
 } from "./Utils/music";
 import {
@@ -53,6 +56,7 @@ export default class Game extends Scene {
     this.treesOfDc = [];
     this.treesOfDcCollider = [];
     this.birds = [];
+    this.isNoMoreBirds = false;
     this.butterflies = [];
     this.pointsCollider = [];
     this.heroPositions = {};
@@ -68,6 +72,9 @@ export default class Game extends Scene {
     this.miniGameTheme = null;
     this.djangoTheme = null;
     this.industryAmbiance = null;
+    this.villageAmbianceV1 = null;
+    this.villageAmbianceV2 = null;
+    this.nightAmbiance = null;
     this.datacentreThemeEnabled = false;
     this.sounds = [];
 
@@ -453,6 +460,8 @@ export default class Game extends Scene {
 
     if (urlParamHas("nomusic") || this.isFinal) {
       // do nothing
+    } else if (this.night) {
+      playNightAmbiance(this);
     } else if (
       this.hero.y < 445 || // factory
       (this.miner && this.hero.x > this.miner.x + 25) || // mine
@@ -464,8 +473,11 @@ export default class Game extends Scene {
         this.hero.y < 1210) // datacentre
     ) {
       playIndustryTheme(this);
-    } else {
+    } else if (this.hero.x > 1120) {
       playVillageTheme(this);
+      playVillageAmbiance(this);
+    } else {
+      playVillageAmbiance(this);
     }
 
     if (

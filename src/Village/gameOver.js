@@ -20,6 +20,7 @@ export const gameOver = function (scene) {
       duration: 8000,
     });
     fadeOutMusic(scene, scene.djangoTheme, 4000);
+    fadeOutMusic(scene, scene.villageAmbianceV1, 4000);
 
     scene.cameras.main.fadeOut(4000, 0, 0, 0, (cam, progress) => {
       if (progress !== 1) return;

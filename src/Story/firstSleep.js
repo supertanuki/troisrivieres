@@ -4,7 +4,7 @@ import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import { handleAction } from "../Village/handleAction";
 import { switchNight } from "../Village/night";
 import { toggleSpritesVisibility } from "../Village/spritesVisibility";
-import { preloadSound } from "../Utils/music";
+import { playVillageAmbiance, playVillageTheme, preloadSound } from "../Utils/music";
 
 /** @param {Game} scene  */
 export const firstSleep = function (scene) {
@@ -18,6 +18,8 @@ export const firstSleep = function (scene) {
 /** @param {Game} scene  */
 export const endFirstSleep = function (scene) {
   scene.isCinematic = true;
+  playVillageTheme(scene);
+  playVillageAmbiance(scene);
   scene.setHeroPosition("heroDjango");
   scene.hero.slowRight();
   scene.hero.animateToRight();
