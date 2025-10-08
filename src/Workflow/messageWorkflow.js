@@ -1,9 +1,7 @@
-import RecyclingCentre from "../RecyclingCentre/RecyclingCentre";
 import isMobileOrTablet from "../Utils/isMobileOrTablet";
 
 const spriteNames = {
   django: "Django",
-  miner: "Bleurk",
   bino: "Bino",
   fisherman: "Mino",
   cat: "Le chat",
@@ -14,7 +12,12 @@ const spriteNames = {
   koko: "Koko",
   nono: "Nono",
   escargot: "L'escargot",
+  baby: "Le bébé",
+  miner: "L'ouvrier",
   dcWorkerChief: "L'ouvrier",
+  whiteWorkerChief: "L'ouvrier",
+  minerChief: "L'ouvrier",
+  blueWorkerChief: "L'ouvrier",
 };
 
 export const spriteSounds = {
@@ -22,8 +25,24 @@ export const spriteSounds = {
   miner: { sound: "sfx_voix_ouvriers", versions: 4 },
   boy: { sound: "sfx_voix_enfants", versions: 4 },
   girl: { sound: "sfx_voix_enfants", versions: 4 },
+  baby: { sound: "sfx_voix_enfants", versions: 4 },
   koko: { sound: "sfx_voix_femmes", versions: 4 },
   nono: { sound: "sfx_voix_hommes", versions: 4 },
+  fisherman: { sound: "sfx_voix_hommes", versions: 4 },
+  twoWomen: { sound: "sfx_voix_femmes", versions: 4 },
+  twoGuys: { sound: "sfx_voix_hommes", versions: 4 },
+  bino: { sound: "sfx_voix_hommes", versions: 4 },
+  whiteWorkerChief: { sound: "sfx_voix_ouvriers", versions: 4 },
+  dcWorkerChief: { sound: "sfx_voix_ouvriers", versions: 4 },
+  minerChief: { sound: "sfx_voix_ouvriers", versions: 4 },
+  blueWorkerChief: { sound: "sfx_voix_ouvriers", versions: 4 },
+  blueWorker1: { sound: "sfx_voix_hommes", versions: 4 },
+  blueWorker2: { sound: "sfx_voix_hommes", versions: 4 },
+  minerDirty2: { sound: "sfx_voix_hommes", versions: 4 },
+  minerDirty3: { sound: "sfx_voix_hommes", versions: 4 },
+  minerDirty4: { sound: "sfx_voix_hommes", versions: 4 },
+  whiteWorker1: { sound: "sfx_voix_hommes", versions: 4 },
+  whiteWorker2: { sound: "sfx_voix_hommes", versions: 4 },
   cat: { sound: "sfx_chat", versions: 2 },
   dog: { sound: "sfx_chien", versions: 2 },
   cow: { sound: "sfx_vache", versions: 1 },
