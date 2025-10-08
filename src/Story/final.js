@@ -1,7 +1,11 @@
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import Game from "../Game";
 import { dispatchUnlockEvents, eventsHas } from "../Utils/events";
-import { playDjangoTheme, playVillageAmbiance, playVillageTheme } from "../Utils/music";
+import {
+  playDjangoTheme,
+  playVillageAmbiance,
+  playVillageTheme,
+} from "../Utils/music";
 import { showBirds } from "../Village/birds";
 import { handleAction } from "../Village/handleAction";
 import { showBikes } from "../Village/hideBikes";
@@ -11,6 +15,15 @@ export const beforeFinal = function (scene) {
   playVillageTheme(scene);
   playVillageAmbiance(scene);
   scene.isCinematic = true;
+
+  scene.cameras.main.stopFollow();
+  scene.tweens.add({
+    targets: scene.cameras.main,
+    scrollX: scene.cameras.main.scrollX - 100,
+    ease: "Sine.easeIn",
+    duration: 2000,
+  });
+
   scene.cameras.main.fadeOut(2000, 0, 0, 0, (cam, progress) => {
     if (progress !== 1) return;
     scene.sleepGame();
@@ -24,6 +37,7 @@ export const afterFinalMessage = function (scene) {
   setVillageFinalVersion(scene);
 
   scene.isCinematic = true;
+  scene.cameras.main.startFollow(scene.hero, true);
   scene.setHeroPosition("heroFinal");
   scene.hero.slowRight();
   scene.hero.animateToRight();
@@ -101,11 +115,20 @@ export const setVillageFinalVersion = function (scene, debug = false) {
   scene.map.createLayer("screensDamagedTop", scene.tileset).setDepth(149);
   scene.map.createLayer("carsDamagedBottom", scene.tileset).setDepth(98);
 
+  scene.map.createLayer("topFinal", scene.tileset).setDepth(120);
+  scene.map.createLayer("bottomFinal", scene.tileset).setDepth(70);
+
   scene.obstacleRecyclingLayer.setCollisionByProperty({ collide: true });
-  scene.obstacleRecyclingCollider = scene.physics.add.collider(scene.hero, scene.obstacleRecyclingLayer);
+  scene.obstacleRecyclingCollider = scene.physics.add.collider(
+    scene.hero,
+    scene.obstacleRecyclingLayer
+  );
 
   scene.obstaclesFactoryLayer.setCollisionByProperty({ collide: true });
-  scene.obstaclesFactoryCollider = scene.physics.add.collider(scene.hero, scene.obstaclesFactoryLayer);
+  scene.obstaclesFactoryCollider = scene.physics.add.collider(
+    scene.hero,
+    scene.obstaclesFactoryLayer
+  );
 
   const carsTop = scene.map
     .createLayer("carsDamagedTop", scene.tileset)
@@ -152,8 +175,7 @@ export const setVillageFinalVersion = function (scene, debug = false) {
     if (o.name === "binoFinal")
       scene.bino.setPosition(o.x, o.y).disableChatIcon();
 
-    if (o.name === "minoFinal")
-      scene.fisherman.setFinal(o.x, o.y);
+    if (o.name === "minoFinal") scene.fisherman.setFinal(o.x, o.y);
 
     if (o.name === "kokoFinal")
       scene.koko.setPosition(o.x, o.y).disableChatIcon();
@@ -161,8 +183,7 @@ export const setVillageFinalVersion = function (scene, debug = false) {
     if (o.name === "nonoFinal")
       scene.nono.setPosition(o.x, o.y).disableChatIcon();
 
-    if (o.name === "djangoFinal")
-      scene.django.setFinal(o.x, o.y);
+    if (o.name === "djangoFinal") scene.django.setFinal(o.x, o.y);
 
     if (o.name === "girlFinal")
       scene.girl.setPosition(o.x, o.y).disableChatIcon();
@@ -182,7 +203,7 @@ export const setVillageFinalVersion = function (scene, debug = false) {
       scene.deer.setPosition(o.x, o.y).setVisible(true);
 
     if (o.name === "cowFinal") {
-      scene.cow.setPosition(o.x, o.y)
+      scene.cow.setPosition(o.x, o.y);
       scene.cow.setVisible(true);
       scene.cow.setActive(true);
       scene.cow.toRight();
@@ -190,7 +211,7 @@ export const setVillageFinalVersion = function (scene, debug = false) {
     }
 
     if (o.name === "vealFinal") {
-      scene.veal.setPosition(o.x, o.y)
+      scene.veal.setPosition(o.x, o.y);
       scene.veal.setVisible(true);
       scene.veal.setActive(true);
       scene.veal.body.checkCollision.none = false;
