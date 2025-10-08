@@ -45,7 +45,6 @@ export const setVillageFinalVersion = function (scene, debug = false) {
   scene.checkDjangoDoor = false;
   scene.datacentreThemeEnabled = false;
 
-  scene.ball.setVisible(false);
   showBikes(scene);
   showBirds(scene);
 

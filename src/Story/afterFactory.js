@@ -87,7 +87,8 @@ export const setVillageForThirdAct = function (scene) {
   setNightState(scene, false);
   toggleSpritesVisibility(scene, true, true);
   toggleScreensVisibility(scene);
-  scene.ball.setVisible(false);
+  scene.ball.destroy();
+  scene.ball = null;
 
   // after toggleSpritesVisibility
   scene.time.delayedCall(1, () => {
