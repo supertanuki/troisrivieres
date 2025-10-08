@@ -158,6 +158,7 @@ export default class Workflow {
   }
 
   endDiscussion() {
+    console.log('endDiscussion', this.currentSprite)
     sceneEventsEmitter.emit(sceneEvents.DiscussionEnded, this.currentSprite);
   }
 

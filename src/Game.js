@@ -95,6 +95,7 @@ export default class Game extends Scene {
     this.deer = null;
     this.blueWorker1 = null;
     this.blueWorker2 = null;
+    this.dcWorkerChief = null;
 
     this.ball = null;
     this.tent = null;
@@ -338,7 +339,8 @@ export default class Game extends Scene {
       this.currentDiscussionStatus === DiscussionStatus.READY &&
       this.currentDiscussionSprite !== sprite
     ) {
-      this.handleDiscussionEnded(this.currentDiscussionSprite);
+      console.log('abort', this.currentDiscussionSprite, sprite)
+      this.handleDiscussionAbort(this.currentDiscussionSprite);
     } else if (this.currentDiscussionStatus !== DiscussionStatus.NONE) {
       return;
     }
