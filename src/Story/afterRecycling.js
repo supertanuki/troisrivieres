@@ -2,7 +2,12 @@ import Game from "../Game";
 import { setNightState } from "../Village/night";
 import { toggleSpritesVisibility } from "../Village/spritesVisibility";
 import "../Sprites/Screen";
-import { playIndustryTheme, playVillageAmbiance, playVillageTheme } from "../Utils/music";
+import "../Sprites/DcWorkerChief";
+import {
+  playIndustryTheme,
+  playVillageAmbiance,
+  playVillageTheme,
+} from "../Utils/music";
 import { DiscussionStatus } from "../Utils/discussionStatus";
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import { handleAction } from "../Village/handleAction";
@@ -123,29 +128,22 @@ export const setVillageForFourthAct = function (scene) {
 
     if (o.name === "twoGuysAfterRecycling") scene.twoGuys.setPosition(o.x, o.y);
 
-    for (let i = 1; i <= 4; i++) {
-      const spriteId = `dcWorker${i}`;
-      if (o.name === spriteId) {
+    if ("dcWorker" === o.name.substring(0, 8)) {
+      for (let i = 1; i <= 4; i++) {
+        const spriteId = `dcWorker${i}`;
+        if (o.name !== spriteId) continue;
         if (i === 1) {
-          scene[spriteId] = scene.add.miner(o.x, o.y, null, null, i);
-          scene[spriteId].toRight();
-        } else {
-          scene[spriteId] = scene.add.minerDirty(o.x, o.y, null, null, i);
-        }
-        const sprite = scene[spriteId];
-
-        if (i === 1) {
-          sprite.spriteId = spriteId;
-          sprite.enableChatIcon();
-          sprite.on("pointerdown", () => handleAction(scene), this);
-          scene.physics.add.collider(sprite, scene.hero, () => {
-            sceneEventsEmitter.emit(sceneEvents.DiscussionReady, spriteId);
+          scene.dcWorkerChief = scene.add.dcWorkerChief(o.x, o.y);
+          scene.dcWorkerChief.on("pointerdown", () => handleAction(scene), this);
+          scene.dcWorkerChiefCollider = scene.physics.add.collider(scene.dcWorkerChief, scene.hero, () => {
+            sceneEventsEmitter.emit(sceneEvents.DiscussionReady, 'dcWorkerChief');
           });
           continue;
         }
 
-        sprite.disableChatIcon();
-        sprite.setDepth(1000);
+        scene[spriteId] = scene.add.minerDirty(o.x, o.y, null, null, i);
+        scene[spriteId].disableChatIcon();
+        scene[spriteId].setDepth(1000);
       }
     }
   }

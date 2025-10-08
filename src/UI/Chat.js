@@ -151,4 +151,8 @@ export default class Chat extends Phaser.Physics.Arcade.Sprite {
     if (this.scene.isCinematic) return;
     if (this.afterReadyToChat) this.afterReadyToChat();
   }
+
+  setDelta(delta) {
+    this.delta = 0;
+  }
 }

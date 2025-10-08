@@ -126,7 +126,9 @@ export const setVillageFinalVersion = function (scene, debug = false) {
 
   scene.map.createLayer("roadsDamaged", scene.tileset).setDepth(96);
 
-  for (let i = 1; i <= 4; i++) {
+  scene.dcWorkerChief.disableChatIcon();
+  scene.dcWorkerChief.destroy();
+  for (let i = 2; i <= 4; i++) {
     const spriteId = `dcWorker${i}`;
     scene[spriteId].disableChatIcon();
     scene[spriteId].destroy();

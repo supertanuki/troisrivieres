@@ -53,9 +53,12 @@ const setVillageOnStrike = function (scene) {
 
   scene.map.getObjectLayer("sprites").objects.forEach((o) => {
     if (o.name === "strikeDcWorker1") {
-      scene.dcWorker1.setPosition(o.x, o.y);
-      scene.dcWorker1.disableChatIcon();
-      scene.dcWorker1.setDepth(1000);
+      scene.dcWorkerChief.setPosition(o.x, o.y);
+      scene.dcWorkerChief.disableChatIcon();
+      scene.dcWorkerChief.setDepth(1000);
+      scene.dcWorkerChief.setDelta(0);
+      scene.dcWorkerChiefCollider.destroy();
+      scene.dcWorkerChief.off("pointerdown");
     }
 
     if (o.name === "strikeDcWorker4") {

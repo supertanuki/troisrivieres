@@ -170,8 +170,6 @@ export const playVillageAmbianceV1 = function (scene) {
   )
     return;
 
-  console.log('playVillageAmbianceV1')
-
   fadeOutMusic(scene, scene.villageAmbianceV2);
 
   if (scene.villageAmbianceV1 && scene.sound.get("village-ambiance-v1")) {
@@ -198,8 +196,6 @@ export const playVillageAmbianceV2 = function (scene) {
     (scene.villageAmbianceV2 && scene.villageAmbianceV2.isPlaying)
   )
     return;
-
-  console.log('playVillageAmbianceV2')
 
   fadeOutMusic(scene, scene.villageAmbianceV1);
 

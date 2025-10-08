@@ -14,7 +14,7 @@ const spriteNames = {
   koko: "Koko",
   nono: "Nono",
   escargot: "L'escargot",
-  dcWorker1: "L'ouvrier",
+  dcWorkerChief: "L'ouvrier",
 };
 
 export const spriteSounds = {
@@ -1020,7 +1020,7 @@ const messageWorkflow = {
       unlockEvents: ["recycling_end"],
     },
   ],
-  dcWorker1: [
+  dcWorkerChief: [
     {
       messages: [
         "Pour développer l'IA…",

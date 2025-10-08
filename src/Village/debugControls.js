@@ -6,7 +6,7 @@ import {
 } from "../Story/afterFactory";
 import { setVillageForSecondAct } from "../Story/afterMineNightmare";
 import { setVillageForFourthAct } from "../Story/afterRecycling";
-import { afterFinalMessage, setVillageFinalVersion } from "../Story/final";
+import { setVillageFinalVersion } from "../Story/final";
 import { setVillageBeforeMine } from "../Story/mineAccessValidation";
 import { urlParamHas } from "../Utils/debug";
 import { switchNight } from "./night";
@@ -15,8 +15,6 @@ import { toggleRoadsVisibility } from "./roads";
 /** @param {Game} scene  */
 export const addDebugControls = function (scene) {
   if (!urlParamHas("debugcontrols")) return;
-
-  console.log("Phaser.VERSION", Phaser.VERSION);
 
   scene.input.keyboard
     .addKey(Phaser.Input.Keyboard.KeyCodes.M)
