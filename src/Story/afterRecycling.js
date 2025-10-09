@@ -23,6 +23,8 @@ export const afterRecycling = function (scene) {
   setNightState(scene, true);
   toggleSpritesVisibility(scene, false, true);
   scene.blueWorkerChief.setVisible(false);
+  scene.blueWorker1.setVisible(false);
+  scene.blueWorker2.setVisible(false);
 
   scene.setHeroPosition("heroRecycling");
   scene.hero.slowDown();
@@ -120,10 +122,12 @@ export const setVillageForFourthAct = function (scene) {
   for (const o of scene.map.getObjectLayer("sprites").objects) {
     if (o.name === "afterRecyclingBlueWorker1") {
       scene.blueWorker1.setPosition(o.x, o.y);
+      scene.blueWorker1.setVisible(true);
     }
 
     if (o.name === "afterRecyclingBlueWorker2") {
       scene.blueWorker2.setPosition(o.x, o.y);
+      scene.blueWorker2.setVisible(true);
     }
 
     if (o.name === "twoGuysAfterRecycling") scene.twoGuys.setPosition(o.x, o.y);
