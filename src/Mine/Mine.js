@@ -579,10 +579,10 @@ export default class Mine extends MiniGameUi {
     console.log(percent + " % (" + this.rockValidated + " / " + total + ")");
 
     const warnings =
-      (this.rockNotValidated > 15 && 1) +
-      (this.rockNotValidated > 25 && 1) +
-      (this.rockNotValidated > 30 && 1) +
-      (this.rockNotValidated > 35 && 1);
+      (this.rockNotValidated > 5 && 1) +
+      (this.rockNotValidated > 20 && 1) +
+      (this.rockNotValidated > 30 && 1);
+
     if (warnings > this.warnings) {
       this.warnings++;
 
