@@ -29,11 +29,13 @@ export const toggleSpritesVisibility = function (
         ]
       : []),
   ].forEach((sprite) => {
-    if (!sprite) return
+    if (!sprite) return;
     sprite.setVisible(state);
     sprite.setActive(state);
     sprite.body.checkCollision.none = !state;
   });
+
+  if (scene.isNoMoreBirds) return;
 
   scene.birds.forEach((bird) => {
     bird.setVisible(state);
