@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import { gameDuration, isDebug } from "../Utils/debug";
 import { dispatchUnlockEvents } from "../Utils/events";
+import { ObjectDebris, OBJECTS_COLORS, OBJECTS_NAMES } from "./RecyclingCentre";
 
 export default class RecyclingCentreNightmare extends Phaser.Scene {
   constructor() {
@@ -9,18 +10,32 @@ export default class RecyclingCentreNightmare extends Phaser.Scene {
       physics: {
         matter: {
           debug: isDebug(),
-          gravity: { y: 0.5 },
+          gravity: { y: 0 },
         },
       },
     });
+
+    this.delayBetweenObjects = 450;
   }
 
   preload() {
-    this.load.atlas("factory", "sprites/factory.png", "sprites/factory.json");
+    this.load.atlas(
+      "recyclingCentre",
+      "sprites/recyclingCentre.png",
+      "sprites/recyclingCentre.json"
+    );
+    this.load.image("vignette", "img/vignette.png");
   }
 
   create() {
+    this.matter.world.setGravity(0, 0);
+    this.matter.world.setBounds(0, 0, 550, 300);
     this.timeStart = Date.now();
+    this.vignette = this.add
+      .image(0, 0, "vignette")
+      .setOrigin(0)
+      .setAlpha(0.5)
+      .setDepth(100000);
 
     this.anims.create({
       key: "mai-sleeping",
@@ -59,6 +74,51 @@ export default class RecyclingCentreNightmare extends Phaser.Scene {
         });
       },
     });
+
+    this.time.delayedCall(1000, () => this.addObject());
+  }
+
+  addObject() {
+    const name = Phaser.Math.RND.pick(OBJECTS_NAMES);
+    const x = Phaser.Math.Between(100, 450);
+
+    const object = this.matter.add.image(
+      275,
+      150,
+      "recyclingCentre",
+      name + "-broken"
+    );
+    object.setAlpha(0);
+    object.applyForce({
+      x: Phaser.Math.RND.pick([-0.01, 0.01]),
+      y: Phaser.Math.RND.pick([-0.01, 0.01]),
+    });
+    this.tweens.add({
+      targets: object,
+      alpha: 0.7,
+      ease: "Sine.linear",
+      duration: 500,
+    });
+
+    this.delayBetweenObjects -= 10;
+    if (this.delayBetweenObjects < 10) {
+      this.delayBetweenObjects = 10;
+      this.createDebris(
+        Phaser.Math.Between(100, 450),
+        Phaser.Math.Between(50, 250),
+        name
+      );
+    }
+
+    const delay = this.delayBetweenObjects;
+    this.time.delayedCall(delay, () => this.addObject());
+  }
+
+  createDebris(x, y, name) {
+    const color = OBJECTS_COLORS[name];
+    Array(Phaser.Math.Between(20, 40))
+      .fill(0)
+      .forEach((i) => new ObjectDebris(this, x, y, color));
   }
 
   endScene() {
@@ -70,6 +130,5 @@ export default class RecyclingCentreNightmare extends Phaser.Scene {
     });
   }
 
-  update() {
-  }
+  update() {}
 }

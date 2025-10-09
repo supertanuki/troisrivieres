@@ -19,10 +19,13 @@ export default class MineNightmare extends Phaser.Scene {
 
   preload() {
     this.load.atlas("mine", "sprites/mine.png", "sprites/mine.json");
+    this.load.image("vignette", "img/vignette.png");
   }
 
   create() {
     this.timeStart = Date.now();
+
+    this.vignette = this.add.image(0,0, "vignette").setOrigin(0).setAlpha(0.5).setDepth(100000);
 
     this.anims.create({
       key: "mai-sleeping",

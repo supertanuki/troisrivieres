@@ -7,8 +7,8 @@ import { playMiniGameTheme, playSound, preloadSound } from "../Utils/music";
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import { getUiMessage } from "../Workflow/messageWorkflow";
 
-const OBJECTS_NAMES = ["console", "laptop", "phone"];
-const OBJECTS_COLORS = {
+export const OBJECTS_NAMES = ["console", "laptop", "phone"];
+export const OBJECTS_COLORS = {
   console: 0xbe4343,
   laptop: 0x6ec9c6,
   phone: 0xc09e5a,
@@ -635,7 +635,7 @@ export default class RecyclingCentre extends MiniGameUi {
   }
 }
 
-class ObjectDebris extends Phaser.GameObjects.Rectangle {
+export class ObjectDebris extends Phaser.GameObjects.Rectangle {
   constructor(scene, x, y, objectColor) {
     const color = Phaser.Math.RND.pick([0xcccccc, objectColor]);
     const width = Phaser.Math.Between(2, 6);
