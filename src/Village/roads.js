@@ -29,7 +29,7 @@ export const toggleRoadsVisibility = function (scene) {
       .setDepth(120)
       .setVisible(false);
 
-    scene.physics.add.collider(scene.hero, scene.carsTop);
+    scene.carsTopCollider = scene.physics.add.collider(scene.hero, scene.carsTop);
 
     // smooth collision management
     scene.carsBottomCollides = [];
