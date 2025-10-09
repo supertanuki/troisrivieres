@@ -483,8 +483,6 @@ export default class Factory extends MiniGameUi {
       (event) => {
         if (event.key === "ArrowUp") {
           this.handleAction();
-        } else if (event.key === "ArrowDown") {
-          //this.down()
         } else if (event.key === "ArrowLeft") {
           this.left();
         } else if (event.key === "ArrowRight") {
@@ -567,8 +565,6 @@ export default class Factory extends MiniGameUi {
   }
 
   right() {
-    super.handleAction();
-
     if (
       !this.enableComponentsControl ||
       this.componentsLinePosition - 1 < -1 * this.componentsLine.length + 1
@@ -605,8 +601,6 @@ export default class Factory extends MiniGameUi {
   }
 
   left() {
-    super.handleAction();
-
     if (!this.enableComponentsControl || this.componentsLinePosition + 1 > 0) {
       return;
     }
@@ -816,7 +810,8 @@ export default class Factory extends MiniGameUi {
         return;
       }
 
-      this.time.delayedCall(2000, () => {
+      this.time.delayedCall(3000, () => {
+        this.motherboardSpeed -= (acceleration/2);
         this.initMotherboard();
       });
 

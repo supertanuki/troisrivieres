@@ -790,7 +790,7 @@ const messageWorkflow = {
     },
     {
       messages: [
-        "Ça, c'est ce qui va dorénavant contrôler ta vie.",
+        "Ça, c'est ce qui va contrôler ton travail.",
         "Si tu rates trop souvent, une croix s'allumera.",
         "Au bout de trois croix…",
         "je viendrai moi-même t'accompagner à la sortie !",

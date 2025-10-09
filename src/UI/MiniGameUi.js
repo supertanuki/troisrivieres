@@ -19,7 +19,11 @@ export default class MiniGameUi extends Phaser.Scene {
   }
 
   create() {
-    this.vignette = this.add.image(0,0, "vignette").setOrigin(0).setAlpha(0.5).setDepth(100000)
+    this.vignette = this.add
+      .image(0, 0, "vignette")
+      .setOrigin(0)
+      .setAlpha(0.5)
+      .setDepth(100000);
     this.currentDiscussionStatus = DiscussionStatus.NONE;
 
     this.anims.create({
@@ -66,18 +70,44 @@ export default class MiniGameUi extends Phaser.Scene {
       frameRate: 8,
     });
 
-    const scoreBoard = this.add
-      .sprite(4, 0, "ui", "scoreboard")
-      .setOrigin(0, 0);
+    this.anims.create({
+      key: "score-warning",
+      frames: [
+        {
+          key: "ui",
+          frame: "scoreok",
+        },
+        {
+          key: "ui",
+          frame: "scoreko",
+        },
+      ],
+      repeat: 5,
+      frameRate: 8,
+    });
 
+    let scoreBoard;
     this.scores = [];
-    for (let i = 0; i <= 2; i++) {
-      this.scores.push(
-        this.add.sprite(12 + 24 * i, 22, "ui", "scoreok").setOrigin(0, 0)
-      );
+
+    if (this.constructor.name === "Mine") {
+      scoreBoard = this.add
+        .sprite(6, 0, "ui", "scoreboard-vertical")
+        .setOrigin(0, 0);
+      for (let i = 0; i <= 2; i++) {
+        this.scores.push(
+          this.add.sprite(14, 19 + 24 * i, "ui", "scoreok").setOrigin(0, 0)
+        );
+      }
+    } else {
+      scoreBoard = this.add.sprite(4, 0, "ui", "scoreboard").setOrigin(0, 0);
+      for (let i = 0; i <= 2; i++) {
+        this.scores.push(
+          this.add.sprite(12 + 24 * i, 22, "ui", "scoreok").setOrigin(0, 0)
+        );
+      }
     }
 
-    this.scoreBoardContainer = this.add.container(0, -50, [
+    this.scoreBoardContainer = this.add.container(0, -95, [
       scoreBoard,
       this.scores[0],
       this.scores[1],
@@ -138,13 +168,6 @@ export default class MiniGameUi extends Phaser.Scene {
     preloadSound("sfx_mini-jeu_erreur_2", this);
     preloadSound("sfx_mini-jeu_erreur_3", this);
     preloadSound("sfx_mini-jeu_apparition_panneau_erreurs_2", this);
-
-    // test vignette
-          this.input.keyboard
-        .addKey(Phaser.Input.Keyboard.KeyCodes.V)
-        .on("down", () => {
-          this.vignette.setVisible(!this.vignette.visible);
-        });
   }
 
   listenUnlockedEvents(data) {
@@ -158,7 +181,7 @@ export default class MiniGameUi extends Phaser.Scene {
     this.tweens.add({
       targets: this.scoreBoardContainer,
       y: 0,
-      ease: "Sine.easeInOut",
+      ease: "Sine.easeOut",
       duration: 1500,
     });
   }
@@ -205,7 +228,7 @@ export default class MiniGameUi extends Phaser.Scene {
 
     if (warningCount > 3) warningCount = 3;
     for (let i = 0; i < warningCount; i++)
-      this.scores[i].setTexture("ui", "scoreko");
+      this.scores[i].anims.play("score-warning", true);
   }
 
   handleAction() {
