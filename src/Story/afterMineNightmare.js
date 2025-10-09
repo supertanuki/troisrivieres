@@ -49,7 +49,6 @@ export const setVillageForSecondAct = function (scene) {
   switchNight(scene);
 
   removeMineBackground(scene);
-  villageStateAfterFirstSleep(scene);
   toggleRoadsVisibility(scene);
   secondRiverLessWater(scene);
   hideBikes(scene);
