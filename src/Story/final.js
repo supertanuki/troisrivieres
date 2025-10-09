@@ -65,6 +65,7 @@ export const setVillageFinalVersion = function (scene, debug = false) {
   scene.obstacleDcLayer.destroy();
   scene.obstacleDcLayerCollider.destroy();
 
+  scene.carsTopCollider.destroy();
   scene.roads.destroy();
   scene.roadsTop.destroy();
   scene.carsTop.destroy();
