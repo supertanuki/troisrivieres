@@ -1,5 +1,6 @@
 import Phaser from "phaser";
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
+import { playSound, preloadSound } from "../Utils/music";
 
 export default class Screen extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y, screenIndex) {
@@ -17,6 +18,8 @@ export default class Screen extends Phaser.Physics.Arcade.Sprite {
       this.screenShutdown,
       this
     );
+
+    preloadSound('sfx_extinction_ecrans', scene);
   }
 
   isHeroNearMe() {
@@ -57,6 +60,7 @@ export default class Screen extends Phaser.Physics.Arcade.Sprite {
     this.isShutDown = true;
     this.setVisible(true);
     this.anims.play("screen-off", true);
+    playSound('sfx_extinction_ecrans', this.scene, true, 0.5);
   }
 
   shutdown() {

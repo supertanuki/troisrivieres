@@ -6,7 +6,6 @@ let loadingVillageTheme = false;
 let loadingIndustryTheme = false;
 let loadingMiniGameTheme = false;
 let loadingDjangoTheme = false;
-let loadingIndustryAmbiance = false;
 let loadingVillageAmbianceV1 = false;
 let loadingVillageAmbianceV2 = false;
 let loadingNightAmbiance = false;
@@ -58,7 +57,6 @@ export const playIndustryTheme = function (scene) {
 
   if (scene.industryTheme && scene.sound.get("industry-theme")) {
     fadeInMusic(scene, scene.industryTheme);
-    playIndustryAmbiance(scene);
     return;
   }
 
@@ -69,7 +67,6 @@ export const playIndustryTheme = function (scene) {
     scene.industryTheme = scene.sound.add("industry-theme");
     loadingIndustryTheme = false;
     fadeInMusic(scene, scene.industryTheme);
-    playIndustryAmbiance(scene);
   });
   loader.start();
 };
@@ -124,33 +121,6 @@ export const playDjangoTheme = function (scene) {
     scene.djangoTheme = scene.sound.add("django-theme");
     fadeInMusic(scene, scene.djangoTheme);
     loadingDjangoTheme = false;
-  });
-  loader.start();
-};
-/** @param {Game} scene  */
-export const playIndustryAmbiance = function (scene) {
-  if (
-    urlParamHas("nomusic") ||
-    loadingIndustryAmbiance ||
-    (scene.industryAmbiance && scene.industryAmbiance.isPlaying)
-  )
-    return;
-
-  if (scene.industryAmbiance && scene.sound.get("industry-ambiance")) {
-    fadeInMusic(scene, scene.industryAmbiance, 0.5);
-    return;
-  }
-
-  loadingIndustryAmbiance = true;
-  const loader = new Loader.LoaderPlugin(scene);
-  loader.audio(
-    "industry-ambiance",
-    "sounds/sfx/sfx_ambiance_mine_raccourci.mp3"
-  );
-  loader.once("complete", () => {
-    scene.industryAmbiance = scene.sound.add("industry-ambiance");
-    fadeInMusic(scene, scene.industryAmbiance, 0.5);
-    loadingIndustryAmbiance = false;
   });
   loader.start();
 };

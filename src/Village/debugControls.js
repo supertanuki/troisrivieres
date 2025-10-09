@@ -76,23 +76,23 @@ export const addDebugControls = function (scene) {
     .on("down", () => {
       scene.isCinematic = true;
       scene.time.delayedCall(2000, () => {
-        //scene.setHeroPosition("heroKoko");
-        //setVillageBeforeMine(scene);
-        //setVillageForSecondAct(scene);
-        //setVillageForThirdAct(scene);
+        scene.setHeroPosition("heroKoko");
+        setVillageBeforeMine(scene);
+        setVillageForSecondAct(scene);
+        setVillageForThirdAct(scene);
         //setVillageForFourthAct(scene);
 
         sceneEventsEmitter.emit(sceneEvents.PreEventsUnlocked, [
           //"django_met",
           //"miner_first_met",
           //"first_sleep",
-          "pre_first_sleep",
+          //"pre_first_sleep",
           //"miner_ask_for_card",
           //"mine_after",
           //"second_act_begin",
           //"factory_after",
           //"third_act_begin",
-          //"fourth_act_begin",
+          "fourth_act_begin",
           //"strike_begin",
           //"strike_end",
           //"after_final_message",
