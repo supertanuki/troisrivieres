@@ -39,7 +39,7 @@ export default class Factory extends MiniGameUi {
     this.isMotherboardValidated = false;
     this.motherboardSpeed = initialSpeed;
     this.numberValidated = 0;
-    this.enableComponentsControl = true;
+    this.enableComponentsControl = false;
     this.conveyorPosition = 0;
     this.conveyorRollings = [];
     this.conveyorBackPosition = 0;
@@ -215,9 +215,6 @@ export default class Factory extends MiniGameUi {
       return;
     }
 
-    this.createControls();
-    this.startGame();
-
     preloadSound("sfx_mini-jeu_roulement_puces", this);
     preloadSound("sfx_mini-jeu_puce-bonne_1", this);
     preloadSound("sfx_mini-jeu_puce-bonne_2", this);
@@ -225,6 +222,9 @@ export default class Factory extends MiniGameUi {
     preloadSound("sfx_mini-jeu_puce-mauvaise_2", this);
     preloadSound("sfx_mini-jeu_reussite_3", this);
     preloadSound("sfx_mini-jeu_jet-eau", this);
+
+    this.createControls();
+    this.startGame();
   }
 
   startGame() {
@@ -233,11 +233,7 @@ export default class Factory extends MiniGameUi {
     }
 
     this.cameras.main.fadeIn(2000, 0, 0, 0);
-
-    this.time.addEvent({
-      callback: () => this.startDiscussion("factory"),
-      delay: 1000,
-    });
+    this.time.delayedCall(1000, () => this.startDiscussion("factory"));
   }
 
   gameOver() {
@@ -276,6 +272,7 @@ export default class Factory extends MiniGameUi {
   }
 
   tutoBegin() {
+    console.log('tutoBegin')
     this.isCinematic = false;
     this.firstStep = true;
     this.initMotherboard();
@@ -288,12 +285,14 @@ export default class Factory extends MiniGameUi {
   }
 
   tutoEnd() {
+    console.log('tutoEnd')
     this.isCinematic = true;
     dispatchUnlockEvents(["factory_tuto_end"]);
     this.startDiscussion("factory");
   }
 
   afterTuto() {
+    console.log('afterTuto')
     this.isCinematic = false;
     this.firstStep = false;
     this.initMotherboard();
@@ -395,6 +394,9 @@ export default class Factory extends MiniGameUi {
   }
 
   initMotherboard() {
+    this.enableComponentsControl = false;
+    this.time.delayedCall(1000, () => this.enableComponentsControl = true);
+
     const x = -150;
     const componentsNumber = this.getComponentsNumber();
     const stepBetweenComponents = 70 / componentsNumber;
@@ -824,7 +826,7 @@ export default class Factory extends MiniGameUi {
     }
 
     this.destroyMotherboard();
-    this.initMotherboard();
+    this.time.delayedCall(1000, () => this.initMotherboard());
   }
 
   update() {
