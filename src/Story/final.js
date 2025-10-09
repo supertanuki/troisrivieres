@@ -196,9 +196,15 @@ export const setVillageFinalVersion = function (scene, debug = false) {
 
     if (o.name === "catFinal") scene.cat.setPosition(o.x, o.y);
 
-    if (o.name === "twoGuysFinal") scene.twoGuys.setPosition(o.x, o.y);
+    if (o.name === "twoGuysFinal") {
+      scene.twoGuys.setPosition(o.x, o.y);
+      scene.twoGuys.enableChatIcon();
+    }
 
-    if (o.name === "twoWomenFinal") scene.twoWomen.setPosition(o.x, o.y);
+    if (o.name === "twoWomenFinal") {
+      scene.twoWomen.setPosition(o.x, o.y);
+      scene.twoWomen.enableChatIcon();
+    }
 
     if (o.name === "deerFinal")
       scene.deer.setPosition(o.x, o.y).setVisible(true);
@@ -217,6 +223,8 @@ export const setVillageFinalVersion = function (scene, debug = false) {
       scene.veal.setActive(true);
       scene.veal.body.checkCollision.none = false;
     }
+
+    if (o.name === "sleepingGuyFinal") scene.sleepingGuy.setPosition(o.x, o.y);
   });
 
   sceneEventsEmitter.on(sceneEvents.EventsUnlocked, (data) => {

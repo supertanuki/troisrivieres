@@ -61,6 +61,11 @@ export class Hero extends Phaser.Physics.Arcade.Sprite {
     this.setVelocity(SPEED_SLOW, 0);
   }
 
+  slowRightDown() {
+    this.goRight()
+    this.setVelocity(SPEED_SLOW, SPEED_SLOW/1.5);
+  }
+
   slowLeft() {
     this.goLeft()
     this.setVelocity(-SPEED_SLOW, 0);

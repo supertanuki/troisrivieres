@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.1-99-gec89c545" orientation="orthogonal" renderorder="right-down" width="190" height="87" tilewidth="16" tileheight="16" infinite="0" nextlayerid="73" nextobjectid="1374">
+<map version="1.10" tiledversion="1.11.1-99-gec89c545" orientation="orthogonal" renderorder="right-down" width="190" height="87" tilewidth="16" tileheight="16" infinite="0" nextlayerid="73" nextobjectid="1375">
  <editorsettings>
   <export target="public/tiles/3rivers.json" format="json"/>
  </editorsettings>
@@ -9136,6 +9136,9 @@
    <point/>
   </object>
   <object id="1372" name="owl" x="511.333" y="777.667">
+   <point/>
+  </object>
+  <object id="1374" name="sleepingGuyFinal" x="2024.33" y="926.333">
    <point/>
   </object>
  </objectgroup>

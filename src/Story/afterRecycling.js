@@ -72,8 +72,8 @@ export const afterRecyclingNightmare = function (scene) {
   setVillageForFourthAct(scene);
   scene.cameras.main.fadeIn(1000, 0, 0, 0);
   scene.datacentreThemeEnabled = true;
-  scene.setHeroPosition("heroDjango");
-  scene.hero.slowRight();
+  scene.setHeroPosition("heroDjangoDoor");
+  scene.hero.slowRightDown();
   scene.hero.animateToRight();
   scene.time.delayedCall(1200, () => {
     scene.isCinematic = false;

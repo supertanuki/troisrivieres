@@ -72,8 +72,8 @@ export const afterFactoryNightmare = function (scene) {
   scene.wakeGame(true);
   setVillageForThirdAct(scene);
   scene.cameras.main.fadeIn(1000, 0, 0, 0);
-  scene.setHeroPosition("heroDjango");
-  scene.hero.slowRight();
+  scene.setHeroPosition("heroDjangoDoor");
+  scene.hero.slowRightDown();
   scene.hero.animateToRight();
   scene.time.delayedCall(1200, () => {
     scene.isCinematic = false;

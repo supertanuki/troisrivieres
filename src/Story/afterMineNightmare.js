@@ -25,8 +25,8 @@ export const afterMineNightmare = function (scene) {
   playVillageAmbiance(scene);
   scene.currentDiscussionStatus = DiscussionStatus.NONE;
   setVillageForSecondAct(scene);
-  scene.setHeroPosition("heroDjango");
-  scene.hero.slowRight();
+  scene.setHeroPosition("heroDjangoDoor");
+  scene.hero.slowRightDown();
   scene.hero.animateToRight();
 
   // @todo ? remove delayedcall and check when mai is near django ?

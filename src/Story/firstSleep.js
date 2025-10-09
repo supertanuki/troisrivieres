@@ -20,8 +20,8 @@ export const endFirstSleep = function (scene) {
   scene.isCinematic = true;
   playVillageTheme(scene);
   playVillageAmbiance(scene);
-  scene.setHeroPosition("heroDjango");
-  scene.hero.slowRight();
+  scene.setHeroPosition("heroDjangoDoor");
+  scene.hero.slowRightDown();
   scene.hero.animateToRight();
   switchNight(scene);
 
