@@ -45,11 +45,7 @@ export const villageStateAfterFirstSleep = function (scene) {
   scene.girl.setSad();
   scene.fisherman.setSad();
 
-  addNono(scene);
-  preloadSound("sfx_objet_inventaire", scene);
-};
-
-const addNono = function (scene) {
+  // add nono
   for (const spriteObject of scene.map.getObjectLayer("sprites").objects) {
     if (spriteObject.name === "nono") {
       scene.nono = scene.add.nono(spriteObject.x, spriteObject.y);
@@ -62,6 +58,8 @@ const addNono = function (scene) {
       break;
     }
   }
+
+  preloadSound("sfx_objet_inventaire", scene);
 };
 
 /** @param {Game} scene  */
