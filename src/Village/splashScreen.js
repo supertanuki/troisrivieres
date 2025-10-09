@@ -33,6 +33,7 @@ export const splashScreen = function (scene) {
     scene.isBonus = false;
     textStart.disableInteractive(true);
     textStart.setText("Chargement...");
+    document.body.style.cursor = 'none';
 
     scene.cameras.main.fadeOut(500, 0, 0, 0, (cam, progress) => {
       if (progress !== 1) return;
@@ -70,6 +71,7 @@ export const splashScreen = function (scene) {
     goingSomewhere = true;
     textObject.disableInteractive(true);
     textObject.setColor("#000000");
+    document.body.style.cursor = 'none';
   }
 
   title.on("pointerdown", () => {
