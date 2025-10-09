@@ -107,6 +107,7 @@ export default class Game extends Scene {
 
     this.isBonus = false;
     this.isFinal = false;
+    this.howToPlay = true;
 
     /** @type {Phaser.Tilemaps.Tilemap | null} */
     this.map = null;

@@ -203,7 +203,7 @@ const messageWorkflow = {
   ],
   baby: [
     {
-      messages: ["Papa, je veux mon Papa"],
+      messages: ["Ta-ta Ta-ta"],
     },
     {
       messages: ["télé-phone, télé-phone…"],
@@ -1058,6 +1058,8 @@ const messageWorkflow = {
 };
 
 const uiMessages = {
+  "game.howToPlay": "Déplace-toi avec les touches ← 🠕 → 🠗 ou ZQSD",
+
   "mine.faster": "Plus vite !",
   "mine.fasterAgain": "Encore plus vite, allez !!!",
   "mine.waterEmpty": "Réservoir d'eau vide !",

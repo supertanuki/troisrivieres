@@ -16,15 +16,19 @@ export const createControls = function (scene) {
       if (event.key === "ArrowUp") {
         scene.goingUp = true;
         scene.goingDown = false;
+        scene.howToPlay = false;
       } else if (event.key === "ArrowDown") {
         scene.goingDown = true;
         scene.goingUp = false;
+        scene.howToPlay = false;
       } else if (event.key === "ArrowLeft") {
         scene.goingLeft = true;
         scene.goingRight = false;
+        scene.howToPlay = false;
       } else if (event.key === "ArrowRight") {
         scene.goingRight = true;
         scene.goingLeft = false;
+        scene.howToPlay = false;
       } else if (event.keyCode === 32) {
         handleAction(scene);
       }
@@ -81,6 +85,7 @@ export const addJoystickForMobile = function (scene) {
   scene.joystick.on(
     "update",
     function () {
+      scene.howToPlay = false;
       scene.goingAngle = scene.joystick.angle;
 
       if (scene.joystick.left) {

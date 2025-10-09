@@ -31,6 +31,8 @@ import { createTrees } from "./trees";
 import { intro } from "../Story/intro";
 import { handleAction } from "./handleAction";
 import { preloadSound } from "../Utils/music";
+import { FONT_RESOLUTION, FONT_SIZE } from "../UI/Message";
+import { getUiMessage } from "../Workflow/messageWorkflow";
 
 /** @param {Game} scene  */
 export const init = function (scene) {
@@ -113,16 +115,59 @@ export const init = function (scene) {
 
   scene.cameras.main.fadeIn(1000, 0, 0, 0);
 
-  //playVillageTheme(scene);
-
   scene.time.delayedCall(2000, () => delayedInit(scene));
-
   scene.time.delayedCall(3000, () => scene.scene.run("message"));
+  scene.time.delayedCall(4000, () => howToPlay(scene));
 
   console.timeEnd("Init");
 
   if (!urlParamHas("nostart")) intro(scene);
 };
+
+/** @param {Game} scene  */
+const howToPlay = function (scene) {
+  scene.howToPlayText = scene.add
+    .text(225, 220, getUiMessage("game.howToPlay"), {
+      fontFamily: "DefaultFont",
+      fontSize: FONT_SIZE,
+      fill: "#ffffff",
+      backgroundColor: "#000000",
+      padding: 4,
+    })
+    .setAlpha(0)
+    .setScrollFactor(0)
+    .setOrigin(0.5, 0.5)
+    .setWordWrapWidth(200)
+    .setResolution(FONT_RESOLUTION)
+    .setDepth(10000);
+
+  scene.tweens.add({
+    targets: scene.howToPlayText,
+    alpha: 0.8,
+    y: 200,
+    ease: "Sine.easeInOut",
+    duration: 2000,
+  });
+
+  hideOrNotHowToPlay(scene);
+};
+
+/** @param {Game} scene  */
+const hideOrNotHowToPlay = function (scene) {
+  if (scene.howToPlay) {
+    scene.time.delayedCall(1000, () => hideOrNotHowToPlay(scene));
+    return;
+  }
+
+  scene.tweens.add({
+    targets: scene.howToPlayText,
+    alpha: 0,
+    y: 220,
+    ease: "Sine.easeInOut",
+    duration: 2000,
+    onComplete: () => scene.howToPlayText.destroy(),
+  });
+}
 
 /** @param {Game} scene  */
 export const delayedInit = function (scene) {
