@@ -3,6 +3,7 @@ import Game from "../Game";
 import { DiscussionStatus } from "../Utils/discussionStatus";
 import {
   playIndustryTheme,
+  playNightmareTheme,
   playVillageAmbiance,
   playVillageTheme,
 } from "../Utils/music";
@@ -55,6 +56,7 @@ export const afterFactory = function (scene) {
 
     // end at the door
     if (scene.hero.y > djangoDoor.y + 11 && scene.hero.y < djangoDoor.y + 15) {
+      playNightmareTheme(scene);
       scene.cameras.main.fadeOut(1000, 0, 0, 0);
       scene.time.delayedCall(3000, () => {
         scene.scene.launch("factory-nightmare");

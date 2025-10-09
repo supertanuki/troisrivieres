@@ -1,7 +1,8 @@
 import Phaser from "phaser";
-import { gameDuration, isDebug } from "../Utils/debug";
+import { isDebug, urlParamHas } from "../Utils/debug";
 import { dispatchUnlockEvents } from "../Utils/events";
 import { ObjectDebris, OBJECTS_COLORS, OBJECTS_NAMES } from "./RecyclingCentre";
+import { playNightmareTheme } from "../Utils/music";
 
 export default class RecyclingCentreNightmare extends Phaser.Scene {
   constructor() {
@@ -112,6 +113,10 @@ export default class RecyclingCentreNightmare extends Phaser.Scene {
 
     const delay = this.delayBetweenObjects;
     this.time.delayedCall(delay, () => this.addObject());
+
+    if (urlParamHas("dreamRecycling")) {
+      playNightmareTheme(this);
+    }
   }
 
   createDebris(x, y, name) {
@@ -124,11 +129,8 @@ export default class RecyclingCentreNightmare extends Phaser.Scene {
   endScene() {
     this.cameras.main.fadeOut(2000, 255, 255, 255, (cam, progress) => {
       if (progress !== 1) return;
-      gameDuration("Dream factory", this.timeStart);
       this.scene.stop();
       dispatchUnlockEvents(["fourth_act_begin"]);
     });
   }
-
-  update() {}
 }

@@ -79,7 +79,7 @@ export const addDebugControls = function (scene) {
         scene.setHeroPosition("heroKoko");
         setVillageBeforeMine(scene);
         setVillageForSecondAct(scene);
-        setVillageForThirdAct(scene);
+        //setVillageForThirdAct(scene);
         //setVillageForFourthAct(scene);
 
         sceneEventsEmitter.emit(sceneEvents.PreEventsUnlocked, [
@@ -91,8 +91,8 @@ export const addDebugControls = function (scene) {
           //"mine_after",
           //"second_act_begin",
           //"factory_after",
-          //"third_act_begin",
-          "fourth_act_begin",
+          "third_act_begin",
+          //"fourth_act_begin",
           //"strike_begin",
           //"strike_end",
           //"after_final_message",

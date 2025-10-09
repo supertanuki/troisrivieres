@@ -6,6 +6,7 @@ let loadingVillageTheme = false;
 let loadingIndustryTheme = false;
 let loadingMiniGameTheme = false;
 let loadingDjangoTheme = false;
+let loadingNightmareTheme = false;
 let loadingVillageAmbianceV1 = false;
 let loadingVillageAmbianceV2 = false;
 let loadingNightAmbiance = false;
@@ -20,10 +21,10 @@ export const playVillageTheme = function (scene) {
     return;
 
   fadeOutMusic(scene, scene.industryTheme);
-  fadeOutMusic(scene, scene.industryAmbiance);
   fadeOutMusic(scene, scene.miniGameTheme);
   fadeOutMusic(scene, scene.djangoTheme);
   fadeOutMusic(scene, scene.nightAmbiance);
+  fadeOutMusic(scene, scene.nightmareTheme);
 
   if (scene.villageTheme && scene.sound.get("village-theme")) {
     fadeInMusic(scene, scene.villageTheme);
@@ -81,7 +82,6 @@ export const playMiniGameTheme = function (scene) {
     return;
 
   fadeOutMusic(scene, scene.industryTheme);
-  fadeOutMusic(scene, scene.industryAmbiance);
 
   if (scene.miniGameTheme && scene.sound.get("minigame-theme")) {
     fadeInMusic(scene, scene.miniGameTheme);
@@ -121,6 +121,32 @@ export const playDjangoTheme = function (scene) {
     scene.djangoTheme = scene.sound.add("django-theme");
     fadeInMusic(scene, scene.djangoTheme);
     loadingDjangoTheme = false;
+  });
+  loader.start();
+};
+
+/** @param {Game} scene  */
+export const playNightmareTheme = function (scene) {
+  if (
+    urlParamHas("nomusic") ||
+    loadingNightmareTheme ||
+    (scene.nightmareTheme && scene.nightmareTheme.isPlaying)
+  )
+    return;
+
+  fadeOutMusic(scene, scene.industryTheme);
+  if (scene.nightmareTheme && scene.sound.get("nightmare-theme")) {
+    fadeInMusic(scene, scene.nightmareTheme);
+    return;
+  }
+
+  loadingNightmareTheme = true;
+  const loader = new Loader.LoaderPlugin(scene);
+  loader.audio("nightmare-theme", "sounds/reve_theme_compressed.mp3");
+  loader.once("complete", () => {
+    scene.nightmareTheme = scene.sound.add("nightmare-theme");
+    fadeInMusic(scene, scene.nightmareTheme);
+    loadingNightmareTheme = false;
   });
   loader.start();
 };

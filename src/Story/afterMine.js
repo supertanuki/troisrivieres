@@ -1,6 +1,6 @@
 import Game from "../Game";
 import { DiscussionStatus } from "../Utils/discussionStatus";
-import { playIndustryTheme } from "../Utils/music";
+import { playIndustryTheme, playNightmareTheme } from "../Utils/music";
 import { setNightState } from "../Village/night";
 import { toggleSpritesVisibility } from "../Village/spritesVisibility";
 
@@ -46,6 +46,7 @@ export const afterMine = function (scene) {
       scene.hero.y > djangoDoor.y + 11 &&
       scene.hero.y < djangoDoor.y + 15
     ) {
+      playNightmareTheme(scene);
       scene.cameras.main.fadeOut(1000, 0, 0, 0);
       scene.time.delayedCall(3000, () => {
         scene.scene.launch("mine-nightmare");

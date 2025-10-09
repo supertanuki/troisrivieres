@@ -71,7 +71,7 @@ export default class Game extends Scene {
     this.industryTheme = null;
     this.miniGameTheme = null;
     this.djangoTheme = null;
-    this.industryAmbiance = null;
+    this.nightmareTheme = null;
     this.villageAmbianceV1 = null;
     this.villageAmbianceV2 = null;
     this.nightAmbiance = null;
