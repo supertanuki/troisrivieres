@@ -7,6 +7,7 @@ import {
 import { setVillageForSecondAct } from "../Story/afterMineNightmare";
 import { setVillageForFourthAct } from "../Story/afterRecycling";
 import { setVillageFinalVersion } from "../Story/final";
+import { villageStateAfterFirstSleep } from "../Story/firstSleep";
 import { setVillageBeforeMine } from "../Story/mineAccessValidation";
 import { urlParamHas } from "../Utils/debug";
 import { switchNight } from "./night";
@@ -77,6 +78,7 @@ export const addDebugControls = function (scene) {
       scene.isCinematic = true;
       scene.time.delayedCall(2000, () => {
         scene.setHeroPosition("heroKoko");
+        villageStateAfterFirstSleep(scene);
         setVillageBeforeMine(scene);
         setVillageForSecondAct(scene);
         //setVillageForThirdAct(scene);
@@ -108,6 +110,7 @@ export const addDebugControls = function (scene) {
       scene.isCinematic = true;
       scene.time.delayedCall(2000, () => {
         scene.setHeroPosition("heroKoko");
+        villageStateAfterFirstSleep(scene);
         setVillageBeforeMine(scene);
         setVillageForSecondAct(scene);
         setVillageForThirdAct(scene);
