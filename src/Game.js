@@ -156,6 +156,11 @@ export default class Game extends Scene {
       return;
     }
 
+    if (urlParamHas("dreamRecycling")) {
+      this.gotoScene("recycling-nightmare");
+      return;
+    }
+
     if (urlParamHas("factory")) {
       this.debugFactory();
       return;

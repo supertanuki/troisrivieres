@@ -38,6 +38,7 @@ export default class RecyclingCentre extends MiniGameUi {
     this.conveyorPosition = 0;
     this.selectedObject = "console";
     this.warnings = 0;
+    this.previousValidatedObjects = 0;
   }
 
   preload() {
@@ -430,7 +431,8 @@ export default class RecyclingCentre extends MiniGameUi {
         : Phaser.Math.Between(1500, 2500);
     this.time.delayedCall(delay, () => this.initObject());
 
-    if (this.validatedObjects === 11 || this.validatedObjects === 25) {
+    if (this.previousValidatedObjects !== this.validatedObjects && [11, 25].includes(this.validatedObjects)) {
+      this.previousValidatedObjects = this.validatedObjects;
       this.updateMessage(getUiMessage("recycling.faster"));
     }
   }
