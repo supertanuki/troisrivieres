@@ -138,7 +138,7 @@ export default class Chat extends Phaser.Physics.Arcade.Sprite {
   }
 
   updateChatIconPosition() {
-    if (this.disabledChatIcon || !this.chatImageUi) return;
+    if (!this.chatImageUi) return;
 
     this.chatImageUi.setPosition(
       this.x + this.chatIconDeltaX,

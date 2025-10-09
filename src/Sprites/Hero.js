@@ -13,7 +13,7 @@ export class Hero extends Phaser.Physics.Arcade.Sprite {
   }
 
   playMoveSound() {
-    playSound('sfx_bruits_de_pas', this.scene, false, 0.3, true);
+    playSound('sfx_bruits_de_pas', this.scene, false, 0.5, true);
   }
 
   stopMoveSound() {
