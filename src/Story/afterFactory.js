@@ -121,6 +121,10 @@ export const setVillageForThirdAct = function (scene) {
     .setDepth(69)
     .setCollisionByProperty({ collide: true });
 
+  scene.riverRecyclingPollutedLayer = scene.map
+    .createLayer("riverRecyclingPolluted", scene.tileset)
+    .setDepth(70);
+
   scene.topRecyclingLayer = scene.map
     .createLayer("topRecycling", scene.tileset)
     .setDepth(119)

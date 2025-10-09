@@ -98,6 +98,7 @@ export const setVillageFinalVersion = function (scene, debug = false) {
   scene.topRecyclingObjectsLayer.destroy();
   scene.landRecyclingLayer.destroy();
   scene.bottomRecyclingLayer.destroy();
+  scene.riverRecyclingPollutedLayer.destroy();
 
   scene.screensCollider.destroy();
   scene.ads.destroy();
