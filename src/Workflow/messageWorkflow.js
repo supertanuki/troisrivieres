@@ -786,7 +786,7 @@ const messageWorkflow = {
         "Passons aux choses sérieuses !",
       ],
       dependingOn: ["mine_tuto_end"],
-      unlockEvents: ["show_score_board"],
+      unlockEvents: ["mine_show_score_board"],
     },
     {
       messages: [
@@ -802,7 +802,7 @@ const messageWorkflow = {
         "On ne fait pas n'importe quoi !",
         "Bon, arrête de poser des questions, au boulot !",
       ],
-      dependingOn: ["show_score_board"],
+      dependingOn: ["mine_show_score_board"],
       unlockEvents: ["mine_after_tuto"],
     },
     {
@@ -944,7 +944,7 @@ const messageWorkflow = {
         "Passons aux choses sérieuses !",
       ],
       dependingOn: ["factory_tuto_end"],
-      unlockEvents: ["show_score_board"],
+      unlockEvents: ["factory_show_score_board"],
     },
     {
       messages: [
@@ -958,7 +958,7 @@ const messageWorkflow = {
         "d'avoir des téléphones derniers cris !",
         "Arrête de te poser des questions et au boulot.",
       ],
-      dependingOn: ["show_score_board"],
+      dependingOn: ["factory_show_score_board"],
       unlockEvents: ["factory_after_tuto"],
     },
     {
@@ -1012,7 +1012,7 @@ const messageWorkflow = {
         "On va vous tester pour de vrai.",
       ],
       dependingOn: ["recycling_tuto_end"],
-      unlockEvents: ["show_score_board"],
+      unlockEvents: ["recycling_show_score_board"],
     },
     {
       messages: [
@@ -1026,7 +1026,7 @@ const messageWorkflow = {
         "C'est pour un bien encore plus grand.",
         "Allez euh… au boulot !",
       ],
-      dependingOn: ["show_score_board"],
+      dependingOn: ["recycling_show_score_board"],
       unlockEvents: ["recycling_after_tuto"],
     },
     {

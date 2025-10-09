@@ -171,7 +171,14 @@ export default class MiniGameUi extends Phaser.Scene {
   }
 
   listenUnlockedEvents(data) {
-    if (eventsHas(data, "show_score_board")) {
+    console.log(data.newUnlockedEvents);
+    if (
+      [
+        "mine_show_score_board",
+        "factory_show_score_board",
+        "recycling_show_score_board",
+      ].includes(data.newUnlockedEvents[0])
+    ) {
       this.showScoreBoard();
     }
   }

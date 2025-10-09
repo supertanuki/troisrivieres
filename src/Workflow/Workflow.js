@@ -87,7 +87,7 @@ export default class Workflow {
       sprite,
       this.getCurrentThread()
     );
-    console.log("startDiscussion", nextAvailableThread);
+    console.log("startDiscussion", sprite, nextAvailableThread);
 
     if (undefined !== nextAvailableThread) {
       this.setCurrentThread(sprite, nextAvailableThread);

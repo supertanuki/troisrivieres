@@ -81,6 +81,7 @@ export const addDebugControls = function (scene) {
         setVillageForSecondAct(scene);
         //setVillageForThirdAct(scene);
         //setVillageForFourthAct(scene);
+        scene.isCinematic = false;
 
         sceneEventsEmitter.emit(sceneEvents.PreEventsUnlocked, [
           //"django_met",
@@ -91,12 +92,13 @@ export const addDebugControls = function (scene) {
           //"mine_after",
           //"second_act_begin",
           //"factory_after",
-          "third_act_begin",
+          //"third_act_begin",
           //"fourth_act_begin",
           //"strike_begin",
           //"strike_end",
           //"after_final_message",
         ]);
+        scene.setHeroPosition("heroFactory");
       });
     });
 
