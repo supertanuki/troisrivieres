@@ -277,20 +277,19 @@ export default class Mine extends MiniGameUi {
       this.listenDispatchedEvents,
       this
     );
-    this.cameras.main.fadeIn(2000, 0, 0, 0);
 
     if (urlParamHas("bypassminigame")) {
       this.endGame();
       return;
     }
 
-    this.createControls();
-    this.startGame();
-
     preloadSound("sfx_mini-jeu_jet-eau", this);
     preloadSound("sfx_mini-jeu_caillou_desagrege", this);
     preloadSound("sfx_mini-jeu_deplacement_tuyau", this);
     preloadSound("sfx_mini-jeu_reussite_3", this);
+
+    this.createControls();
+    this.startGame();
   }
 
   createControls() {
@@ -479,10 +478,8 @@ export default class Mine extends MiniGameUi {
       playMiniGameTheme(this);
     }
 
-    this.time.addEvent({
-      callback: () => this.startDiscussion("mine"),
-      delay: 1000,
-    });
+    this.cameras.main.fadeIn(2000, 0, 0, 0);
+    this.time.delayedCall(1000, () => this.startDiscussion("mine"));
   }
 
   endGame() {

@@ -223,11 +223,7 @@ export default class RecyclingCentre extends MiniGameUi {
     }
 
     this.cameras.main.fadeIn(2000, 0, 0, 0);
-
-    this.time.addEvent({
-      callback: () => this.startDiscussion("recyclingCentre"),
-      delay: 1000,
-    });
+    this.time.delayedCall(1000, () => this.startDiscussion("recyclingCentre"));
   }
 
   gameOver() {
@@ -267,6 +263,7 @@ export default class RecyclingCentre extends MiniGameUi {
   }
 
   tutoBegin() {
+    console.log('tutoBegin')
     for (const object of this.objects) {
       this.tweens.add({
         targets: object,
@@ -290,20 +287,18 @@ export default class RecyclingCentre extends MiniGameUi {
   }
 
   tutoEnd() {
+    console.log('tutoEnd')
     this.isCinematic = true;
     dispatchUnlockEvents(["recycling_tuto_end"]);
     this.startDiscussion("recyclingCentre");
   }
 
   afterTuto() {
+    console.log('afterTuto')
     this.isCinematic = false;
     this.firstStep = false;
     // start
     this.time.delayedCall(1500, () => this.initObject());
-  }
-
-  handleAction() {
-    super.handleAction();
   }
 
   getObjectNameByDirection(direction) {
