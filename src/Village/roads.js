@@ -25,8 +25,11 @@ export const toggleRoadsVisibility = function (scene) {
 
     scene.carsTop = scene.map
       .createLayer("carsTop", scene.tileset)
+      .setCollisionByProperty({ collide: true })
       .setDepth(120)
       .setVisible(false);
+
+    scene.physics.add.collider(scene.hero, scene.carsTop);
 
     // smooth collision management
     scene.carsBottomCollides = [];
