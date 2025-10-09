@@ -593,7 +593,7 @@ const messageWorkflow = {
       dependingOn: ["first_sleep"],
     },
     {
-      messages: ["on ne peut plus attraper notre ballon !"],
+      messages: ["Quand nous pourrons rejouer dans la rivière ?"],
       dependingOn: ["second_act_begin"],
     },
     {
@@ -608,6 +608,10 @@ const messageWorkflow = {
   girl: [
     {
       messages: ["…"],
+    },
+    {
+      messages: ["La rivière est toute petite maintenant…"],
+      dependingOn: ["second_act_begin"],
     },
     {
       messages: [

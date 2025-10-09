@@ -116,6 +116,14 @@ export const setVillageForSecondAct = function (scene) {
       });
     }
 
+    if (o.name === "boyFactory") {
+      scene.boy.setPosition(o.x, o.y);
+    }
+
+    if (o.name === "girlFactory") {
+      scene.girl.setPosition(o.x, o.y);
+    }
+
     for (let i = 1; i <= 2; i++) {
       if (o.name === `whiteWorker${i}`) {
         scene[`whiteWorker${i}`] = scene.add.whiteWorker(

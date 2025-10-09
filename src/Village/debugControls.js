@@ -80,7 +80,7 @@ export const addDebugControls = function (scene) {
         scene.setHeroPosition("heroKoko");
         villageStateAfterFirstSleep(scene);
         setVillageBeforeMine(scene);
-        setVillageForSecondAct(scene);
+        //setVillageForSecondAct(scene);
         //setVillageForThirdAct(scene);
         //setVillageForFourthAct(scene);
         scene.isCinematic = false;
@@ -92,7 +92,7 @@ export const addDebugControls = function (scene) {
           //"pre_first_sleep",
           //"miner_ask_for_card",
           //"mine_after",
-          //"second_act_begin",
+          "second_act_begin",
           //"factory_after",
           //"third_act_begin",
           //"fourth_act_begin",
@@ -100,7 +100,7 @@ export const addDebugControls = function (scene) {
           //"strike_end",
           //"after_final_message",
         ]);
-        scene.setHeroPosition("heroFactory");
+        //scene.setHeroPosition("heroFactory");
       });
     });
 
