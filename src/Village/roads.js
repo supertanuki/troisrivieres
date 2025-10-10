@@ -29,6 +29,18 @@ export const toggleRoadsVisibility = function (scene) {
       .setDepth(120)
       .setVisible(false);
 
+    scene.carsTop.forEachTile((tile) => {
+      if (tile.properties?.pointCollide === true) {
+        scene.pointsCollider.push(
+          scene.physics.add
+            .sprite(tile.getCenterX(), tile.getCenterY(), null)
+            .setSize(10, 1)
+            .setImmovable(true)
+            .setVisible(false)
+        );
+      }
+    });
+
     scene.carsTopCollider = scene.physics.add.collider(scene.hero, scene.carsTop);
 
     // smooth collision management
