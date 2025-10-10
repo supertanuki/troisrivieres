@@ -7,6 +7,7 @@ export default class Cat extends Chat {
   constructor(scene, x, y) {
     super(scene, x, y, "sprites", "cat-1", 0, 0, true);
     this.spriteId = SPRITE_ID;
+    this.delta = 20;
 
     scene.anims
       .create({

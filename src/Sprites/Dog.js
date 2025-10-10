@@ -7,6 +7,7 @@ export default class Dog extends Chat {
   constructor(scene, x, y) {
     super(scene, x, y, "sprites", "dog-1", 0, 0, true);
     this.spriteId = SPRITE_ID;
+    this.delta = 20;
 
     scene.anims
       .create({
@@ -42,7 +43,6 @@ Phaser.GameObjects.GameObjectFactory.register(SPRITE_ID, function (x, y) {
   sprite.body.setSize(sprite.width, 1);
   sprite.setImmovable(true);
   sprite.setInteractive();
-  // sprite.setOffset(0, 0.)
 
   this.displayList.add(sprite);
   this.updateList.add(sprite);

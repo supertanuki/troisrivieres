@@ -141,6 +141,7 @@ export const addDebugControls = function (scene) {
       scene.isCinematic = true;
       scene.time.delayedCall(2000, () => {
         scene.setHeroPosition("heroDjangoFinal");
+        villageStateAfterFirstSleep(scene);
         setVillageBeforeMine(scene);
         setVillageForSecondAct(scene);
         setVillageForThirdAct(scene);

@@ -171,7 +171,7 @@ export const gameOver = function (scene) {
                 .text(
                   20,
                   300,
-                  "Idée originale, game design et programmation\n\n  Richard Hanna\n\ngraphisme, Level design, Game design\n\n  Philippe Salib\n\nGame design, narration, musiques et effets sonores\n\n  David Fonteix. Beta test :::: Enfants",
+                  "Idée originale, game design et programmation\n\n  Richard Hanna\n\nGraphisme, level design et game design\n\n  Philippe Salib\n\nGame design, narration, musiques et effets sonores\n\n  David Fonteix.",
                   {
                     fontFamily: "DefaultFont",
                     fontSize: FONT_SIZE,
@@ -179,7 +179,7 @@ export const gameOver = function (scene) {
                     resolution: FONT_RESOLUTION,
                   }
                 )
-                .setWordWrapWidth(300)
+                .setWordWrapWidth(350)
                 .setScrollFactor(0)
                 .setDepth(2000);
               scene.tweens.add({
@@ -188,6 +188,8 @@ export const gameOver = function (scene) {
                 ease: "Sine.easeOut",
                 duration: 15000,
               });
+
+              // Tests\n\n  Enzo, Paloma et tous les enfants de la médiathèque Vernant de Chelles
 
               scene.tweens.add({
                 targets: scene.cameras.main,
@@ -198,10 +200,19 @@ export const gameOver = function (scene) {
                   if (!fadeOut && event.progress > 0.95) {
                     fadeOut = true;
                     fadeOutMusic(scene, scene.villageTheme); // @todo whatever theme to fadeout
-                    scene.cameras.main.fadeOut(2000, 0, 0, 0, (cam, progress) => {
-                      if (progress !== 1) return;
-                      window.setTimeout(() => window.location.href = "?bonus", 2000);
-                    });
+                    scene.cameras.main.fadeOut(
+                      2000,
+                      0,
+                      0,
+                      0,
+                      (cam, progress) => {
+                        if (progress !== 1) return;
+                        window.setTimeout(
+                          () => (window.location.href = "?bonus"),
+                          2000
+                        );
+                      }
+                    );
                   }
                 },
               });
