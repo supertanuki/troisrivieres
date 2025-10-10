@@ -89,7 +89,7 @@ export default class MiniGameUi extends Phaser.Scene {
     let scoreBoard;
     this.scores = [];
 
-    if (this.constructor.name === "Mine") {
+    if (this?.verticalScore) {
       scoreBoard = this.add
         .sprite(6, 0, "ui", "scoreboard-vertical")
         .setOrigin(0, 0);

@@ -171,7 +171,7 @@ export const gameOver = function (scene) {
                 .text(
                   20,
                   300,
-                  "Idée originale, game design et programmation\n\n  Richard Hanna\n\nGame design, level design\n\n  Philippe Salib\n\nGame design, musiques et effets sonores\n\n  David Fonteix.",
+                  "Idée originale, game design et programmation\n\n  Richard Hanna\n\ngraphisme, Level design, Game design\n\n  Philippe Salib\n\nGame design, narration, musiques et effets sonores\n\n  David Fonteix. Beta test :::: Enfants",
                   {
                     fontFamily: "DefaultFont",
                     fontSize: FONT_SIZE,
