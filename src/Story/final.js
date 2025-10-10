@@ -101,16 +101,13 @@ export const setVillageFinalVersion = function (scene, debug = false) {
   scene.bottomRecyclingLayer.destroy();
   scene.riverRecyclingPollutedLayer.destroy();
 
-  scene.screensCollider.destroy();
   scene.screens.destroy();
   scene.screensTop.destroy();
 
   scene.screenOffSprites.forEach((screen) => screen.destroy());
-  const screensDamaged = scene.map
+  scene.map
     .createLayer("screensDamaged", scene.tileset)
-    .setCollisionByProperty({ collide: true })
     .setDepth(49);
-  scene.physics.add.collider(scene.hero, screensDamaged);
 
   scene.map.createLayer("screensDamagedTop", scene.tileset).setDepth(149);
   scene.map.createLayer("carsDamagedBottom", scene.tileset).setDepth(98);

@@ -4232,21 +4232,6 @@
     <frame tileid="1701" duration="250"/>
    </animation>
   </tile>
-  <tile id="1707">
-   <properties>
-    <property name="collide" type="bool" value="true"/>
-   </properties>
-  </tile>
-  <tile id="1709">
-   <properties>
-    <property name="collide" type="bool" value="true"/>
-   </properties>
-  </tile>
-  <tile id="1711">
-   <properties>
-    <property name="collide" type="bool" value="true"/>
-   </properties>
-  </tile>
   <tile id="1720">
    <properties>
     <property name="collide" type="bool" value="false"/>
