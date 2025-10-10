@@ -19,7 +19,7 @@ export const beforeFinal = function (scene) {
   scene.cameras.main.stopFollow();
   scene.tweens.add({
     targets: scene.cameras.main,
-    scrollX: scene.cameras.main.scrollX - 100,
+    scrollY: scene.cameras.main.scrollY - 50,
     ease: "Sine.easeIn",
     duration: 2000,
   });
@@ -102,8 +102,6 @@ export const setVillageFinalVersion = function (scene, debug = false) {
   scene.riverRecyclingPollutedLayer.destroy();
 
   scene.screensCollider.destroy();
-  scene.ads.destroy();
-  scene.adsTop.destroy();
   scene.screens.destroy();
   scene.screensTop.destroy();
 

@@ -2,14 +2,17 @@ import Phaser from "phaser";
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import { playSound, preloadSound } from "../Utils/music";
 
+const INITIAL_DEPTH = 99;
 export default class Screen extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y, screenIndex) {
     super(scene, x, y, "sprites", "screen-off-1");
     this.scene = scene;
-    this.setDepth(250);
+    this.setDepth(INITIAL_DEPTH);
+    this.delta = 20;
 
     this.spriteId = "screen" + screenIndex;
-    this.heroNearMe = false;
+
+    this.heroBehindMe = false;
     this.previousChatImageUiVisibility = false;
     this.isShutDown = false;
 
@@ -19,10 +22,11 @@ export default class Screen extends Phaser.Physics.Arcade.Sprite {
       this
     );
 
+    this.anims.play("ads", true);
     preloadSound('sfx_extinction_ecrans', scene);
   }
 
-  isHeroNearMe() {
+  isHeroBehindMe() {
     const hero = this.scene.hero;
     return (
       hero.x > this.x - 10 &&
@@ -32,21 +36,40 @@ export default class Screen extends Phaser.Physics.Arcade.Sprite {
     );
   }
 
+  isHeroNearMe() {
+    const hero = this.scene.hero;
+    return (
+      hero.x > this.x - this.delta &&
+      hero.x < this.x + this.delta &&
+      hero.y > this.y - this.delta &&
+      hero.y < this.y + this.delta
+    );
+  }
+
   preUpdate(time, delta) {
     super.preUpdate(time, delta);
-    if (this.isShutDown) return;
 
-    const isHeroNearMe = this.isHeroNearMe();
-    if (this.heroNearMe !== isHeroNearMe) {
-      this.heroNearMe = isHeroNearMe;
+    const isHeroBehindMe = this.isHeroBehindMe();
+    if (this.heroBehindMe !== isHeroBehindMe) {
+      this.heroBehindMe = isHeroBehindMe;
 
-      if (this.spriteId) {
+      if (this.spriteId && !this.isShutDown) {
         sceneEventsEmitter.emit(
-          isHeroNearMe
+          isHeroBehindMe
             ? sceneEvents.DiscussionReady
             : sceneEvents.DiscussionAbort,
           this.spriteId
         );
+      }
+    }
+
+    if (this.isHeroNearMe()) {
+      if (this.y < this.scene.hero.y) {
+        console.log('setDepth', INITIAL_DEPTH)
+        this.setDepth(INITIAL_DEPTH);
+      } else {
+        console.log('setDepth', this.scene.hero.depth+1)
+        this.setDepth(this.scene.hero.depth+1);
       }
     }
   }
@@ -80,7 +103,7 @@ Phaser.GameObjects.GameObjectFactory.register(
       Phaser.Physics.Arcade.DYNAMIC_BODY
     );
 
-    sprite.setImmovable(true).setVisible(false);
+    sprite.setImmovable(true);
     this.displayList.add(sprite);
     this.updateList.add(sprite);
 

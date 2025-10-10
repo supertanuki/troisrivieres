@@ -107,6 +107,10 @@ export const setVillageForThirdAct = function (scene) {
     scene.map.heightInPixels - 8
   );
 
+  scene.obstacleBridgeLayer.setCollisionByProperty({ collide: false });
+  scene.obstacleBridgeLayer.destroy();
+  scene.obstacleBridgeLayerCollider.destroy();
+
   scene.landRecyclingLayer = scene.map
     .createLayer("landRecycling", scene.tileset)
     .setDepth(70)
@@ -204,30 +208,62 @@ export const setVillageForThirdAct = function (scene) {
 };
 
 export const toggleScreensVisibility = function (scene) {
+  // Add screens off anim
+  scene.anims.create({
+    key: "screen-off",
+    frames: scene.anims.generateFrameNames("sprites", {
+      start: 1,
+      end: 3,
+      prefix: "screen-off-",
+    }),
+    repeat: 0,
+    frameRate: 10,
+  });
+
+  // Add ads anim
+  // @todo: stay more on the fourth frame of each ads
+  scene.anims.create({
+    key: "ads",
+    frames: scene.anims.generateFrameNames("sprites", {
+      start: 1,
+      end: 13,
+      prefix: "ads-",
+    }),
+    repeat: -1,
+    frameRate: 2,
+  });
+
   if (!scene.screens) {
     scene.screens = scene.map
       .createLayer("screens", scene.tileset)
-      .setCollisionByProperty({ collide: true })
       .setDepth(49)
       .setVisible(false);
 
-    scene.screensCollider = scene.physics.add.collider(
-      scene.hero,
-      scene.screens
-    );
+    let screenIndex = 1;
+    scene.screens.forEachTile((tile) => {
+      if (tile.properties?.screen === true) {
+        scene.pointsCollider.push(
+          scene.physics.add
+            .sprite(tile.getCenterX() + 1, tile.getCenterY() - 8, null)
+            .setSize(18, 1)
+            .setImmovable(true)
+            .setVisible(false)
+        );
+
+        scene.screenOffSprites.push(
+          scene.add.screen(
+            tile.getCenterX() + 1,
+            tile.getCenterY() - 3,
+            screenIndex
+          )
+        );
+        screenIndex++;
+      }
+    });
 
     scene.screensTop = scene.map
       .createLayer("screensTop", scene.tileset)
       .setDepth(149)
-      .setVisible(false);
-
-    scene.ads = scene.map
-      .createLayer("ads", scene.tileset)
-      .setDepth(50)
-      .setVisible(false);
-    scene.adsTop = scene.map
-      .createLayer("adsTop", scene.tileset)
-      .setDepth(150)
       .setVisible(false);
   }
 
@@ -235,11 +271,4 @@ export const toggleScreensVisibility = function (scene) {
 
   scene.screensTop.setVisible(state);
   scene.screens.setVisible(state);
-  scene.adsTop.setVisible(state);
-  scene.ads.setVisible(state);
-
-  /** @todo: to move? */
-  scene.obstacleBridgeLayer.setCollisionByProperty({ collide: false });
-  scene.obstacleBridgeLayer.destroy();
-  scene.obstacleBridgeLayerCollider.destroy();
 };

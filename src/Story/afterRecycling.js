@@ -160,30 +160,4 @@ export const setVillageForFourthAct = function (scene) {
     treeObject.treeTop.destroy();
   });
   scene.treesOfDcCollider.forEach((e) => e.destroy());
-
-  // Add screens off
-  scene.anims.create({
-    key: "screen-off",
-    frames: scene.anims.generateFrameNames("sprites", {
-      start: 1,
-      end: 3,
-      prefix: "screen-off-",
-    }),
-    repeat: 0,
-    frameRate: 10,
-  });
-
-  let screenIndex = 1;
-  scene.screens.forEachTile((tile) => {
-    if (tile.properties?.screen === true) {
-      scene.screenOffSprites.push(
-        scene.add.screen(
-          tile.getCenterX() + 1,
-          tile.getCenterY() - 3,
-          screenIndex
-        )
-      );
-      screenIndex++;
-    }
-  });
 };
