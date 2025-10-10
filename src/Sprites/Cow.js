@@ -7,6 +7,7 @@ export default class Cow extends Chat {
   constructor(scene, x, y) {
     super(scene, x, y, "sprites", "cow-1", 0, 0, true);
     this.spriteId = SPRITE_ID;
+    this.delta = 30;
 
     scene.anims
       .create({
