@@ -50,6 +50,7 @@ const setVillageOnStrike = function (scene) {
   scene.hero.animateToUp();
   scene.dcWorker3.scaleX = 1;
   scene.django.beforeStrike();
+  // django door
   scene.map.createLayer("topStrike", scene.tileset).setDepth(120);
   scene.map.createLayer("bottomStrike", scene.tileset).setDepth(70);
 
