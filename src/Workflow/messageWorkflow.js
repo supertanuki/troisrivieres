@@ -341,7 +341,7 @@ const messageWorkflow = {
     {
       messages: [
         "C'est donc toi Maï ?",
-        "Ton arrivée dans notre village ne passe pas inaperçue.",
+        "Ton arrivée dans le village ne passe pas inaperçue.",
         "Comme tu peux le constater…",
         "tu ne me vois pas au meilleur de ma forme !",
         "À l'est, une mine vient de s'installer.",
@@ -351,10 +351,16 @@ const messageWorkflow = {
         "Et le rythme de travail y est extrêmement soutenu !",
         "Bref. Je te dirais bien d'en prendre garde mais…",
         "Je vois dans ton regard que tu es déterminée à y aller.",
-        "Tiens, prends mon laissez-passer, je n'en ai plus besoin.",
+      ],
+      unlockEvents: ["pre_card_for_mine"],
+    },
+    {
+      messages: [
+        "Prends mon laissez-passer, je n'en ai plus besoin.",
         "Mais promets moi de faire bien attention à toi !",
       ],
       repeat: ["Fais bon usage de mon badge… et sois prudente."],
+      dependingOn: ["pre_card_for_mine"],
       unlockEvents: ["card_for_mine"],
     },
     {

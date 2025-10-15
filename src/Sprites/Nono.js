@@ -1,5 +1,7 @@
 import Phaser from "phaser";
 import Chat from "../UI/Chat";
+import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
+import { eventsHas } from "../Utils/events";
 
 export const SPRITE_ID = "nono";
 
@@ -27,11 +29,21 @@ export default class Nono extends Chat {
         })
       );
 
-
-    console.log('add nono');
-
     this.anims.play("nono-idle", true);
     this.hasUnreadMessage(this.spriteId);
+
+    sceneEventsEmitter.on(sceneEvents.EventsUnlocked, this.listenEvents, this);
+  }
+
+  listenEvents(data) {
+    if (eventsHas(data, "pre_card_for_mine")) {
+      this.anims.stop();
+      this.setTexture("sprites", "nono-card");
+    }
+
+    if (eventsHas(data, "card_for_mine")) {
+      this.anims.play("nono-idle", true);
+    }
   }
 }
 
