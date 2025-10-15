@@ -3,8 +3,7 @@ import Game from "../Game";
 import { dispatchUnlockEvents, eventsHas } from "../Utils/events";
 import {
   playDjangoTheme,
-  playVillageAmbiance,
-  playVillageTheme,
+  playVillageAmbianceV1,
 } from "../Utils/music";
 import { showBirds } from "../Village/birds";
 import { handleAction } from "../Village/handleAction";
@@ -12,9 +11,9 @@ import { showBikes } from "../Village/hideBikes";
 
 /** @param {Game} scene  */
 export const beforeFinal = function (scene) {
-  playVillageTheme(scene);
-  playVillageAmbiance(scene);
   scene.isCinematic = true;
+  scene.isBeforeFinal = true;
+  playVillageAmbianceV1(scene);
 
   scene.cameras.main.stopFollow();
   scene.tweens.add({

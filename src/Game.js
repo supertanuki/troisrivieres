@@ -107,6 +107,7 @@ export default class Game extends Scene {
 
     this.isBonus = false;
     this.isFinal = false;
+    this.isBeforeFinal = false;
     this.howToPlay = true;
 
     /** @type {Phaser.Tilemaps.Tilemap | null} */
@@ -466,7 +467,7 @@ export default class Game extends Scene {
       this.hero.animateToLeft();
     }
 
-    if (urlParamHas("nomusic") || this.isFinal) {
+    if (urlParamHas("nomusic") || this.isBeforeFinal || this.isFinal) {
       // do nothing
     } else if (this.night) {
       playNightAmbiance(this);

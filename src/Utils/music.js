@@ -167,6 +167,8 @@ export const playVillageAmbianceV1 = function (scene) {
   )
     return;
 
+  console.log('playVillageAmbianceV1 and fadeOut industryTheme')
+  fadeOutMusic(scene, scene.industryTheme);
   fadeOutMusic(scene, scene.villageAmbianceV2);
 
   if (scene.villageAmbianceV1 && scene.sound.get("village-ambiance-v1")) {
