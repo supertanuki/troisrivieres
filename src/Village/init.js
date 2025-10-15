@@ -251,6 +251,7 @@ export const delayedInit = function (scene) {
 
     if (o.name === "cowHidden") {
       scene.cowHidden = scene.add.cow(o.x, o.y);
+      scene.cowHidden.toRight();
       scene.cowHidden.on("pointerdown", () => handleAction(scene), this);
     }
 

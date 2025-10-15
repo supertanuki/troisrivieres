@@ -213,6 +213,13 @@ export const setVillageFinalVersion = function (scene, debug = false) {
       scene.cow.body.checkCollision.none = false;
     }
 
+    if (o.name === "cowHiddenFinal") {
+      scene.cowHidden.setPosition(o.x, o.y);
+      scene.cowHidden.setVisible(true);
+      scene.cowHidden.setActive(true);
+      scene.cowHidden.body.checkCollision.none = false;
+    }
+
     if (o.name === "vealFinal") {
       scene.veal.setPosition(o.x, o.y);
       scene.veal.setVisible(true);

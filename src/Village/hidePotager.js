@@ -10,6 +10,10 @@ export const hidePotager = function (scene) {
   scene.cow.setActive(false);
   scene.cow.body.checkCollision.none = true;
 
+  scene.cowHidden.setVisible(false);
+  scene.cowHidden.setActive(false);
+  scene.cowHidden.body.checkCollision.none = true;
+
   scene.veal.setVisible(false);
   scene.veal.setActive(false);
   scene.veal.body.checkCollision.none = true;
