@@ -54,7 +54,7 @@ export default class Bird extends Phaser.Physics.Arcade.Sprite {
       "sfx_oiseaux_volent",
       this.scene,
       true,
-      Phaser.Math.Between(6, 8) / 10
+      Phaser.Math.Between(8, 10) / 10
     );
     this.status = Status.flying;
     this.body.checkCollision.none = true;
