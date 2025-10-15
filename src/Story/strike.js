@@ -50,6 +50,8 @@ const setVillageOnStrike = function (scene) {
   scene.hero.animateToUp();
   scene.dcWorker3.scaleX = 1;
   scene.django.beforeStrike();
+  scene.map.createLayer("topStrike", scene.tileset).setDepth(120);
+  scene.map.createLayer("bottomStrike", scene.tileset).setDepth(70);
 
   scene.map.getObjectLayer("sprites").objects.forEach((o) => {
     if (o.name === "strikeDcWorker1") {

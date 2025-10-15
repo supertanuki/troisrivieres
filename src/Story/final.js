@@ -112,9 +112,6 @@ export const setVillageFinalVersion = function (scene, debug = false) {
   scene.map.createLayer("screensDamagedTop", scene.tileset).setDepth(149);
   scene.map.createLayer("carsDamagedBottom", scene.tileset).setDepth(98);
 
-  scene.map.createLayer("topFinal", scene.tileset).setDepth(120);
-  scene.map.createLayer("bottomFinal", scene.tileset).setDepth(70);
-
   scene.obstacleRecyclingLayer.setCollisionByProperty({ collide: true });
   scene.obstacleRecyclingCollider = scene.physics.add.collider(
     scene.hero,
