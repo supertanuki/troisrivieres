@@ -2,7 +2,7 @@ import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import Game from "../Game";
 import { DiscussionStatus } from "../Utils/discussionStatus";
 import {
-  playIndustryTheme,
+  playNightAmbiance,
   playNightmareTheme,
   playVillageAmbiance,
   playVillageTheme,
@@ -20,7 +20,7 @@ import { createBlueWorkerAnimation } from "../Sprites/BlueWorker";
 /** @param {Game} scene  */
 export const afterFactory = function (scene) {
   scene.wakeGame();
-  playIndustryTheme(scene);
+  playNightAmbiance(scene);
   scene.isCinematic = true;
   scene.cameras.main.fadeIn(1000, 0, 0, 0);
 

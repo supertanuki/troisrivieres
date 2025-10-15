@@ -145,7 +145,7 @@ const messageWorkflow = {
         "- La nouvelle usine à l'ouest t'inspire ?",
         "- Elle m'inspire ce poème oui, de la confiance non.",
       ],
-      repeat: ["Il parait que ça cherche du monde à l'ouest…"],
+      repeat: ["L'usine à l'ouest n'inspire pas confiance."],
       dependingOn: ["third_act_begin"],
     },
     {
@@ -729,7 +729,7 @@ const messageWorkflow = {
     {
       messages: [
         "Fiouuu… ça fait du bien une petite pause…",
-        "Je plains juste celui qui devra dépolluer ces bassins d'eau.",
+        "Je plains celui qui devra dépolluer ces bassins d'eau.",
         "Enfin… si on le fait un jour…",
       ],
     },

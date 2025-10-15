@@ -184,7 +184,7 @@ export default class MiniGameUi extends Phaser.Scene {
   }
 
   showScoreBoard() {
-    playSound("sfx_mini-jeu_apparition_panneau_erreurs_2", this);
+    playSound("sfx_mini-jeu_apparition_panneau_erreurs_2", this, false, 0.7);
     this.tweens.add({
       targets: this.scoreBoardContainer,
       y: 0,

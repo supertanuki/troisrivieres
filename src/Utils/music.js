@@ -134,6 +134,7 @@ export const playNightmareTheme = function (scene) {
   )
     return;
 
+  fadeOutMusic(scene, scene.nightAmbiance);
   fadeOutMusic(scene, scene.industryTheme);
   if (scene.nightmareTheme && scene.sound.get("nightmare-theme")) {
     fadeInMusic(scene, scene.nightmareTheme);
@@ -196,7 +197,7 @@ export const playVillageAmbianceV2 = function (scene) {
   fadeOutMusic(scene, scene.villageAmbianceV1);
 
   if (scene.villageAmbianceV2 && scene.sound.get("village-ambiance-v2")) {
-    fadeInMusic(scene, scene.villageAmbianceV2, 0.3);
+    fadeInMusic(scene, scene.villageAmbianceV2, 0.6);
     return;
   }
 
@@ -205,7 +206,7 @@ export const playVillageAmbianceV2 = function (scene) {
   loader.audio("village-ambiance-v2", "sounds/sfx/sfx_ambiance_jour_v2.mp3");
   loader.once("complete", () => {
     scene.villageAmbianceV2 = scene.sound.add("village-ambiance-v2");
-    fadeInMusic(scene, scene.villageAmbianceV2, 0.3);
+    fadeInMusic(scene, scene.villageAmbianceV2, 0.6);
     loadingVillageAmbianceV2 = false;
   });
   loader.start();
@@ -220,6 +221,8 @@ export const playNightAmbiance = function (scene) {
   )
     return;
 
+  fadeOutMusic(scene, scene.industryTheme);
+  fadeOutMusic(scene, scene.miniGameTheme);
   fadeOutMusic(scene, scene.villageTheme);
   fadeOutMusic(scene, scene.villageAmbianceV1);
   fadeOutMusic(scene, scene.villageAmbianceV2);

@@ -314,7 +314,7 @@ export default class RecyclingCentre extends MiniGameUi {
     this.currentObject.setFrame(this.selectedObject);
     this.previousObject.setFrame(this.getObjectNameByDirection(-1) + "-little");
     this.nextObject.setFrame(this.getObjectNameByDirection(1) + "-little");
-    playSound("sfx_mini-jeu_reussite", this, true, 0.05);
+    playSound("sfx_mini-jeu_reussite", this, true, 0.06);
 
     this.tweens.add({
       targets: this.shredder,

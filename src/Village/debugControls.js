@@ -62,6 +62,7 @@ export const addDebugControls = function (scene) {
   scene.input.keyboard
     .addKey(Phaser.Input.Keyboard.KeyCodes.E)
     .on("down", () => {
+      villageStateAfterFirstSleep(scene);
       setVillageBeforeMine(scene);
       setVillageForSecondAct(scene);
       //setVillageForThirdAct(scene);
@@ -178,6 +179,7 @@ export const addDebugControls = function (scene) {
   scene.input.keyboard
     .addKey(Phaser.Input.Keyboard.KeyCodes.O)
     .on("down", () => {
+      villageStateAfterFirstSleep(scene);
       sceneEventsEmitter.emit(sceneEvents.PreEventsUnlocked, [
         "mine_access_validation",
       ]);

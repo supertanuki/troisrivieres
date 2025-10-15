@@ -11,15 +11,7 @@ export const addBirds = function (scene) {
     );
   });
 
-  scene.physics.add.collider(scene.birds, scene.hero, (bird) => {
-    playSound(
-      "sfx_oiseaux_volent",
-      scene,
-      true,
-      Phaser.Math.Between(4, 8) / 10
-    );
-    bird.fly();
-  });
+  scene.physics.add.collider(scene.birds, scene.hero, (bird) => bird.fly());
 };
 
 export const lessBirds = function (scene) {

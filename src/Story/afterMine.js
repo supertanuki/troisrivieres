@@ -1,13 +1,13 @@
 import Game from "../Game";
 import { DiscussionStatus } from "../Utils/discussionStatus";
-import { playIndustryTheme, playNightmareTheme } from "../Utils/music";
+import { playNightAmbiance, playNightmareTheme } from "../Utils/music";
 import { setNightState } from "../Village/night";
 import { toggleSpritesVisibility } from "../Village/spritesVisibility";
 
 /** @param {Game} scene  */
 export const afterMine = function (scene) {
   scene.wakeGame();
-  playIndustryTheme(scene);
+  playNightAmbiance(scene);
   scene.isCinematic = true;
   scene.cameras.main.fadeIn(1000, 0, 0, 0);
 

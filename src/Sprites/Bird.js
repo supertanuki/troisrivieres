@@ -1,5 +1,6 @@
 import Phaser from "phaser";
 import { randomSign } from "../Utils/randomSign";
+import { playSound } from "../Utils/music";
 
 const SPEEDX = 120;
 const SPEEDY = -50;
@@ -49,6 +50,12 @@ export default class Bird extends Phaser.Physics.Arcade.Sprite {
       return;
     }
 
+    playSound(
+      "sfx_oiseaux_volent",
+      this.scene,
+      true,
+      Phaser.Math.Between(6, 8) / 10
+    );
     this.status = Status.flying;
     this.body.checkCollision.none = true;
     this.birdDirection = this.scene.goingRight ? 1 : -1;
@@ -81,7 +88,7 @@ export default class Bird extends Phaser.Physics.Arcade.Sprite {
   }
 
   outOfScreen() {
-    this.anims.stop()
+    this.anims.stop();
     this.status = Status.outOfScreen;
     this.setVelocity(0, 0);
     this.setVisible(false);

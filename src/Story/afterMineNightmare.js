@@ -14,7 +14,6 @@ import { switchNight } from "../Village/night";
 import { toggleRoadsVisibility } from "../Village/roads";
 import { secondRiverLessWater } from "../Village/secondRiverLessWater";
 import { toggleSpritesVisibility } from "../Village/spritesVisibility";
-import { villageStateAfterFirstSleep } from "./firstSleep";
 import { playVillageAmbiance, playVillageTheme } from "../Utils/music";
 import { createTreesLayer } from "../Village/trees";
 

@@ -3,7 +3,7 @@ import { setNightState } from "../Village/night";
 import { toggleSpritesVisibility } from "../Village/spritesVisibility";
 import "../Sprites/DcWorkerChief";
 import {
-  playIndustryTheme,
+  playNightAmbiance,
   playNightmareTheme,
   playVillageAmbiance,
   playVillageTheme,
@@ -15,7 +15,7 @@ import { handleAction } from "../Village/handleAction";
 /** @param {Game} scene  */
 export const afterRecycling = function (scene) {
   scene.wakeGame();
-  playIndustryTheme(scene);
+  playNightAmbiance(scene);
   scene.isCinematic = true;
   scene.cameras.main.fadeIn(1000, 0, 0, 0);
 
