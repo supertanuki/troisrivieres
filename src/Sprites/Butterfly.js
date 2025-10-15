@@ -1,6 +1,8 @@
 import Phaser from "phaser";
 import { randomSign } from "../Utils/randomSign";
 
+const DELTA = 20;
+
 export default class Butterfly extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
     super(scene, x, y, "sprites", "butterfly-1");
@@ -8,13 +10,28 @@ export default class Butterfly extends Phaser.Physics.Arcade.Sprite {
     this.initialPosition = {x, y}
     this.scaleX = randomSign();
     this.anims.play("butterfly-anim");
+
+    this.stepX = 0;
+    this.stepY = 0;
   }
 
   preUpdate(time, delta) {
     super.preUpdate(time, delta);
+    if (Phaser.Math.Between(1, 10) === 1) {
+      this.stepX = Phaser.Math.Between(0, 2) / 10 * randomSign();
+      this.stepY = Phaser.Math.Between(0, 2) / 10 * randomSign();
+    };
 
-    this.x -= Phaser.Math.Between(2, 5) / 10 * randomSign();
-    this.y -= Phaser.Math.Between(2, 5) / 10 * randomSign();
+    if (this.x - this.stepX > this.initialPosition.x + DELTA ||
+      this.x - this.stepX < this.initialPosition.x - DELTA)
+      this.stepX = 0;
+
+    if (this.y - this.stepY > this.initialPosition.y + DELTA ||
+      this.y - this.stepY < this.initialPosition.y - DELTA)
+      this.stepY = 0;
+
+    this.x -= this.stepX;
+    this.y -= this.stepY;
   }
 }
 

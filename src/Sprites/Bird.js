@@ -4,6 +4,7 @@ import { playSound } from "../Utils/music";
 
 const SPEEDX = 120;
 const SPEEDY = -50;
+export const COLORS = ['blue', 'purple', 'yellow'];
 
 const Status = {
   waiting: "waiting",
@@ -15,7 +16,8 @@ const randomIdle = () => Phaser.Math.Between(1, 3);
 
 export default class Bird extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
-    super(scene, x, y, "sprites", "bird-idle-1");
+    super(scene, x, y, null, null);
+    this.color = Phaser.Math.RND.pick(COLORS);
     this.scene = scene;
     this.idleId = randomIdle();
     this.birdDirection = randomSign();
@@ -61,7 +63,7 @@ export default class Bird extends Phaser.Physics.Arcade.Sprite {
     this.birdDirection = this.scene.goingRight ? 1 : -1;
     this.scaleX = -1 * this.birdDirection;
     this.setOffsetDependingOnDirection();
-    this.anims.play("bird-flying", true);
+    this.anims.play(`bird-${this.color}-flying`, true);
   }
 
   reset() {
@@ -74,7 +76,7 @@ export default class Bird extends Phaser.Physics.Arcade.Sprite {
     this.scaleX = this.birdDirection;
     this.setOffsetDependingOnDirection();
     this.idleId = randomIdle();
-    this.anims.play(`bird-idle-anim-${this.idleId}`, true);
+    this.anims.play(`bird-${this.color}-idle-anim-${this.idleId}`, true);
   }
 
   hide() {
@@ -116,12 +118,12 @@ export default class Bird extends Phaser.Physics.Arcade.Sprite {
 
     if (this.isWaiting()) {
       this.setVelocity(0, 0);
-      this.anims.play(`bird-idle-anim-${this.idleId}`, true);
+      this.anims.play(`bird-${this.color}-idle-anim-${this.idleId}`, true);
       return;
     }
 
     if (this.isFlying()) {
-      this.anims.play("bird-flying", true);
+      this.anims.play(`bird-${this.color}-flying`, true);
       this.setVelocity(SPEEDX * this.birdDirection, SPEEDY);
       const worldView = this.scene.cameras.main.worldView;
 

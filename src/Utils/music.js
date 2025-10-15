@@ -167,7 +167,6 @@ export const playVillageAmbianceV1 = function (scene) {
   )
     return;
 
-  console.log('playVillageAmbianceV1 and fadeOut industryTheme')
   fadeOutMusic(scene, scene.industryTheme);
   fadeOutMusic(scene, scene.villageAmbianceV2);
 
@@ -299,8 +298,6 @@ export const playSound = function (
   }
 
   if (scene.sounds[soundName].isPlaying) return;
-
-  console.log(soundName, scene.sounds[soundName].isPlaying);
 
   scene.sounds[soundName].play({ volume, loop });
 };

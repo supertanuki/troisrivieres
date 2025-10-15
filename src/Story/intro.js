@@ -5,7 +5,7 @@ export const intro = function (scene) {
     key: "tent",
     frames: scene.anims.generateFrameNames("sprites", {
       start: 1,
-      end: 5,
+      end: 6,
       prefix: "tent-",
     }),
     repeat: 0,

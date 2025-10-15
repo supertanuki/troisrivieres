@@ -1,7 +1,24 @@
 import "../Sprites/Butterfly";
 
 export const addButterflies = function (scene) {
-  createButterfliesAnims(scene);
+  scene.anims
+    .create({
+      key: "butterfly-anim",
+      frames: scene.anims.generateFrameNames("sprites", {
+        start: 1,
+        end: 3,
+        prefix: "butterfly-",
+      }),
+      repeat: -1,
+      frameRate: 4,
+    })
+    .addFrame([
+      {
+        key: "sprites",
+        frame: "butterfly-2",
+        duration: 2,
+      },
+    ]);
 
   scene.map.getObjectLayer("butterflies").objects.forEach((flyPosition) => {
     scene.butterflies.push(
@@ -22,25 +39,4 @@ export const lessButterflies = function (scene) {
 export const noMoreButterflies = function (scene) {
   scene.butterflies.forEach((butterfly) => butterfly.destroy());
   scene.butterflies = [];
-};
-
-const createButterfliesAnims = function (scene) {
-  scene.anims
-    .create({
-      key: "butterfly-anim",
-      frames: scene.anims.generateFrameNames("sprites", {
-        start: 1,
-        end: 3,
-        prefix: "butterfly-",
-      }),
-      repeat: -1,
-      frameRate: 4,
-    })
-    .addFrame([
-      {
-        key: "sprites",
-        frame: "butterfly-2",
-        duration: 2,
-      },
-    ]);
 };

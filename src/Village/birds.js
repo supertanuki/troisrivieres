@@ -1,5 +1,6 @@
 import "../Sprites/Bird";
-import { playSound, preloadSound } from "../Utils/music";
+import { COLORS } from "../Sprites/Bird";
+import { preloadSound } from "../Utils/music";
 
 export const addBirds = function (scene) {
   createBirdAnims(scene);
@@ -36,89 +37,91 @@ export const showBirds = function (scene) {
 export const createBirdAnims = function (scene) {
   const anims = scene.anims;
 
-  anims
-    .create({
-      key: "bird-idle-anim-1",
+  COLORS.forEach((color) => {
+    anims
+      .create({
+        key: `bird-${color}-idle-anim-1`,
+        frames: anims.generateFrameNames("sprites", {
+          start: 1,
+          end: 4,
+          prefix: `bird-${color}-idle-`,
+        }),
+        repeat: -1,
+        frameRate: 1,
+      })
+      .addFrame(
+        anims.generateFrameNames("sprites", {
+          start: 3,
+          end: 2,
+          prefix: `bird-${color}-idle-`,
+        })
+      );
+
+    anims.create({
+      key: `bird-${color}-idle-anim-2`,
+      frames: [
+        {
+          key: "sprites",
+          frame: `bird-${color}-idle-2`,
+        },
+        {
+          key: "sprites",
+          frame: `bird-${color}-idle-3`,
+        },
+        {
+          key: "sprites",
+          frame: `bird-${color}-idle-4`,
+        },
+        {
+          key: "sprites",
+          frame: `bird-${color}-idle-3`,
+        },
+        {
+          key: "sprites",
+          frame: `bird-${color}-idle-2`,
+        },
+      ],
+      repeat: -1,
+      frameRate: 2,
+    });
+
+    anims.create({
+      key: `bird-${color}-idle-anim-3`,
+      frames: [
+        {
+          key: "sprites",
+          frame: `bird-${color}-idle-3`,
+        },
+        {
+          key: "sprites",
+          frame: `bird-${color}-idle-4`,
+        },
+        {
+          key: "sprites",
+          frame: `bird-${color}-idle-3`,
+        },
+        {
+          key: "sprites",
+          frame: `bird-${color}-idle-2`,
+        },
+        {
+          key: "sprites",
+          frame: `bird-${color}-idle-1`,
+        },
+      ],
+      repeat: -1,
+      frameRate: 3,
+    });
+
+    anims.create({
+      key: `bird-${color}-flying`,
       frames: anims.generateFrameNames("sprites", {
         start: 1,
-        end: 4,
-        prefix: "bird-idle-",
+        end: 3,
+        prefix: `bird-${color}-flying-`,
       }),
       repeat: -1,
-      frameRate: 1,
-    })
-    .addFrame(
-      anims.generateFrameNames("sprites", {
-        start: 3,
-        end: 2,
-        prefix: "bird-idle-",
-      })
-    );
-
-  anims.create({
-    key: "bird-idle-anim-2",
-    frames: [
-      {
-        key: "sprites",
-        frame: "bird-idle-2",
-      },
-      {
-        key: "sprites",
-        frame: "bird-idle-3",
-      },
-      {
-        key: "sprites",
-        frame: "bird-idle-4",
-      },
-      {
-        key: "sprites",
-        frame: "bird-idle-3",
-      },
-      {
-        key: "sprites",
-        frame: "bird-idle-2",
-      },
-    ],
-    repeat: -1,
-    frameRate: 2,
-  });
-
-  anims.create({
-    key: "bird-idle-anim-3",
-    frames: [
-      {
-        key: "sprites",
-        frame: "bird-idle-3",
-      },
-      {
-        key: "sprites",
-        frame: "bird-idle-4",
-      },
-      {
-        key: "sprites",
-        frame: "bird-idle-3",
-      },
-      {
-        key: "sprites",
-        frame: "bird-idle-2",
-      },
-      {
-        key: "sprites",
-        frame: "bird-idle-1",
-      },
-    ],
-    repeat: -1,
-    frameRate: 3,
-  });
-
-  anims.create({
-    key: "bird-flying",
-    frames: anims.generateFrameNames("sprites", {
-      start: 1,
-      end: 3,
-      prefix: "bird-flying-",
-    }),
-    repeat: -1,
-    frameRate: 10,
+      frameRate: 10,
+    });
   });
 };
