@@ -118,11 +118,11 @@ export const gameOver = function (scene) {
       );
       scene.time.delayedCall(20000, () =>
         fadeOutMessageEnd(
-          "Collectivement, il faut réduire le nombre et allonger la durée de vie des objets numériques."
+          "Collectivement, réduisons le nombre et augmentons la durée de vie des objets numériques."
         )
       );
       scene.time.delayedCall(25000, () =>
-        fadeOutMessageEnd("Et se mobiliser pour des luttes qui ont du sens.")
+        fadeOutMessageEnd("Et se mobiliser ou soutenir, si on le peut, les luttes qui ont du sens.")
       );
       scene.time.delayedCall(29000, () =>
         fadeOutMessageEnd(
