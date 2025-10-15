@@ -2142,11 +2142,6 @@
     <property name="collide" type="bool" value="false"/>
    </properties>
   </tile>
-  <tile id="800">
-   <properties>
-    <property name="collide" type="bool" value="true"/>
-   </properties>
-  </tile>
   <tile id="801">
    <properties>
     <property name="collide" type="bool" value="false"/>

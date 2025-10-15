@@ -14,6 +14,7 @@ import { setNightState } from "../Village/night";
 import { toggleSpritesVisibility } from "../Village/spritesVisibility";
 import "../Sprites/BlueWorkerChief";
 import "../Sprites/BlueWorker";
+import "../Sprites/Screen";
 import { createBlueWorkerAnimation } from "../Sprites/BlueWorker";
 
 /** @param {Game} scene  */

@@ -15,6 +15,7 @@ export default class Screen extends Phaser.Physics.Arcade.Sprite {
     this.heroBehindMe = false;
     this.previousChatImageUiVisibility = false;
     this.isShutDown = false;
+    this.isShutDownable = false;
 
     sceneEventsEmitter.on(
       sceneEvents.ScreenShutdown,
@@ -23,7 +24,7 @@ export default class Screen extends Phaser.Physics.Arcade.Sprite {
     );
 
     this.anims.play("ads", true);
-    preloadSound('sfx_extinction_ecrans', scene);
+    preloadSound("sfx_extinction_ecrans", scene);
   }
 
   isHeroBehindMe() {
@@ -49,29 +50,31 @@ export default class Screen extends Phaser.Physics.Arcade.Sprite {
   preUpdate(time, delta) {
     super.preUpdate(time, delta);
 
-    const isHeroBehindMe = this.isHeroBehindMe();
-    if (this.heroBehindMe !== isHeroBehindMe) {
-      this.heroBehindMe = isHeroBehindMe;
+    if (this.isShutDownable) {
+      const isHeroBehindMe = this.isHeroBehindMe();
+      if (this.heroBehindMe !== isHeroBehindMe) {
+        this.heroBehindMe = isHeroBehindMe;
 
-      if (this.spriteId && !this.isShutDown) {
-        sceneEventsEmitter.emit(
-          isHeroBehindMe
-            ? sceneEvents.DiscussionReady
-            : sceneEvents.DiscussionAbort,
-          this.spriteId
-        );
+        if (this.spriteId && !this.isShutDown) {
+          sceneEventsEmitter.emit(
+            isHeroBehindMe
+              ? sceneEvents.DiscussionReady
+              : sceneEvents.DiscussionAbort,
+            this.spriteId
+          );
+        }
       }
     }
 
     if (this.isHeroNearMe()) {
-      if (this.y < this.scene.hero.y) {
-        console.log('setDepth', INITIAL_DEPTH)
-        this.setDepth(INITIAL_DEPTH);
-      } else {
-        console.log('setDepth', this.scene.hero.depth+1)
-        this.setDepth(this.scene.hero.depth+1);
-      }
+      this.setDepth(
+        this.y < this.scene.hero.y ? INITIAL_DEPTH : this.scene.hero.depth + 1
+      );
     }
+  }
+
+  enableShutdown() {
+    this.isShutDownable = true;
   }
 
   screenShutdown(payload) {
@@ -83,12 +86,13 @@ export default class Screen extends Phaser.Physics.Arcade.Sprite {
     this.isShutDown = true;
     this.setVisible(true);
     this.anims.play("screen-off", true);
-    playSound('sfx_extinction_ecrans', this.scene, true, 0.5);
+    playSound("sfx_extinction_ecrans", this.scene, true, 0.5);
   }
 
   shutdown() {
     this.isShutDown = true;
     this.setVisible(true);
+    this.anims.stop();
     this.setTexture("sprites", "screen-off-3");
   }
 }

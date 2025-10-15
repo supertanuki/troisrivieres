@@ -1,7 +1,6 @@
 import Game from "../Game";
 import { setNightState } from "../Village/night";
 import { toggleSpritesVisibility } from "../Village/spritesVisibility";
-import "../Sprites/Screen";
 import "../Sprites/DcWorkerChief";
 import {
   playIndustryTheme,
@@ -95,6 +94,7 @@ export const setVillageForFourthAct = function (scene) {
   console.log("setVillageForFourthAct");
   setNightState(scene, false);
   toggleSpritesVisibility(scene, true, true);
+  scene.screenOffSprites.forEach((screen) => screen.enableShutdown());
 
   scene.dcBottomLayer = scene.map
     .createLayer("dcBottom", scene.tileset)
