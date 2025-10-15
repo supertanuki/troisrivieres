@@ -403,10 +403,6 @@ export default class Game extends Scene {
       updateNightPosition(this);
     }
 
-    if (this.hero) {
-      this.hero.updateShadow();
-    }
-
     if (!this.cursors || !this.hero || this.isCinematic || !this.hero.body) {
       return;
     }
@@ -497,7 +493,5 @@ export default class Game extends Scene {
     ) {
       this.stopMoving();
     }
-
-    this.hero.updateShadow();
   }
 }

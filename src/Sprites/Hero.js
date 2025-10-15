@@ -8,16 +8,21 @@ export class Hero extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y, texture, frame) {
     super(scene, x, y, texture, frame);
     this.scene = scene;
-    this.shadow = scene.add.ellipse(x, y + 10, 12, 8, 0x000000, 0.1);
-    preloadSound('sfx_bruits_de_pas', scene);
+    this.shadow = scene.add.ellipse(x, y + 10, 10, 6, 0x000000, 0.1);
+    preloadSound("sfx_bruits_de_pas", scene);
+  }
+
+  preUpdate(time, delta) {
+    super.preUpdate(time, delta);
+    this.updateShadow();
   }
 
   playMoveSound() {
-    playSound('sfx_bruits_de_pas', this.scene, false, 0.7, true);
+    playSound("sfx_bruits_de_pas", this.scene, false, 0.7, true);
   }
 
   stopMoveSound() {
-    stopSound('sfx_bruits_de_pas', this.scene);
+    stopSound("sfx_bruits_de_pas", this.scene);
   }
 
   resetVelocity() {
@@ -30,54 +35,60 @@ export class Hero extends Phaser.Physics.Arcade.Sprite {
     this.body.offset.x = this.width;
   }
 
+  resetScaleAndOffset() {
+    this.scaleX = 1;
+    this.body.offset.x = 0;
+  }
+
   goRight() {
     this.setVelocityX(SPEED);
-    this.scaleX = 1;
-    this.body.offset.x = 2;
+    this.resetScaleAndOffset();
   }
 
   goUp() {
     if (this.body.velocity.x)
-      this.setVelocity(this.body.velocity.x > 0 ? SPEED_DIAGONAL : -SPEED_DIAGONAL, -SPEED_DIAGONAL);
-    else
-      this.setVelocityY(-SPEED);
+      this.setVelocity(
+        this.body.velocity.x > 0 ? SPEED_DIAGONAL : -SPEED_DIAGONAL,
+        -SPEED_DIAGONAL
+      );
+    else this.setVelocityY(-SPEED);
 
-    this.scaleX = 1;
-    this.body.offset.x = -2;
+    this.resetScaleAndOffset();
   }
 
   goDown() {
     if (this.body.velocity.x)
-      this.setVelocity(this.body.velocity.x > 0 ? SPEED_DIAGONAL : -SPEED_DIAGONAL, SPEED_DIAGONAL);
-    else
-      this.setVelocityY(SPEED);
+      this.setVelocity(
+        this.body.velocity.x > 0 ? SPEED_DIAGONAL : -SPEED_DIAGONAL,
+        SPEED_DIAGONAL
+      );
+    else this.setVelocityY(SPEED);
 
-    this.scaleX = 1;
-    this.body.offset.x = -2;
+    this.resetScaleAndOffset();
   }
 
   slowRight() {
-    this.goRight()
+    this.goRight();
     this.setVelocity(SPEED_SLOW, 0);
   }
 
   slowRightDown() {
-    this.goRight()
-    this.setVelocity(SPEED_SLOW, SPEED_SLOW/1.5);
+    this.goRight();
+    this.setVelocity(SPEED_SLOW, SPEED_SLOW / 1.5);
   }
 
   slowLeft() {
-    this.goLeft()
+    this.goLeft();
     this.setVelocity(-SPEED_SLOW, 0);
   }
 
   slowDown() {
-    this.goDown()
+    this.goDown();
     this.setVelocity(0, SPEED_SLOW);
   }
 
   slowUp() {
-    this.goUp()
+    this.goUp();
     this.setVelocity(0, -SPEED_SLOW);
   }
 
@@ -112,7 +123,7 @@ export class Hero extends Phaser.Physics.Arcade.Sprite {
 
   updateShadow() {
     if (!this.shadow) return;
-    this.shadow.setDepth(this.depth-1);
+    this.shadow.setDepth(this.depth - 1);
     this.shadow.x = this.x;
     this.shadow.y = this.y + 8;
   }
@@ -127,8 +138,8 @@ Phaser.GameObjects.GameObjectFactory.register(
       sprite,
       Phaser.Physics.Arcade.DYNAMIC_BODY
     );
-
-    sprite.body.setSize(14, 22);
+    
+    //sprite.body.setSize(16, 22);
 
     this.displayList.add(sprite);
     this.updateList.add(sprite);
