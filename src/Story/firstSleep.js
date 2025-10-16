@@ -4,7 +4,11 @@ import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import { handleAction } from "../Village/handleAction";
 import { switchNight } from "../Village/night";
 import { toggleSpritesVisibility } from "../Village/spritesVisibility";
-import { playVillageAmbiance, playVillageTheme, preloadSound } from "../Utils/music";
+import {
+  playVillageAmbiance,
+  playVillageTheme,
+  preloadSound,
+} from "../Utils/music";
 
 /** @param {Game} scene  */
 export const firstSleep = function (scene) {
@@ -12,7 +16,7 @@ export const firstSleep = function (scene) {
   scene.cameras.main.fadeOut(1000, 0, 0, 0, (cam, progress) => {
     if (progress !== 1) return;
     scene.time.delayedCall(2000, () => endFirstSleep(scene));
-  })
+  });
 };
 
 /** @param {Game} scene  */
@@ -29,7 +33,7 @@ export const endFirstSleep = function (scene) {
 
   sceneEventsEmitter.emit(sceneEvents.PreEventsUnlocked, ["first_sleep"]);
   scene.cameras.main.fadeIn(1000, 0, 0, 0);
-  
+
   scene.time.delayedCall(1000, () => {
     scene.isCinematic = false;
     sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "django");
@@ -54,8 +58,12 @@ export const villageStateAfterFirstSleep = function (scene) {
       scene.physics.add.collider(scene.nono, scene.hero, () => {
         sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "nono");
       });
+    }
 
-      break;
+    if (spriteObject.name === "cowForest") {
+      scene.cow.setPosition(spriteObject.x, spriteObject.y);
+      scene.cow.body.setSize(20, 10);
+      scene.cow.toRight();
     }
   }
 
