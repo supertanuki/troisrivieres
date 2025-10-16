@@ -1,6 +1,8 @@
+import Game from "../Game";
 import isMobileOrTablet from "../Utils/isMobileOrTablet";
 import { handleAction } from "./handleAction";
 
+/** @param {Game} scene  */
 export const createControls = function (scene) {
   scene.cursors = scene.input.keyboard.addKeys({
     space: "space",
@@ -13,6 +15,8 @@ export const createControls = function (scene) {
   scene.input.keyboard.on(
     "keydown",
     (event) => {
+      if (scene.isCinematic) return;
+
       if (event.key === "ArrowUp") {
         scene.goingUp = true;
         scene.goingDown = false;
@@ -38,7 +42,9 @@ export const createControls = function (scene) {
 
   scene.input.keyboard.on(
     "keyup",
-    function (event) {
+    (event) => {
+      if (scene.isCinematic) return;
+
       if (event.key == "ArrowUp") {
         scene.goingUp = false;
       } else if (event.key == "ArrowDown") {
@@ -74,7 +80,7 @@ export const addJoystickForMobile = function (scene) {
   // Make floating joystick
   scene.input.on(
     "pointerdown",
-    function (pointer) {
+    (pointer) => {
       scene.joystick.setPosition(pointer.x, pointer.y);
       scene.joystick.setVisible(true);
       handleAction(scene);
@@ -84,7 +90,7 @@ export const addJoystickForMobile = function (scene) {
 
   scene.joystick.on(
     "update",
-    function () {
+    () => {
       scene.howToPlay = false;
       scene.goingAngle = scene.joystick.angle;
 
@@ -129,7 +135,7 @@ export const addJoystickForMobile = function (scene) {
 
   scene.joystick.on(
     "pointerup",
-    function () {
+    () => {
       scene.joystick.setVisible(false);
       scene.stopMoving();
     },

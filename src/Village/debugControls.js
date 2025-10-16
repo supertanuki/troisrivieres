@@ -80,9 +80,9 @@ export const addDebugControls = function (scene) {
       scene.time.delayedCall(2000, () => {
         scene.setHeroPosition("heroKoko");
         villageStateAfterFirstSleep(scene);
-        setVillageBeforeMine(scene);
-        setVillageForSecondAct(scene);
-        setVillageForThirdAct(scene);
+        //setVillageBeforeMine(scene);
+        //setVillageForSecondAct(scene);
+        //setVillageForThirdAct(scene);
         //setVillageForFourthAct(scene);
         scene.isCinematic = false;
 
@@ -96,7 +96,7 @@ export const addDebugControls = function (scene) {
           //"second_act_begin",
           //"factory_after",
           //"third_act_begin",
-          "fourth_act_begin",
+          //"fourth_act_begin",
           //"strike_begin",
           //"strike_end",
           //"after_final_message",

@@ -12,6 +12,11 @@ export class Hero extends Phaser.Physics.Arcade.Sprite {
     preloadSound("sfx_bruits_de_pas", scene);
   }
 
+  setVisible(state) {
+    super.setVisible(state);
+    this.shadow.setVisible(state);
+  }
+
   preUpdate(time, delta) {
     super.preUpdate(time, delta);
     this.updateShadow();

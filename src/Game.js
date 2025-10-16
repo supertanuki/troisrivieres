@@ -66,6 +66,7 @@ export default class Game extends Scene {
     this.bikes = [];
 
     this.isCinematic = false;
+    this.isIntro = false;
     this.night = false;
     this.villageTheme = null;
     this.industryTheme = null;

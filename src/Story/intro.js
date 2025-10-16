@@ -1,5 +1,7 @@
+import Game from "../Game";
 import { playSound, preloadSound } from "../Utils/music";
 
+/** @param {Game} scene  */
 export const intro = function (scene) {
   scene.anims.create({
     key: "tent",
@@ -11,37 +13,49 @@ export const intro = function (scene) {
     repeat: 0,
     frameRate: 10,
   });
-  
+
+  preloadSound("sfx_tente", scene);
+
   scene.isIntro = true;
   scene.isCinematic = true;
   scene.hero.setVisible(false);
-  scene.time.addEvent({
-    callback: () => {
-      scene.goingDown = true;
-      scene.hero.animateToDown();
-      scene.hero.setVisible(true);
-    },
-    delay: 1000,
-  });
 
-  preloadSound('sfx_tente', scene);
-
-  scene.events.on("update", () => {
+  const sceneUpdate = () => {
     if (!scene.isIntro) return;
 
-    if (scene.goingDown) {
-      scene.hero.slowDown();
+    if (scene.howToPlay) return;
+
+    if (scene.goingUp || scene.goingLeft || scene.goingRight) {
+      scene.goingUp = false;
+      scene.goingLeft = false;
+      scene.goingRight = false;
+      scene.goingDown = true;
     }
 
-    if (scene.hero.y > scene.heroPositions["hero"].y + 5) {
+    if (scene.goingDown) {
+      scene.isCinematic = true;
+      scene.hero.slowDown();
+      scene.hero.animateToDown();
+      scene.hero.setVisible(true);
+    }
+
+    if (scene.hero.y > scene.heroPositions["hero"].y + 20) {
+      scene.hero.animateToUp();
+      scene.hero.stopAndWait();
+      scene.events.off("update", sceneUpdate);
       scene.isIntro = false;
       scene.goingDown = false;
       scene.tent.anims.play("tent", true);
-      playSound('sfx_tente', scene)
+      playSound("sfx_tente", scene);
       scene.tent.on("animationcomplete", () => {
         scene.tent.destroy();
         scene.isCinematic = false;
       });
     }
+  };
+
+  scene.time.delayedCall(1000, () => {
+    scene.isCinematic = false;
+    scene.events.on("update", sceneUpdate);
   });
 };
