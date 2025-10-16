@@ -757,7 +757,7 @@ const messageWorkflow = {
           : "Installe-toi…\n[espace pour continuer]",
         "Comme tu es nouvelle, je te mets sur un poste simple…",
         "…le nettoyage !",
-        "Les roches vont avancer sur le crible…",
+        "Les roches vont avancer sur le tapis roulant…",
         "et tu devras les nettoyer pour éliminer les impuretés !",
         "Pourquoi faire ça tu vas me dire ? Pour le PROGRÈS.",
         "Les métaux et minerais dévoilés servent pour tout.",
