@@ -126,7 +126,15 @@ export const splashScreen = function (scene) {
   const mai = scene.add.sprite(60, 118, "splash", "mai-1").setOrigin(0, 0);
   mai.play("mai");
 
-  const title = scene.add.sprite(250, 80, "splash", "title").setOrigin(0, 0);
+  //const title = scene.add.sprite(250, 80, "splash", "title").setOrigin(0, 0);
+  const title = scene.add
+    .text(275, 130, "Trois-Rivières", {
+      fontFamily: "DefaultFont",
+      fontSize: "32px",
+      fill: "#307f6d",
+    })
+    .setOrigin(0.5, 0.5)
+    .setResolution(FONT_RESOLUTION);
 
   const smokeBig = scene.add
     .sprite(372, 97, "splash", "smoke-big-1")
@@ -173,18 +181,6 @@ export const splashScreen = function (scene) {
       smokeSmall.destroy();
     });
   };
-
-  /*
-  const title = scene.add
-    .text(275, 130, "Trois-Rivières", {
-      fontFamily: "DefaultFont",
-      fontSize: "32px",
-      fill: "#307f6d",
-    })
-    .setOrigin(0.5, 0.5)
-    .setResolution(FONT_RESOLUTION)
-    .setInteractive({ useHandCursor: true });
-    */
 
   const clickBonusGame = (textObject) => {
     goingSomewhere = true;
@@ -271,6 +267,6 @@ export const splashScreen = function (scene) {
     const yDelta = -pointer.y / 50 + 6;
     rock.setPosition(xDelta, 212 + yDelta);
     mai.setPosition(60 + xDelta, 118 + yDelta);
-    title.setPosition(250 + xDelta * 2, 80 + yDelta * 2);
+    title.setPosition(280 + xDelta * 2, 120 + yDelta * 2);
   });
 };
