@@ -144,11 +144,11 @@ export default class RecyclingCentre extends MiniGameUi {
       .image(0, 0, "recyclingCentre", "shredder")
       .setDepth(2);
 
-    const wheelLeft = this.add
+    this.wheelLeft = this.add
       .image(-50, 45, "recyclingCentre", "wheel")
       .setDepth(2);
 
-    const wheelRight = this.add
+    this.wheelRight = this.add
       .image(50, 45, "recyclingCentre", "wheel")
       .setDepth(2);
 
@@ -176,8 +176,8 @@ export default class RecyclingCentre extends MiniGameUi {
       .setAlpha(0.4);
 
     this.containersObject = this.add.container(initialX, initialY, [
-      wheelLeft,
-      wheelRight,
+      this.wheelLeft,
+      this.wheelRight,
       this.shredder,
       this.buttonLeftTop,
       this.buttonLeftBottom,
@@ -263,7 +263,7 @@ export default class RecyclingCentre extends MiniGameUi {
   }
 
   tutoBegin() {
-    console.log('tutoBegin')
+    console.log("tutoBegin");
     for (const object of this.objects) {
       this.tweens.add({
         targets: object,
@@ -287,14 +287,14 @@ export default class RecyclingCentre extends MiniGameUi {
   }
 
   tutoEnd() {
-    console.log('tutoEnd')
+    console.log("tutoEnd");
     this.isCinematic = true;
     dispatchUnlockEvents(["recycling_tuto_end"]);
     this.startDiscussion("recyclingCentre");
   }
 
   afterTuto() {
-    console.log('afterTuto')
+    console.log("afterTuto");
     this.isCinematic = false;
     this.firstStep = false;
     // start
@@ -426,7 +426,10 @@ export default class RecyclingCentre extends MiniGameUi {
         : Phaser.Math.Between(1500, 2500);
     this.time.delayedCall(delay, () => this.initObject());
 
-    if (this.previousValidatedObjects !== this.validatedObjects && [11, 25].includes(this.validatedObjects)) {
+    if (
+      this.previousValidatedObjects !== this.validatedObjects &&
+      [11, 25].includes(this.validatedObjects)
+    ) {
       this.previousValidatedObjects = this.validatedObjects;
       this.updateMessage(getUiMessage("recycling.faster"));
     }
