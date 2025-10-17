@@ -27,7 +27,7 @@ export const playVillageTheme = function (scene) {
   fadeOutMusic(scene, scene.nightmareTheme);
 
   if (scene.villageTheme && scene.sound.get("village-theme")) {
-    fadeInMusic(scene, scene.villageTheme);
+    playMusic(scene.villageTheme);
     return;
   }
 
@@ -36,7 +36,7 @@ export const playVillageTheme = function (scene) {
   loader.audio("village-theme", "sounds/village_theme_compressed.mp3");
   loader.once("complete", () => {
     scene.villageTheme = scene.sound.add("village-theme");
-    fadeInMusic(scene, scene.villageTheme);
+    playMusic(scene.villageTheme);
     loadingVillageTheme = false;
   });
   loader.start();
@@ -256,6 +256,14 @@ export const fadeOutMusic = function (scene, music, duration = 2000) {
       music.stop();
     },
   });
+};
+
+export const playMusic = function (music, volume = 1) {
+  if (music.isPlaying) return;
+
+  music.volume = volume;
+  music.loop = true;
+  music.play();
 };
 
 export const fadeInMusic = function (scene, music, volume = 1) {
