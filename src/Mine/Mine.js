@@ -19,33 +19,21 @@ const waterDeltaY = 50;
 
 const conveyorInitialSpeed = [0.8, 1, 1.2];
 const conveyorSpeedIncrement = 0.6;
+const conveyorSpeedIncrementAgain = 0.8;
 
-const numberRockValidatedBeforeSpeedIncrement = getUrlParam(
-  "numberRockValidatedBeforeSpeedIncrement",
-  5
-);
+const numberRockValidatedBeforeSpeedIncrement = 5;
+const numberRocksValidatedBeforeSpeedIncrementAgain = 40;
 
-const numberRocksValidatedBeforeSpeedIncrementAgain = getUrlParam(
-  "numberRocksValidatedBeforeSpeedIncrementAgain",
-  30
-);
+const waterReductionFactor = 0.2;
+const waterRefillFactor = 0.5;
 
-const waterReductionFactor = getUrlParam("waterReductionFactor", 0.2);
-const waterRefillFactor = getUrlParam("waterRefillFactor", 0.5);
+const numberRockValidatedToHaveMoreMaterials = 12;
+const timeBetweenRocks = 2000;
+const moreMaterialsTimeBetweenRocks = 1000;
+const numberIsRefined = 60;
 
-const numberRockValidatedToHaveMoreMaterials = getUrlParam(
-  "numberRockValidatedToHaveMoreMaterials",
-  12
-);
-const timeBetweenRocks = getUrlParam("timeBetweenRocks", 2000);
-const moreMaterialsTimeBetweenRocks = getUrlParam(
-  "moreMaterialsTimeBetweenRocks",
-  1000
-);
-const numberIsRefined = getUrlParam("numberIsRefined", 60);
-
-const tubeSpeed = getUrlParam("tubeSpeed", 5);
-const tubeDeltaEffect = getUrlParam("tubeDeltaEffect", 40);
+const tubeSpeed = 5;
+const tubeDeltaEffect = 40;
 
 export default class Mine extends MiniGameUi {
   constructor() {
@@ -568,7 +556,7 @@ export default class Mine extends MiniGameUi {
     ) {
       this.fasterAgain = true;
       this.speed.forEach(
-        (value, index) => (this.speed[index] += conveyorSpeedIncrement)
+        (value, index) => (this.speed[index] += conveyorSpeedIncrementAgain)
       );
       this.updateMessage(getUiMessage("mine.fasterAgain"));
     }
