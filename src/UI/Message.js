@@ -98,18 +98,17 @@ export default class Message extends Phaser.Scene {
       .setVisible(false);
 
     this.spriteNameObject = this.add
-      .text(config.width / 2 - 128, config.height - 68, "", {
+      .text(config.width / 2 - 132, config.height - 65, "", {
         fontFamily: "DefaultFont",
         fontSize: FONT_SIZE,
-        fill: "#000000",
-        backgroundColor:"#ffffff",
+        fill:"#ffffff",
         padding: 4,
       })
-      .setAlpha(0.8)
       .setResolution(FONT_RESOLUTION)
       .setOrigin(0, 0.5)
       .setScrollFactor(0)
       .setDepth(3000)
+      .setStroke('#333333', 4)
       .setVisible(false);
 
     sceneEventsEmitter.on(sceneEvents.MessageSent, this.handleMessage, this);
