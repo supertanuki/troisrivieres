@@ -201,6 +201,9 @@ export const setVillageFinalVersion = function (scene, debug = false) {
     if (o.name === "deerFinal")
       scene.deer.setPosition(o.x, o.y).setVisible(true);
 
+    if (o.name === "owlFinal")
+      scene.owl.setPosition(o.x, o.y).setVisible(true);
+
     if (o.name === "cowFinal") {
       scene.cow.setPosition(o.x, o.y);
       scene.cow.setVisible(true);

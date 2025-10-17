@@ -58,7 +58,10 @@ export const setVillageForSecondAct = function (scene) {
   lessBirds(scene);
   lessButterflies(scene);
   scene.deer.setVisible(false);
-  scene.owl.destroy();
+  scene.owl.setVisible(false);
+
+  scene.ball.destroy();
+  scene.ball = null;
 
   scene.obstacleBridgeLayer = scene.map
     .createLayer("obstacleBridge", scene.tileset)
