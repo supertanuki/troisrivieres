@@ -7,7 +7,7 @@ import { playMiniGameTheme, playSound, preloadSound } from "../Utils/music";
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import { getUiMessage } from "../Workflow/messageWorkflow";
 
-export const OBJECTS_NAMES = ["console", "laptop", "phone"];
+export const OBJECTS_NAMES = ["laptop", "console", "phone"];
 export const OBJECTS_COLORS = {
   console: 0xbe4343,
   laptop: 0x6ec9c6,
@@ -36,7 +36,7 @@ export default class RecyclingCentre extends MiniGameUi {
     this.validatedObjects = 0;
     this.notValidatedObjects = 0;
     this.conveyorPosition = 0;
-    this.selectedObject = "console";
+    this.selectedObject = "laptop";
     this.warnings = 0;
     this.previousValidatedObjects = 0;
   }
@@ -109,16 +109,40 @@ export default class RecyclingCentre extends MiniGameUi {
       frameRate: 10,
     });
 
+    this.anims.create({
+      key: "wheel-right",
+      frames: this.anims.generateFrameNames("recyclingCentre", {
+        start: 1,
+        end: 4,
+        prefix: "wheel-",
+      }),
+      repeat: -1,
+      frameRate: 10,
+    });
+
+    this.anims.create({
+      key: "wheel-left",
+      frames: this.anims.generateFrameNames("recyclingCentre", {
+        start: 4,
+        end: 1,
+        prefix: "wheel-",
+      }),
+      repeat: -1,
+      frameRate: 10,
+    });
+
     this.scale.setGameSize(550, 300);
     this.matter.world.setBounds(0, -100, 550, 400);
 
     this.add.image(275, 150, "recyclingCentre", "background");
     this.add.image(275, 0, "recyclingCentre", "track").setOrigin(0.5, 0);
 
-    this.add.image(26, 300, "recyclingCentre", "water-level").setDepth(1);
+    this.waterLevelLeft = this.add
+      .image(26, 300, "recyclingCentre", "water-level")
+      .setDepth(1);
     this.add.image(27, 192, "recyclingCentre", "water-tank").setDepth(1);
 
-    this.add
+    this.waterLevelRight = this.add
       .image(524, 250, "recyclingCentre", "water-level")
       .setScale(-1, 1)
       .setDepth(1);
@@ -136,20 +160,20 @@ export default class RecyclingCentre extends MiniGameUi {
     this.rightCable = this.add.graphics().setDepth(1);
 
     this.shredder = this.add
-      .sprite(0, -65, "recyclingCentre", "shredder-console-1")
+      .sprite(0, -65, "recyclingCentre", "shredder-laptop-1")
       .setOrigin(0.5, 0)
       .setDepth(1);
-    this.shredder.anims.play("shredder-console");
+    this.shredder.anims.play("shredder-laptop");
     const containerBase = this.add
       .image(0, 0, "recyclingCentre", "shredder")
       .setDepth(2);
 
     this.wheelLeft = this.add
-      .image(-50, 45, "recyclingCentre", "wheel")
+      .sprite(-50, 45, "recyclingCentre", "wheel-1")
       .setDepth(2);
 
     this.wheelRight = this.add
-      .image(50, 45, "recyclingCentre", "wheel")
+      .sprite(50, 45, "recyclingCentre", "wheel-1")
       .setDepth(2);
 
     this.buttonLeftTop = this.add
@@ -172,7 +196,7 @@ export default class RecyclingCentre extends MiniGameUi {
       .image(0, -23, "recyclingCentre", "phone-little")
       .setAlpha(0.4);
     this.nextObject = this.add
-      .image(0, 27, "recyclingCentre", "laptop-little")
+      .image(0, 27, "recyclingCentre", "console-little")
       .setAlpha(0.4);
 
     this.containersObject = this.add.container(initialX, initialY, [
@@ -222,6 +246,8 @@ export default class RecyclingCentre extends MiniGameUi {
       playMiniGameTheme(this);
     }
 
+    // reset waters level
+    this.moveContainers(0);
     this.cameras.main.fadeIn(2000, 0, 0, 0);
     this.time.delayedCall(1000, () => this.startDiscussion("recyclingCentre"));
   }
@@ -387,7 +413,7 @@ export default class RecyclingCentre extends MiniGameUi {
     }
 
     const name = this.firstStep
-      ? "laptop"
+      ? "console"
       : Phaser.Math.RND.pick(OBJECTS_NAMES);
     const x = Phaser.Math.Between(150, 400);
     playSound("sfx_mini-jeu_trappe_dechet", this, true, 1);
@@ -469,6 +495,11 @@ export default class RecyclingCentre extends MiniGameUi {
     this.rightCable.setMask(maskRight);
   }
 
+  updateWaters() {
+    this.waterLevelLeft.y = this.containersObject.x / 2 + 155;
+    this.waterLevelRight.y = -this.containersObject.x / 2 + 420;
+  }
+
   moveContainers(stepX) {
     this.containersObject.body.setAccelerationX(stepX * 100);
     playSound("sfx_mini-jeu_roulement_broyeur", this, false, 0.5);
@@ -486,6 +517,22 @@ export default class RecyclingCentre extends MiniGameUi {
     } else {
       this.containersObject.body.setAccelerationX(0);
     }
+  }
+
+  updateWheels() {
+    if (
+      this.containersObject.body.velocity.x > 8 ||
+      this.containersObject.body.velocity.x < -8
+    ) {
+      this.wheelLeft.play("wheel-" + (this.goingLeft ? "left" : "right"), true);
+      this.wheelRight.play(
+        "wheel-" + (this.goingLeft ? "left" : "right"),
+        true
+      );
+      return;
+    }
+    this.wheelLeft.stop();
+    this.wheelRight.stop();
   }
 
   updateObjects() {
@@ -536,6 +583,8 @@ export default class RecyclingCentre extends MiniGameUi {
   update() {
     this.containersObject.body.setAccelerationX(0);
     this.updateCable();
+    this.updateWaters();
+    this.updateWheels();
 
     if (this.isCinematic) return;
 

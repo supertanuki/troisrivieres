@@ -5,7 +5,7 @@
 			"format": "RGBA8888",
 			"size": {
 				"w": 645,
-				"h": 401
+				"h": 406
 			},
 			"scale": 1,
 			"frames": [
@@ -430,7 +430,7 @@
 					}
 				},
 				{
-					"filename": "wheel",
+					"filename": "wheel-1",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
@@ -451,6 +451,69 @@
 					}
 				},
 				{
+					"filename": "wheel-2",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 22,
+						"h": 22
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 22,
+						"h": 22
+					},
+					"frame": {
+						"x": 440,
+						"y": 361,
+						"w": 22,
+						"h": 22
+					}
+				},
+				{
+					"filename": "wheel-3",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 22,
+						"h": 22
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 22,
+						"h": 22
+					},
+					"frame": {
+						"x": 462,
+						"y": 361,
+						"w": 22,
+						"h": 22
+					}
+				},
+				{
+					"filename": "wheel-4",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 22,
+						"h": 22
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 22,
+						"h": 22
+					},
+					"frame": {
+						"x": 484,
+						"y": 367,
+						"w": 22,
+						"h": 22
+					}
+				},
+				{
 					"filename": "phone-broken",
 					"rotated": false,
 					"trimmed": false,
@@ -465,8 +528,8 @@
 						"h": 25
 					},
 					"frame": {
-						"x": 440,
-						"y": 361,
+						"x": 506,
+						"y": 367,
 						"w": 16,
 						"h": 25
 					}
@@ -486,8 +549,8 @@
 						"h": 14
 					},
 					"frame": {
-						"x": 456,
-						"y": 361,
+						"x": 522,
+						"y": 367,
 						"w": 28,
 						"h": 14
 					}
@@ -507,8 +570,8 @@
 						"h": 25
 					},
 					"frame": {
-						"x": 484,
-						"y": 361,
+						"x": 522,
+						"y": 381,
 						"w": 14,
 						"h": 25
 					}
