@@ -207,6 +207,8 @@ export default class Mine extends MiniGameUi {
       );
     }
 
+    this.tubeShadow = this.add.ellipse(0, 0, 10, 6, 0x000000, 0.1);
+
     this.water = this.add.particles(0, 0, "mine", {
       frame: ["water-blue"],
       speed: { min: 200, max: 300 },
@@ -672,8 +674,8 @@ export default class Mine extends MiniGameUi {
     if (this.tubeMoving) this.whenTubeMoving();
     else this.stopTubeMoving();
 
-    this.tube.x = this.tubeEnd.x;
-    this.tube.y = this.tubeEnd.y - 34;
+    this.tube.setPosition(this.tubeEnd.x, this.tubeEnd.y - 34);
+    this.tubeShadow.setPosition(this.tubeEnd.x, this.tubeEnd.y + 58);
 
     this.conveyor.forEach((conveyor, index) => {
       this.conveyorPosition[index] += this.speed[index];
