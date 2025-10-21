@@ -207,7 +207,7 @@ export default class Mine extends MiniGameUi {
       );
     }
 
-    this.tubeShadow = this.add.ellipse(0, 0, 10, 6, 0x000000, 0.1);
+    this.tubeShadow = this.add.ellipse(0, 0, 16, 10, 0x000000, 0.1);
 
     this.water = this.add.particles(0, 0, "mine", {
       frame: ["water-blue"],
