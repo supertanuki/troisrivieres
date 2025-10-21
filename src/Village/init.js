@@ -323,6 +323,14 @@ export const delayedInit = function (scene) {
           .setImmovable(true)
           .setVisible(false)
       );
+    } else if (tile.properties?.lineCollide === true) {
+      scene.pointsCollider.push(
+        scene.physics.add
+          .sprite(tile.getCenterX(), tile.getCenterY(), null)
+          .setSize(16, 1)
+          .setImmovable(true)
+          .setVisible(false)
+      );
     } else if (tile.properties?.bottomCollide === true) {
       scene.pointsCollider.push(
         scene.physics.add

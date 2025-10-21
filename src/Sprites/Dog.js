@@ -40,7 +40,7 @@ Phaser.GameObjects.GameObjectFactory.register(SPRITE_ID, function (x, y) {
     Phaser.Physics.Arcade.DYNAMIC_BODY
   );
 
-  sprite.body.setSize(sprite.width, 1);
+  sprite.body.setSize(sprite.width - 6, 1);
   sprite.setImmovable(true);
   sprite.setInteractive();
 
