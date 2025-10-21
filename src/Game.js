@@ -18,11 +18,9 @@ import { afterFactory, afterFactoryNightmare } from "./Story/afterFactory";
 import { beforeStrike, strike } from "./Story/strike";
 import { gameOver } from "./Village/gameOver";
 import {
-  playDjangoTheme,
   playIndustryTheme,
   playNightAmbiance,
   playVillageAmbiance,
-  playVillageAmbianceV1,
   playVillageTheme,
 } from "./Utils/music";
 import {

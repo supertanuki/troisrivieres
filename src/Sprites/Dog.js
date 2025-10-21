@@ -5,7 +5,7 @@ export const SPRITE_ID = "dog";
 
 export default class Dog extends Chat {
   constructor(scene, x, y) {
-    super(scene, x, y, "sprites", "dog-1", 0, 0, true);
+    super(scene, x, y, "sprites", "dog-1", 0, 0, true, false, -2, 6);
     this.spriteId = SPRITE_ID;
     this.delta = 20;
 

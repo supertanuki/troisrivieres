@@ -13,9 +13,14 @@ export default class Chat extends Phaser.Physics.Arcade.Sprite {
     y,
     texture,
     frame,
-    chatIconDeltaX,
-    chatIconDeltaY,
-    disabledChatIcon
+    chatIconDeltaX = 0,
+    chatIconDeltaY = 0,
+    disabledChatIcon = false,
+    disabledShadow = false,
+    shadowDeltaX = 0,
+    shadowDeltaY = 10,
+    shadowDouble = false,
+    shadowDoubleSpace = 20
   ) {
     super(scene, x, y, texture, frame);
     this.scene = scene;
@@ -25,12 +30,22 @@ export default class Chat extends Phaser.Physics.Arcade.Sprite {
     this.delta = defaultDelta;
     this.spriteId = null;
     this.heroNearMe = false;
-    this.chatIconDeltaX = chatIconDeltaX || 0;
-    this.chatIconDeltaY = chatIconDeltaY || 0;
-    this.disabledChatIcon = disabledChatIcon || false;
+    this.chatIconDeltaX = chatIconDeltaX;
+    this.chatIconDeltaY = chatIconDeltaY;
+    this.shadowDeltaX = shadowDeltaX;
+    this.shadowDeltaY = shadowDeltaY;
+    this.shadowDoubleSpace = shadowDoubleSpace;
+
+    this.disabledChatIcon = disabledChatIcon;
     this.previousChatImageUiVisibility = false;
 
-    // this.shadow = scene.add.ellipse(x, y + 10, 10, 6, 0x000000, 0.1);
+    if (!disabledShadow) {
+      this.shadow = scene.add.ellipse(x + shadowDeltaX, y + shadowDeltaY, 10, 6, 0x000000, 0.1).setDepth(99);
+
+      if (shadowDouble) {
+        this.secondShadow = scene.add.ellipse(x + shadowDeltaX + shadowDoubleSpace, y + shadowDeltaY, 10, 6, 0x000000, 0.1).setDepth(99);
+      }
+    }
 
     if (!this.disabledChatIcon) {
       this.chatImageUi = scene.add
@@ -50,13 +65,21 @@ export default class Chat extends Phaser.Physics.Arcade.Sprite {
 
   setPosition(x, y) {
     super.setPosition(x, y);
-    // this.shadow
+    this.shadow?.setPosition(x + this.shadowDeltaX, y + this.shadowDeltaY);
+    this.secondShadow?.setPosition(x + this.shadowDeltaX + this.shadowDoubleSpace, y + this.shadowDeltaY)
     this.updateChatIconPosition();
     return this;
   }
 
+  destroy() {
+    super.destroy();
+    this.shadow?.destroy();
+  }
+
   setVisible(value) {
     super.setVisible(value);
+    this.shadow?.setVisible(value);
+
     if (!this.chatImageUi) return;
 
     if (!value) {

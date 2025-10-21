@@ -179,10 +179,10 @@ export const setVillageFinalVersion = function (scene, debug = false) {
     if (o.name === "djangoFinal") scene.django.setFinal(o.x, o.y);
 
     if (o.name === "girlFinal")
-      scene.girl.setPosition(o.x, o.y).disableChatIcon();
+      scene.girl.setFinal(o.x, o.y);
 
     if (o.name === "boyFinal")
-      scene.boy.setPosition(o.x, o.y).disableChatIcon();
+      scene.boy.setFinal(o.x, o.y);
 
     if (o.name === "dogFinal") scene.dog.setPosition(o.x, o.y);
 

@@ -171,7 +171,7 @@ export const playVillageAmbianceV1 = function (scene) {
   fadeOutMusic(scene, scene.villageAmbianceV2);
 
   if (scene.villageAmbianceV1 && scene.sound.get("village-ambiance-v1")) {
-    fadeInMusic(scene, scene.villageAmbianceV1, 0.3);
+    fadeInMusic(scene, scene.villageAmbianceV1, 0.2);
     return;
   }
 
@@ -180,7 +180,7 @@ export const playVillageAmbianceV1 = function (scene) {
   loader.audio("village-ambiance-v1", "sounds/sfx/sfx_ambiance_jour_v1.mp3");
   loader.once("complete", () => {
     scene.villageAmbianceV1 = scene.sound.add("village-ambiance-v1");
-    fadeInMusic(scene, scene.villageAmbianceV1, 0.3);
+    fadeInMusic(scene, scene.villageAmbianceV1, 0.2);
     loadingVillageAmbianceV1 = false;
   });
   loader.start();

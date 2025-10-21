@@ -37,6 +37,7 @@ export const strike = function (scene) {
     scene.cameras.main.fadeIn(1000, 0, 0, 0, (cam, progress) => {
       if (progress !== 1) return;
       dispatchUnlockEvents(["strike_begin"]);
+      scene.stopMoving();
       scene.isCinematic = false;
     });
   });

@@ -5,7 +5,7 @@ export const SPRITE_ID = "bino";
 
 export default class Bino extends Chat {
   constructor(scene, x, y) {
-    super(scene, x, y, "sprites", "bino-1");
+    super(scene, x, y, "sprites", "bino-1", 0, 0, false, false, 2, 8);
     this.spriteId = SPRITE_ID;
     this.cleaningRoadPosition = {x: 0, y: 0};
 

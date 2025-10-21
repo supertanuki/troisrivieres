@@ -5,8 +5,9 @@ export const SPRITE_ID = "girl";
 
 export default class Girl extends Chat {
   constructor(scene, x, y) {
-    super(scene, x, y, "sprites", "girl-water-1", 0, 0, true);
+    super(scene, x, y, "sprites", "girl-water-1", 0, 0, true, true);
     this.spriteId = SPRITE_ID;
+    this.shadowDeltaY = 7;
 
     scene.anims
       .create({
@@ -61,7 +62,9 @@ export default class Girl extends Chat {
   }
 
   setSad() {
-    this.setPosition(this.sadPosition.x, this.sadPosition.y);
+    const {x, y} = this.sadPosition;
+    this.shadow = this.scene.add.ellipse(x, y, 8, 4, 0x000000, 0.1).setDepth(99);
+    this.setPosition(x, y);
     this.anims.play("girl-sad");
   }
 
@@ -71,6 +74,12 @@ export default class Girl extends Chat {
     this.body.setSize(this.width, 1);
     this.scaleX = -1;
     this.setOffset(this.width, this.height/2);
+  }
+
+  setFinal(x, y) {
+    this.setPosition(x, y);
+    this.disableChatIcon();
+    this.scaleX = 1;
   }
 }
 

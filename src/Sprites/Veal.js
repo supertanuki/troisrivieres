@@ -5,8 +5,10 @@ export const SPRITE_ID = "veal";
 
 export default class Veal extends Chat {
   constructor(scene, x, y) {
-    super(scene, x, y, "sprites", "veal-1", 0, 0, true);
+    super(scene, x, y, "sprites", "veal-1", 0, 0, true, false, 0, 6);
     this.spriteId = SPRITE_ID;
+
+    this.shadow.setScale(1.5);
 
     scene.anims
       .create({

@@ -5,10 +5,10 @@ export const SPRITE_ID = "boy";
 
 export default class Boy extends Chat {
   constructor(scene, x, y) {
-    super(scene, x, y, "sprites", "boy-water-1", 10, 0, true);
+    super(scene, x, y, "sprites", "boy-water-1", 10, 0, true, true);
     this.spriteId = SPRITE_ID;
     this.delta = 40;
-    this.scene = scene;
+    this.shadowDeltaY = 6;
 
     scene.anims
       .create({
@@ -61,7 +61,9 @@ export default class Boy extends Chat {
   setSad() {
     this.chatIconDeltaX = 0;
 
-    this.setPosition(this.sadPosition.x, this.sadPosition.y);
+    const {x, y} = this.sadPosition;
+    this.shadow = this.scene.add.ellipse(x, y, 8, 4, 0x000000, 0.1).setDepth(99);
+    this.setPosition(x, y);
     this.anims.play("boy-sad");
 
     // group boy and girl
@@ -72,6 +74,12 @@ export default class Boy extends Chat {
   setThirdAct(x, y) {
     this.setPosition(x, y);
     this.body.setSize(this.width, 1);
+  }
+
+  setFinal(x, y) {
+    this.setPosition(x, y);
+    this.disableChatIcon();
+    this.scaleX = 1;
   }
 }
 

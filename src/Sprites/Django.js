@@ -6,7 +6,7 @@ export const SPRITE_ID = "django";
 
 export default class Django extends Chat {
   constructor(scene, x, y) {
-    super(scene, x, y, "sprites", "django-1", -2, -2);
+    super(scene, x, y, "sprites", "django-1", -2, -2, false, true);
     this.spriteId = SPRITE_ID;
     this.status = "idle";
 

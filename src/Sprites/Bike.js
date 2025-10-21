@@ -4,7 +4,7 @@ import { randomSign } from "../Utils/randomSign";
 
 export default class Bike extends Chat {
   constructor(scene, x, y) {
-    super(scene, x, y, "sprites", "bike", 0, 0, true);
+    super(scene, x, y, "sprites", "bike", 0, 0, true, true);
     this.scaleX = -1 * randomSign();
   }
 }

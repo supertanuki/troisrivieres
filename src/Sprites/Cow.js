@@ -5,9 +5,11 @@ export const SPRITE_ID = "cow";
 
 export default class Cow extends Chat {
   constructor(scene, x, y) {
-    super(scene, x, y, "sprites", "cow-1", 0, 0, true);
+    super(scene, x, y, "sprites", "cow-1", 0, 0, true, false);
     this.spriteId = SPRITE_ID;
     this.delta = 30;
+
+    this.shadow.setScale(2);
 
     scene.anims
       .create({

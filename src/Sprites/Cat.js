@@ -5,7 +5,7 @@ export const SPRITE_ID = "cat";
 
 export default class Cat extends Chat {
   constructor(scene, x, y) {
-    super(scene, x, y, "sprites", "cat-1", 0, 0, true);
+    super(scene, x, y, "sprites", "cat-1", 0, 0, true, false, 1, 5);
     this.spriteId = SPRITE_ID;
     this.delta = 20;
 

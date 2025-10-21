@@ -5,7 +5,7 @@ export const SPRITE_ID = "fisherman";
 
 export default class Fisherman extends Chat {
   constructor(scene, x, y) {
-    super(scene, x, y, "sprites", "mino-1", -11, -6);
+    super(scene, x, y, "sprites", "mino-1", -11, -6, false, false, -12, 6);
     this.spriteId = SPRITE_ID;
 
     scene.anims
@@ -49,6 +49,8 @@ export default class Fisherman extends Chat {
   }
 
   setSad() {
+    this.shadowDeltaX = 0;
+    this.shadowDeltaY = 8;
     this.anims.play("mino-sad");
     this.body.setSize(this.width, 1);
     this.x -= 12;
@@ -64,6 +66,8 @@ export default class Fisherman extends Chat {
   }
 
   setFinal(x, y) {
+    this.shadowDeltaX = -12;
+    this.shadowDeltaY = 6;
     this.scaleX = 1;
     this.setOffset(0, 0);
     this.setPosition(x, y);
