@@ -30,6 +30,8 @@ export default class Chat extends Phaser.Physics.Arcade.Sprite {
     this.disabledChatIcon = disabledChatIcon || false;
     this.previousChatImageUiVisibility = false;
 
+    // this.shadow = scene.add.ellipse(x, y + 10, 10, 6, 0x000000, 0.1);
+
     if (!this.disabledChatIcon) {
       this.chatImageUi = scene.add
         .sprite(x + this.chatIconDeltaX, y - 13 + this.chatIconDeltaY, "sprites", "exclam-3")
@@ -48,6 +50,7 @@ export default class Chat extends Phaser.Physics.Arcade.Sprite {
 
   setPosition(x, y) {
     super.setPosition(x, y);
+    // this.shadow
     this.updateChatIconPosition();
     return this;
   }

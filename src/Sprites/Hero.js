@@ -8,18 +8,7 @@ export class Hero extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y, texture, frame) {
     super(scene, x, y, texture, frame);
     this.scene = scene;
-    this.shadow = scene.add.ellipse(x, y + 10, 10, 6, 0x000000, 0.1);
     preloadSound("sfx_bruits_de_pas", scene);
-  }
-
-  setVisible(state) {
-    super.setVisible(state);
-    this.shadow.setVisible(state);
-  }
-
-  preUpdate(time, delta) {
-    super.preUpdate(time, delta);
-    this.updateShadow();
   }
 
   playMoveSound() {
@@ -124,13 +113,6 @@ export class Hero extends Phaser.Physics.Arcade.Sprite {
     parts[1] = "idle";
     this.anims.play(parts.join("-"), true);
     this.setVelocity(0, 0);
-  }
-
-  updateShadow() {
-    if (!this.shadow) return;
-    this.shadow.setDepth(this.depth - 1);
-    this.shadow.x = this.x;
-    this.shadow.y = this.y + 8;
   }
 }
 
