@@ -17,12 +17,12 @@ class MinerChief extends Chat {
         {
           key: "sprites",
           frame: "miner-chief-1",
-          duration: 300,
+          duration: 800,
         },
         {
             key: "sprites",
             frame: "miner-chief-2",
-            duration: 300,
+            duration: 700,
           },
         {
           key: "sprites",
@@ -31,7 +31,6 @@ class MinerChief extends Chat {
         },
       ],
       repeat: -1,
-      frameRate: 1,
     });
 
     this.anims.play("miner-chief-idle", true);

@@ -17,7 +17,7 @@ class BlueWorkerChief extends Chat {
         {
           key: "sprites",
           frame: "blue-worker-chief-1",
-          duration: 300,
+          duration: 400,
         },
         {
             key: "sprites",
@@ -31,7 +31,6 @@ class BlueWorkerChief extends Chat {
         },
       ],
       repeat: -1,
-      duration: 2000,
     });
 
     this.anims.play("blue-worker-chief-idle", true);

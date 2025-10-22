@@ -15,22 +15,35 @@ export default class Bino extends Chat {
         {
           key: "sprites",
           frame: "bino-1",
+          duration: 450,
         },
         {
           key: "sprites",
           frame: "bino-2",
+          duration: 450,
+        },
+        {
+          key: "sprites",
+          frame: "bino-1",
+          duration: 450,
+        },
+        {
+          key: "sprites",
+          frame: "bino-2",
+          duration: 450,
         },
         {
           key: "sprites",
           frame: "bino-3",
+          duration: 250,
         },
         {
           key: "sprites",
           frame: "bino-2",
+          duration: 450,
         },
       ],
       repeat: -1,
-      frameRate: 2,
     });
 
     this.anims.play("bino-idle", true);

@@ -46,14 +46,15 @@ export const createBlueWorkerAnimation = function (scene) {
       {
         key: "sprites",
         frame: "blue-worker-1",
+        duration: 1000,
       },
       {
         key: "sprites",
         frame: "blue-worker-2",
+        duration: 200,
       },
     ],
     repeat: -1,
-    frameRate: 2,
   });
 
   scene.anims.create({
@@ -62,13 +63,14 @@ export const createBlueWorkerAnimation = function (scene) {
       {
         key: "sprites",
         frame: "blue-worker-2",
+        duration: 300,
       },
       {
         key: "sprites",
         frame: "blue-worker-1",
+        duration: 2000,
       },
     ],
     repeat: -1,
-    frameRate: 3,
   });
 };

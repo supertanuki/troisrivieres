@@ -14,21 +14,30 @@ export default class TwoGuys extends Chat {
         {
           key: "sprites",
           frame: "twoguys-1",
-          duration: 1000,
+          duration: 600,
         },
         {
           key: "sprites",
           frame: "twoguys-2",
-          duration: 1000,
+          duration: 800,
+        },
+        {
+          key: "sprites",
+          frame: "twoguys-1",
+          duration: 900,
+        },
+        {
+          key: "sprites",
+          frame: "twoguys-2",
+          duration: 800,
         },
         {
           key: "sprites",
           frame: "twoguys-3",
-          duration: 10,
+          duration: 200,
         },
       ],
       repeat: -1,
-      duration: 2010,
     });
 
     this.anims.play("twoguys-idle", true);

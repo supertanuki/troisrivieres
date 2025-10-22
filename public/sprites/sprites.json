@@ -1671,13 +1671,13 @@
 				{
 					"filename": "bino-3",
 					"rotated": false,
-					"trimmed": false,
+					"trimmed": true,
 					"sourceSize": {
-						"w": 15,
+						"w": 16,
 						"h": 17
 					},
 					"spriteSourceSize": {
-						"x": 0,
+						"x": 1,
 						"y": 0,
 						"w": 15,
 						"h": 17
@@ -1736,11 +1736,11 @@
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
-						"w": 15,
+						"w": 16,
 						"h": 17
 					},
 					"spriteSourceSize": {
-						"x": 0,
+						"x": 1,
 						"y": 1,
 						"w": 15,
 						"h": 16
@@ -1757,11 +1757,11 @@
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
-						"w": 15,
+						"w": 16,
 						"h": 17
 					},
 					"spriteSourceSize": {
-						"x": 0,
+						"x": 1,
 						"y": 1,
 						"w": 15,
 						"h": 16
