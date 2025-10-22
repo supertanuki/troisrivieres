@@ -48,13 +48,20 @@ export default class Deer extends Phaser.Physics.Arcade.Sprite {
     this.anims.play("deer");
     this.depth = 99;
 
-    this.shadow = scene.add.ellipse(x + 2, y + 8, 16, 6, 0x000000, 0.1).setDepth(98);
+    this.shadow = scene.add
+      .ellipse(x + 2, y + 8, 16, 6, 0x000000, 0.1)
+      .setDepth(98);
   }
 
   setPosition(x, y) {
     super.setPosition(x, y);
     this.shadow?.setPosition(x + 2, y + 8);
     return this;
+  }
+
+  setVisible(value) {
+    super.setVisible(value);
+    this.shadow?.setVisible(value);
   }
 }
 
