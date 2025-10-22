@@ -244,10 +244,6 @@ export const splashScreen = function (scene) {
     });
   }
 
-  const wakeScreen = () => {
-    window.location.href = "?bonus";
-  };
-
   sceneEventsEmitter.on(sceneEvents.EventsUnlocked, (data) => {
     console.log("EventsUnlocked screen", data);
     if (!scene.isBonus) return;
@@ -257,7 +253,7 @@ export const splashScreen = function (scene) {
       eventsHas(data, "mine_after") ||
       eventsHas(data, "recycling_after")
     ) {
-      wakeScreen();
+      window.location.href = "?bonus";
     }
   });
 
