@@ -51,8 +51,8 @@ export default class RecyclingCentre extends MiniGameUi {
   }
 
   create() {
-    this.timeStart = Date.now();
     super.create();
+    this.timeStart = Date.now();
 
     this.anims.create({
       key: "trap-open",
@@ -263,11 +263,7 @@ export default class RecyclingCentre extends MiniGameUi {
 
   endGame() {
     gameDuration("recyclingCentre", this.timeStart);
-    this.cameras.main.fadeOut(1000, 0, 0, 0, (cam, progress) => {
-      if (progress !== 1) return;
-      this.scene.stop();
-      dispatchUnlockEvents(["recycling_after"]);
-    });
+    super.endGame(["recycling_after"]);
   }
 
   listenDispatchedEvents(data) {
@@ -593,6 +589,8 @@ export default class RecyclingCentre extends MiniGameUi {
   }
 
   createControls() {
+    super.createControls();
+
     this.cursors = this.input.keyboard.addKeys({
       space: "space",
       down: "down",

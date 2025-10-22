@@ -1,12 +1,11 @@
 import Phaser from "phaser";
 import isMobileOrTablet from "../Utils/isMobileOrTablet";
-import { gameDuration, getUrlParam, urlParamHas } from "../Utils/debug";
+import { gameDuration, urlParamHas } from "../Utils/debug";
 import MiniGameUi from "../UI/MiniGameUi";
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import { dispatchUnlockEvents, eventsHas } from "../Utils/events";
 import { getUiMessage } from "../Workflow/messageWorkflow";
 import {
-  fadeOutMusic,
   playMiniGameTheme,
   playSound,
   preloadSound,
@@ -59,7 +58,6 @@ export default class Mine extends MiniGameUi {
     this.fasterAgain = false;
     this.moreMaterials = false;
     this.warnings = 0;
-    this.mainScene = null;
   }
 
   preload() {
@@ -69,7 +67,6 @@ export default class Mine extends MiniGameUi {
 
   create() {
     super.create();
-    this.mainScene = this.scene.get("game");
 
     this.cameras.main.setBackgroundColor(0x30221e);
     this.scale.setGameSize(550, 300);
@@ -285,6 +282,8 @@ export default class Mine extends MiniGameUi {
   }
 
   createControls() {
+    super.createControls();
+
     this.cursors = this.input.keyboard.addKeys({
       space: "space",
       up: "up",
@@ -476,16 +475,7 @@ export default class Mine extends MiniGameUi {
 
   endGame() {
     gameDuration("Mine", this.timeStart);
-
-    if (this.mainScene.isBonus) {
-      fadeOutMusic(this.mainScene, this.mainScene.miniGameTheme);
-    }
-
-    this.cameras.main.fadeOut(1000, 0, 0, 0, (cam, progress) => {
-      if (progress !== 1) return;
-      this.scene.stop();
-      dispatchUnlockEvents(["mine_after"]);
-    });
+    super.endGame(["mine_after"]);
   }
 
   createRock() {

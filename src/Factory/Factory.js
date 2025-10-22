@@ -55,8 +55,8 @@ export default class Factory extends MiniGameUi {
   }
 
   create() {
-    this.timeStart = Date.now();
     super.create();
+    this.timeStart = Date.now();
     this.cameras.main.setBackgroundColor(0x000000);
     this.scale.setGameSize(550, 300);
 
@@ -246,11 +246,7 @@ export default class Factory extends MiniGameUi {
   endGame() {
     console.log("Validated", this.numberValidated);
     gameDuration("Factory", this.timeStart);
-    this.cameras.main.fadeOut(1000, 0, 0, 0, (cam, progress) => {
-      if (progress !== 1) return;
-      this.scene.stop();
-      dispatchUnlockEvents(["factory_after"]);
-    });
+    super.endGame(["factory_after"]);
   }
 
   listenDispatchedEvents(data) {
@@ -472,6 +468,8 @@ export default class Factory extends MiniGameUi {
   }
 
   createControls() {
+    super.createControls();
+
     this.cursors = this.input.keyboard.addKeys({
       space: "space",
       up: "up",

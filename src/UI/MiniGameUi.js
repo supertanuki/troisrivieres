@@ -2,8 +2,8 @@ import Phaser from "phaser";
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import { DiscussionStatus } from "../Utils/discussionStatus";
 import { FONT_RESOLUTION, FONT_SIZE } from "./Message";
-import { playSound, preloadSound } from "../Utils/music";
-import { eventsHas } from "../Utils/events";
+import { fadeOutMusic, playSound, preloadSound } from "../Utils/music";
+import { dispatchUnlockEvents } from "../Utils/events";
 
 const DEPTH = 2000;
 
@@ -11,6 +11,7 @@ export default class MiniGameUi extends Phaser.Scene {
   constructor(name) {
     super(name);
     this.sounds = [];
+    this.mainScene = null;
   }
 
   preload() {
@@ -19,6 +20,8 @@ export default class MiniGameUi extends Phaser.Scene {
   }
 
   create() {
+    this.mainScene = this.scene.get("game");
+
     this.vignette = this.add
       .image(0, 0, "vignette")
       .setOrigin(0)
@@ -170,6 +173,14 @@ export default class MiniGameUi extends Phaser.Scene {
     preloadSound("sfx_mini-jeu_apparition_panneau_erreurs_2", this);
   }
 
+  createControls() {
+    if (this.mainScene.isBonus) {
+      this.input.keyboard
+        .addKey(Phaser.Input.Keyboard.KeyCodes.ESC)
+        .on("down", () => (window.location.href = "?bonus"));
+    }
+  }
+
   listenUnlockedEvents(data) {
     console.log(data.newUnlockedEvents);
     if (
@@ -264,5 +275,17 @@ export default class MiniGameUi extends Phaser.Scene {
     this.textObject.setVisible(false);
     this.speaker.anims.play("speaker-off-anim");
     this.dialogBackground.setVisible(false);
+  }
+
+  endGame(unlockedEvents) {
+    if (this.mainScene.isBonus) {
+      fadeOutMusic(this.mainScene, this.mainScene.miniGameTheme);
+    }
+
+    this.cameras.main.fadeOut(1000, 0, 0, 0, (cam, progress) => {
+      if (progress !== 1) return;
+      this.scene.stop();
+      dispatchUnlockEvents(unlockedEvents);
+    });
   }
 }
