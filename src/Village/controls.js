@@ -10,6 +10,12 @@ export const createControls = function (scene) {
     down: "down",
     left: "left",
     right: "right",
+    w: "up",
+    z: "up",
+    q: "left",
+    a: "left",
+    s: "down",
+    d: "right",
   });
 
   scene.input.keyboard.on(
@@ -17,19 +23,19 @@ export const createControls = function (scene) {
     (event) => {
       if (scene.isCinematic) return;
 
-      if (event.key === "ArrowUp") {
+      if (["ArrowUp", "z", "w"].includes(event.key)) {
         scene.goingUp = true;
         scene.goingDown = false;
         scene.howToPlay = false;
-      } else if (event.key === "ArrowDown") {
+      } else if (["ArrowDown", "s"].includes(event.key)) {
         scene.goingDown = true;
         scene.goingUp = false;
         scene.howToPlay = false;
-      } else if (event.key === "ArrowLeft") {
+      } else if (["ArrowLeft", "q", "a"].includes(event.key)) {
         scene.goingLeft = true;
         scene.goingRight = false;
         scene.howToPlay = false;
-      } else if (event.key === "ArrowRight") {
+      } else if (["ArrowRight", "d"].includes(event.key)) {
         scene.goingRight = true;
         scene.goingLeft = false;
         scene.howToPlay = false;
@@ -45,13 +51,13 @@ export const createControls = function (scene) {
     (event) => {
       if (scene.isCinematic) return;
 
-      if (event.key == "ArrowUp") {
+      if (["ArrowUp", "z", "w"].includes(event.key)) {
         scene.goingUp = false;
-      } else if (event.key == "ArrowDown") {
+      } else if (["ArrowDown", "s"].includes(event.key)) {
         scene.goingDown = false;
-      } else if (event.key == "ArrowLeft") {
+      } else if (["ArrowLeft", "q", "a"].includes(event.key)) {
         scene.goingLeft = false;
-      } else if (event.key == "ArrowRight") {
+      } else if (["ArrowRight", "d"].includes(event.key)) {
         scene.goingRight = false;
       }
     },
