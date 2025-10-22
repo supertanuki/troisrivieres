@@ -81,7 +81,7 @@ export const afterFactoryNightmare = function (scene) {
   scene.hero.animateToDown();
   scene.hero.stopAndWait();
 
-  scene.messageLater.setVisible(true).setY(100);
+  scene.messageLater.setAlpha(1).setVisible(true).setY(100);
   scene.time.delayedCall(3000, () => fadeOutMessageLater(scene));
 
   scene.time.delayedCall(2500, () => {
