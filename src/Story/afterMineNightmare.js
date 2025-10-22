@@ -16,20 +16,33 @@ import { secondRiverLessWater } from "../Village/secondRiverLessWater";
 import { toggleSpritesVisibility } from "../Village/spritesVisibility";
 import { playVillageAmbiance, playVillageTheme } from "../Utils/music";
 import { createTreesLayer } from "../Village/trees";
+import { getUiMessage } from "../Workflow/messageWorkflow";
+import { FONT_RESOLUTION, FONT_SIZE } from "../UI/Message";
 
 /** @param {Game} scene  */
 export const afterMineNightmare = function (scene) {
   scene.wakeGame(true);
+  scene.isCinematic = true;
   playVillageTheme(scene);
   playVillageAmbiance(scene);
   scene.currentDiscussionStatus = DiscussionStatus.NONE;
   setVillageForSecondAct(scene);
   scene.setHeroPosition("heroDjangoDoor");
-  scene.hero.slowRightDown();
-  scene.hero.animateToRight();
+  scene.hero.setVisible(false);
+  scene.hero.animateToDown();
+  scene.hero.stopAndWait();
+
+  scene.messageLater.setVisible(true);
+  scene.time.delayedCall(3000, () => fadeOutMessageLater(scene));
+
+  scene.time.delayedCall(2500, () => {
+    scene.hero.setVisible(true);
+    scene.hero.slowRightDown();
+    scene.hero.animateToRight();
+  });
 
   // @todo ? remove delayedcall and check when mai is near django ?
-  scene.time.delayedCall(1200, () => {
+  scene.time.delayedCall(3500, () => {
     scene.isCinematic = false;
     sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "django");
     handleAction(scene);
@@ -43,8 +56,20 @@ export const setVillageForSecondAct = function (scene) {
     2144, // mine on the right is disabled
     scene.map.heightInPixels - 8
   );
-  scene.hero.stopAndWait();
-  scene.isCinematic = true;
+
+  scene.messageLater = scene.add
+    .text(225, 100, getUiMessage("betweenActs.later"), {
+      fontFamily: "DefaultFont",
+      fontSize: FONT_SIZE,
+      fill: "#ffffff",
+    })
+    .setScrollFactor(0)
+    .setStroke("#333333", 4)
+    .setOrigin(0.5, 0.5)
+    .setResolution(FONT_RESOLUTION)
+    .setDepth(10000)
+    .setVisible(false);
+
   switchNight(scene);
 
   removeMineBackground(scene);
@@ -149,4 +174,15 @@ export const setVillageForSecondAct = function (scene) {
       }
     }
   }
+};
+
+export const fadeOutMessageLater = (scene) => {
+  scene.tweens.add({
+    targets: scene.messageLater,
+    alpha: 0,
+    y: 80,
+    ease: "Sine.easeIn",
+    duration: 1000,
+    onComplete: () => scene.messageLater.setVisible(false),
+  });
 };

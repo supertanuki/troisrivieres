@@ -11,13 +11,13 @@ import {
 import { DiscussionStatus } from "../Utils/discussionStatus";
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import { handleAction } from "../Village/handleAction";
+import { fadeOutMessageLater } from "./afterMineNightmare";
 
 /** @param {Game} scene  */
 export const afterRecycling = function (scene) {
   scene.wakeGame();
   playNightAmbiance(scene);
   scene.isCinematic = true;
-  scene.cameras.main.fadeIn(1000, 0, 0, 0);
 
   scene.currentDiscussionStatus = DiscussionStatus.NONE;
   setNightState(scene, true);
@@ -71,12 +71,23 @@ export const afterRecyclingNightmare = function (scene) {
   playVillageTheme(scene);
   playVillageAmbiance(scene);
   setVillageForFourthAct(scene);
-  scene.cameras.main.fadeIn(1000, 0, 0, 0);
   scene.datacentreThemeEnabled = true;
   scene.setHeroPosition("heroDjangoDoor");
-  scene.hero.slowRightDown();
-  scene.hero.animateToRight();
-  scene.time.delayedCall(1200, () => {
+  scene.hero.setVisible(false);
+  scene.hero.animateToDown();
+  scene.hero.stopAndWait();
+
+  scene.messageLater.setVisible(true).setY(100);
+  scene.time.delayedCall(3000, () => fadeOutMessageLater(scene));
+
+  scene.time.delayedCall(2500, () => {
+    scene.hero.setVisible(true);
+    scene.hero.slowRightDown();
+    scene.hero.animateToRight();
+  });
+
+  // @todo ? remove delayedcall and check when mai is near django ?
+  scene.time.delayedCall(3500, () => {
     scene.isCinematic = false;
     sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "django");
     handleAction(scene);

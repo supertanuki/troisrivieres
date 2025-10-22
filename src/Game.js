@@ -228,7 +228,7 @@ export default class Game extends Scene {
     this.resetGameSize();
 
     const color = fadeInFromWhite ? 255 : 0;
-    this.cameras.main.fadeIn(1000, color, color, color);
+    this.cameras.main.fadeIn(2000, color, color, color);
   }
 
   addEventsListeners() {

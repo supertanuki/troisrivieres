@@ -1096,6 +1096,9 @@ const uiMessages = {
 
   "recycling.faster": "Allez, on augmente le rythme !",
   "recycling.error": "Euh… il va falloir faire mieux que ça !",
+
+  "betweenActs.later": "Quelques temps plus tard…",
+  "final.later": "Quelques temps plus tard…",
 };
 
 const getUiMessage = (name) => uiMessages[name];

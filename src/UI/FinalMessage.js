@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import { FONT_RESOLUTION, FONT_SIZE } from "./Message";
 import { dispatchUnlockEvents } from "../Utils/events";
+import { getUiMessage } from "../Workflow/messageWorkflow";
 
 export default class FinalMessage extends Phaser.Scene {
   constructor() {
@@ -8,11 +9,10 @@ export default class FinalMessage extends Phaser.Scene {
   }
 
   create() {
-    console.log('final message')
     this.cameras.main.fadeIn(2000, 0, 0, 0);
     
     const text = this.add
-      .text(225, 100, "Quelques temps plus tard…", {
+      .text(225, 100, getUiMessage("final.later"), {
         fontFamily: "DefaultFont",
         fontSize: FONT_SIZE,
         fill: "#ffffff",

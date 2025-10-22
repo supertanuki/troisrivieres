@@ -16,6 +16,7 @@ import "../Sprites/BlueWorkerChief";
 import "../Sprites/BlueWorker";
 import "../Sprites/Screen";
 import { createBlueWorkerAnimation } from "../Sprites/BlueWorker";
+import { fadeOutMessageLater } from "./afterMineNightmare";
 
 /** @param {Game} scene  */
 export const afterFactory = function (scene) {
@@ -73,12 +74,24 @@ export const afterFactory = function (scene) {
 /** @param {Game} scene  */
 export const afterFactoryNightmare = function (scene) {
   scene.wakeGame(true);
+  scene.isCinematic = true;
   setVillageForThirdAct(scene);
-  scene.cameras.main.fadeIn(1000, 0, 0, 0);
   scene.setHeroPosition("heroDjangoDoor");
-  scene.hero.slowRightDown();
-  scene.hero.animateToRight();
-  scene.time.delayedCall(1200, () => {
+  scene.hero.setVisible(false);
+  scene.hero.animateToDown();
+  scene.hero.stopAndWait();
+
+  scene.messageLater.setVisible(true).setY(100);
+  scene.time.delayedCall(3000, () => fadeOutMessageLater(scene));
+
+  scene.time.delayedCall(2500, () => {
+    scene.hero.setVisible(true);
+    scene.hero.slowRightDown();
+    scene.hero.animateToRight();
+  });
+
+  // @todo ? remove delayedcall and check when mai is near django ?
+  scene.time.delayedCall(3500, () => {
     scene.isCinematic = false;
     sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "django");
     handleAction(scene);

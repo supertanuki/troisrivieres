@@ -123,11 +123,11 @@ export default class MineNightmare extends Phaser.Scene {
   }
 
   endScene() {
-    this.cameras.main.fadeOut(1000, 255, 255, 255, (cam, progress) => {
+    this.cameras.main.fadeOut(2000, 255, 255, 255, (cam, progress) => {
       if (progress !== 1) return;
       gameDuration("Dream mine", this.timeStart);
-      this.scene.stop();
       dispatchUnlockEvents(["second_act_begin"]);
+      this.scene.stop();
     });
   }
 
