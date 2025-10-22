@@ -215,10 +215,10 @@ const messageWorkflow = {
   ],
   baby: [
     {
-      messages: ["Ta-ta Ta-ta"],
+      messages: ["Pa-pi-lion, pa-pi-lion"],
     },
     {
-      messages: ["télé-phone, télé-phone…"],
+      messages: ["téyé-phone, téyé-phone…"],
       dependingOn: ["third_act_begin"],
     },
   ],
