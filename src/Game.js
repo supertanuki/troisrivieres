@@ -391,8 +391,13 @@ export default class Game extends Scene {
 
   handleScreenShutdown(sprite) {
     this.screenShutDownCount++;
+
+    if (this.screenShutDownCount === 1) {
+      dispatchUnlockEvents(["screens_shutdown_first"]);
+    }
+
     if (this.screenShutDownCount === 3) {
-      dispatchUnlockEvents(["screens_shutdown"]);
+      dispatchUnlockEvents(["screens_shutdown_end"]);
       beforeStrike(this);
     }
   }

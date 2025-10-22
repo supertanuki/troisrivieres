@@ -338,6 +338,15 @@ const messageWorkflow = {
     },
     {
       messages: [
+        "T'as réussi à éteindre un écran pub ?",
+        "C'pas bien… et… c'est bien, à la fois !",
+        "Si j'étais toi… J'en éteindrais d'autres !"
+      ],
+      repeat: ["Pourquoi ne pas éteindre d'autres écrans ?"],
+      dependingOn: ["screens_shutdown_first"],
+    },
+    {
+      messages: [
         "Merci Maï pour tout c'que t'as fait.",
         "Grâce à toi, tous les villageois…",
         "S'retrouvent pour une cause commune…",
@@ -505,7 +514,7 @@ const messageWorkflow = {
         "Je suis partant pour une mobilisation générale !",
         "J'amène ma guitare et j'arrive.",
       ],
-      dependingOn: ["screens_shutdown"],
+      dependingOn: ["screens_shutdown_end"],
       unlockEvents: ["django_ready_for_strike"],
     },
     {
