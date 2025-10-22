@@ -126,7 +126,6 @@ export const splashScreen = function (scene) {
   const mai = scene.add.sprite(60, 118, "splash", "mai-1").setOrigin(0, 0);
   mai.play("mai");
 
-  //const title = scene.add.sprite(250, 80, "splash", "title").setOrigin(0, 0);
   const title = scene.add
     .text(275, 130, "Trois-Rivières", {
       fontFamily: "DefaultFont",
@@ -267,6 +266,5 @@ export const splashScreen = function (scene) {
     const yDelta = -pointer.y / 50 + 6;
     rock.setPosition(xDelta, 212 + yDelta);
     mai.setPosition(60 + xDelta, 118 + yDelta);
-    title.setPosition(280 + xDelta * 2, 120 + yDelta * 2);
   });
 };
