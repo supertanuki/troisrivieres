@@ -256,11 +256,4 @@ export const splashScreen = function (scene) {
       window.location.href = "?bonus";
     }
   });
-
-  scene.input.on("pointermove", (pointer) => {
-    const xDelta = -pointer.x / 50;
-    const yDelta = -pointer.y / 50 + 6;
-    rock.setPosition(xDelta, 212 + yDelta);
-    mai.setPosition(60 + xDelta, 118 + yDelta);
-  });
 };
