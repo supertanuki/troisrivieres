@@ -25,6 +25,8 @@ export default class Bird extends Phaser.Physics.Arcade.Sprite {
     this.status = Status.waiting;
     this.initialX = x;
     this.initialY = y;
+    this.speedX = Phaser.Math.Between(SPEEDX-10, SPEEDX+10)
+    this.speedY = Phaser.Math.Between(SPEEDY-10, SPEEDY-5)
   }
 
   create() {
@@ -124,7 +126,7 @@ export default class Bird extends Phaser.Physics.Arcade.Sprite {
 
     if (this.isFlying()) {
       this.anims.play(`bird-${this.color}-flying`, true);
-      this.setVelocity(SPEEDX * this.birdDirection, SPEEDY);
+      this.setVelocity(this.speedX * this.birdDirection, this.speedY);
       const worldView = this.scene.cameras.main.worldView;
 
       if (
