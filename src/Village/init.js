@@ -436,6 +436,7 @@ export const delayedInit = function (scene) {
   scene.potagerCollider = scene.physics.add.collider(scene.hero, scene.potagerTop);
   scene.physics.add.collider(scene.hero, scene.bottomObjects);
   scene.physics.add.collider(scene.hero, scene.pointsCollider);
+  scene.treesOfDcColliders = scene.physics.add.collider(scene.hero, scene.treesOfDcCollider);
   scene.obstaclesFactoryCollider = scene.physics.add.collider(scene.hero, scene.obstaclesFactoryLayer);
 
   for (const element of ["hommes", "femmes", "enfants", "ouvriers"]) {

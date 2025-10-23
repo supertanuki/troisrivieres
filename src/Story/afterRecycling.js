@@ -171,4 +171,5 @@ export const setVillageForFourthAct = function (scene) {
     treeObject.treeTop.destroy();
   });
   scene.treesOfDcCollider.forEach((e) => e.destroy());
+  scene.treesOfDcColliders.destroy();
 };
