@@ -537,8 +537,10 @@ export default class RecyclingCentre extends MiniGameUi {
     for (const object of this.objects) {
       if (object.y > 220) {
         object.setTint(0x777777);
-        this.notValidatedObjects++;
+
         if (this.firstStep) this.tutoMissed();
+        else this.notValidatedObjects++;
+
         continue;
       }
 
