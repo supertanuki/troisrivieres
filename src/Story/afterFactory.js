@@ -190,6 +190,7 @@ export const setVillageForThirdAct = function (scene) {
     }
 
     if (o.name === "twoGuysRecycling") {
+      scene.twoGuys.enableChatIcon();
       scene.twoGuys.setPosition(o.x, o.y);
     }
 

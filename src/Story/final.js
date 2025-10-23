@@ -189,13 +189,13 @@ export const setVillageFinalVersion = function (scene, debug = false) {
     if (o.name === "catFinal") scene.cat.setPosition(o.x, o.y);
 
     if (o.name === "twoGuysFinal") {
-      scene.twoGuys.setPosition(o.x, o.y);
       scene.twoGuys.enableChatIcon();
+      scene.twoGuys.setPosition(o.x, o.y);
     }
 
     if (o.name === "twoWomenFinal") {
-      scene.twoWomen.setPosition(o.x, o.y);
       scene.twoWomen.enableChatIcon();
+      scene.twoWomen.setPosition(o.x, o.y);
     }
 
     if (o.name === "deerFinal")

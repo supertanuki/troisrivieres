@@ -46,6 +46,7 @@ export default class Fisherman extends Chat {
     });
 
     this.anims.play("mino-idle", true);
+    this.disableChatIcon();
   }
 
   setSad() {

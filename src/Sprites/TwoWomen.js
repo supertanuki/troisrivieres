@@ -41,6 +41,7 @@ export default class TwoWomen extends Chat {
     });
 
     this.anims.play("twowomen-idle", true);
+    this.disableChatIcon();
   }
 }
 

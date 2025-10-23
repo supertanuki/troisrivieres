@@ -41,6 +41,7 @@ export default class TwoGuys extends Chat {
     });
 
     this.anims.play("twoguys-idle", true);
+    this.disableChatIcon();
   }
 }
 

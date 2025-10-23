@@ -150,7 +150,6 @@ export default class Chat extends Phaser.Physics.Arcade.Sprite {
   }
 
   enableChatIcon() {
-    console.log(this.spriteId, this.chatImageUi.x, this.chatImageUi.visible, this.disabledChatIcon)
     this.disabledChatIcon = false;
     this.chatImageUi.setVisible(true);
   }
