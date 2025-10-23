@@ -660,7 +660,7 @@ const messageWorkflow = {
   ],
   dog: [
     {
-      messages: ["Wof, wof…"],
+      messages: ["Wof…"],
     },
   ],
   cow: [
