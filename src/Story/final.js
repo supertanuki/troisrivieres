@@ -229,6 +229,14 @@ export const setVillageFinalVersion = function (scene, debug = false) {
     if (o.name === "sleepingGuyFinal") scene.sleepingGuy.setPosition(o.x, o.y);
   });
 
+  scene.landZad.destroy();
+  scene.upLandZad.destroy();
+  scene.bottomZad.destroy();
+  scene.topZad.destroy();
+  scene.forestZad.destroy();
+  scene.minerZad1.destroy();
+  scene.minerZad2.destroy();
+
   sceneEventsEmitter.on(sceneEvents.EventsUnlocked, (data) => {
     if (eventsHas(data, "django_final_end")) {
       scene.time.delayedCall(200, () => {

@@ -173,7 +173,35 @@ export const setVillageForSecondAct = function (scene) {
         });
       }
     }
+
+    if (o.name === "minerZad1") {
+      scene[o.name] = scene.add.miner(o.x, o.y);
+      scene[o.name].spriteId = o.name;
+      scene[o.name].moveAndUnlock(o.x, o.y);
+      scene[o.name].on("pointerdown", () => handleAction(scene), this);
+      scene.physics.add.collider(scene[o.name], scene.hero, () =>
+        sceneEventsEmitter.emit(sceneEvents.DiscussionReady, o.name)
+      );
+    }
+
+    if (o.name === "minerZad2") {
+      scene[o.name] = scene.add.minerDirty(o.x, o.y);
+      scene[o.name].setSpriteNumber(3);
+      scene[o.name].enableChatIcon();
+      scene[o.name].spriteId = o.name;
+      scene[o.name].on("pointerdown", () => handleAction(scene), this);
+      scene.physics.add.collider(scene[o.name], scene.hero, () =>
+        sceneEventsEmitter.emit(sceneEvents.DiscussionReady, o.name)
+      );
+    }
   }
+
+  // ZAD
+  scene.landZad = scene.map.createLayer("landZad", scene.tileset).setDepth(20);
+  scene.upLandZad = scene.map.createLayer("upLandZad", scene.tileset).setDepth(21);
+  scene.bottomZad = scene.map.createLayer("bottomZad", scene.tileset).setDepth(70);
+  scene.topZad = scene.map.createLayer("topZad", scene.tileset).setDepth(120);
+  scene.forestZad = scene.map.createLayer("forestZad", scene.tileset).setDepth(119);
 };
 
 export const fadeOutMessageLater = (scene) => {

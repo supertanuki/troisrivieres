@@ -37,7 +37,7 @@ class Miner extends Chat {
     this.setOffset(0, 0);
   }
 
-  unlockAccessToMine(x, y) {
+  moveAndUnlock(x, y) {
     this.setPosition(x, y);
     this.setSize(5, 1);
     this.setOffset(this.width - 2, this.height/2);
@@ -60,7 +60,7 @@ Phaser.GameObjects.GameObjectFactory.register(
       Phaser.Physics.Arcade.DYNAMIC_BODY
     );
 
-    sprite.body.setSize(sprite.width + 6, sprite.height + 10);
+    sprite.body.setSize(sprite.width, sprite.height - 2);
     sprite.setImmovable(true);
     sprite.setInteractive();
     sprite.scaleX = -1;

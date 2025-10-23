@@ -31,7 +31,7 @@ export const setVillageBeforeMine = function (scene) {
 
   for (const spriteObject of scene.map.getObjectLayer("sprites").objects) {
     if (spriteObject.name === "minerAfterCard") {
-      scene.miner.unlockAccessToMine(spriteObject.x, spriteObject.y);
+      scene.miner.moveAndUnlock(spriteObject.x, spriteObject.y);
     }
 
     if (spriteObject.name === "minerChief") {

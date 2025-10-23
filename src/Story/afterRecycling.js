@@ -98,9 +98,9 @@ export const afterRecyclingNightmare = function (scene) {
 export const setVillageForFourthAct = function (scene) {
   scene.cameras.main.setBounds(
     660, // left is disabled
-    400, // top of the village is disabled
+    100, // top of the village is disabled
     2144 - 660, // mine on the right is disabled
-    scene.map.heightInPixels - 408
+    scene.map.heightInPixels - 108
   );
   console.log("setVillageForFourthAct");
   setNightState(scene, false);

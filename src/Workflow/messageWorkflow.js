@@ -1081,9 +1081,31 @@ const messageWorkflow = {
       repeat: ["On construit un datacenter, ça te gène ?"],
     },
   ],
-  gameOver: [
+  minerZad1: [
     {
-      messages: ["Fin de la démo.\nMerci d'avoir testé !"],
+      messages: [
+        "Comment tu nous as trouvé ?",
+        "Nous étions des ouvriers et avons déserté la mine…",
+        "… nous avons abandonné notre travail…",
+        "… et avons créé cette petite communauté…",
+        "… une sorte de ZAD, une Zone à Défendre…",
+        "… où l'on plante nos légumes…",
+        "… et on essaye de construire un monde plus sobre.",
+      ],
+      repeat: ["Ici, on envisage un mode de vie plus sobre."],
+    },
+  ],
+  minerZad2: [
+    {
+      messages: [
+        "Nous sommes plusieurs anciens ouvriers à vivre ici.",
+        "Aucun regret sur ce choix de vie.",
+        "Cependant, on vit cachés dans la forêt…",
+        "C'est comme le marronnage au temps de l'esclavage…",
+        "où les nègres-marrons fuyaient leur condition…",
+        "en se réfugiant dans les bois."
+      ],
+      repeat: ["On est obligé de vivre cachés dans la forêt."],
     },
   ],
 };

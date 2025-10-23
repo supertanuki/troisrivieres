@@ -31,7 +31,7 @@ export const afterFactory = function (scene) {
 
   scene.whiteWorker1.setVisible(false);
   scene.whiteWorker2.setVisible(false);
-  scene.whiteWorkerChief.setVisible(false);
+  scene.whiteWorkerChief.destroy();
 
   scene.setHeroPosition("heroFactory");
   scene.hero.slowDown();

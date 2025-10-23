@@ -2,7 +2,7 @@ import Chat from "../UI/Chat";
 
 class MinerDirty extends Chat {
   constructor(scene, x, y, texture, frame) {
-    super(scene, x, y, "sprites", "miner-dirty-1", 0, -5, true);
+    super(scene, x, y, "sprites", "miner-dirty-1", 0, -5);
     this.delta = 20;
     this.futureMinerPosition = null;
     this.initialY = y;
