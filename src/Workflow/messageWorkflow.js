@@ -28,6 +28,8 @@ const spriteNames = {
   whiteWorker1: "L'ouvrier",
   whiteWorker2: "L'ouvrier",
   sleepingGuy: "L'homme couché",
+  minerZad1: "L'ouvrier déserteur",
+  minerZad2: "Le mineur déserteur",
 };
 
 export const spriteSounds = {
@@ -42,6 +44,8 @@ export const spriteSounds = {
   twoWomen: { sound: "sfx_voix_femmes", versions: 4 },
   twoGuys: { sound: "sfx_voix_hommes", versions: 4 },
   bino: { sound: "sfx_voix_hommes", versions: 4 },
+  minerZad1: { sound: "sfx_voix_hommes", versions: 4 },
+  minerZad2: { sound: "sfx_voix_hommes", versions: 4 },
   whiteWorkerChief: { sound: "sfx_voix_ouvriers", versions: 4 },
   dcWorkerChief: { sound: "sfx_voix_ouvriers", versions: 4 },
   minerChief: { sound: "sfx_voix_ouvriers", versions: 4 },
@@ -652,10 +656,6 @@ const messageWorkflow = {
   cat: [
     {
       messages: ["Meow…"],
-    },
-    {
-      messages: ["rrrr… rrrr…"],
-      dependingOn: ["strike_begin"],
     },
   ],
   dog: [
