@@ -145,6 +145,9 @@ export const splashScreen = function (scene) {
     .setOrigin(0, 0);
   smokeSmall.play("smoke-small");
 
+  const mouseOver = (target, color = "#000000") => target.setColor(color);
+  const mouseOut = (target) => target.setColor("#ffffff");
+
   const textStart = scene.add
     .text(275, 164, scene.isBonus ? "Nouvelle partie" : "Démarrer", {
       fontFamily: "DefaultFont",
@@ -184,7 +187,7 @@ export const splashScreen = function (scene) {
   const clickBonusGame = (textObject) => {
     goingSomewhere = true;
     textObject.disableInteractive(true);
-    textObject.setColor("#000000");
+    textObject.setColor("#307f6d");
     document.body.style.cursor = "none";
   };
 
@@ -193,6 +196,9 @@ export const splashScreen = function (scene) {
     goingSomewhere = true;
     startGame();
   });
+
+  textStart.on("pointerover", () => mouseOver(textStart, "#307f6d"));
+  textStart.on("pointerout", () => mouseOut(textStart));
 
   if (scene.isBonus) {
     const textMine = scene.add
@@ -204,6 +210,9 @@ export const splashScreen = function (scene) {
       .setOrigin(0.5, 0.5)
       .setResolution(FONT_RESOLUTION)
       .setInteractive({ useHandCursor: true });
+
+  textMine.on("pointerover", () => mouseOver(textMine));
+  textMine.on("pointerout", () => mouseOut(textMine));
 
     textMine.on("pointerdown", () => {
       if (goingSomewhere) return;
@@ -221,6 +230,9 @@ export const splashScreen = function (scene) {
       .setResolution(FONT_RESOLUTION)
       .setInteractive({ useHandCursor: true });
 
+  textFactory.on("pointerover", () => mouseOver(textFactory));
+  textFactory.on("pointerout", () => mouseOut(textFactory));
+
     textFactory.on("pointerdown", () => {
       if (goingSomewhere) return;
       clickBonusGame(textFactory);
@@ -236,6 +248,9 @@ export const splashScreen = function (scene) {
       .setOrigin(0.5, 0.5)
       .setResolution(FONT_RESOLUTION)
       .setInteractive({ useHandCursor: true });
+  
+      textRecycling.on("pointerover", () => mouseOver(textRecycling));
+  textRecycling.on("pointerout", () => mouseOut(textRecycling));
 
     textRecycling.on("pointerdown", () => {
       if (goingSomewhere) return;
