@@ -1,5 +1,4 @@
 import Phaser from "phaser";
-import { FONT_RESOLUTION, FONT_SIZE } from "./Message";
 import { dispatchUnlockEvents } from "../Utils/events";
 import { getUiMessage } from "../Workflow/messageWorkflow";
 
@@ -10,17 +9,12 @@ export default class FinalMessage extends Phaser.Scene {
 
   create() {
     this.cameras.main.fadeIn(2000, 0, 0, 0);
-    
+
     const text = this.add
-      .text(225, 100, getUiMessage("final.later"), {
-        fontFamily: "DefaultFont",
-        fontSize: FONT_SIZE,
-        fill: "#ffffff",
-      })
-      .setScrollFactor(0)
+      .bitmapText(225, 100, "FreePixel-16", getUiMessage("final.later"), 16)
       .setOrigin(0.5, 0.5)
-      .setResolution(FONT_RESOLUTION)
-      .setDepth(10000);
+      .setScrollFactor(0)
+      .setTintFill(0xffffff);
 
     this.tweens.add({
       targets: text,

@@ -271,6 +271,7 @@ export const setVillageFinalVersion = function (scene, debug = false) {
 
         scene.cameras.main.fadeIn(500, 0, 0, 0, (cam, progress) => {
           if (progress !== 1) return;
+          scene.stopMoving();
           scene.isCinematic = false;
           sceneEventsEmitter.emit(sceneEvents.DiscussionReady, "django");
           handleAction(scene);

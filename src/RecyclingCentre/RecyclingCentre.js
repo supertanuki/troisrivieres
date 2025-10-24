@@ -2,7 +2,6 @@ import isMobileOrTablet from "../Utils/isMobileOrTablet";
 import MiniGameUi from "../UI/MiniGameUi";
 import { gameDuration, isDebug, urlParamHas } from "../Utils/debug";
 import { dispatchUnlockEvents, eventsHas } from "../Utils/events";
-import { FONT_RESOLUTION } from "../UI/Message";
 import { playMiniGameTheme, playSound, preloadSound } from "../Utils/music";
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import { getUiMessage } from "../Workflow/messageWorkflow";
@@ -635,28 +634,24 @@ export default class RecyclingCentre extends MiniGameUi {
       const arrowY = 225;
 
       const arrowStyle = {
-        fontFamily: "DefaultFont",
         fontSize: "32px",
         fill: "#ffffff",
       };
 
       this.add
         .text(70, arrowY, "←", arrowStyle)
-        .setResolution(FONT_RESOLUTION)
         .setOrigin(0.5, 0.5)
         .setDepth(10000);
       this.add.circle(70, arrowY, 30, 0xff5544, 0.3).setDepth(10000);
 
       this.add
         .text(275, arrowY, "↑", arrowStyle)
-        .setResolution(FONT_RESOLUTION)
         .setOrigin(0.5, 0.5)
         .setDepth(10000);
       this.add.circle(275, arrowY, 30, 0xff5544, 0.3).setDepth(10000);
 
       this.add
         .text(480, arrowY, "→", arrowStyle)
-        .setResolution(FONT_RESOLUTION)
         .setOrigin(0.5, 0.5)
         .setDepth(10000);
       this.add.circle(480, arrowY, 30, 0xff5544, 0.3).setDepth(10000);

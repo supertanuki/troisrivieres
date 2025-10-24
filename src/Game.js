@@ -131,7 +131,7 @@ export default class Game extends Scene {
 
     if (urlParamHas("debug")) {
       this.fpsText = this.add
-        .text(10, 10, "hello", { fontSize: "10px", fill: "#fff" })
+        .text(10, 10, "", { fontSize: "10px", fill: "#fff" })
         .setDepth(10000)
         .setScrollFactor(0);
       this.time.addEvent({

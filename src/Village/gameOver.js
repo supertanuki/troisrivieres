@@ -1,6 +1,5 @@
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import Game from "../Game";
-import { FONT_RESOLUTION, FONT_SIZE } from "../UI/Message";
 import { fadeOutMusic, playVillageTheme } from "../Utils/music";
 
 /** @param {Game} scene  */
@@ -59,19 +58,16 @@ export const gameOver = function (scene) {
       let fadeOut = false;
 
       const messageEnd = scene.add
-        .text(
+        .bitmapText(
           50,
           120,
+          "FreePixel-16",
           "L'extraction minière est l'industrie la plus polluante au monde.",
-          {
-            fontFamily: "DefaultFont",
-            fontSize: FONT_SIZE,
-            fill: "#ffffff",
-            resolution: FONT_RESOLUTION,
-          }
+          16
         )
-        .setWordWrapWidth(250)
         .setScrollFactor(0)
+        .setTintFill(0xffffff)
+        .setMaxWidth(250)
         .setAlpha(0)
         .setDepth(2000);
 
@@ -122,7 +118,9 @@ export const gameOver = function (scene) {
         )
       );
       scene.time.delayedCall(25000, () =>
-        fadeOutMessageEnd("Et se mobiliser ou soutenir, si on le peut, les luttes qui ont du sens.")
+        fadeOutMessageEnd(
+          "Et se mobiliser ou soutenir, si on le peut, les luttes qui ont du sens."
+        )
       );
       scene.time.delayedCall(29000, () =>
         fadeOutMessageEnd(
@@ -133,6 +131,24 @@ export const gameOver = function (scene) {
         fadeOutMessageEnd("Merci d'avoir joué.")
       );
       scene.time.delayedCall(40000, () => fadeOutMessageEnd());
+
+      scene.time.delayedCall(42000, () => {
+        messageEnd
+          .setText(
+            "Idée originale, game design et programmation\n\n  Richard Hanna\n\nGraphisme, level design et game design\n\n  Philippe Salib\n\nGame design, narration, musiques et effets sonores\n\n  David Fonteix."
+          )
+          .setPosition(20, 300)
+          .setAlpha(1)
+          .setMaxWidth(350);
+        scene.tweens.add({
+          targets: messageEnd,
+          y: 20,
+          ease: "Sine.easeOut",
+          duration: 15000,
+        });
+
+        // Tests\n\n  Enzo, Paloma et tous les enfants de la médiathèque Vernant de Chelles
+      });
 
       scene.tweens.add({
         targets: scene.cameras.main,
@@ -166,30 +182,6 @@ export const gameOver = function (scene) {
               fadeOut = false;
               fadeInDarkScreen();
               scene.cameras.main.setScroll(1500, 500);
-
-              const creditsText = scene.add
-                .text(
-                  20,
-                  300,
-                  "Idée originale, game design et programmation\n\n  Richard Hanna\n\nGraphisme, level design et game design\n\n  Philippe Salib\n\nGame design, narration, musiques et effets sonores\n\n  David Fonteix.",
-                  {
-                    fontFamily: "DefaultFont",
-                    fontSize: FONT_SIZE,
-                    fill: "#ffffff",
-                    resolution: FONT_RESOLUTION,
-                  }
-                )
-                .setWordWrapWidth(350)
-                .setScrollFactor(0)
-                .setDepth(2000);
-              scene.tweens.add({
-                targets: creditsText,
-                y: 20,
-                ease: "Sine.easeOut",
-                duration: 15000,
-              });
-
-              // Tests\n\n  Enzo, Paloma et tous les enfants de la médiathèque Vernant de Chelles
 
               scene.tweens.add({
                 targets: scene.cameras.main,

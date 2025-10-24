@@ -6,7 +6,6 @@ import { dispatchUnlockEvents, eventsHas } from "../Utils/events";
 import { DiscussionStatus } from "../Utils/discussionStatus";
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import { getUiMessage } from "../Workflow/messageWorkflow";
-import { FONT_RESOLUTION } from "../UI/Message";
 import { fadeOutMusic, playMiniGameTheme, playSound, preloadSound } from "../Utils/music";
 
 const COMPONENTS = {
@@ -499,28 +498,24 @@ export default class Factory extends MiniGameUi {
       const arrowY = 225;
 
       const arrowStyle = {
-        fontFamily: "DefaultFont",
         fontSize: "32px",
         fill: "#ffffff",
       };
 
       this.add
         .text(70, arrowY, "←", arrowStyle)
-        .setResolution(FONT_RESOLUTION)
         .setOrigin(0.5, 0.5)
         .setDepth(10000);
       this.add.circle(70, arrowY, 30, 0xff5544, 0.3).setDepth(10000);
 
       this.add
         .text(275, arrowY, "↑", arrowStyle)
-        .setResolution(FONT_RESOLUTION)
         .setOrigin(0.5, 0.5)
         .setDepth(10000);
       this.add.circle(275, arrowY, 30, 0xff5544, 0.3).setDepth(10000);
 
       this.add
         .text(480, arrowY, "→", arrowStyle)
-        .setResolution(FONT_RESOLUTION)
         .setOrigin(0.5, 0.5)
         .setDepth(10000);
       this.add.circle(480, arrowY, 30, 0xff5544, 0.3).setDepth(10000);

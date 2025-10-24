@@ -30,7 +30,6 @@ import { createTrees } from "./trees";
 import { intro } from "../Story/intro";
 import { handleAction } from "./handleAction";
 import { preloadSound } from "../Utils/music";
-import { FONT_RESOLUTION, FONT_SIZE } from "../UI/Message";
 import { getUiMessage } from "../Workflow/messageWorkflow";
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 
@@ -127,19 +126,12 @@ export const init = function (scene) {
 /** @param {Game} scene  */
 const howToPlay = function (scene) {
   scene.howToPlayText = scene.add
-    .text(225, 220, getUiMessage("game.howToPlay"), {
-      fontFamily: "DefaultFont",
-      fontSize: FONT_SIZE,
-      fill: "#ffffff",
-      backgroundColor: "#000000",
-      padding: 4,
-    })
-    .setAlpha(0)
-    .setScrollFactor(0)
+    .bitmapText(225, 220, "FreePixelStrokeShadow-16", getUiMessage("game.howToPlay"), 16)
     .setOrigin(0.5, 0.5)
-    .setWordWrapWidth(200)
-    .setResolution(FONT_RESOLUTION)
-    .setDepth(10000);
+    .setScrollFactor(0)
+    .setMaxWidth(200)
+    .setDepth(10000)
+    .setAlpha(0);
 
   scene.tweens.add({
     targets: scene.howToPlayText,
@@ -162,12 +154,11 @@ const hideOrNotHowToPlay = function (scene) {
   scene.tweens.add({
     targets: scene.howToPlayText,
     alpha: 0,
-    y: 220,
     ease: "Sine.easeInOut",
     duration: 2000,
     onComplete: () => scene.howToPlayText.destroy(),
   });
-}
+};
 
 /** @param {Game} scene  */
 export const delayedInit = function (scene) {
@@ -334,7 +325,7 @@ export const delayedInit = function (scene) {
     } else if (tile.properties?.bottomCollide === true) {
       scene.pointsCollider.push(
         scene.physics.add
-          .sprite(tile.getCenterX(), tile.getCenterY()+8, null)
+          .sprite(tile.getCenterX(), tile.getCenterY() + 8, null)
           .setSize(16, 1)
           .setImmovable(true)
           .setVisible(false)
@@ -431,13 +422,25 @@ export const delayedInit = function (scene) {
   scene.physics.add.collider(scene.hero, scene.water);
   scene.physics.add.collider(scene.hero, scene.land);
   scene.physics.add.collider(scene.hero, scene.obstacles);
-  scene.obstacleRecyclingCollider = scene.physics.add.collider(scene.hero, scene.obstacleRecyclingLayer);
+  scene.obstacleRecyclingCollider = scene.physics.add.collider(
+    scene.hero,
+    scene.obstacleRecyclingLayer
+  );
   scene.physics.add.collider(scene.hero, scene.topObjects);
-  scene.potagerCollider = scene.physics.add.collider(scene.hero, scene.potagerTop);
+  scene.potagerCollider = scene.physics.add.collider(
+    scene.hero,
+    scene.potagerTop
+  );
   scene.physics.add.collider(scene.hero, scene.bottomObjects);
   scene.physics.add.collider(scene.hero, scene.pointsCollider);
-  scene.treesOfDcColliders = scene.physics.add.collider(scene.hero, scene.treesOfDcCollider);
-  scene.obstaclesFactoryCollider = scene.physics.add.collider(scene.hero, scene.obstaclesFactoryLayer);
+  scene.treesOfDcColliders = scene.physics.add.collider(
+    scene.hero,
+    scene.treesOfDcCollider
+  );
+  scene.obstaclesFactoryCollider = scene.physics.add.collider(
+    scene.hero,
+    scene.obstaclesFactoryLayer
+  );
 
   for (const element of ["hommes", "femmes", "enfants", "ouvriers"]) {
     for (let i = 1; i <= 4; i++) {

@@ -17,7 +17,6 @@ import { toggleSpritesVisibility } from "../Village/spritesVisibility";
 import { playVillageAmbiance, playVillageTheme } from "../Utils/music";
 import { createTreesLayer } from "../Village/trees";
 import { getUiMessage } from "../Workflow/messageWorkflow";
-import { FONT_RESOLUTION, FONT_SIZE } from "../UI/Message";
 
 /** @param {Game} scene  */
 export const afterMineNightmare = function (scene) {
@@ -58,15 +57,15 @@ export const setVillageForSecondAct = function (scene) {
   );
 
   scene.messageLater = scene.add
-    .text(225, 100, getUiMessage("betweenActs.later"), {
-      fontFamily: "DefaultFont",
-      fontSize: FONT_SIZE,
-      fill: "#ffffff",
-    })
-    .setScrollFactor(0)
-    .setStroke("#333333", 4)
+    .bitmapText(
+      225,
+      100,
+      "FreePixelStrokeShadow-16",
+      getUiMessage("betweenActs.later"),
+      16
+    )
     .setOrigin(0.5, 0.5)
-    .setResolution(FONT_RESOLUTION)
+    .setScrollFactor(0)
     .setDepth(10000)
     .setVisible(false);
 
@@ -198,10 +197,16 @@ export const setVillageForSecondAct = function (scene) {
 
   // ZAD
   scene.landZad = scene.map.createLayer("landZad", scene.tileset).setDepth(20);
-  scene.upLandZad = scene.map.createLayer("upLandZad", scene.tileset).setDepth(21);
-  scene.bottomZad = scene.map.createLayer("bottomZad", scene.tileset).setDepth(70);
+  scene.upLandZad = scene.map
+    .createLayer("upLandZad", scene.tileset)
+    .setDepth(21);
+  scene.bottomZad = scene.map
+    .createLayer("bottomZad", scene.tileset)
+    .setDepth(70);
   scene.topZad = scene.map.createLayer("topZad", scene.tileset).setDepth(120);
-  scene.forestZad = scene.map.createLayer("forestZad", scene.tileset).setDepth(119);
+  scene.forestZad = scene.map
+    .createLayer("forestZad", scene.tileset)
+    .setDepth(119);
 };
 
 export const fadeOutMessageLater = (scene) => {

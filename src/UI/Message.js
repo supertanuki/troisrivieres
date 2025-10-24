@@ -6,9 +6,6 @@ import { DiscussionStatus } from "../Utils/discussionStatus";
 import { eventsHas } from "../Utils/events";
 import { playSound } from "../Utils/music";
 
-export const FONT_SIZE = "16px";
-export const FONT_RESOLUTION = 20;
-
 export default class Message extends Phaser.Scene {
   constructor() {
     super("message");
@@ -51,20 +48,16 @@ export default class Message extends Phaser.Scene {
       .setVisible(false);
 
     this.actionText = this.add
-      .text(
+      .bitmapText(
         config.width / 2,
         config.height - 30,
+        "FreePixel-16",
         isMobileOrTablet() ? "Appuyer pour continuer" : "Appuyer sur espace",
-        {
-          fontFamily: "DefaultFont",
-          fontSize: FONT_SIZE,
-          fill: "#ffffff",
-          resolution: FONT_RESOLUTION,
-        }
+        16
       )
-      //.setResolution(FONT_RESOLUTION)
       .setOrigin(0.5, 0.5)
       .setScrollFactor(0)
+      .setTintFill(0xffffff)
       .setDepth(2000)
       .setVisible(false);
 
@@ -85,30 +78,19 @@ export default class Message extends Phaser.Scene {
       .setVisible(false);
 
     this.textObject = this.add
-      .text(config.width / 2, config.height - 30, "", {
-        fontFamily: "DefaultFont",
-        fontSize: FONT_SIZE,
-        fill: "#ffffff",
-      })
-      .setResolution(FONT_RESOLUTION)
+      .bitmapText(config.width / 2, config.height - 30, "FreePixel-16", "", 16)
       .setOrigin(0.5, 0.5)
       .setScrollFactor(0)
+      .setTintFill(0xffffff)
+      .setMaxWidth(250)
       .setDepth(3000)
-      .setWordWrapWidth(245)
       .setVisible(false);
 
     this.spriteNameObject = this.add
-      .text(config.width / 2 - 132, config.height - 65, "", {
-        fontFamily: "DefaultFont",
-        fontSize: FONT_SIZE,
-        fill:"#ffffff",
-        padding: 4,
-      })
-      .setResolution(FONT_RESOLUTION)
+      .bitmapText(config.width / 2 - 128, config.height - 65, "FreePixelStrokeShadow-16", "", 16)
       .setOrigin(0, 0.5)
       .setScrollFactor(0)
       .setDepth(3000)
-      .setStroke('#333333', 4)
       .setVisible(false);
 
     sceneEventsEmitter.on(sceneEvents.MessageSent, this.handleMessage, this);

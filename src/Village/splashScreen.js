@@ -1,7 +1,6 @@
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import Game from "../Game";
 import { goToMine, goToFactory, goToRecycling } from "../Story/goToGame";
-import { FONT_RESOLUTION, FONT_SIZE } from "../UI/Message";
 import { urlParamHas } from "../Utils/debug";
 import { eventsHas } from "../Utils/events";
 
@@ -127,13 +126,9 @@ export const splashScreen = function (scene) {
   mai.play("mai");
 
   const title = scene.add
-    .text(275, 130, "Trois-Rivières", {
-      fontFamily: "DefaultFont",
-      fontSize: "32px",
-      fill: "#307f6d",
-    })
+    .bitmapText(275, 130, "FreePixel-16", "Trois-Rivières", 32)
     .setOrigin(0.5, 0.5)
-    .setResolution(FONT_RESOLUTION);
+    .setTintFill(0x307f6d);
 
   const smokeBig = scene.add
     .sprite(372, 97, "splash", "smoke-big-1")
@@ -145,17 +140,19 @@ export const splashScreen = function (scene) {
     .setOrigin(0, 0);
   smokeSmall.play("smoke-small");
 
-  const mouseOver = (target, color = "#000000") => target.setColor(color);
-  const mouseOut = (target) => target.setColor("#ffffff");
+  const mouseOver = (target, color = 0x000000) => target.setTintFill(color);
+  const mouseOut = (target) => target.setTintFill(0xffffff);
 
   const textStart = scene.add
-    .text(275, 164, scene.isBonus ? "Nouvelle partie" : "Démarrer", {
-      fontFamily: "DefaultFont",
-      fontSize: FONT_SIZE,
-      fill: "#ffffff",
-    })
+    .bitmapText(
+      275,
+      164,
+      "FreePixel-16",
+      scene.isBonus ? "Nouvelle partie" : "Démarrer",
+      16
+    )
     .setOrigin(0.5, 0.5)
-    .setResolution(FONT_RESOLUTION)
+    .setTintFill(0xffffff)
     .setInteractive({ useHandCursor: true });
 
   const startGame = () => {
@@ -187,7 +184,7 @@ export const splashScreen = function (scene) {
   const clickBonusGame = (textObject) => {
     goingSomewhere = true;
     textObject.disableInteractive(true);
-    textObject.setColor("#307f6d");
+    textObject.setTintFill(0x333333);
     document.body.style.cursor = "none";
   };
 
@@ -197,23 +194,17 @@ export const splashScreen = function (scene) {
     startGame();
   });
 
-  textStart.on("pointerover", () => mouseOver(textStart, "#307f6d"));
+  textStart.on("pointerover", () => mouseOver(textStart, 0x307f6d));
   textStart.on("pointerout", () => mouseOut(textStart));
 
   if (scene.isBonus) {
     const textMine = scene.add
-      .text(275, 230, "La mine", {
-        fontFamily: "DefaultFont",
-        fontSize: FONT_SIZE,
-        fill: "#ffffff",
-      })
+      .bitmapText(275, 230, "FreePixel-16", "La mine", 16)
       .setOrigin(0.5, 0.5)
-      .setResolution(FONT_RESOLUTION)
+      .setTintFill(0xffffff)
       .setInteractive({ useHandCursor: true });
-
-  textMine.on("pointerover", () => mouseOver(textMine));
-  textMine.on("pointerout", () => mouseOut(textMine));
-
+    textMine.on("pointerover", () => mouseOver(textMine));
+    textMine.on("pointerout", () => mouseOut(textMine));
     textMine.on("pointerdown", () => {
       if (goingSomewhere) return;
       clickBonusGame(textMine);
@@ -221,18 +212,12 @@ export const splashScreen = function (scene) {
     });
 
     const textFactory = scene.add
-      .text(275, 250, "L'usine", {
-        fontFamily: "DefaultFont",
-        fontSize: FONT_SIZE,
-        fill: "#ffffff",
-      })
+      .bitmapText(275, 250, "FreePixel-16", "L'usine", 16)
       .setOrigin(0.5, 0.5)
-      .setResolution(FONT_RESOLUTION)
+      .setTintFill(0xffffff)
       .setInteractive({ useHandCursor: true });
-
-  textFactory.on("pointerover", () => mouseOver(textFactory));
-  textFactory.on("pointerout", () => mouseOut(textFactory));
-
+    textFactory.on("pointerover", () => mouseOver(textFactory));
+    textFactory.on("pointerout", () => mouseOut(textFactory));
     textFactory.on("pointerdown", () => {
       if (goingSomewhere) return;
       clickBonusGame(textFactory);
@@ -240,18 +225,12 @@ export const splashScreen = function (scene) {
     });
 
     const textRecycling = scene.add
-      .text(275, 270, "Le recyclage", {
-        fontFamily: "DefaultFont",
-        fontSize: FONT_SIZE,
-        fill: "#ffffff",
-      })
+      .bitmapText(275, 270, "FreePixel-16", "Le recyclage", 16)
       .setOrigin(0.5, 0.5)
-      .setResolution(FONT_RESOLUTION)
+      .setTintFill(0xffffff)
       .setInteractive({ useHandCursor: true });
-  
-      textRecycling.on("pointerover", () => mouseOver(textRecycling));
-  textRecycling.on("pointerout", () => mouseOut(textRecycling));
-
+    textRecycling.on("pointerover", () => mouseOver(textRecycling));
+    textRecycling.on("pointerout", () => mouseOut(textRecycling));
     textRecycling.on("pointerdown", () => {
       if (goingSomewhere) return;
       clickBonusGame(textRecycling);

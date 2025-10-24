@@ -1,7 +1,6 @@
 import Phaser from "phaser";
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import { DiscussionStatus } from "../Utils/discussionStatus";
-import { FONT_RESOLUTION, FONT_SIZE } from "./Message";
 import { fadeOutMusic, playSound, preloadSound } from "../Utils/music";
 import { dispatchUnlockEvents } from "../Utils/events";
 
@@ -133,16 +132,12 @@ export default class MiniGameUi extends Phaser.Scene {
     this.dialogBackground.anims.play("dialog-shout-anim", true);
 
     this.textObject = this.add
-      .text(345, 50, "", {
-        fontFamily: "DefaultFont",
-        fontSize: FONT_SIZE,
-        fill: "#ffffff",
-      })
-      .setResolution(FONT_RESOLUTION)
+      .bitmapText(345, 52, "FreePixel-16", "", 16)
       .setOrigin(0.5, 0.5)
       .setScrollFactor(0)
+      .setTintFill(0xffffff)
+      .setMaxWidth(245)
       .setDepth(DEPTH)
-      .setWordWrapWidth(240)
       .setVisible(false);
 
     sceneEventsEmitter.on(
