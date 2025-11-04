@@ -53,6 +53,7 @@ export const gameOver = function (scene) {
           duration: 1000,
         });
 
+      // forest
       scene.cameras.main.setScroll(1, 700);
       scene.cameras.main.fadeIn(1000, 0, 0, 0);
       let fadeOut = false;
@@ -62,7 +63,7 @@ export const gameOver = function (scene) {
           50,
           120,
           "FreePixel-16",
-          "L'extraction minière est l'industrie la plus polluante au monde.",
+          "L’extraction minière est l’industrie la plus polluante au monde.",
           16
         )
         .setScrollFactor(0)
@@ -106,25 +107,25 @@ export const gameOver = function (scene) {
       );
       scene.time.delayedCall(10000, () =>
         fadeOutMessageEnd(
-          "La production d'objets numériques épuise les ressources… et les ouvriers."
+          "La production d’objets numériques épuise les ressources… et les ouvriers."
         )
       );
       scene.time.delayedCall(15000, () =>
-        fadeOutMessageEnd("Le recyclage n'est pas une solution miracle…")
+        fadeOutMessageEnd("Le recyclage n’est pas une solution miracle…")
       );
-      scene.time.delayedCall(20000, () =>
+      scene.time.delayedCall(19000, () =>
         fadeOutMessageEnd(
-          "Collectivement, réduisons le nombre et augmentons la durée de vie des objets numériques."
+          "Réduisons nos besoins en objets numériques en augmentant leur durée de vie."
         )
       );
       scene.time.delayedCall(25000, () =>
         fadeOutMessageEnd(
-          "Et se mobiliser ou soutenir, si on le peut, les luttes qui ont du sens."
+          "Par l’action ou le soutien, engageons-nous pour un monde habitable et plus juste."
         )
       );
       scene.time.delayedCall(29000, () =>
         fadeOutMessageEnd(
-          "Ce jeu est dédié au vivant, humains compris, qui chaque jour paye de plus en plus cher, l'escalade technologique."
+          "Ce jeu est dédié au vivant, humains compris, qui chaque jour paye de plus en plus cher, l’escalade technologique."
         )
       );
       scene.time.delayedCall(37000, () =>
@@ -135,19 +136,17 @@ export const gameOver = function (scene) {
       scene.time.delayedCall(42000, () => {
         messageEnd
           .setText(
-            "Idée originale, game design et programmation\n\n  Richard Hanna\n\nGraphisme, level design et game design\n\n  Philippe Salib\n\nGame design, narration, musiques et effets sonores\n\n  David Fonteix."
+            "Idée originale, game design et programmation\n\n  Richard Hanna.\n\nGraphisme, level design et game design\n\n  Philippe Salib.\n\nGame design, narration, musiques et effets sonores\n\n  David Fonteix."
           )
           .setPosition(20, 300)
           .setAlpha(1)
-          .setMaxWidth(350);
+          .setMaxWidth(210);
         scene.tweens.add({
           targets: messageEnd,
-          y: 20,
+          y: 15,
           ease: "Sine.easeOut",
           duration: 15000,
         });
-
-        // Tests\n\n  Enzo, Paloma et tous les enfants de la médiathèque Vernant de Chelles
       });
 
       scene.tweens.add({
