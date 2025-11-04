@@ -1,34 +1,17 @@
 export const createTrees = function (scene) {
-  // Add trees
-  scene.anims.create({
-    key: "sapin",
-    frames: scene.anims.generateFrameNames("trees", {
-      start: 1,
-      end: 2,
-      prefix: "sapin-",
-    }),
-    repeat: -1,
-    frameRate: 1,
-  });
-  scene.anims.create({
-    key: "arbre",
-    frames: scene.anims.generateFrameNames("trees", {
-      start: 1,
-      end: 2,
-      prefix: "arbre-",
-    }),
-    repeat: -1,
-    frameRate: 1,
-  });
-  scene.anims.create({
-    key: "pin",
-    frames: scene.anims.generateFrameNames("trees", {
-      start: 1,
-      end: 2,
-      prefix: "pin-",
-    }),
-    repeat: -1,
-    frameRate: 1,
+  ['sapin', 'pin', 'arbre'].forEach((name) => {
+    for (let i=1; i<=10; i++) {
+      scene.anims.create({
+        key: `${name}-${i}`,
+        frames: scene.anims.generateFrameNames("trees", {
+          start: 1,
+          end: 2,
+          prefix: `${name}-`,
+        }),
+        duration: Phaser.Math.Between(1900, 2200),
+        repeat: -1,
+      });
+    }
   });
 
   scene.map.createLayer("bottomStaticTrees", scene.tileset).setDepth(130);
@@ -55,7 +38,7 @@ export const createTreesLayer = function (layerName, scene) {
       .setImmovable(true)
       .setDepth(130);
 
-    treeTop.anims.play(treeObject.name);
+    treeTop.anims.play(`${treeObject.name}-${Phaser.Math.Between(1, 10)}`);
 
     const collider = scene.physics.add.sprite(treeObject.x, treeObject.y - 10, null)
       .setSize(8, 1)
