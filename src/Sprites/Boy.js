@@ -67,7 +67,7 @@ export default class Boy extends Chat {
     this.anims.play("boy-sad");
 
     // group boy and girl
-    this.body.setSize(this.width + 8, this.height + 18);
+    this.body.setSize(this.width + 8, this.height + 14);
     this.body.setOffset(-7, 0);
   }
 

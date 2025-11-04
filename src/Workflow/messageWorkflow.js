@@ -225,6 +225,10 @@ const messageWorkflow = {
       messages: ["téyé-phone, téyé-phone…"],
       dependingOn: ["third_act_begin"],
     },
+    {
+      messages: ["Ca-mion…"],
+      dependingOn: ["fourth_act_begin"],
+    },
   ],
   sleepingGuy: [
     {
@@ -624,11 +628,15 @@ const messageWorkflow = {
       dependingOn: ["second_act_begin"],
     },
     {
-      messages: ["… Mmmmh, j’ai envie d’un gros burger…"],
+      messages: ["… Mmmmh, et si on mangeait un gros burger…"],
       dependingOn: ["third_act_begin"],
     },
     {
-      messages: ["C’est ma première manif, trop chouette !"],
+      messages: ["… Il est louche le monsieur là…"],
+      dependingOn: ["fourth_act_begin"],
+    },
+    {
+      messages: ["C’est notre première manif, trop chouette !"],
       dependingOn: ["strike_begin"],
     },
   ],
@@ -647,6 +655,10 @@ const messageWorkflow = {
         "comme FortNight ou BroStar…",
       ],
       dependingOn: ["third_act_begin"],
+    },
+    {
+      messages: ["On devrait pas rester ici…"],
+      dependingOn: ["fourth_act_begin"],
     },
     {
       messages: ["Tante Koko et oncle Django sont trop forts !"],

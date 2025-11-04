@@ -9353,10 +9353,10 @@
   <object id="1374" name="sleepingGuyFinal" x="2024.33" y="926.333">
    <point/>
   </object>
-  <object id="1375" name="boyFactory" x="1208.67" y="481.667">
+  <object id="1375" name="boyFactory" x="1208.67" y="478.667">
    <point/>
   </object>
-  <object id="1376" name="girlFactory" x="1222.33" y="488">
+  <object id="1376" name="girlFactory" x="1222.33" y="482">
    <point/>
   </object>
   <object id="1377" name="cowHidden" x="718.334" y="1296">

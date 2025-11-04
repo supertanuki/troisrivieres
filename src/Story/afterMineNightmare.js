@@ -144,6 +144,7 @@ export const setVillageForSecondAct = function (scene) {
 
     if (o.name === "boyFactory") {
       scene.boy.setPosition(o.x, o.y);
+      scene.boy.setSize(scene.boy.width, 1);
     }
 
     if (o.name === "girlFactory") {

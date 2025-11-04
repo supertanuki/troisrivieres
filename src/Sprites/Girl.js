@@ -8,6 +8,7 @@ export default class Girl extends Chat {
     super(scene, x, y, "sprites", "girl-water-1", 0, 0, true, true);
     this.spriteId = SPRITE_ID;
     this.shadowDeltaY = 7;
+    this.delta = 10;
 
     scene.anims
       .create({
@@ -91,7 +92,7 @@ Phaser.GameObjects.GameObjectFactory.register(SPRITE_ID, function (x, y) {
     Phaser.Physics.Arcade.DYNAMIC_BODY
   );
 
-  sprite.body.setSize(sprite.width + 2, sprite.height + 10);
+  sprite.body.setSize(sprite.width, 1);
   sprite.setImmovable(true);
 
   this.displayList.add(sprite);
