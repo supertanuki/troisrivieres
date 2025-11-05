@@ -55,6 +55,7 @@ export const playIndustryTheme = function (scene) {
   fadeOutMusic(scene, scene.miniGameTheme);
   fadeOutMusic(scene, scene.villageAmbianceV1);
   fadeOutMusic(scene, scene.villageAmbianceV2);
+  fadeOutMusic(scene, scene.nightmareTheme);
 
   if (scene.industryTheme && scene.sound.get("industry-theme")) {
     fadeInMusic(scene, scene.industryTheme);
