@@ -1133,7 +1133,7 @@ const uiMessages = {
   "mine.warning": "Ressaisis-toi, on est là pour faire du chiffre !",
   "mine.lastWarning": "Dernier avertissement, concentre-toi !",
 
-  "factory.faster": "Validé ! Plus vite maintenant !!!",
+  "factory.faster": "Validé! Plus vite maintenant!!!",
   "factory.welldone": "C’est bien, tu es productive !",
   "factory.error": "C’est quoi ce boulot ? Ressaisis-toi la nouvelle !",
 
