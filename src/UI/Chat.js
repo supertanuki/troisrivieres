@@ -74,11 +74,13 @@ export default class Chat extends Phaser.Physics.Arcade.Sprite {
   destroy() {
     super.destroy();
     this.shadow?.destroy();
+    this.secondShadow?.destroy();
   }
 
   setVisible(value) {
     super.setVisible(value);
     this.shadow?.setVisible(value);
+    this.secondShadow?.setVisible(value);
 
     if (!this.chatImageUi) return;
 
