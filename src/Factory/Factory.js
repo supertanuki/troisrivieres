@@ -38,7 +38,7 @@ export default class Factory extends MiniGameUi {
     this.isMotherboardValidated = false;
     this.motherboardSpeed = initialSpeed;
     this.numberValidated = 0;
-    this.enableComponentsControl = false;
+    this.enableComponentsControl = true;
     this.conveyorPosition = 0;
     this.conveyorRollings = [];
     this.conveyorBackPosition = 0;
@@ -660,7 +660,7 @@ export default class Factory extends MiniGameUi {
   }
 
   setComponent() {
-    if (!this.enableComponentsControl) return;
+    if (!this.enableComponentsControl || this.motherBoard?.[0]?.x < 20) return;
 
     this.enableComponentsControl = false;
 
@@ -713,7 +713,7 @@ export default class Factory extends MiniGameUi {
         ease: "Sine.easeInOut",
         duration: animDuration,
         onComplete: () => {
-          this.enableComponentsControl = true;
+          this.enableComponentsControl = !(this.componentValidated === this.getComponentsNumber());
           this.resetUserHand();
         },
       });
@@ -740,13 +740,14 @@ export default class Factory extends MiniGameUi {
         ease: "Sine.easeInOut",
         duration: animDuration,
         onComplete: () => {
-          this.enableComponentsControl = true;
+          this.enableComponentsControl = !(this.componentValidated === this.getComponentsNumber());
           this.resetUserHand();
         },
       });
     }
 
     if (this.componentValidated === this.getComponentsNumber()) {
+      this.enableComponentsControl = false;
       this.time.delayedCall(200, () => {
         if (this.motherBoard.length) {
           this.validateMotherboard();
