@@ -137,10 +137,18 @@ const messageWorkflow = {
   twoGuys: [
     {
       messages: [
-        "- Le changement climatique, c’est du sérieux, mec.",
-        "- Ok, mais tu penses à la biodiversité ?",
-        "- Si, si, j’ai même arrêté de tuer les moustiques !",
+        "- Il faudrait qu’on aide Bino au potager.",
+        "- Oui, oui, mais d’abord laisse-moi paresser un peu !",
+        "- Tu as raison, reposons-nous, le travail peut attendre.",
       ],
+    },
+    {
+      messages: [
+        "- Bino est dans tous ses états à cause de la rivière.",
+        "- Viens, on va le soutenir.",
+        "- Tranquille, faisons une pause avant d’aller le voir.",
+      ],
+      dependingOn: ["first_sleep"],
     },
     {
       messages: [
@@ -179,17 +187,29 @@ const messageWorkflow = {
       dependingOn: ["strike_begin"],
     },
     {
-      messages: ["Salut Maï, tu es attendue près de chez Bino."],
+      messages: [
+        "- Salut Maï, tu es attendue près de chez Bino.",
+        "- Si tu as oublié où il habite, c’est à l’est.",
+      ],
       dependingOn: ["strike_end"],
     },
   ],
   twoWomen: [
     {
       messages: [
-        "- J’arrête de manger de la viande !",
-        "- Pour ta santé ?",
-        "- Non, pour réduire mon empreinte carbone !",
+        "- Notre amie Koko sait vraiment tout sur tout.",
+        "- C’est vrai, on peut compter sur elle.",
+        "- Et que dire de Django…",
+        "- Tu as raison, pas le dernier à rendre service !",
       ],
+    },
+    {
+      messages: [
+        "- Koko m’a dit que Nono est revenu du travail…",
+        "- Oui mais pas en entier, le pauvre !",
+        "- Il faudrait qu’on aille le voir.",
+      ],
+      dependingOn: ["first_sleep"],
     },
     {
       messages: [
@@ -201,6 +221,7 @@ const messageWorkflow = {
         "Plus besoin de perche à selfie !",
       ],
       dependingOn: ["third_act_begin"],
+      repeat: ["- Le dernier smartphone donne envie !"],
     },
     {
       messages: [
@@ -212,7 +233,7 @@ const messageWorkflow = {
     {
       messages: [
         "- Salut Maï, ça fait un bail !",
-        "- Tu es attendue à l’est du village !",
+        "- Tu es attendue près du potager de chez Bino.",
       ],
       dependingOn: ["strike_end"],
     },
@@ -369,7 +390,7 @@ const messageWorkflow = {
       messages: [
         "C’est donc toi Maï ?",
         "Ton arrivée dans le village ne passe pas inaperçue.",
-        "Comme tu peux le constater…",
+        "Comme tu peux le constater dans mon fauteuil roulant…",
         "tu ne me vois pas au meilleur de ma forme !",
         "À l’est, une mine vient de s’installer.",
         "J’ai tenté d’y travailler mais…",
@@ -395,15 +416,10 @@ const messageWorkflow = {
         "La situation de nos rivières est perturbante,",
         "mais je dois bien avouer que ces nouvelles routes…",
         "facilitent énormément mes déplacements !",
-        "Mon handicap ne fait pas bon ménage avec le vélo…",
-        "ou rouler sur la terre, la gadoue et les pavés !",
-        "D’ailleurs, savais-tu que ce sont les déchets de la mine…",
-        "les résidus miniers, qui ont été recyclés…",
-        "…dans le bitume des routes ? Impressionnant non ?",
-        "Peu étonnant qu’il y ait foule pour aller à la mine,",
-        "c’est devenu l’attraction des alentours.",
+        "Et quand j’irai mieux…",
+        "… je postulerai à la nouvelle usine au nord d’ici.",
       ],
-      repeat: ["La situation de nos rivières est perturbante…"],
+      repeat: ["Je pense postuler à l’usine au nord d’ici…"],
       dependingOn: ["second_act_begin"],
     },
     {
@@ -530,7 +546,7 @@ const messageWorkflow = {
         "Camarades de Trois-Rivières !",
         "Vous savez ce qui se passe dans notre village.",
         "Nos ressources et nos rivières ont été accaparés…",
-        "Par des industries cupides et polluantes.",
+        "Par des industries destructrices et polluantes.",
         "Aujourd’hui nous leur disons stop !",
         "Comme le disait ma grand-mère…",
         "On peut couper nos branches mais pas nos racines.",
@@ -548,7 +564,7 @@ const messageWorkflow = {
         "Les industriels sont ainsi partis voir ailleurs…",
         "Et les oiseaux sont revenus.",
         "Presque tous… c’est toujours mieux qu’aucun.",
-        "Allez, viens. On t’attendais pour pique-niquer !",
+        "Allez, viens. On t’attendait pour pique-niquer !",
       ],
       dependingOn: ["django_final"],
       unlockEvents: ["django_final_end"],
@@ -624,7 +640,7 @@ const messageWorkflow = {
       dependingOn: ["first_sleep"],
     },
     {
-      messages: ["Quand nous pourrons rejouer dans la rivière ?"],
+      messages: ["Y’a moins d’eau dans la rivière maintenant…"],
       dependingOn: ["second_act_begin"],
     },
     {
@@ -645,7 +661,7 @@ const messageWorkflow = {
       messages: ["…"],
     },
     {
-      messages: ["La rivière est toute petite maintenant…"],
+      messages: ["Y’a moins d’eau dans la rivière maintenant…"],
       dependingOn: ["second_act_begin"],
     },
     {
@@ -708,7 +724,7 @@ const messageWorkflow = {
     },
     {
       messages: [
-        "Il faut un laissez-passer pour passer.",
+        "Il faut un laissez-passer pour… passer.",
         "Nouvelle directive des chefs !",
       ],
       repeat: ["Je t’ai dit qu’il faut un laissez-passer…"],
@@ -738,7 +754,7 @@ const messageWorkflow = {
       messages: [
         "Bienvenue à Grise Mine, LA mine responsable !",
         "D’ici sortent des tonnes de minerais chaque jour…",
-        "extraits avec de l’énergie bas-carbone s’il vous plaît !",
+        "extraits avec de l’énergie bas-carbone s’il vous plait !",
         "Nous utilisons l’eau de façon raisonnée…",
         "traitons nos employés de manière exemplaire, et…",
         "Ça ne t’intéresse pas mon discours ?",
@@ -881,9 +897,9 @@ const messageWorkflow = {
     {
       messages: [
         "Je m’y connais pas trop en électronique…",
-        "mais faut bien mettre du beurre dans les épinards !",
+        "mais il faut bien que je mange !",
       ],
-      repeat: ["Il faut bien mettre du beurre dans les épinards !"],
+      repeat: ["Je travaille ici car il faut que je mange !"],
     },
     {
       messages: ["Tu ne passes plus… Ordre des chefs !"],
@@ -956,11 +972,11 @@ const messageWorkflow = {
         "Et faire ça le plus vite possible…",
         "Les clients n’attendent pas !",
         isMobileOrTablet()
-          ? "Bouge les composants en appuyant à gauche ou à droite."
-          : "Bouge les composants avec les flèches ← →",
+          ? "Choisis le bon composant en appuyant à gauche ou à droite."
+          : "Choisis le bon composant avec les flèches ← →",
         isMobileOrTablet()
-          ? "Et valide le composant en appuyant au centre."
-          : "Et valide le composant avec la barre ESPACE",
+          ? "Et installe le composant choisi en appuyant au centre."
+          : "Et installe le composant choisi avec la barre ESPACE",
         "C’est parti !",
       ],
       unlockEvents: ["factory_tuto_begin"],
@@ -971,11 +987,11 @@ const messageWorkflow = {
         "Tu n’as pas compris comment ça fonctionne ?",
         "Tu dois monter les composants sur les cartes…",
         isMobileOrTablet()
-          ? "Bouge les composants en appuyant à gauche ou à droite."
-          : "Bouge les composants avec les flèches ← →",
+          ? "Choisis le bon composant en appuyant à gauche ou à droite."
+          : "Choisis le bon composant avec les flèches ← →",
         isMobileOrTablet()
-          ? "Et valide le composant en appuyant au centre."
-          : "Et valide le composant avec la barre ESPACE",
+          ? "Et installe le composant choisi en appuyant au centre."
+          : "Et installe le composant choisi avec la barre ESPACE",
         "C’est à la portée du premier venu !",
       ],
       dependingOn: ["factory_tuto_missed"],
@@ -1100,7 +1116,6 @@ const messageWorkflow = {
         "Nous étions des ouvriers et avons déserté la mine…",
         "… nous avons abandonné notre travail…",
         "… et avons créé cette petite communauté…",
-        "… une sorte de ZAD, une Zone à Défendre…",
         "… où l’on plante nos légumes…",
         "… et on essaye de construire un monde plus sobre.",
       ],
@@ -1112,10 +1127,7 @@ const messageWorkflow = {
       messages: [
         "Nous sommes plusieurs anciens ouvriers à vivre ici.",
         "Aucun regret sur ce choix de vie.",
-        "Cependant, on vit cachés dans la forêt…",
-        "C’est comme le marronnage au temps de l’esclavage…",
-        "où les nègres-marrons fuyaient leur condition…",
-        "en se réfugiant dans les bois ou dans les montagnes.",
+        "Cependant, on vit cachés dans la forêt.",
       ],
       repeat: ["On est obligé de vivre cachés dans la forêt."],
     },
@@ -1142,6 +1154,16 @@ const uiMessages = {
 
   "betweenActs.later": "Quelque temps plus tard…",
   "final.later": "Quelque temps plus tard…",
+
+  "generic.1": "L’extraction minière est l’industrie la plus polluante au monde.",
+  "generic.2": "La mine a des conséquences éternelles sur les habitants et les écosystèmes.",
+  "generic.3": "La production d’objets numériques épuise les ressources… et les ouvriers.",
+  "generic.4": "Le recyclage n’est pas une solution miracle…",
+  "generic.5": "Pour économiser les ressources, ne cédons pas aux objets connectés inutiles.",
+  "generic.6": "Et gardons les objets utiles plus longtemps.",
+  "generic.7": "Ce jeu est dédié au vivant, humains compris, qui chaque jour paye de plus en plus cher, l’accélération technologique.",
+  "generic.thanks": "Merci d’avoir joué.",
+  "generic.credits": "Idée originale, game design et programmation\n\n  Richard Hanna.\n\nGraphisme, level design et game design\n\n  Philippe Salib.\n\nGame design, narration, musiques et effets sonores\n\n  David Fonteix.",
 };
 
 const getUiMessage = (name) => uiMessages[name];

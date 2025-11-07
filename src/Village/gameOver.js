@@ -1,6 +1,7 @@
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import Game from "../Game";
 import { fadeOutMusic, playVillageTheme } from "../Utils/music";
+import { getUiMessage } from "../Workflow/messageWorkflow";
 
 /** @param {Game} scene  */
 export const gameOver = function (scene) {
@@ -63,7 +64,7 @@ export const gameOver = function (scene) {
           50,
           120,
           "FreePixel-16",
-          "L’extraction minière est l’industrie la plus polluante au monde.",
+          getUiMessage("generic.1"),
           16
         )
         .setScrollFactor(0)
@@ -101,43 +102,31 @@ export const gameOver = function (scene) {
 
       scene.time.delayedCall(1000, () => fadeInMessageEnd());
       scene.time.delayedCall(5000, () =>
-        fadeOutMessageEnd(
-          "La mine a des conséquences éternelles sur les habitants et les écosystèmes."
-        )
+        fadeOutMessageEnd(getUiMessage("generic.2"))
       );
       scene.time.delayedCall(10000, () =>
-        fadeOutMessageEnd(
-          "La production d’objets numériques épuise les ressources… et les ouvriers."
-        )
+        fadeOutMessageEnd(getUiMessage("generic.3"))
       );
       scene.time.delayedCall(15000, () =>
-        fadeOutMessageEnd("Le recyclage n’est pas une solution miracle…")
+        fadeOutMessageEnd(getUiMessage("generic.4"))
       );
       scene.time.delayedCall(19000, () =>
-        fadeOutMessageEnd(
-          "Réduisons nos besoins en objets numériques en augmentant leur durée de vie."
-        )
+        fadeOutMessageEnd(getUiMessage("generic.5"))
       );
       scene.time.delayedCall(25000, () =>
-        fadeOutMessageEnd(
-          "Par l’action ou le soutien, engageons-nous pour un monde habitable et plus juste."
-        )
+        fadeOutMessageEnd(getUiMessage("generic.6"))
       );
       scene.time.delayedCall(29000, () =>
-        fadeOutMessageEnd(
-          "Ce jeu est dédié au vivant, humains compris, qui chaque jour paye de plus en plus cher, l’escalade technologique."
-        )
+        fadeOutMessageEnd(getUiMessage("generic.7"))
       );
       scene.time.delayedCall(37000, () =>
-        fadeOutMessageEnd("Merci d'avoir joué.")
+        fadeOutMessageEnd(getUiMessage("generic.thanks"))
       );
       scene.time.delayedCall(40000, () => fadeOutMessageEnd());
 
       scene.time.delayedCall(42000, () => {
         messageEnd
-          .setText(
-            "Idée originale, game design et programmation\n\n  Richard Hanna.\n\nGraphisme, level design et game design\n\n  Philippe Salib.\n\nGame design, narration, musiques et effets sonores\n\n  David Fonteix."
-          )
+          .setText(getUiMessage("generic.credits"))
           .setPosition(20, 300)
           .setAlpha(1)
           .setMaxWidth(210);
