@@ -475,11 +475,7 @@ export default class Game extends Scene {
       this.hero.y < 445 || // factory
       (this.miner && this.hero.x > this.miner.x + 25) || // mine
       (this.hero.x < 880 && this.hero.y < 615) || // recycling
-      (this.datacentreThemeEnabled &&
-        this.hero.x > 1110 &&
-        this.hero.x < 1500 &&
-        this.hero.y > 984 &&
-        this.hero.y < 1210) // datacentre
+      this.datacentreThemeEnabled // datacentre
     ) {
       playIndustryTheme(this);
     } else if (this.hero.x > 1120) {

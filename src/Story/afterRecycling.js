@@ -3,10 +3,10 @@ import { setNightState } from "../Village/night";
 import { toggleSpritesVisibility } from "../Village/spritesVisibility";
 import "../Sprites/DcWorkerChief";
 import {
+  playIndustryTheme,
   playNightAmbiance,
   playNightmareTheme,
   playVillageAmbiance,
-  playVillageTheme,
 } from "../Utils/music";
 import { DiscussionStatus } from "../Utils/discussionStatus";
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
@@ -68,10 +68,12 @@ export const afterRecycling = function (scene) {
 export const afterRecyclingNightmare = function (scene) {
   scene.wakeGame(true);
   scene.isCinematic = true;
-  playVillageTheme(scene);
-  playVillageAmbiance(scene);
-  setVillageForFourthAct(scene);
+
   scene.datacentreThemeEnabled = true;
+  playIndustryTheme(scene);
+  playVillageAmbiance(scene);
+
+  setVillageForFourthAct(scene);
   scene.setHeroPosition("heroDjangoDoor");
   scene.hero.setVisible(false);
   scene.hero.animateToDown();
