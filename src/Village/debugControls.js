@@ -81,9 +81,9 @@ export const addDebugControls = function (scene) {
         scene.setHeroPosition("heroKoko");
         villageStateAfterFirstSleep(scene);
         setVillageBeforeMine(scene);
-        //setVillageForSecondAct(scene);
-        //setVillageForThirdAct(scene);
-        //setVillageForFourthAct(scene);
+        setVillageForSecondAct(scene);
+        setVillageForThirdAct(scene);
+        setVillageForFourthAct(scene);
         scene.isCinematic = false;
 
         sceneEventsEmitter.emit(sceneEvents.PreEventsUnlocked, [
@@ -93,10 +93,11 @@ export const addDebugControls = function (scene) {
           //"pre_first_sleep",
           //"miner_ask_for_card",
           //"mine_after",
-          "second_act_begin",
+          //"second_act_begin",
           //"factory_after",
           //"third_act_begin",
           //"fourth_act_begin",
+          "django_ready_for_strike",
           //"strike_begin",
           //"strike_end",
           //"after_final_message",

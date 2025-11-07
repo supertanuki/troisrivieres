@@ -73,8 +73,10 @@ export default class Django extends Chat {
     this.anims.stop();
   }
 
-  beforeStrike() {
+  beforeStrike(x, y) {
     this.status = "before-strike";
+    this.chatIconDeltaX = 0;
+    this.setPosition(x, y);
     this.anims.play("django-before-strike", true);
   }
 
