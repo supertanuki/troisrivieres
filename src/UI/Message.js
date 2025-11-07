@@ -71,7 +71,7 @@ export default class Message extends Phaser.Scene {
 
     this.dialogBackgroundColor = this.add
       .rectangle(config.width / 2, config.height - 30, 252, 44, 0x000000)
-      .setAlpha(0.5)
+      .setAlpha(0.7)
       .setOrigin(0.5, 0.5)
       .setDepth(2000)
       .setScrollFactor(0)
