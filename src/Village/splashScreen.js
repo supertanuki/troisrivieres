@@ -148,7 +148,7 @@ export const splashScreen = function (scene) {
       275,
       164,
       "FreePixel-16",
-      scene.isBonus ? "Nouvelle partie" : "Démarrer",
+      scene.isBonus ? "Nouvelle partie" : "Jouer",
       16
     )
     .setOrigin(0.5, 0.5)
@@ -196,6 +196,22 @@ export const splashScreen = function (scene) {
 
   textStart.on("pointerover", () => mouseOver(textStart, 0x307f6d));
   textStart.on("pointerout", () => mouseOut(textStart));
+
+  const credits = scene.add
+    .bitmapText(
+      510,
+      290,
+      "FreePixel-16",
+      "Crédits",
+      16
+    )
+    .setOrigin(0.5, 0.5)
+    .setTintFill(0xffffff)
+    .setInteractive({ useHandCursor: true });
+
+  credits.on("pointerdown", () => window.location.href = 'credits.html');
+  credits.on("pointerover", () => mouseOver(credits, 0x000000));
+  credits.on("pointerout", () => mouseOut(credits));
 
   if (scene.isBonus) {
     const textMine = scene.add
