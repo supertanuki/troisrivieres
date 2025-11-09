@@ -35,6 +35,10 @@ p {
   margin: 2rem 2rem;
 }
 
+h2 {
+  margin: 2rem 1rem;
+}
+
 .logos {
   display: flex;
   align-items: center;
