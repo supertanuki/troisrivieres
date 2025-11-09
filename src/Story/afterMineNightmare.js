@@ -10,7 +10,7 @@ import { handleAction } from "../Village/handleAction";
 import { hideBikes } from "../Village/hideBikes";
 import { hidePotager } from "../Village/hidePotager";
 import { removeMineBackground } from "../Village/mineBackgground";
-import { switchNight } from "../Village/night";
+import { setNightState } from "../Village/night";
 import { toggleRoadsVisibility } from "../Village/roads";
 import { secondRiverLessWater } from "../Village/secondRiverLessWater";
 import { toggleSpritesVisibility } from "../Village/spritesVisibility";
@@ -69,7 +69,7 @@ export const setVillageForSecondAct = function (scene) {
     .setDepth(10000)
     .setVisible(false);
 
-  switchNight(scene);
+  setNightState(scene, false);
 
   removeMineBackground(scene);
   toggleRoadsVisibility(scene);

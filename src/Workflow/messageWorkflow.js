@@ -479,6 +479,7 @@ const messageWorkflow = {
       ],
       repeat: ["Ooh pauvre rivière, laisse moi te jouer une prière."],
       dependingOn: ["first_sleep"],
+      unlockEvents: ["first_sleep_save"],
     },
     {
       messages: [
@@ -502,6 +503,7 @@ const messageWorkflow = {
         "ce sont les 6 cordes de ma guitare.",
       ],
       dependingOn: ["second_act_begin"],
+      unlockEvents: ["second_act_save"],
     },
     {
       messages: [
@@ -516,6 +518,7 @@ const messageWorkflow = {
       ],
       repeat: ["J’ai envie de voyager, partir loin…"],
       dependingOn: ["third_act_begin"],
+      unlockEvents: ["third_act_save"],
     },
     {
       messages: [
@@ -527,6 +530,7 @@ const messageWorkflow = {
       ],
       repeat: ["Un chantier au milieu de notre village…"],
       dependingOn: ["fourth_act_begin"],
+      unlockEvents: ["fourth_act_save"],
     },
     {
       messages: [
@@ -1154,6 +1158,8 @@ const uiMessages = {
 
   "betweenActs.later": "Quelque temps plus tard…",
   "final.later": "Quelque temps plus tard…",
+
+  "progression.saved": "Progression enregistrée",
 
   "generic.1": "L’extraction minière est l’industrie la plus polluante au monde.",
   "generic.2": "La mine a des conséquences éternelles sur les habitants et les écosystèmes.",

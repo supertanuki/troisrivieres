@@ -2,7 +2,7 @@ import Game from "../Game";
 import "../Sprites/Nono";
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import { handleAction } from "../Village/handleAction";
-import { switchNight } from "../Village/night";
+import { setNightState } from "../Village/night";
 import { toggleSpritesVisibility } from "../Village/spritesVisibility";
 import {
   playVillageAmbiance,
@@ -27,7 +27,7 @@ export const endFirstSleep = function (scene) {
   scene.setHeroPosition("heroDjangoDoor");
   scene.hero.slowRightDown();
   scene.hero.animateToRight();
-  switchNight(scene);
+  setNightState(scene, false);
 
   villageStateAfterFirstSleep(scene);
 

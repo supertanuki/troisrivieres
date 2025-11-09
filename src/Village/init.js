@@ -32,9 +32,17 @@ import { handleAction } from "./handleAction";
 import { preloadSound } from "../Utils/music";
 import { getUiMessage } from "../Workflow/messageWorkflow";
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
+import { getProgression } from "../Utils/progression";
+import {
+  endFirstSleep,
+  villageStateAfterFirstSleep,
+} from "../Story/firstSleep";
+import { setVillageBeforeMine } from "../Story/mineAccessValidation";
+import { setVillageForSecondAct } from "../Story/afterMineNightmare";
+import { setVillageForThirdAct } from "../Story/afterFactory";
 
 /** @param {Game} scene  */
-export const init = function (scene) {
+export const init = function (scene, continueplaying) {
   console.time("Init");
   scene.map = scene.make.tilemap({ key: "map" });
   scene.tileset = scene.map.addTilesetImage("Atlas_01", "tiles");
@@ -112,21 +120,58 @@ export const init = function (scene) {
     .setCollisionByProperty({ collide: true })
     .setVisible(false);
 
-  scene.cameras.main.fadeIn(1000, 0, 0, 0);
+  if (!continueplaying) {
+    scene.cameras.main.fadeIn(1000, 0, 0, 0);
+    scene.time.delayedCall(2000, () => delayedInit(scene));
+    scene.time.delayedCall(3000, () => scene.scene.run("message"));
+    scene.time.delayedCall(4000, () => howToPlay(scene));
+    if (!urlParamHas("nostart")) intro(scene);
+    return;
+  }
 
-  scene.time.delayedCall(2000, () => delayedInit(scene));
-  scene.time.delayedCall(3000, () => scene.scene.run("message"));
-  scene.time.delayedCall(4000, () => howToPlay(scene));
+  delayedInit(scene);
+  scene.scene.run("message");
 
-  console.timeEnd("Init");
+  const progression = getProgression();
+  if (!progression) return;
 
-  if (!urlParamHas("nostart")) intro(scene);
+  if (progression === "first_sleep") {
+    endFirstSleep(scene);
+  } else if (progression === "second_act") {
+    villageStateAfterFirstSleep(scene);
+    setVillageBeforeMine(scene);
+    sceneEventsEmitter.emit(sceneEvents.PreEventsUnlocked, [
+      "second_act_begin",
+    ]);
+  } else if (progression === "third_act") {
+    villageStateAfterFirstSleep(scene);
+    setVillageBeforeMine(scene);
+    setVillageForSecondAct(scene);
+    sceneEventsEmitter.emit(sceneEvents.PreEventsUnlocked, [
+      "third_act_begin",
+    ]);
+
+  } else if (progression === "fourth_act") {
+    villageStateAfterFirstSleep(scene);
+    setVillageBeforeMine(scene);
+    setVillageForSecondAct(scene);
+    setVillageForThirdAct(scene);
+    sceneEventsEmitter.emit(sceneEvents.PreEventsUnlocked, [
+      "fourth_act_begin",
+    ]);
+  }
 };
 
 /** @param {Game} scene  */
 const howToPlay = function (scene) {
   scene.howToPlayText = scene.add
-    .bitmapText(225, 220, "FreePixelStrokeShadow-16", getUiMessage("game.howToPlay"), 16)
+    .bitmapText(
+      225,
+      220,
+      "FreePixelStrokeShadow-16",
+      getUiMessage("game.howToPlay"),
+      16
+    )
     .setOrigin(0.5, 0.5)
     .setScrollFactor(0)
     .setMaxWidth(200)

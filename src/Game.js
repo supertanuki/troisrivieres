@@ -28,6 +28,7 @@ import {
   afterRecyclingNightmare,
 } from "./Story/afterRecycling";
 import { afterFinalMessage, beforeFinal } from "./Story/final";
+import { getProgression, saveProgression, showMessageSavedProgression } from "./Utils/progression";
 
 export default class Game extends Scene {
   constructor() {
@@ -146,7 +147,7 @@ export default class Game extends Scene {
     splashScreen(this);
   }
 
-  startGame() {
+  startGame(continueplaying) {
     if (urlParamHas("dreamMine")) {
       this.gotoScene("mine-nightmare");
       return;
@@ -177,7 +178,7 @@ export default class Game extends Scene {
       return;
     }
 
-    init(this);
+    init(this, continueplaying);
   }
 
   gotoScene(scene) {
@@ -330,6 +331,20 @@ export default class Game extends Scene {
 
     if (eventsHas(data, "after_final_message")) {
       afterFinalMessage(this);
+    }
+
+    if (eventsHas(data, "first_sleep_save") && getProgression() !== 'first_sleep') {
+      saveProgression("first_sleep");
+      showMessageSavedProgression(this);
+    } else if (eventsHas(data, "second_act_save") && getProgression() !== 'second_act') {
+      saveProgression("second_act");
+      showMessageSavedProgression(this);
+    } else if (eventsHas(data, "third_act_save") && getProgression() !== 'third_act') {
+      saveProgression("third_act");
+      showMessageSavedProgression(this);
+    } else if (eventsHas(data, "fourth_act_save") && getProgression() !== 'fourth_act') {
+      saveProgression("fourth_act");
+      showMessageSavedProgression(this);
     }
 
     if (eventsHas(data, "game_over")) {

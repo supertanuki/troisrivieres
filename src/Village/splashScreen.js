@@ -3,6 +3,7 @@ import Game from "../Game";
 import { goToMine, goToFactory, goToRecycling } from "../Story/goToGame";
 import { urlParamHas } from "../Utils/debug";
 import { eventsHas } from "../Utils/events";
+import { getProgression } from "../Utils/progression";
 
 /** @param {Game} scene  */
 export const splashScreen = function (scene) {
@@ -12,8 +13,11 @@ export const splashScreen = function (scene) {
     return;
   }
 
+  const progression = getProgression();
+
   scene.isBonus = urlParamHas("bonus");
   let goingSomewhere = false;
+  let continueplay = null;
 
   scene.scale.setGameSize(550, 300);
 
@@ -126,7 +130,7 @@ export const splashScreen = function (scene) {
   mai.play("mai");
 
   const title = scene.add
-    .bitmapText(275, 130, "FreePixel-16", "Trois-Rivières", 32)
+    .bitmapText(275, 130 + (progression && -20), "FreePixel-16", "Trois-Rivières", 32)
     .setOrigin(0.5, 0.5)
     .setTintFill(0x307f6d);
 
@@ -148,26 +152,37 @@ export const splashScreen = function (scene) {
       275,
       164,
       "FreePixel-16",
-      scene.isBonus ? "Nouvelle partie" : "Jouer",
+      scene.isBonus || progression ? "Nouvelle partie" : "Jouer",
       16
     )
     .setOrigin(0.5, 0.5)
     .setTintFill(0xffffff)
     .setInteractive({ useHandCursor: true });
 
-  const startGame = () => {
+  const startGame = (continueplaying = false) => {
     scene.isBonus = false;
-    textStart.disableInteractive(true);
-    textStart.setText("Chargement...");
+    goingSomewhere = true;
+
+    if (continueplaying) {
+      continueplay.disableInteractive(true);
+      continueplay.setText("Chargement...");
+      textStart.destroy();
+    } else {
+      textStart.disableInteractive(true);
+      textStart.setText("Chargement...");
+      continueplay?.destroy();
+    }
+
     document.body.style.cursor = "none";
 
     scene.cameras.main.fadeOut(500, 0, 0, 0, (cam, progress) => {
       if (progress !== 1) return;
 
       scene.resetGameSize();
-      scene.startGame();
+      scene.startGame(continueplaying);
       colorBackground.destroy();
-      textStart.destroy();
+      textStart?.destroy();
+      continueplay?.destroy();
       title.destroy();
       mai.destroy();
       rock.destroy();
@@ -190,12 +205,33 @@ export const splashScreen = function (scene) {
 
   textStart.on("pointerdown", () => {
     if (goingSomewhere) return;
-    goingSomewhere = true;
     startGame();
   });
 
   textStart.on("pointerover", () => mouseOver(textStart, 0x307f6d));
   textStart.on("pointerout", () => mouseOut(textStart));
+
+  if (progression) {
+    continueplay = scene.add
+      .bitmapText(
+        275,
+        144,
+        "FreePixel-16",
+        "Continuer la partie",
+        16
+      )
+      .setOrigin(0.5, 0.5)
+      .setTintFill(0xffffff)
+      .setInteractive({ useHandCursor: true });
+
+    continueplay.on("pointerdown", () => {
+      if (goingSomewhere) return;
+      startGame(true);
+    });
+
+    continueplay.on("pointerover", () => mouseOver(continueplay, 0x307f6d));
+    continueplay.on("pointerout", () => mouseOut(continueplay));
+  }
 
   const credits = scene.add
     .bitmapText(
