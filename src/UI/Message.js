@@ -214,7 +214,7 @@ export default class Message extends Phaser.Scene {
         )}`,
         gameScene,
         false,
-        0.5
+        0.3
       );
     }
 
