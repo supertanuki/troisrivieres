@@ -67,15 +67,15 @@ const messageWorkflow = {
   bino: [
     {
       messages: [
-        "Hey, salut toi ! Moi je m’appelle Bino !",
+        "Hey, salut toi ! Moi je m’appelle Bino !",
         "Fais attention à ne pas marcher sur mes carottes.",
       ],
       repeat: ["Fais attention à ne pas marcher sur mes carottes."],
     },
     {
       messages: [
-        "Hey ! Tu es juste de passage ?",
-        "Ou bien là pour enquêter sur ce qui se trame ?",
+        "Hey ! Tu es juste de passage ?",
+        "Ou bien là pour enquêter sur ce qui se trame ?",
         "Plus au nord d’ici, il y a une personne louche…",
         "(J’espère que cela n’impactera pas mon potager…)",
       ],
@@ -87,7 +87,7 @@ const messageWorkflow = {
         "Je travaille, mais j’ai pas trop la tête à ça…",
         "Je suis très inquiet à cause de la rivière polluée.",
         "Peut-être qu’en remontant à la source…",
-        "on trouverait la cause du problème ?",
+        "on trouverait la cause du problème ?",
         "Mais je suis bien trop occupé là…",
       ],
       repeat: ["(Si seulement quelqu’un pouvait remonter la rivière…)"],
@@ -95,12 +95,12 @@ const messageWorkflow = {
     },
     {
       messages: [
-        "Hey Maï, tout roule pour toi ?",
+        "Hey Maï, tout roule pour toi ?",
         "Comme tu peux le voir, mon potager a disparu.",
         "À la place je désherbe le bord des routes.",
-        "Mais ne crois pas que je sois triste !",
+        "Mais ne crois pas que je sois triste !",
         "On peut accéder à tellement plus de denrées alimentaires",
-        "grâce à nos voitures et à ces nouvelles routes !",
+        "grâce à nos voitures et à ces nouvelles routes !",
         "C’est un gros changement…",
       ],
       repeat: ["(Allez, ça ne va pas se désherber tout seul…)"],
@@ -108,10 +108,10 @@ const messageWorkflow = {
     },
     {
       messages: [
-        "Hey Maï, ça roule ?",
-        "Moi, ras-le-bol de désherber le bord des routes !",
+        "Hey Maï, ça roule ?",
+        "Moi, ras-le-bol de désherber le bord des routes !",
         "J’ai vu sur FaceBouc que Django partait en voyage…",
-        "J’aimerais bien partir avec lui !",
+        "J’aimerais bien partir avec lui !",
       ],
       repeat: ["(Il faut que j’aille voir Django pour ce voyage…)"],
       dependingOn: ["third_act_begin"],
@@ -152,7 +152,7 @@ const messageWorkflow = {
     },
     {
       messages: [
-        "- Que c’est pratique ces nouvelles routes !",
+        "- Que c’est pratique ces nouvelles routes !",
         "- Tu l’as dit, j’ai rangé mon vieux vélo.",
         "- Le hic, c’est l’éternité qu’il faut…",
         "pour payer ma nouvelle automobile.",
@@ -164,7 +164,7 @@ const messageWorkflow = {
         "- J’ai écrit un poème, écoute :",
         "Plus d’usines que de maisons",
         "Plus de mines que de raison",
-        "- La nouvelle usine à l’ouest t’inspire ?",
+        "- La nouvelle usine à l’ouest t’inspire ?",
         "- Elle m’inspire ce poème oui, de la confiance non.",
       ],
       repeat: ["L’usine à l’ouest n’inspire pas confiance."],
@@ -181,8 +181,8 @@ const messageWorkflow = {
     },
     {
       messages: [
-        "- Avoue, c’est ta première manif’ ?",
-        "- Mais pas du tout… j’ai fait les marches pour le climat !",
+        "- Avoue, c’est ta première manif’ ?",
+        "- Mais pas du tout… j’ai fait les marches pour le climat !",
       ],
       dependingOn: ["strike_begin"],
     },
@@ -213,12 +213,12 @@ const messageWorkflow = {
     },
     {
       messages: [
-        "- Tu as vu le nouveau smartphone ?",
-        "- Il a quoi de nouveau ?",
+        "- Tu as vu le nouveau smartphone ?",
+        "- Il a quoi de nouveau ?",
         "- Il se transforme en drone",
         "pour nous filmer ou nous photographier…",
-        "sous tous les angles !",
-        "Plus besoin de perche à selfie !",
+        "sous tous les angles !",
+        "Plus besoin de perche à selfie !",
       ],
       dependingOn: ["third_act_begin"],
       repeat: ["- Le dernier smartphone donne envie !"],
@@ -226,13 +226,13 @@ const messageWorkflow = {
     {
       messages: [
         "- Il faut désarmer ces industries polluantes…",
-        "- Je te sens rebelle, c’est Maï qui t’inspire ?",
+        "- Je te sens rebelle, c’est Maï qui t’inspire ?",
       ],
       dependingOn: ["strike_begin"],
     },
     {
       messages: [
-        "- Salut Maï, ça fait un bail !",
+        "- Salut Maï, ça fait un bail !",
         "- Tu es attendue près du potager de chez Bino.",
       ],
       dependingOn: ["strike_end"],
@@ -268,13 +268,13 @@ const messageWorkflow = {
     {
       messages: [
         "Oh bah, v’là donc une nouvelle arrivante…",
-        "Bienvenue au village de Trois-Rivières !",
+        "Bienvenue au village de Trois-Rivières !",
         "Ça fait plaisir d’voir une nouvelle tête.",
         "Moi c’est Koko.",
-        "J’suis au courant de tout c’qui s’passe dans l’coin !",
-        "… Maï ? Un prénom pas banal dis donc !",
+        "J’suis au courant de tout c’qui s’passe dans l’coin !",
+        "… Maï ? Un prénom pas banal dis donc !",
         "J’suis sûre que notre patelin va te plaire.",
-        "Va donc y faire un tour !",
+        "Va donc y faire un tour !",
         "Et si tu cherches un endroit où dormir…",
         "Django t’accueillera sûrement, il est plus au sud.",
       ],
@@ -285,7 +285,7 @@ const messageWorkflow = {
     },
     {
       messages: [
-        "Tu as rencontré Django ?",
+        "Tu as rencontré Django ?",
         "C’est la personne la plus gentille que j’connaisse.",
         "Tu devrais aller voir ce qui se trame à l’est…",
         "Il parait qu’une personne louche bloque un pont…",
@@ -298,12 +298,12 @@ const messageWorkflow = {
     },
     {
       messages: [
-        "Olala, olala… t’as vu ça Maï ?",
-        "C’est terrible c’qui arrive à notre rivière !",
-        "Un truc louche se trame vers l’est, j’te l’dis !",
+        "Olala, olala… t’as vu ça Maï ?",
+        "C’est terrible c’qui arrive à notre rivière !",
+        "Un truc louche se trame vers l’est, j’te l’dis !",
         "Nono, qu’habite plus au nord, en revient justement.",
         "Il est mal-en-point, comme la rivière…",
-        "peut-être qu’il pourra t’en dire plus !",
+        "peut-être qu’il pourra t’en dire plus !",
       ],
       repeat: ["Au nord, Nono pourra t’éclairer sur c’qui s’passe !"],
       dependingOn: ["first_sleep"],
@@ -311,34 +311,34 @@ const messageWorkflow = {
     {
       messages: [
         "Je vois que tu as le badge de Nono…",
-        "Fais attention à toi, Maï !",
+        "Fais attention à toi, Maï !",
       ],
       dependingOn: ["card_for_mine"],
     },
     {
       messages: [
-        "Maï, c’est incroyable tu trouves pas ?",
+        "Maï, c’est incroyable tu trouves pas ?",
         "Le génie humain j’veux dire.",
         "Pour trois fois moins de temps,",
-        "j’peux aller voir ma famille, mes amies !",
+        "j’peux aller voir ma famille, mes amies !",
         "Moi qui ADORE être au courant de tout,",
         "ça va grandement faciliter les potins héhé.",
-        "D’ailleurs t’sais pas la dernière ?",
+        "D’ailleurs t’sais pas la dernière ?",
         "Une autre usine s’est installée au nord.",
-        "Ça pousse comme des champignons ces choses là !",
+        "Ça pousse comme des champignons ces choses là !",
       ],
       repeat: [
         "Tu d’vrais aller voir cette usine au nord",
-        "p’têtre que t’y trouveras encore du travail !",
+        "p’têtre que t’y trouveras encore du travail !",
       ],
       dependingOn: ["second_act_begin"],
     },
     {
       messages: [
         "B’jour Maï ! Dis-moi…",
-        "Tu peux m’aider à choisir un nouveau smartphone ?",
+        "Tu peux m’aider à choisir un nouveau smartphone ?",
         "Le mien est déjà trop lent…",
-        "C’est vraiment pratique pour être au courant de tout !",
+        "C’est vraiment pratique pour être au courant de tout !",
         "D’ailleurs une nouvelle usine a ouvert à l’ouest.",
       ],
       repeat: ["Tu vas aller voir cette nouvelle usine à l’ouest ?"],
@@ -348,15 +348,15 @@ const messageWorkflow = {
       messages: [
         "Maï…",
         "J’avais tellement la tête plongée dans les écrans…",
-        "Que j’n’ai pas remarqué l’état de nos rivières !",
-        "Qu’les oiseaux et les papillons ont disparu !",
-        "QUOI ? Tu dis qu’il faut se mobiliser ?",
-        "C’est une bonne idée !",
+        "Que j’n’ai pas remarqué l’état de nos rivières !",
+        "Qu’les oiseaux et les papillons ont disparu !",
+        "QUOI ? Tu dis qu’il faut se mobiliser ?",
+        "C’est une bonne idée !",
         "J’vais réunir les troupes.",
         "En attendant, t’pourrais faire une action d’éclat.",
-        "Oh, je sais : éteindre les panneaux de pub !",
+        "Oh, je sais : éteindre les panneaux de pub !",
         "Les enfants m’ont dit qu’on pouvait les éteindre…",
-        "en passant par derrière !",
+        "en passant par derrière !",
       ],
       repeat: [
         "(il parait que…)",
@@ -367,9 +367,9 @@ const messageWorkflow = {
     },
     {
       messages: [
-        "T’as réussi à éteindre un écran pub ?",
-        "C’pas bien… et… c’est bien, à la fois !",
-        "Si j’étais toi… J’en éteindrais d’autres !",
+        "T’as réussi à éteindre un écran pub ?",
+        "C’pas bien… et… c’est bien, à la fois !",
+        "Si j’étais toi… J’en éteindrais d’autres !",
       ],
       repeat: ["Pourquoi ne pas éteindre d’autres écrans ?"],
       dependingOn: ["screens_shutdown_first"],
@@ -379,7 +379,7 @@ const messageWorkflow = {
         "Merci Maï pour tout c’que t’as fait.",
         "Grâce à toi, tous les villageois…",
         "S’retrouvent pour une cause commune…",
-        "L’avenir de notre village !",
+        "L’avenir de notre village !",
       ],
       repeat: ["Merci encore, Maï."],
       dependingOn: ["strike_begin"],
@@ -388,15 +388,15 @@ const messageWorkflow = {
   nono: [
     {
       messages: [
-        "C’est donc toi Maï ?",
+        "C’est donc toi Maï ?",
         "Ton arrivée dans le village ne passe pas inaperçue.",
         "Comme tu peux le constater dans mon fauteuil roulant…",
-        "tu ne me vois pas au meilleur de ma forme !",
+        "tu ne me vois pas au meilleur de ma forme !",
         "À l’est, une mine vient de s’installer.",
         "J’ai tenté d’y travailler mais…",
         "il m’est arrivé un accident malencontreux.",
         "Il faut dire qu’on n’est pas très bien protégé.",
-        "Et le rythme de travail y est extrêmement soutenu !",
+        "Et le rythme de travail y est extrêmement soutenu !",
         "Bref. Je te dirais bien d’en prendre garde mais…",
         "Je vois dans ton regard que tu es déterminée à y aller.",
       ],
@@ -405,7 +405,7 @@ const messageWorkflow = {
     {
       messages: [
         "Prends mon laissez-passer, je n’en ai plus besoin.",
-        "Mais promets moi de faire bien attention à toi !",
+        "Mais promets moi de faire bien attention à toi !",
       ],
       repeat: ["Fais bon usage de mon badge… et sois prudente."],
       dependingOn: ["pre_card_for_mine"],
@@ -415,7 +415,7 @@ const messageWorkflow = {
       messages: [
         "La situation de nos rivières est perturbante,",
         "mais je dois bien avouer que ces nouvelles routes…",
-        "facilitent énormément mes déplacements !",
+        "facilitent énormément mes déplacements !",
         "Et quand j’irai mieux…",
         "… je postulerai à la nouvelle usine au nord d’ici.",
       ],
@@ -424,10 +424,10 @@ const messageWorkflow = {
     },
     {
       messages: [
-        "C’est assez formidable n’est-ce pas ?",
+        "C’est assez formidable n’est-ce pas ?",
         "Ce confort, et l’accès à tout le savoir je veux dire.",
         "Il faut bien sûr réussir à bien s’informer…",
-        "Heureusement, je sais démêler le vrai du faux !",
+        "Heureusement, je sais démêler le vrai du faux !",
         "(Alors comme ça, la Terre serait plate !?)",
       ],
       repeat: ["J’apprends tellement grâce à l’internet !"],
@@ -449,14 +449,14 @@ const messageWorkflow = {
   django: [
     {
       messages: [
-        "Ooola, quel bon vent nous amène là !",
+        "Ooola, quel bon vent nous amène là !",
         "… Maï ? Quel joli prénom.",
-        "Et donc tu cherches un lieu où dormir cette nuit ?",
-        "Tu frappes à la bonne porte !",
+        "Et donc tu cherches un lieu où dormir cette nuit ?",
+        "Tu frappes à la bonne porte !",
         "Comme je le dis souvent, il faut qu’une porte…",
         "soit ouverte ou fermée…",
-        "et la mienne sera toujours ouverte !",
-        "Donc reviens au coucher du soleil !",
+        "et la mienne sera toujours ouverte !",
+        "Donc reviens au coucher du soleil !",
       ],
       repeat: ["Fais un tour du village et reviens ce soir."],
       unlockEvents: ["django_met"],
@@ -465,16 +465,16 @@ const messageWorkflow = {
       messages: [
         "Aah, tu es revenue ! Comme disait ma grand-mère…",
         "un bon arbre peut loger dix mille oiseaux.",
-        "Allez, entre !",
+        "Allez, entre !",
       ],
       dependingOn: ["miner_first_met"],
       unlockEvents: ["pre_first_sleep"],
     },
     {
       messages: [
-        "Bien dormi, Maï ?",
+        "Bien dormi, Maï ?",
         "Je suis désolé de te l’apprendre au réveil mais…",
-        "quelque chose de terrible est arrivé au village !",
+        "quelque chose de terrible est arrivé au village !",
         "Vois par toi-même, je reste ici me calmer l’esprit.",
       ],
       repeat: ["Ooh pauvre rivière, laisse moi te jouer une prière."],
@@ -483,20 +483,20 @@ const messageWorkflow = {
     },
     {
       messages: [
-        "Bien dormi Maï ?",
+        "Bien dormi Maï ?",
         "Après toutes ces semaines d’efforts à la mine,",
-        "je tenais à te remercier",
-        "pour tout ce que tu as fait pour nous.",
+        "je tenais à te remercier.",
         "Grâce à toi, on a la confirmation",
         "que les eaux usées de la mine sont bien responsables",
         "de la pollution de la rivière.",
         "Mais dans le même temps, le village a pu se moderniser.",
         "Je dois avouer être un peu partagé.",
-        "Est-ce un mal pour un bien ?",
+        "Est-ce un mal pour un bien ?",
         "Je n’ai pas la réponse",
         "et je ne voudrais pas t’influencer.",
         "Maintenant que tu as fini ton travail à la mine,",
         "tu as tout le temps de te balader dans le village.",
+        "Si tu croises Koko, tu la salueras pour moi."
       ],
       repeat: [
         "Une chose reste immuable dans tout ce bouleversement",
@@ -507,14 +507,15 @@ const messageWorkflow = {
     },
     {
       messages: [
-        "Tu as encore bien travaillé à l’usine !",
-        "Ceci dit, le niveau de la rivière a encore baissé.",
-        "C’est bien de savoir que c’est de leur faute…",
-        "mais en attendant… le mal est fait.",
-        "On n’arrête pas le progrès…",
-        "De mon côté, je partirais bien loin du village…",
-        "Loin de ces problèmes…",
-        "Un voyage, c’est ça qu’il me faut !",
+        "Bonjour Maï, le sommeil a été un peu agité ?",
+        "Ah ! Tu arrêtes de travailler à l’usine ?",
+        "C’est bien de savoir que l'usine est responsable…",
+        "de la baisse du niveau d’eau dans nos rivières.",
+        "Le mal est fait, on n’arrête pas le progrès…",
+        "On a besoin de produire des équipements numériques",
+        "même si cela consomme beaucoup d’eau.",
+        "Je partirais bien loin de ces problèmes…",
+        "Un voyage, c’est ça qu’il me faut !",
       ],
       repeat: ["J’ai envie de voyager, partir loin…"],
       dependingOn: ["third_act_begin"],
@@ -522,10 +523,11 @@ const messageWorkflow = {
     },
     {
       messages: [
-        "Salut Maï !",
-        "L’usine de recyclage pompe l’eau de la rivière ?",
-        "J’aimerais dire jamais deux sans trois.",
-        "Mais ça continue, vois le chantier près de chez moi.",
+        "Salut Maï !",
+        "L’usine de recyclage pompe l’eau de la rivière ?",
+        "Grâce à l’eau, les matières recyclées sont séparées ?",
+        "La conséquence sur nos rivières reste préoccupante.",
+        "Et ça continue, vois le chantier près de chez moi.",
         "Je ne sais pas ce qui se passe encore…",
       ],
       repeat: ["Un chantier au milieu de notre village…"],
@@ -539,7 +541,7 @@ const messageWorkflow = {
         "détruire notre village…",
         "pomper et polluer nos rivières…",
         "Quand on l’attaque, le village contre-attaque.",
-        "Je suis partant pour une mobilisation générale !",
+        "Je suis partant pour une mobilisation générale !",
         "J’amène ma guitare et j’arrive.",
       ],
       dependingOn: ["screens_shutdown_end"],
@@ -547,28 +549,28 @@ const messageWorkflow = {
     },
     {
       messages: [
-        "Camarades de Trois-Rivières !",
+        "Habitants et habitantes de Trois-Rivières !",
         "Vous savez ce qui se passe dans notre village.",
-        "Nos ressources et nos rivières ont été accaparés…",
+        "Nos ressources et nos rivières ont été accaparées…",
         "Par des industries destructrices et polluantes.",
-        "Aujourd’hui nous leur disons stop !",
+        "Aujourd’hui nous leur disons stop !",
         "Comme le disait ma grand-mère…",
         "On peut couper nos branches mais pas nos racines.",
-        "La lutte ne fait que commencer !",
+        "La défense de notre village ne fait que commencer !",
       ],
       dependingOn: ["strike_begin"],
       unlockEvents: ["strike_end"],
     },
     {
       messages: [
-        "Salut Maï ! Ça fait plaisir de te revoir !",
-        "T’as vu le village ?",
+        "Salut Maï ! Ça fait plaisir de te revoir !",
+        "T’as vu le village ?",
         "La nature a repris ses droits, et nous nos esprits.",
         "Il faut dire qu’il n’y avait plus rien à exploiter ici.",
         "Les industriels sont ainsi partis voir ailleurs…",
         "Et les oiseaux sont revenus.",
         "Presque tous… c’est toujours mieux qu’aucun.",
-        "Allez, viens. On t’attendait pour pique-niquer !",
+        "Allez, viens. On t’attendait pour pique-niquer !",
       ],
       dependingOn: ["django_final"],
       unlockEvents: ["django_final_end"],
@@ -610,7 +612,7 @@ const messageWorkflow = {
         "Ce que je craignais est arrivé.",
         "Trois-Rivières a complètement changé…",
         "et nos habitudes avec.",
-        "Heureusement moi, je tiens bon la barre !",
+        "Heureusement moi, je tiens bon la barre !",
         "(Attendre ici me donne faim par contre…)",
         "(Je mangerais bien un bon burger tiens !)",
       ],
@@ -624,7 +626,7 @@ const messageWorkflow = {
     {
       messages: [
         "J’me demande bien comment on va se débarrasser…",
-        "…de ces #?%@ qui polluent nos rivières !",
+        "…de ces #?%@ qui polluent nos rivières !",
       ],
       dependingOn: ["strike_begin"],
     },
@@ -632,14 +634,14 @@ const messageWorkflow = {
   boy: [
     {
       messages: [
-        "YOUPIII, on peut se baigner quand on veut !",
-        "Faudrait trop qu’on ramène nos potes un jour !",
+        "YOUPIII, on peut se baigner quand on veut !",
+        "Faudrait trop qu’on ramène nos potes un jour !",
       ],
     },
     {
       messages: [
         "Oh nooon, on ne peut plus jouer dans l’eau…",
-        "Qu’est-ce qu’on va faire maintenant ?",
+        "Qu’est-ce qu’on va faire maintenant ?",
       ],
       dependingOn: ["first_sleep"],
     },
@@ -729,7 +731,7 @@ const messageWorkflow = {
     {
       messages: [
         "Il faut un laissez-passer pour… passer.",
-        "Nouvelle directive des chefs !",
+        "Nouvelle directive des chefs !",
       ],
       repeat: ["Je t’ai dit qu’il faut un laissez-passer…"],
       dependingOn: ["first_sleep"],
@@ -756,17 +758,17 @@ const messageWorkflow = {
   minerChief: [
     {
       messages: [
-        "Bienvenue à Grise Mine, LA mine responsable !",
+        "Bienvenue à Grise Mine, LA mine responsable !",
         "D’ici sortent des tonnes de minerais chaque jour…",
-        "extraits avec de l’énergie bas-carbone s’il vous plait !",
+        "extraits avec de l’énergie bas-carbone s’il vous plait !",
         "Nous utilisons l’eau de façon raisonnée…",
         "traitons nos employés de manière exemplaire, et…",
-        "Ça ne t’intéresse pas mon discours ?",
+        "Ça ne t’intéresse pas mon discours ?",
         "…",
         "Tu quoi ? Tu es là pour travailler ???",
         "Hahaha, elle est bien bonne celle-là.",
         "Mes meilleurs hommes sont épuisés très vite…",
-        "tu ne tiendras pas une seconde là-dedans !",
+        "tu ne tiendras pas une seconde là-dedans !",
         "Mais ok, je veux bien te faire une formation express.",
         "Apprête-toi à te faire miner… le moral HAHAHA",
       ],
@@ -807,9 +809,9 @@ const messageWorkflow = {
           ? "Installe-toi…\n(touche pour continuer)"
           : "Installe-toi…\n(espace pour continuer)",
         "Comme tu es nouvelle, je te mets sur un poste simple…",
-        "…le nettoyage !",
+        "…le nettoyage !",
         "Les roches vont avancer sur le tapis roulant…",
-        "et tu devras les nettoyer pour éliminer les impuretés !",
+        "et tu devras les nettoyer pour éliminer les impuretés !",
         "Pourquoi faire ça tu vas me dire ? Pour le PROGRÈS.",
         "Les métaux et minerais extraits servent pour tout.",
         "Smartphones, consoles, plomberie, bijoux…",
@@ -822,23 +824,23 @@ const messageWorkflow = {
         isMobileOrTablet()
           ? "En bougeant le tuyau, l’eau est pulvérisée."
           : "Et pulvérise l’eau avec la barre ESPACE.",
-        "J’espère que t’as bien tout compris !",
+        "J’espère que t’as bien tout compris !",
         "J’peux pas me permettre que tu ralentisses le train…",
-        "de la mine !",
+        "de la mine !",
       ],
       unlockEvents: ["mine_tuto_begin"],
     },
     {
       messages: [
         "Tu n’as pas compris comment ça fonctionne ???",
-        "Tu dois nettoyer la roche à CENT POUR CENT !",
+        "Tu dois nettoyer la roche à CENT POUR CENT !",
         "On ne peut pas l’envoyer à moitié nettoyée.",
         isMobileOrTablet()
           ? "Bouge le tuyau avec le joystick."
           : "Bouge le tuyau avec les flèches ← → ↑ ↓",
         isMobileOrTablet()
           ? "En bougeant le tuyau, l’eau est pulvérisée. Allez !"
-          : "Et pulvérise l’eau avec la barre ESPACE. Allez !",
+          : "Et pulvérise l’eau avec la barre ESPACE. Allez !",
       ],
       dependingOn: ["mine_tuto_missed"],
       unlockEvents: ["mine_tuto_begin"],
@@ -846,7 +848,7 @@ const messageWorkflow = {
     {
       messages: [
         "Tu as compris comment ça fonctionne…",
-        "Passons aux choses sérieuses !",
+        "Passons aux choses sérieuses !",
       ],
       dependingOn: ["mine_tuto_end"],
       unlockEvents: ["mine_show_score_board"],
@@ -856,14 +858,14 @@ const messageWorkflow = {
         "Ça, c’est ce qui va contrôler ton travail.",
         "Si tu rates trop souvent, une croix s’allumera.",
         "Au bout de trois croix…",
-        "je viendrai moi-même t’accompagner à la sortie !",
+        "je viendrai moi-même t’accompagner à la sortie !",
         "…",
-        "Quoi ?? Qu’est-ce qui ne va pas ?",
-        "Oui… On extrait l’eau de la rivière !",
+        "Quoi ?? Qu’est-ce qui ne va pas ?",
+        "Oui… On extrait l’eau de la rivière !",
         "Et on stocke les déchets dans des réservoirs.",
         "Je te rappelle qu’on est une mine responsable.",
-        "On ne fait pas n’importe quoi !",
-        "Bon, arrête de poser des questions, au boulot !",
+        "On ne fait pas n’importe quoi !",
+        "Bon, arrête de poser des questions, au boulot !",
       ],
       dependingOn: ["mine_show_score_board"],
       unlockEvents: ["mine_after_tuto"],
@@ -871,9 +873,9 @@ const messageWorkflow = {
     {
       messages: [
         "C’est bien ce qu’il me semblait…",
-        "tu ne peux pas tenir un rythme aussi soutenu !",
+        "tu ne peux pas tenir un rythme aussi soutenu !",
         "On arrête les frais pour aujourd’hui.",
-        "Allez… ne fais pas grise mine !",
+        "Allez… ne fais pas grise mine !",
       ],
       dependingOn: ["mine_game_over"],
       unlockEvents: ["mine_end"],
@@ -890,8 +892,8 @@ const messageWorkflow = {
     {
       messages: [
         "Vu la qualité de ton travail…",
-        "ou la non qualité de ton travail ?",
-        "Tu n’es plus la bienvenue à l’usine. Ordre du chef !",
+        "ou la non qualité de ton travail ?",
+        "Tu n’es plus la bienvenue à l’usine. Ordre du chef !",
       ],
       repeat: ["Tu n’es plus la bienvenue ici."],
       dependingOn: ["third_act_begin"],
@@ -915,7 +917,7 @@ const messageWorkflow = {
       messages: [
         "(Pourquoi j’ai accepté ce job dans ce trou paumé.)",
         "(Je ne supporte pas ces gens, ni ce village, je…)",
-        "Oui ? … Tu t’appelles Maï et tu veux travailler ?",
+        "Oui ? … Tu t’appelles Maï et tu veux travailler ?",
         "Bien sûr, comme tout le monde ici.",
         "Une usine dernier cri attire forcément…",
         "des ploucs euh… des gens comme vous.",
@@ -924,8 +926,8 @@ const messageWorkflow = {
         "… on assemble des circuits électroniques…",
         "Qui finissent ensuite dans des écrans ou téléphones.",
         "Sois contente, tu peux faire une période d’essai.",
-        "Est-ce que tu penses en être capable ?",
-        "Voyons voir ce que tu vaux !",
+        "Est-ce que tu penses en être capable ?",
+        "Voyons voir ce que tu vaux !",
       ],
       unlockEvents: ["factory_start"],
     },
@@ -956,10 +958,10 @@ const messageWorkflow = {
         "Et on en fait euh… d’autres équipements.",
         "Alors oui, on utilise… l’eau de la rivière.",
         "Mais tout ça est euh… contrôlé et raisonné à 100%.",
-        "Alors… ça vous dit de… tester une journée de travail ?",
+        "Alors… ça vous dit de… tester une journée de travail ?",
         "Ça nous arrange d’avoir… des femmes.",
         "Vu qu’on vous paie moins… euh… oubliez ça.",
-        "Suivez-moi !",
+        "Suivez-moi !",
       ],
       unlockEvents: ["recycling_start"],
     },
@@ -974,21 +976,21 @@ const messageWorkflow = {
         "Tu dois monter les composants sur les cartes…",
         "Puis les nettoyer à l’eau pour éliminer les impuretés…",
         "Et faire ça le plus vite possible…",
-        "Les clients n’attendent pas !",
+        "Les clients n’attendent pas !",
         isMobileOrTablet()
           ? "Choisis le bon composant en appuyant à gauche ou à droite."
           : "Choisis le bon composant avec les flèches ← →",
         isMobileOrTablet()
           ? "Et installe le composant choisi en appuyant au centre."
           : "Et installe le composant choisi avec la barre ESPACE",
-        "C’est parti !",
+        "C’est parti !",
       ],
       unlockEvents: ["factory_tuto_begin"],
     },
     {
       messages: [
-        "Tête de linotte !",
-        "Tu n’as pas compris comment ça fonctionne ?",
+        "Tête de linotte !",
+        "Tu n’as pas compris comment ça fonctionne ?",
         "Tu dois monter les composants sur les cartes…",
         isMobileOrTablet()
           ? "Choisis le bon composant en appuyant à gauche ou à droite."
@@ -996,7 +998,7 @@ const messageWorkflow = {
         isMobileOrTablet()
           ? "Et installe le composant choisi en appuyant au centre."
           : "Et installe le composant choisi avec la barre ESPACE",
-        "C’est à la portée du premier venu !",
+        "C’est à la portée du premier venu !",
       ],
       dependingOn: ["factory_tuto_missed"],
       unlockEvents: ["factory_tuto_begin"],
@@ -1004,7 +1006,7 @@ const messageWorkflow = {
     {
       messages: [
         "Tu sembles avoir compris comment ça fonctionne…",
-        "Passons aux choses sérieuses !",
+        "Passons aux choses sérieuses !",
       ],
       dependingOn: ["factory_tuto_end"],
       unlockEvents: ["factory_show_score_board"],
@@ -1013,12 +1015,12 @@ const messageWorkflow = {
       messages: [
         "Si tu rates l’assemblage, une croix s’allumera.",
         "Au bout de trois croix…",
-        "je viendrai moi-même t’accompagner à la sortie !",
+        "je viendrai moi-même t’accompagner à la sortie !",
         "As-tu d’autres questions ???",
-        "Tu dis que l’eau utilisé assèche la rivière ?",
-        "Et qu’est-ce que ça peut me faire ?",
+        "Tu dis que l’eau utilisé assèche la rivière ?",
+        "Et qu’est-ce que ça peut me faire ?",
         "Tout le monde sera bien content…",
-        "d’avoir des téléphones derniers cris !",
+        "d’avoir des téléphones derniers cris !",
         "Arrête de te poser des questions et au boulot.",
       ],
       dependingOn: ["factory_show_score_board"],
@@ -1027,9 +1029,9 @@ const messageWorkflow = {
     {
       messages: [
         "C’est bien ce qu’il me semblait…",
-        "tu ne peux pas tenir un rythme aussi soutenu !",
+        "tu ne peux pas tenir un rythme aussi soutenu !",
         "On arrête les frais pour aujourd’hui.",
-        "Allez… Rentre chez toi !",
+        "Allez… Rentre chez toi !",
       ],
       dependingOn: ["factory_game_over"],
       unlockEvents: ["factory_end"],
@@ -1063,7 +1065,7 @@ const messageWorkflow = {
         isMobileOrTablet()
           ? "Et changez son mode en appuyant en haut ou en bas."
           : "Et changez son mode avec les flèches ↑ ↓",
-        "Le mode doit correspondre au déchet qui tombe !",
+        "Le mode doit correspondre au déchet qui tombe !",
         "Allez, c’est euh… reparti.",
       ],
       dependingOn: ["recycling_tuto_missed"],
@@ -1087,7 +1089,7 @@ const messageWorkflow = {
         "On est pour ainsi dire euh… super écolo.",
         "Toute l’eau qu’on pollue et gaspille…",
         "C’est pour un bien encore plus grand.",
-        "Allez euh… au boulot !",
+        "Allez euh… au boulot !",
       ],
       dependingOn: ["recycling_show_score_board"],
       unlockEvents: ["recycling_after_tuto"],
@@ -1096,7 +1098,7 @@ const messageWorkflow = {
       messages: [
         "Bon euh… c’est fini pour aujourd’hui.",
         "Il faudra être plus performante pour…",
-        "sauver la planète !",
+        "sauver la planète !",
       ],
       dependingOn: ["recycling_game_over"],
       unlockEvents: ["recycling_end"],
@@ -1116,7 +1118,7 @@ const messageWorkflow = {
   minerZad1: [
     {
       messages: [
-        "Comment tu nous as trouvé ?",
+        "Comment tu nous as trouvé ?",
         "Nous étions des ouvriers et avons déserté la mine…",
         "… nous avons abandonné notre travail…",
         "… et avons créé cette petite communauté…",
@@ -1141,20 +1143,20 @@ const messageWorkflow = {
 const uiMessages = {
   "game.howToPlay": "Déplace-toi avec les flèches ← → ↑ ↓ ou ZQSD",
 
-  "mine.faster": "Plus vite !",
+  "mine.faster": "Plus vite !",
   "mine.fasterAgain": "Encore plus vite, allez !!!",
-  "mine.waterEmpty": "Réservoir d’eau vide !",
-  "mine.waterFull": "Réservoir d’eau plein !",
-  "mine.moreMaterials": "Arrivage de minerais, on augmente la fréquence !",
-  "mine.warning": "Ressaisis-toi, on est là pour faire du chiffre !",
-  "mine.lastWarning": "Dernier avertissement, concentre-toi !",
+  "mine.waterEmpty": "Réservoir d’eau vide !",
+  "mine.waterFull": "Réservoir d’eau plein !",
+  "mine.moreMaterials": "Arrivage de minerais, on augmente la fréquence !",
+  "mine.warning": "Ressaisis-toi, on est là pour faire du chiffre !",
+  "mine.lastWarning": "Dernier avertissement, concentre-toi !",
 
   "factory.faster": "Validé! Plus vite maintenant!!!",
-  "factory.welldone": "C’est bien, tu es productive !",
-  "factory.error": "C’est quoi ce boulot ? Ressaisis-toi la nouvelle !",
+  "factory.welldone": "C’est bien, tu es productive !",
+  "factory.error": "C’est quoi ce boulot ? Ressaisis-toi la nouvelle !",
 
-  "recycling.faster": "Allez, on augmente le rythme !",
-  "recycling.error": "Euh… il va falloir faire mieux que ça !",
+  "recycling.faster": "Allez, on augmente le rythme !",
+  "recycling.error": "Euh… il va falloir faire mieux que ça !",
 
   "betweenActs.later": "Quelque temps plus tard…",
   "final.later": "Quelque temps plus tard…",
@@ -1163,10 +1165,10 @@ const uiMessages = {
 
   "generic.1": "L’extraction minière est l’industrie la plus polluante au monde.",
   "generic.2": "La mine a des conséquences éternelles sur les habitants et les écosystèmes.",
-  "generic.3": "La production d’objets numériques épuise les ressources… et les ouvriers.",
+  "generic.3": "La production d’objets numériques participe à l'épuisement des ressources… et des ouvriers.",
   "generic.4": "Le recyclage n’est pas une solution miracle…",
   "generic.5": "Pour économiser les ressources, ne cédons pas aux objets connectés inutiles.",
-  "generic.6": "Et gardons les objets utiles plus longtemps.",
+  "generic.6": "Et gardons les appareils utiles plus longtemps.",
   "generic.7": "Ce jeu est dédié au vivant, humains compris, qui chaque jour paye de plus en plus cher, l’accélération technologique.",
   "generic.thanks": "Merci d’avoir joué.",
   "generic.credits": "Idée originale, game design et programmation\n\n  Richard Hanna.\n\nGraphisme, level design et game design\n\n  Philippe Salib.\n\nGame design, narration, musiques et effets sonores\n\n  David Fonteix.",
