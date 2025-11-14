@@ -864,7 +864,7 @@ const messageWorkflow = {
         "Oui… On extrait l’eau de la rivière !",
         "Et on stocke les déchets dans des réservoirs.",
         "Je te rappelle qu’on est une mine responsable.",
-        "On ne fait pas n’importe quoi !",
+        "C’est du sérieux. On ne fait pas n’importe quoi !",
         "Bon, arrête de poser des questions, au boulot !",
       ],
       dependingOn: ["mine_show_score_board"],

@@ -13,6 +13,7 @@ let loadingNightAmbiance = false;
 
 /** @param {Game} scene  */
 export const playVillageTheme = function (scene) {
+  console.log('playVillageTheme')
   if (
     urlParamHas("nomusic") ||
     loadingVillageTheme ||
@@ -44,6 +45,7 @@ export const playVillageTheme = function (scene) {
 
 /** @param {Game} scene  */
 export const playIndustryTheme = function (scene) {
+  console.log('playIndustryTheme')
   if (
     urlParamHas("nomusic") ||
     loadingIndustryTheme ||

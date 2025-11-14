@@ -211,7 +211,7 @@ export default class MiniGameUi extends Phaser.Scene {
   updateMessage(message, waitUserAction = false) {
     if (!this.scene.isActive()) return;
 
-    playSound("sfx_mini-jeu_haut-parleur", this, false, 0.5);
+    playSound("sfx_mini-jeu_haut-parleur", this, false, 0.3);
 
     this.dialogBackground.setVisible(true);
     this.speaker.anims.play("speaker-on-anim");

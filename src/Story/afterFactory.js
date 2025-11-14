@@ -101,6 +101,12 @@ export const afterFactoryNightmare = function (scene) {
 export const setVillageForThirdAct = function (scene) {
   console.log("setVillageForThirdAct");
   setNightState(scene, false);
+
+  // important here for village ambiance
+  scene.isNoMoreBirds = true;
+  playVillageTheme(scene);
+  playVillageAmbiance(scene);
+
   toggleSpritesVisibility(scene, true, true);
   toggleScreensVisibility(scene);
 
@@ -108,8 +114,6 @@ export const setVillageForThirdAct = function (scene) {
   scene.time.delayedCall(1, () => {
     noMoreBirds(scene);
     noMoreButterflies(scene);
-    playVillageTheme(scene);
-    playVillageAmbiance(scene);
   });
 
   scene.cameras.main.setBounds(

@@ -3,6 +3,7 @@ import { setNightState } from "../Village/night";
 import { toggleSpritesVisibility } from "../Village/spritesVisibility";
 import "../Sprites/DcWorkerChief";
 import {
+  fadeOutMusic,
   playIndustryTheme,
   playNightAmbiance,
   playNightmareTheme,
@@ -72,6 +73,7 @@ export const afterRecyclingNightmare = function (scene) {
   scene.datacentreThemeEnabled = true;
   playIndustryTheme(scene);
   playVillageAmbiance(scene);
+  scene.time.delayedCall(5000, () => fadeOutMusic(scene, scene.villageTheme));
 
   setVillageForFourthAct(scene);
   scene.setHeroPosition("heroDjangoDoor");
