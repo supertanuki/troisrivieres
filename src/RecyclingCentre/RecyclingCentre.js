@@ -15,6 +15,7 @@ export const OBJECTS_COLORS = {
 const initialY = 252;
 const initialX = 200;
 const STEPX = 5;
+const yGravity = 0.04;
 
 export default class RecyclingCentre extends MiniGameUi {
   constructor() {
@@ -23,7 +24,7 @@ export default class RecyclingCentre extends MiniGameUi {
       physics: {
         matter: {
           debug: isDebug(),
-          gravity: { y: 0.04 },
+          gravity: { y: yGravity },
         },
       },
     });
@@ -38,6 +39,7 @@ export default class RecyclingCentre extends MiniGameUi {
     this.selectedObject = "laptop";
     this.warnings = 0;
     this.previousValidatedObjects = 0;
+    this.currentYGravity = yGravity;
   }
 
   preload() {
@@ -452,6 +454,10 @@ export default class RecyclingCentre extends MiniGameUi {
       [11, 25].includes(this.validatedObjects)
     ) {
       this.previousValidatedObjects = this.validatedObjects;
+
+      this.currentYGravity += 0.02;
+      this.matter.world.setGravity(0, this.currentYGravity);
+
       this.updateMessage(getUiMessage("recycling.faster"));
     }
   }
