@@ -1,10 +1,10 @@
 import Phaser from "phaser";
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
-import { spriteNames, spriteSounds } from "../Workflow/messageWorkflow";
-import isMobileOrTablet from "../Utils/isMobileOrTablet";
+import { getUiMessage, spriteNames, spriteSounds } from "../Workflow/messageWorkflow";
 import { DiscussionStatus } from "../Utils/discussionStatus";
 import { eventsHas } from "../Utils/events";
 import { playSound } from "../Utils/music";
+import { getLocale } from "../Utils/locale";
 
 export default class Message extends Phaser.Scene {
   constructor() {
@@ -52,7 +52,7 @@ export default class Message extends Phaser.Scene {
         config.width / 2,
         config.height - 30,
         "FreePixel-16",
-        isMobileOrTablet() ? "Appuyer pour continuer" : "Appuyer sur espace",
+        getUiMessage("game.action"),
         16
       )
       .setOrigin(0.5, 0.5)
@@ -221,7 +221,7 @@ export default class Message extends Phaser.Scene {
     this.dialogBackground.setVisible(true);
     this.dialogBackgroundColor.setVisible(true);
 
-    this.spriteNameObject.text = spriteNames[sprite];
+    this.spriteNameObject.text = spriteNames[sprite]?.[getLocale()] || spriteNames[sprite];
     this.spriteNameObject.setVisible(!!this.spriteNameObject.text);
 
     this.textObject.text = message;

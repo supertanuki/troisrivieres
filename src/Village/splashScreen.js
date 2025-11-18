@@ -4,6 +4,7 @@ import { goToMine, goToFactory, goToRecycling } from "../Story/goToGame";
 import { urlParamHas } from "../Utils/debug";
 import { eventsHas } from "../Utils/events";
 import { getProgression } from "../Utils/progression";
+import { getUiMessage } from "../Workflow/messageWorkflow";
 
 /** @param {Game} scene  */
 export const splashScreen = function (scene) {
@@ -152,7 +153,7 @@ export const splashScreen = function (scene) {
       275,
       164,
       "FreePixel-16",
-      scene.isBonus || progression ? "Nouvelle partie" : "Jouer",
+      scene.isBonus || progression ? getUiMessage("game.newGame") : getUiMessage("game.play"),
       16
     )
     .setOrigin(0.5, 0.5)
@@ -165,11 +166,11 @@ export const splashScreen = function (scene) {
 
     if (continueplaying) {
       continueplay.disableInteractive(true);
-      continueplay.setText("Chargement...");
+      continueplay.setText(getUiMessage("game.loading"));
       textStart.destroy();
     } else {
       textStart.disableInteractive(true);
-      textStart.setText("Chargement...");
+      textStart.setText(getUiMessage("game.loading"));
       continueplay?.destroy();
     }
 
@@ -217,7 +218,7 @@ export const splashScreen = function (scene) {
         275,
         144,
         "FreePixel-16",
-        "Continuer la partie",
+        getUiMessage("game.continueGame"),
         16
       )
       .setOrigin(0.5, 0.5)
@@ -238,7 +239,7 @@ export const splashScreen = function (scene) {
       510,
       290,
       "FreePixel-16",
-      "Crédits",
+      getUiMessage("game.credits"),
       16
     )
     .setOrigin(0.5, 0.5)
@@ -251,7 +252,7 @@ export const splashScreen = function (scene) {
 
   if (scene.isBonus) {
     const textMine = scene.add
-      .bitmapText(275, 230, "FreePixel-16", "La mine", 16)
+      .bitmapText(275, 230, "FreePixel-16", getUiMessage("game.mine"), 16)
       .setOrigin(0.5, 0.5)
       .setTintFill(0xffffff)
       .setInteractive({ useHandCursor: true });
@@ -264,7 +265,7 @@ export const splashScreen = function (scene) {
     });
 
     const textFactory = scene.add
-      .bitmapText(275, 250, "FreePixel-16", "L'usine", 16)
+      .bitmapText(275, 250, "FreePixel-16", getUiMessage("game.factory"), 16)
       .setOrigin(0.5, 0.5)
       .setTintFill(0xffffff)
       .setInteractive({ useHandCursor: true });
@@ -277,7 +278,7 @@ export const splashScreen = function (scene) {
     });
 
     const textRecycling = scene.add
-      .bitmapText(275, 270, "FreePixel-16", "Le recyclage", 16)
+      .bitmapText(275, 270, "FreePixel-16", getUiMessage("game.recycling"), 16)
       .setOrigin(0.5, 0.5)
       .setTintFill(0xffffff)
       .setInteractive({ useHandCursor: true });
@@ -291,7 +292,6 @@ export const splashScreen = function (scene) {
   }
 
   sceneEventsEmitter.on(sceneEvents.EventsUnlocked, (data) => {
-    console.log("EventsUnlocked screen", data);
     if (!scene.isBonus) return;
 
     if (

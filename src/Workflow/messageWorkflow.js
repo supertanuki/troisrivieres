@@ -1,35 +1,36 @@
 import isMobileOrTablet from "../Utils/isMobileOrTablet";
+import { getLocale } from "../Utils/locale";
 
 const spriteNames = {
   django: "Django",
   bino: "Bino",
-  fisherman: "Mino",
-  cat: "Le chat",
-  dog: "Le chien",
-  cow: "La vache",
-  boy: "Les enfants",
-  girl: "La petite fille",
+  fisherman: { fr: "Mino, le pêcheur", en: "Mino, the fisherman" },
+  cat: { fr: "Le chat", en: "The cat" },
+  dog: { fr: "Le chien", en: "The dog" },
+  cow: { fr: "La vache", en: "The cow" },
+  boy: { fr: "Les enfants", en: "The children" },
+  girl: { fr: "La petite fille", en: "The little girl" },
   koko: "Koko",
   nono: "Nono",
-  escargot: "L’escargot",
-  baby: "Le bébé",
-  twoWomen: "Les deux femmes",
-  twoGuys: "Les deux hommes",
-  miner: "L’ouvrier",
-  dcWorkerChief: "L’ouvrier chef",
-  whiteWorkerChief: "L’ouvrier chef",
-  minerChief: "L’ouvrier chef",
-  blueWorkerChief: "L’ouvrier chef",
-  blueWorker1: "L’ouvrier",
-  blueWorker2: "L’ouvrier",
-  minerDirty2: "L’ouvrier",
-  minerDirty3: "L’ouvrier",
-  minerDirty4: "L’ouvrier",
-  whiteWorker1: "L’ouvrier",
-  whiteWorker2: "L’ouvrier",
-  sleepingGuy: "L’homme couché",
-  minerZad1: "L’ouvrier déserteur",
-  minerZad2: "Le mineur déserteur",
+  escargot: { fr: "L’escargot", en: "The snail" },
+  baby: { fr: "Le bébé", en: "The baby" },
+  twoWomen: { fr: "Les deux femmes", en: "The two women" },
+  twoGuys: { fr: "Les deux hommes", en: "The two men" },
+  miner: { fr: "L’ouvrier", en: "The worker" },
+  dcWorkerChief: { fr: "L’ouvrier chef", en: "The foreman" },
+  whiteWorkerChief: { fr: "L’ouvrier chef", en: "The foreman" },
+  minerChief: { fr: "L’ouvrier chef", en: "The foreman" },
+  blueWorkerChief: { fr: "L’ouvrier chef", en: "The foreman" },
+  blueWorker1: { fr: "L’ouvrier", en: "The worker" },
+  blueWorker2: { fr: "L’ouvrier", en: "The worker" },
+  minerDirty2: { fr: "L’ouvrier", en: "The worker" },
+  minerDirty3: { fr: "L’ouvrier", en: "The worker" },
+  minerDirty4: { fr: "L’ouvrier", en: "The worker" },
+  whiteWorker1: { fr: "L’ouvrier", en: "The worker" },
+  whiteWorker2: { fr: "L’ouvrier", en: "The worker" },
+  sleepingGuy: { fr: "L’homme couché", en: "The man lying down" },
+  minerZad1: { fr: "L’ouvrier déserteur", en: "The deserting worker" },
+  minerZad2: { fr: "Le mineur déserteur", en: "the deserting mine worker" },
 };
 
 export const spriteSounds = {
@@ -66,31 +67,69 @@ export const spriteSounds = {
 const messageWorkflow = {
   bino: [
     {
-      messages: [
-        "Hey, salut toi ! Moi je m’appelle Bino !",
-        "Fais attention à ne pas marcher sur mes carottes.",
-      ],
-      repeat: ["Fais attention à ne pas marcher sur mes carottes."],
+      messages: {
+        fr: [
+          "Hey, salut toi ! Moi je m’appelle Bino !",
+          "Fais attention à ne pas marcher sur mes carottes.",
+        ],
+        en: [
+          "Hey, hello there! My name is Bino!",
+          "Be careful not to step on my carrots.",
+        ],
+      },
+      repeat: {
+        fr: ["Fais attention à ne pas marcher sur mes carottes."],
+        en: ["Be careful not to step on my carrots."],
+      },
     },
     {
-      messages: [
-        "Hey ! Tu es juste de passage ?",
-        "Ou bien là pour enquêter sur ce qui se trame ?",
-        "Plus au nord d’ici, il y a une personne louche…",
-        "(J’espère que cela n’impactera pas mon potager…)",
-      ],
-      repeat: ["(Je me demande bien ce que veulent ces gens…)"],
+      messages: {
+        fr: [
+          "Hey ! Tu es juste de passage ?",
+          "Ou bien là pour enquêter sur ce qui se trame ?",
+          "Plus au nord d’ici, il y a une personne louche…",
+          "(J’espère que cela n’impactera pas mon potager…)",
+        ],
+        en: [
+          "Hey! Are you just passing through?",
+          "Or are you here to investigate what’s going on?",
+          "North of here, there’s a suspicious person…",
+          "(I hope this won’t affect my vegetable garden…)",
+        ],
+      },
+      repeat: {
+        fr: [
+          "Plus au nord d’ici, il y a une personne louche…",
+          "(Je me demande bien ce qui se passe…)",
+        ],
+        en: [
+          "North of here, there’s a suspicious person…",
+          "(I wonder what’s going on…)",
+        ],
+      },
       dependingOn: ["django_met"],
     },
     {
-      messages: [
-        "Je travaille, mais j’ai pas trop la tête à ça…",
-        "Je suis très inquiet à cause de la rivière polluée.",
-        "Peut-être qu’en remontant à la source…",
-        "on trouverait la cause du problème ?",
-        "Mais je suis bien trop occupé là…",
-      ],
-      repeat: ["(Si seulement quelqu’un pouvait remonter la rivière…)"],
+      messages: {
+        fr: [
+          "Je travaille, mais j’ai pas trop la tête à ça…",
+          "Je suis très inquiet à cause de la rivière polluée.",
+          "Peut-être qu’en remontant à la source…",
+          "on trouverait la cause du problème ?",
+          "Mais je suis bien trop occupé là…",
+        ],
+        en: [
+          "I’m working, but I’m not really in the mood for it…",
+          "I’m very worried about the polluted river.",
+          "Maybe if we went back to the source…",
+          "we could find the cause of the problem?",
+          "But I’m far too busy right now…",
+        ],
+      },
+      repeat: {
+        fr: ["(Si seulement quelqu’un pouvait remonter la rivière…)"],
+        en: ["(If only someone could go up the river…)"],
+      },
       dependingOn: ["first_sleep"],
     },
     {
@@ -266,46 +305,93 @@ const messageWorkflow = {
   ],
   koko: [
     {
-      messages: [
-        "Oh bah, v’là donc une nouvelle arrivante…",
-        "Bienvenue au village de Trois-Rivières !",
-        "Ça fait plaisir d’voir une nouvelle tête.",
-        "Moi c’est Koko.",
-        "J’suis au courant de tout c’qui s’passe dans l’coin !",
-        "… Maï ? Un prénom pas banal dis donc !",
-        "J’suis sûre que notre patelin va te plaire.",
-        "Va donc y faire un tour !",
-        "Et si tu cherches un endroit où dormir…",
-        "Django t’accueillera sûrement, il est plus au sud.",
-      ],
-      repeat: [
-        "Maï, si t’as fini d’visiter tout le village…",
-        "va donc vers le sud pour trouver où dormir.",
-      ],
+      messages: {
+        fr: [
+          "Oh bah, v’là donc une nouvelle arrivante…",
+          "Bienvenue au village de Trois-Rivières !",
+          "Ça fait plaisir d’voir une nouvelle tête.",
+          "Moi c’est Koko.",
+          "J’suis au courant de tout c’qui s’passe dans l’coin !",
+          "… Maï ? Un prénom pas banal dis donc !",
+          "J’suis sûre que notre patelin va te plaire.",
+          "Va donc y faire un tour !",
+          "Et si tu cherches un endroit où dormir…",
+          "Django t’accueillera sûrement, il est plus au sud.",
+        ],
+        en: [
+          "Oh well now, look at that… a new face comin’ in.",
+          "Welcome to the village of Trois-Rivières!",
+          "Nice seein’ a new face ’round here.",
+          "Name’s Koko.",
+          "I’m up to date on everythin’ that’s happenin’ here!",
+          "… Maï? Now that’s not a common name, is it!",
+          "I’m sure you’re gonna like our little town.",
+          "Go on, take a look ’round!",
+          "And if you’re lookin’ for a place to sleep…",
+          "Django’ll certainly take you in, he’s further south.",
+        ],
+      },
+      repeat: {
+        fr: [
+          "Maï, si t’as fini d’visiter tout le village…",
+          "va donc vers le sud pour trouver où dormir.",
+        ],
+        en: [
+          "Maï, if you’ve finished visiting the whole village…",
+          "head south to find somewhere to sleep.",
+        ],
+      },
     },
     {
-      messages: [
-        "Tu as rencontré Django ?",
-        "C’est la personne la plus gentille que j’connaisse.",
-        "Tu devrais aller voir ce qui se trame à l’est…",
-        "Il parait qu’une personne louche bloque un pont…",
-      ],
-      repeat: [
-        "Tu devrais aller voir ce qui se trame à l’est…",
-        "Il parait qu’une personne louche bloque un pont…",
-      ],
+      messages: {
+        fr: [
+          "Tu as rencontré Django ?",
+          "C’est la personne la plus gentille que j’connaisse.",
+          "Tu devrais aller voir ce qui se trame à l’est…",
+          "Il parait qu’une personne louche bloque le pont…",
+        ],
+        en: [
+          "You met Django?",
+          "He’s the kindest person I know, I’m tellin’ ya.",
+          "Ya should go check out what’s goin’ on out east…",
+          "Heard there’s some shady person blockin’ the bridge…",
+        ],
+      },
+      repeat: {
+        fr: [
+          "Tu devrais aller voir ce qui se trame à l’est…",
+          "Une personne louche bloque le pont…",
+        ],
+        en: [
+          "You should go see what’s going on in the east…",
+          "Some shady character is blocking the bridge…",
+        ],
+      },
       dependingOn: ["django_met"],
     },
     {
-      messages: [
-        "Olala, olala… t’as vu ça Maï ?",
-        "C’est terrible c’qui arrive à notre rivière !",
-        "Un truc louche se trame vers l’est, j’te l’dis !",
-        "Nono, qu’habite plus au nord, en revient justement.",
-        "Il est mal-en-point, comme la rivière…",
-        "peut-être qu’il pourra t’en dire plus !",
-      ],
-      repeat: ["Au nord, Nono pourra t’éclairer sur c’qui s’passe !"],
+      messages: {
+        fr: [
+          "Olala, olala… t’as vu ça Maï ?",
+          "C’est terrible c’qui arrive à notre rivière !",
+          "Un truc louche se trame vers l’est, j’te l’dis !",
+          "Nono, qu’habite plus au nord, en revient justement.",
+          "Il est mal-en-point, comme la rivière…",
+          "peut-être qu’il pourra t’en dire plus !",
+        ],
+        en: [
+          "Oh dear, oh dear… ya see that, Maï?",
+          "It’s terrible what’s happenin’ to our river!",
+          "Somethin’ shady’s going on out east, I’m tellin’ ya!",
+          "Nono, who lives further north, has just come back.",
+          "He’s in bad shape, just like the river…",
+          "Maybe he’ll be able to tell ya more!",
+        ],
+      },
+      repeat: {
+        fr: ["Au nord, Nono pourra t’éclairer sur c’qui s’passe !"],
+        en: ["Up north, Nono can fill you in on what’s going on!"],
+      },
       dependingOn: ["first_sleep"],
     },
     {
@@ -448,17 +534,32 @@ const messageWorkflow = {
   ],
   django: [
     {
-      messages: [
-        "Ooola, quel bon vent nous amène là !",
-        "… Maï ? Quel joli prénom.",
-        "Et donc tu cherches un lieu où dormir cette nuit ?",
-        "Tu frappes à la bonne porte !",
-        "Comme je le dis souvent, il faut qu’une porte…",
-        "soit ouverte ou fermée…",
-        "et la mienne sera toujours ouverte !",
-        "Donc reviens au coucher du soleil !",
-      ],
-      repeat: ["Fais un tour du village et reviens ce soir."],
+      messages: {
+        fr: [
+          "Ooola, quel bon vent nous amène là !",
+          "… Maï ? Quel joli prénom.",
+          "Et donc tu cherches un lieu où dormir cette nuit ?",
+          "Tu frappes à la bonne porte !",
+          "Comme je le dis souvent, il faut qu’une porte…",
+          "soit ouverte ou fermée…",
+          "et la mienne sera toujours ouverte !",
+          "Donc reviens au coucher du soleil !",
+        ],
+        en: [
+          "Hey, what brings you here?",
+          "… Maï? What a pretty name.",
+          "So you’re looking for a place to sleep tonight?",
+          "You’ve come to the right place!",
+          "As I often say, a door must either be…",
+          "open or closed…",
+          "and mine will always be open!",
+          "So come back at sunset!",
+        ],
+      },
+      repeat: {
+        fr: ["Fais un tour du village et reviens ce soir."],
+        en: ["Take a walk around and come back this evening."],
+      },
       unlockEvents: ["django_met"],
     },
     {
@@ -496,7 +597,7 @@ const messageWorkflow = {
         "et je ne voudrais pas t’influencer.",
         "Maintenant que tu as fini ton travail à la mine,",
         "tu as tout le temps de te balader dans le village.",
-        "Si tu croises Koko, tu la salueras pour moi."
+        "Si tu croises Koko, tu la salueras pour moi.",
       ],
       repeat: [
         "Une chose reste immuable dans tout ce bouleversement",
@@ -509,7 +610,7 @@ const messageWorkflow = {
       messages: [
         "Bonjour Maï, le sommeil a été un peu agité ?",
         "Ah ! Tu arrêtes de travailler à l’usine ?",
-        "C’est bien de savoir que l'usine est responsable…",
+        "C’est bien de savoir que l’usine est responsable…",
         "de la baisse du niveau d’eau dans nos rivières.",
         "Le mal est fait, on n’arrête pas le progrès…",
         "On a besoin de produire des équipements numériques",
@@ -578,93 +679,174 @@ const messageWorkflow = {
   ],
   fisherman: [
     {
-      messages: [
-        "…chut, tu vas faire fuir les poissons…",
-        "Et voilà, raté… Va parler aux autres, je suis concentré là.",
-      ],
-      repeat: ["…"],
+      messages: {
+        fr: [
+          "…chut, tu vas faire fuir les poissons…",
+          "Et voilà, raté… Va parler aux autres, je suis concentré là.",
+        ],
+        en: ["…"],
+      },
+      repeat: { fr: ["…"], en: ["…"] },
     },
     {
-      messages: [
-        "Par la barbe du %?#%, je ne vais plus pouvoir pêcher.",
-        "Qui sont les responsables de ce #?%@ ???",
-      ],
-      repeat: ["Si j’attrape les responsables de ce #?%@…"],
+      messages: {
+        fr: [
+          "Par la barbe du %?#%, je ne vais plus pouvoir pêcher.",
+          "Qui sont les responsables de ce #?%@ ???",
+        ],
+        en: [
+          "%?#%, I won’t be able to fish anymore.",
+          "Who’s responsible for this #?%@???",
+        ],
+      },
+      repeat: {
+        fr: ["Si j’attrape les responsables de ce #?%@…"],
+        en: ["If I catch those responsible for this #?%@…"],
+      },
       dependingOn: ["first_sleep"],
     },
     {
-      messages: [
-        "… Tout le monde est devenu fan",
-        "de ces routes, de ces voitures…",
-        "C’est vite oublier d’où on vient.",
-        "Une mine s’installe, puis une usine…",
-        "La rivière qui a baissé de niveau,",
-        "juste en quelques semaines.",
-        "Je me sens un peu démuni face à tout ça…",
-        "Mais ça me réconforte que tu continues…",
-        "de mener ta petite enquête, Maï.",
-      ],
-      repeat: ["Continue ton enquête, moi je surveille la rivière."],
+      messages: {
+        fr: [
+          "… Tout le monde est devenu fan",
+          "de ces routes, de ces voitures…",
+          "C’est vite oublier d’où on vient.",
+          "Une mine s’installe, puis une usine…",
+          "La rivière qui a baissé de niveau,",
+          "juste en quelques semaines.",
+          "Je me sens un peu démuni face à tout ça…",
+          "Mais ça me réconforte que tu continues…",
+          "de mener ta petite enquête, Maï.",
+        ],
+        en: [
+          "… Everyone has become a fan,",
+          "of these roads, these cars…",
+          "It’s easy to forget where we come from.",
+          "A mine is built, then a factory…",
+          "The river has dropped in level,",
+          "in just a few weeks.",
+          "I feel a bit helpless in the face of all this…",
+          "But it comforts me that you’re continuing…",
+          "to conduct your little investigation, Maï.",
+        ],
+      },
+      repeat: {
+        fr: ["Continue ton enquête, moi je surveille la rivière."],
+        en: ["Continue your investigation, I’ll keep an eye on the river."],
+      },
       dependingOn: ["second_act_begin"],
     },
     {
-      messages: [
-        "Ce que je craignais est arrivé.",
-        "Trois-Rivières a complètement changé…",
-        "et nos habitudes avec.",
-        "Heureusement moi, je tiens bon la barre !",
-        "(Attendre ici me donne faim par contre…)",
-        "(Je mangerais bien un bon burger tiens !)",
-      ],
-      repeat: ["(Burger… burger……) hmmmmm, je disais quoi déjà ?"],
+      messages: {
+        fr: [
+          "Ce que je craignais est arrivé.",
+          "Trois-Rivières a complètement changé…",
+          "et nos habitudes avec.",
+          "Heureusement moi, je tiens bon la barre !",
+          "(Attendre ici me donne faim par contre…)",
+          "(Je mangerais bien un bon burger tiens !)",
+        ],
+        en: [
+          "What I feared has happened.",
+          "Trois-Rivières has completely changed…",
+          "and so have our habits.",
+          "Fortunately, I’m holding steady!",
+          "(Waiting here is making me hungry, though…)",
+          "(I could really go for a good burger right now!)",
+        ],
+      },
+      repeat: {
+        fr: ["(Burger… burger…) hmmmmm, je disais quoi déjà ?"],
+        en: ["(Burger… burger…) Hmmmmm, what was I saying?"],
+      },
       dependingOn: ["third_act_begin"],
     },
     {
-      messages: ["Tout part à la dérive, comme mon vieux rafiot…"],
+      messages: {
+        fr: ["Tout part à la dérive, comme mon vieux bateau…"],
+        en: ["Everything is drifting away, like my old boat…"],
+      },
       dependingOn: ["fourth_act_begin"],
     },
     {
-      messages: [
-        "J’me demande bien comment on va se débarrasser…",
-        "…de ces #?%@ qui polluent nos rivières !",
-      ],
+      messages: {
+        fr: [
+          "J’me demande bien comment on va se débarrasser…",
+          "…de ces #?%@ qui polluent nos rivières !",
+        ],
+        en: [
+          "I wonder how we’re going to get rid of…",
+          "…these #?%@ polluting our rivers!",
+        ],
+      },
       dependingOn: ["strike_begin"],
     },
   ],
   boy: [
     {
-      messages: [
-        "YOUPIII, on peut se baigner quand on veut !",
-        "Faudrait trop qu’on ramène nos potes un jour !",
-      ],
+      messages: {
+        fr: [
+          "YOUPIII, on peut se baigner quand on veut !",
+          "Faudrait trop qu’on ramène nos potes un jour !",
+        ],
+        en: [
+          "YAY, we can go swimming whenever we want!",
+          "We really should bring our mates along one day!",
+        ],
+      },
     },
     {
-      messages: [
-        "Oh nooon, on ne peut plus jouer dans l’eau…",
-        "Qu’est-ce qu’on va faire maintenant ?",
-      ],
+      messages: {
+        fr: [
+          "Oh nooon, on ne peut plus jouer dans l’eau…",
+          "Qu’est-ce qu’on va faire maintenant ?",
+        ],
+        en: [
+          "Oh no, we can’t play in the river anymore…",
+          "What are we going to do now?",
+        ],
+      },
+      repeat: {
+        fr: ["On ne peut plus jouer dans l’eau…"],
+        en: ["we can’t play in the river anymore…"],
+      },
       dependingOn: ["first_sleep"],
     },
     {
-      messages: ["Y’a moins d’eau dans la rivière maintenant…"],
+      messages: {
+        fr: ["Y’a moins d’eau dans la rivière maintenant…"],
+        en: ["Oh no, there’s less water in the river now…"],
+      },
       dependingOn: ["second_act_begin"],
     },
     {
-      messages: ["… Mmmmh, et si on mangeait un gros burger…"],
+      messages: {
+        fr: ["… Mmmmh, et si on mangeait un gros burger…"],
+        en: ["Mmmm, how about we have a big burger…"],
+      },
       dependingOn: ["third_act_begin"],
     },
     {
-      messages: ["… Il est louche le monsieur là…"],
+      messages: {
+        fr: ["… Il est louche le monsieur là…"],
+        en: ["… That man over there looks shady…"],
+      },
       dependingOn: ["fourth_act_begin"],
     },
     {
-      messages: ["C’est notre première manif, trop chouette !"],
+      messages: {
+        fr: ["C’est notre première manif, trop chouette !"],
+        en: ["It’s our first protest, how exciting!"],
+      },
       dependingOn: ["strike_begin"],
     },
   ],
   girl: [
     {
-      messages: ["…"],
+      messages: {
+        fr: ["…"],
+        en: ["…"],
+      },
     },
     {
       messages: ["Y’a moins d’eau dans la rivière maintenant…"],
@@ -689,117 +871,220 @@ const messageWorkflow = {
   ],
   cat: [
     {
-      messages: ["Meow…"],
+      messages: {
+        fr: ["Miaou…"],
+        en: ["Meow…"],
+      },
     },
   ],
   dog: [
     {
-      messages: ["Wof…"],
+      messages: {
+        fr: ["Wof…"],
+        en: ["Woof…"],
+      },
     },
   ],
   cow: [
     {
-      messages: ["Meuh…"],
+      messages: {
+        fr: ["Meuh…"],
+        en: ["Moo…"],
+      },
     },
   ],
   veal: [
     {
-      messages: ["Mmmmh…"],
+      messages: {
+        fr: ["Mmmmh…"],
+        en: ["Mmmmh…"],
+      },
     },
   ],
   escargot: [
     {
-      messages: ["…"],
+      messages: {
+        fr: ["…"],
+        en: ["…"],
+      },
     },
   ],
   miner: [
     {
-      messages: ["Interdit de passer par ici."],
-      repeat: ["J’ai dit qu’on ne passe pas !"],
+      messages: {
+        fr: ["Interdit de passer par ici."],
+        en: ["It is forbidden to pass through here."],
+      },
+      repeat: {
+        fr: ["J’ai dit qu’on ne passe pas !"],
+        en: ["I said no passing through!"],
+      },
     },
     {
-      messages: [
-        "Hop hop hop… il est trop tard pour passer, désolé.",
-        "Reviens demain.",
-        "(Vivement que mon tour de garde se termine bientôt…)",
-        "(j’ai des fourmis dans les jambes)",
-      ],
-      repeat: ["Il est trop tard pour passer, reviens demain."],
+      messages: {
+        fr: [
+          "Hop hop hop… il est trop tard pour passer, désolé.",
+          "Reviens demain.",
+          "(Vivement que mon tour de garde se termine bientôt…)",
+          "(j’ai des fourmis dans les jambes)",
+        ],
+        en: [
+          "Stop! It’s too late to come in, sorry.",
+          "Come back tomorrow.",
+          "(I can’t wait for my shift to end…)",
+          "(I’ve got ants in my pants.)",
+        ],
+      },
+      repeat: {
+        fr: ["Il est trop tard pour passer, reviens demain."],
+        en: ["It’s too late to come in now, come back tomorrow."],
+      },
       unlockEvents: ["miner_first_met"],
       dependingOn: ["django_met"],
     },
     {
-      messages: [
-        "Il faut un laissez-passer pour… passer.",
-        "Nouvelle directive des chefs !",
-      ],
-      repeat: ["Je t’ai dit qu’il faut un laissez-passer…"],
+      messages: {
+        fr: [
+          "Il faut un laissez-passer pour… passer.",
+          "Nouvelle directive des chefs !",
+        ],
+        en: ["You need a pass to… pass.", "New directive from the bosses!"],
+      },
+      repeat: {
+        fr: ["Je t’ai dit qu’il faut un laissez-passer…"],
+        en: ["I told you that you need a pass…"],
+      },
       dependingOn: ["first_sleep"],
     },
     {
-      messages: [
-        "Je ne sais pas comment tu as eu ce badge…",
-        "mais te voilà donc libre de passer.",
-        "D’toute façon, on a besoin de bras pour bosser…",
-      ],
-      repeat: ["Tu peux passer…"],
+      messages: {
+        fr: [
+          "Je ne sais pas comment tu as eu ce badge…",
+          "mais te voilà donc libre de passer.",
+          "D’toute façon, on a besoin de bras pour bosser…",
+        ],
+        en: [
+          "I don’t know how you got that badge…",
+          "but now you’re free to pass through.",
+          "Anyway, we need workers…",
+        ],
+      },
+      repeat: {
+        fr: ["Tu peux passer…"],
+        en: ["You can pass…"],
+      },
       dependingOn: ["card_for_mine"],
       unlockEvents: ["mine_access_validation"],
     },
     {
-      messages: [
-        "Apparemment, ils n’ont plus besoin de nous…",
-        "Pas autant en tout cas.",
-        "Les machines que nous avons créées nous remplacent.",
-      ],
+      messages: {
+        fr: [
+          "Apparemment, ils n’ont plus besoin de nous…",
+          "Pas autant en tout cas.",
+          "Les machines que nous avons créées nous remplacent.",
+        ],
+        en: [
+          "Apparently, they don’t need us anymore…",
+          "Not as much, anyway.",
+          "The machines we created are replacing us.",
+        ],
+      },
+      repeat: {
+        fr: ["Ils n’ont plus besoin de nous…"],
+        en: ["They don’t need us anymore…"],
+      },
       dependingOn: ["second_act_begin"],
     },
   ],
   minerChief: [
     {
-      messages: [
-        "Bienvenue à Grise Mine, LA mine responsable !",
-        "D’ici sortent des tonnes de minerais chaque jour…",
-        "extraits avec de l’énergie bas-carbone s’il vous plait !",
-        "Nous utilisons l’eau de façon raisonnée…",
-        "traitons nos employés de manière exemplaire, et…",
-        "Ça ne t’intéresse pas mon discours ?",
-        "…",
-        "Tu quoi ? Tu es là pour travailler ???",
-        "Hahaha, elle est bien bonne celle-là.",
-        "Mes meilleurs hommes sont épuisés très vite…",
-        "tu ne tiendras pas une seconde là-dedans !",
-        "Mais ok, je veux bien te faire une formation express.",
-        "Apprête-toi à te faire miner… le moral HAHAHA",
-      ],
+      messages: {
+        fr: [
+          "Bienvenue à Grise Mine, LA mine responsable !",
+          "D’ici sortent des tonnes de minerais chaque jour…",
+          "extraits avec de l’énergie bas-carbone s’il vous plait !",
+          "Nous utilisons l’eau de façon raisonnée…",
+          "traitons nos employés de manière exemplaire, et…",
+          "Ça ne t’intéresse pas mon discours ?",
+          "…",
+          "Tu quoi ? Tu es là pour travailler ???",
+          "Hahaha, elle est bien bonne celle-là.",
+          "Mes meilleurs hommes sont épuisés très vite…",
+          "tu ne tiendras pas une seconde là-dedans !",
+          "Mais ok, je veux bien te faire une formation express.",
+          "Apprête-toi à te faire miner… le moral HAHAHA",
+        ],
+        en: [
+          "Welcome to Grey Mine, THE responsible mine!",
+          "Tons of ore come out of here every day…",
+          "extracted with low-carbon energy, please!",
+          "We use water wisely…",
+          "treat our employees in an exemplary manner, and…",
+          "Aren’t you interested in what I’m saying?",
+          "…",
+          "What? Are you here to work???",
+          "Hahaha, your jokes are a gold mine…",
+          "My best men get exhausted very quickly…",
+          "You won’t last a second in there!",
+          "But okay, I’ll give you a crash course.",
+          "Get ready… You’ll be our canary in a coal mine, HAHAHA",
+        ],
+      },
       unlockEvents: ["mine_start"],
     },
   ],
   minerDirty2: [
     {
-      messages: [
-        "J’suis content d’avoir trouvé ce boulot…",
-        "même si c’est pas forcément bien payé.",
-      ],
-      repeat: ["Ce boulot est pas forcément bien payé."],
+      messages: {
+        fr: [
+          "J’suis content d’avoir trouvé ce boulot…",
+          "même si c’est pas forcément bien payé.",
+        ],
+        en: [
+          "I’m glad I found this job…",
+          "even if it doesn’t necessarily pay well.",
+        ],
+      },
+      repeat: {
+        fr: ["Ce boulot est pas forcément bien payé."],
+        en: ["This job doesn’t pay well."],
+      },
     },
   ],
   minerDirty3: [
     {
-      messages: [
-        "Fiouuu… ça fait du bien une petite pause…",
-        "Je plains celui qui devra dépolluer ces bassins d’eau.",
-        "Enfin… si on le fait un jour…",
-      ],
+      messages: {
+        fr: [
+          "Fiouuu… ça fait du bien une petite pause…",
+          "Je plains celui qui devra dépolluer ces bassins d’eau.",
+          "Enfin… si on le fait un jour…",
+        ],
+        en: [
+          "Phew… it’s nice to have a little break…",
+          "I feel sorry…",
+          "… for those who will have to clean up these water basins.",
+          "Well… if we ever do…",
+        ],
+      },
     },
   ],
   minerDirty4: [
     {
-      messages: [
-        "Si tu cherches le chef, il est devant l’entrée.",
-        "Maintenant laisse moi contempler la vue du progrès.",
-      ],
-      repeat: ["Contemple avec moi, la vue du progrès."],
+      messages: {
+        fr: [
+          "Si tu cherches le chef, il est devant l’entrée.",
+          "Maintenant laisse moi contempler la vue du progrès.",
+        ],
+        en: [
+          "If you’re looking for the boss…",
+          "he’s in front of the entrance.",
+          "Now let me contemplate the view of progress.",
+        ],
+      },
+      repeat: {
+        fr: ["Contemple avec moi, la vue du progrès."],
+        en: ["Contemplate with me the view of progress."],
+      },
     },
   ],
   mine: [
@@ -1141,39 +1426,159 @@ const messageWorkflow = {
 };
 
 const uiMessages = {
-  "game.howToPlay": "Déplace-toi avec les flèches ← → ↑ ↓ ou ZQSD",
+  "game.newGame": {
+    fr: "Nouvelle partie",
+    en: "New game",
+  },
 
-  "mine.faster": "Plus vite !",
-  "mine.fasterAgain": "Encore plus vite, allez !!!",
-  "mine.waterEmpty": "Réservoir d’eau vide !",
-  "mine.waterFull": "Réservoir d’eau plein !",
-  "mine.moreMaterials": "Arrivage de minerais, on augmente la fréquence !",
-  "mine.warning": "Ressaisis-toi, on est là pour faire du chiffre !",
-  "mine.lastWarning": "Dernier avertissement, concentre-toi !",
+  "game.continueGame": {
+    fr: "Continuer la partie",
+    en: "Continue the game",
+  },
 
-  "factory.faster": "Validé! Plus vite maintenant!!!",
-  "factory.welldone": "C’est bien, tu es productive !",
-  "factory.error": "C’est quoi ce boulot ? Ressaisis-toi la nouvelle !",
+  "game.play": {
+    fr: "Jouer",
+    en: "Play",
+  },
 
-  "recycling.faster": "Allez, on augmente le rythme !",
-  "recycling.error": "Euh… il va falloir faire mieux que ça !",
+  "game.loading": {
+    fr: "Chargement…",
+    en: "Loading…",
+  },
 
-  "betweenActs.later": "Quelque temps plus tard…",
-  "final.later": "Quelque temps plus tard…",
+  "game.mine": {
+    fr: "La mine",
+    en: "The mine",
+  },
 
-  "progression.saved": "Progression enregistrée",
+  "game.factory": {
+    fr: "L’usine",
+    en: "The factory",
+  },
 
-  "generic.1": "L’extraction minière est l’industrie la plus polluante au monde.",
-  "generic.2": "La mine a des conséquences éternelles sur les habitants et les écosystèmes.",
-  "generic.3": "La production d’objets numériques participe à l'épuisement des ressources… et des ouvriers.",
-  "generic.4": "Le recyclage n’est pas une solution miracle…",
-  "generic.5": "Pour économiser les ressources, ne cédons pas aux objets connectés inutiles.",
-  "generic.6": "Et gardons les appareils utiles plus longtemps.",
-  "generic.7": "Ce jeu est dédié au vivant, humains compris, qui chaque jour paye de plus en plus cher, l’accélération technologique.",
-  "generic.thanks": "Merci d’avoir joué.",
-  "generic.credits": "Idée originale, game design et programmation\n\n  Richard Hanna.\n\nGraphisme, level design et game design\n\n  Philippe Salib.\n\nGame design, narration, musiques et effets sonores\n\n  David Fonteix.",
+  "game.recycling": {
+    fr: "Le recyclage",
+    en: "The recycling",
+  },
+
+  "game.credits": {
+    fr: "Crédits",
+    en: "Credits",
+  },
+
+  "game.howToPlay": {
+    fr: "Déplace-toi avec les touches ← → ↑ ↓ (ou ZQSD)",
+    en: "Move using the arrow keys ← → ↑ ↓ (or WASD)",
+  },
+
+  "game.action": {
+    fr: isMobileOrTablet() ? "Appuyer pour continuer" : "Appuyer sur espace",
+    en: isMobileOrTablet() ? "Press to continue" : "Press space bar",
+  },
+
+  "mine.faster": {
+    fr: "Plus vite !",
+    en: "Faster!",
+  },
+  "mine.fasterAgain": {
+    fr: "Encore plus vite, allez !!!",
+    en: "Even faster, come on!!!",
+  },
+  "mine.waterEmpty": {
+    fr: "Réservoir d’eau vide ! Tu dois attendre son remplissage.",
+    en: "The water tank is empty! You must wait for it to refill.",
+  },
+  "mine.waterFull": {
+    fr: "Réservoir d’eau plein, allez !!!",
+    en: "Water tank full! Come on!!!",
+  },
+  "mine.moreMaterials": {
+    fr: "Arrivage de minerais, on augmente la cadence !",
+    en: "Ore arrivals, we’re picking up the pace!",
+  },
+  "mine.warning": {
+    fr: "Ressaisis-toi, on est là pour faire du chiffre !",
+    en: "Pull yourself together, we’re here to make money!",
+  },
+  "mine.lastWarning": {
+    fr: "Dernier avertissement, concentre-toi !",
+    en: "This is your last warning, pay attention!",
+  },
+
+  "factory.faster": {
+    fr: "Validé! Plus vite maintenant!!!",
+    en: "Approved! Now hurry up!!!",
+  },
+  "factory.welldone": {
+    fr: "C’est bien, tu es productive !",
+    en: "That’s great, you’re being productive!",
+  },
+  "factory.error": {
+    fr: "C’est quoi ce boulot ? Ressaisis-toi la nouvelle !",
+    en: "What kind of job is this? Pull yourself together, newbie!",
+  },
+
+  "recycling.faster": {
+    fr: "Allez, Euh… On augmente le rythme !",
+    en: "Come on, um… Let’s pick up the pace!",
+  },
+  "recycling.error": {
+    fr: "Euh… il va falloir faire mieux que ça !",
+    en: "Um… you’ll have to do better than that!",
+  },
+
+  "betweenActs.later": {
+    fr: "Quelque temps plus tard…",
+    en: "Some time later…",
+  },
+  "final.later": {
+    fr: "Quelque temps plus tard…",
+    en: "Some time later…",
+  },
+
+  "progression.saved": {
+    fr: "Progression enregistrée",
+    en: "Progress saved",
+  },
+
+  "generic.1": {
+    fr: "L’extraction minière est l’industrie la plus polluante au monde.",
+    en: "Mining is the most polluting industry in the world.",
+  },
+  "generic.2": {
+    fr: "La mine a des conséquences éternelles sur les habitants et les écosystèmes.",
+    en: "Mining has lasting consequences for inhabitants and ecosystems.",
+  },
+  "generic.3": {
+    fr: "La production d’objets numériques participe à l’épuisement des ressources… et des ouvriers.",
+    en: "The production of digital devices contributes to the depletion of resources and the exhaustion of workers.",
+  },
+  "generic.4": {
+    fr: "Le recyclage n’est pas une solution miracle…",
+    en: "Recycling is not a miracle solution…",
+  },
+  "generic.5": {
+    fr: "Pour économiser les ressources, ne cédons pas aux objets connectés inutiles.",
+    en: "To save resources, let’s not give in to unnecessary connected devices.",
+  },
+  "generic.6": {
+    fr: "Et gardons les appareils utiles plus longtemps.",
+    en: "And let’s keep useful devices for longer.",
+  },
+  "generic.7": {
+    fr: "Ce jeu est dédié au vivant, humains compris, qui chaque jour paye de plus en plus cher, l’accélération technologique.",
+    en: "This game is dedicated to living beings, including humans, who are paying an increasingly high price for technological acceleration every day.",
+  },
+  "generic.thanks": {
+    fr: "Merci d’avoir joué.",
+    en: "Thank you for playing.",
+  },
+  "generic.credits": {
+    fr: "Idée originale, game design et programmation\n\n  Richard Hanna.\n\nGraphisme, level design et game design\n\n  Philippe Salib.\n\nGame design, narration, musiques et effets sonores\n\n  David Fonteix.",
+    en: "Original concept, game design and programming\n\n  Richard Hanna.\n\nGraphics, level design and game design\n\n  Philippe Salib.\n\nGame design, narration, music and sound effects\n\n  David Fonteix.",
+  },
 };
 
-const getUiMessage = (name) => uiMessages[name];
+const getUiMessage = (name) => uiMessages[name][getLocale()];
 
 export { spriteNames, messageWorkflow, getUiMessage };
