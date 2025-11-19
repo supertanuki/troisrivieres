@@ -1,4 +1,5 @@
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
+import { getLocale } from "../Utils/locale";
 import { messageWorkflow } from "./messageWorkflow";
 
 export default class Workflow {
@@ -63,14 +64,16 @@ export default class Workflow {
       messageWorkflow[this.currentSprite][currentThread]?.dependingOn;
     if (!this.isValidDependingOn(this.currentSprite, dependingOn)) return;
 
+    const locale = getLocale();
+
     if (
       this.spritePosition[this.currentSprite].threadRead.includes(currentThread)
     ) {
-      const repeat = messageWorkflow[this.currentSprite][currentThread]?.repeat;
+      const repeat = messageWorkflow[this.currentSprite][currentThread]?.repeat?.[locale];
       if (!!repeat) return repeat?.[currentMessagePosition];
     }
 
-    return messageWorkflow[this.currentSprite][currentThread]?.messages?.[
+    return messageWorkflow[this.currentSprite][currentThread]?.messages?.[locale]?.[
       currentMessagePosition
     ];
   }

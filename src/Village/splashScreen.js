@@ -3,7 +3,10 @@ import Game from "../Game";
 import { goToMine, goToFactory, goToRecycling } from "../Story/goToGame";
 import { urlParamHas } from "../Utils/debug";
 import { eventsHas } from "../Utils/events";
+import { saveLocale } from "../Utils/locale";
+import { playVillageAmbiance } from "../Utils/music";
 import { getProgression } from "../Utils/progression";
+import { getUiMessage } from "../Workflow/messageWorkflow";
 
 /** @param {Game} scene  */
 export const splashScreen = function (scene) {
@@ -13,13 +16,49 @@ export const splashScreen = function (scene) {
     return;
   }
 
+  scene.isBonus = urlParamHas("bonus");
+  if (scene.isBonus) {
+    afterLocaleSelected(scene);
+    return;
+  }
+
+  const chooseLocale = (locale) => {
+    saveLocale(locale);
+    afterLocaleSelected(scene);
+    frText.destroy();
+    enText.destroy();
+  };
+
+  const frText = scene.add
+    .bitmapText(150, 125, "FreePixel-16", "Français", 16)
+    .setOrigin(0.5, 0.5)
+    .setTintFill(0xffffff)
+    .setInteractive({ useHandCursor: true });
+
+  frText.on("pointerdown", () => chooseLocale("fr"));
+  frText.on("pointerover", () => mouseOver(frText, 0x307f6d));
+  frText.on("pointerout", () => mouseOut(frText));
+
+  const enText = scene.add
+    .bitmapText(300, 125, "FreePixel-16", "English", 16)
+    .setOrigin(0.5, 0.5)
+    .setTintFill(0xffffff)
+    .setInteractive({ useHandCursor: true });
+
+  enText.on("pointerdown", () => chooseLocale("en"));
+  enText.on("pointerover", () => mouseOver(enText, 0x307f6d));
+  enText.on("pointerout", () => mouseOut(enText));
+};
+
+const afterLocaleSelected = function (scene) {
+  scene.cameras.main.fadeIn(1000);
   const progression = getProgression();
 
-  scene.isBonus = urlParamHas("bonus");
   let goingSomewhere = false;
   let continueplay = null;
 
   scene.scale.setGameSize(550, 300);
+  playVillageAmbiance(scene);
 
   scene.anims.create({
     key: "mai",
@@ -130,7 +169,13 @@ export const splashScreen = function (scene) {
   mai.play("mai");
 
   const title = scene.add
-    .bitmapText(275, 130 + (progression && -20), "FreePixel-16", "Trois-Rivières", 32)
+    .bitmapText(
+      275,
+      130 + (progression && -30),
+      "FreePixel-16",
+      "Trois-Rivières",
+      32
+    )
     .setOrigin(0.5, 0.5)
     .setTintFill(0x307f6d);
 
@@ -144,15 +189,14 @@ export const splashScreen = function (scene) {
     .setOrigin(0, 0);
   smokeSmall.play("smoke-small");
 
-  const mouseOver = (target, color = 0x000000) => target.setTintFill(color);
-  const mouseOut = (target) => target.setTintFill(0xffffff);
-
   const textStart = scene.add
     .bitmapText(
       275,
       164,
       "FreePixel-16",
-      scene.isBonus || progression ? "Nouvelle partie" : "Jouer",
+      scene.isBonus || progression
+        ? getUiMessage("game.newGame")
+        : getUiMessage("game.play"),
       16
     )
     .setOrigin(0.5, 0.5)
@@ -165,11 +209,11 @@ export const splashScreen = function (scene) {
 
     if (continueplaying) {
       continueplay.disableInteractive(true);
-      continueplay.setText("Chargement...");
+      continueplay.setText(getUiMessage("game.loading"));
       textStart.destroy();
     } else {
       textStart.disableInteractive(true);
-      textStart.setText("Chargement...");
+      textStart.setText(getUiMessage("game.loading"));
       continueplay?.destroy();
     }
 
@@ -215,9 +259,9 @@ export const splashScreen = function (scene) {
     continueplay = scene.add
       .bitmapText(
         275,
-        144,
+        134,
         "FreePixel-16",
-        "Continuer la partie",
+        getUiMessage("game.continueGame"),
         16
       )
       .setOrigin(0.5, 0.5)
@@ -234,24 +278,18 @@ export const splashScreen = function (scene) {
   }
 
   const credits = scene.add
-    .bitmapText(
-      510,
-      290,
-      "FreePixel-16",
-      "Crédits",
-      16
-    )
+    .bitmapText(510, 290, "FreePixel-16", getUiMessage("game.credits"), 16)
     .setOrigin(0.5, 0.5)
     .setTintFill(0xffffff)
     .setInteractive({ useHandCursor: true });
 
-  credits.on("pointerdown", () => window.location.href = 'credits.html');
+  credits.on("pointerdown", () => (window.location.href = "credits.html"));
   credits.on("pointerover", () => mouseOver(credits, 0x000000));
   credits.on("pointerout", () => mouseOut(credits));
 
   if (scene.isBonus) {
     const textMine = scene.add
-      .bitmapText(275, 230, "FreePixel-16", "La mine", 16)
+      .bitmapText(160, 210, "FreePixel-16", getUiMessage("game.mine"), 16)
       .setOrigin(0.5, 0.5)
       .setTintFill(0xffffff)
       .setInteractive({ useHandCursor: true });
@@ -264,7 +302,7 @@ export const splashScreen = function (scene) {
     });
 
     const textFactory = scene.add
-      .bitmapText(275, 250, "FreePixel-16", "L'usine", 16)
+      .bitmapText(260, 240, "FreePixel-16", getUiMessage("game.factory"), 16)
       .setOrigin(0.5, 0.5)
       .setTintFill(0xffffff)
       .setInteractive({ useHandCursor: true });
@@ -277,7 +315,7 @@ export const splashScreen = function (scene) {
     });
 
     const textRecycling = scene.add
-      .bitmapText(275, 270, "FreePixel-16", "Le recyclage", 16)
+      .bitmapText(400, 260, "FreePixel-16", getUiMessage("game.recycling"), 16)
       .setOrigin(0.5, 0.5)
       .setTintFill(0xffffff)
       .setInteractive({ useHandCursor: true });
@@ -291,7 +329,6 @@ export const splashScreen = function (scene) {
   }
 
   sceneEventsEmitter.on(sceneEvents.EventsUnlocked, (data) => {
-    console.log("EventsUnlocked screen", data);
     if (!scene.isBonus) return;
 
     if (
@@ -303,3 +340,6 @@ export const splashScreen = function (scene) {
     }
   });
 };
+
+const mouseOver = (target, color = 0x000000) => target.setTintFill(color);
+const mouseOut = (target) => target.setTintFill(0xffffff);

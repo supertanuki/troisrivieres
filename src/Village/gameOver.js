@@ -169,7 +169,7 @@ export const gameOver = function (scene) {
             onComplete: () => {
               fadeOut = false;
               fadeInDarkScreen();
-              scene.cameras.main.setScroll(1500, 500);
+              scene.cameras.main.setScroll(1550, 500);
 
               scene.tweens.add({
                 targets: scene.cameras.main,
