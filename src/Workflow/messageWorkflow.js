@@ -133,174 +133,339 @@ const messageWorkflow = {
       dependingOn: ["first_sleep"],
     },
     {
-      messages: [
-        "Hey Maï, tout roule pour toi ?",
-        "Comme tu peux le voir, mon potager a disparu.",
-        "À la place je désherbe le bord des routes.",
-        "Mais ne crois pas que je sois triste !",
-        "On peut accéder à tellement plus de denrées alimentaires",
-        "grâce à nos voitures et à ces nouvelles routes !",
-        "C’est un gros changement…",
-      ],
-      repeat: ["(Allez, ça ne va pas se désherber tout seul…)"],
+      messages: {
+        fr: [
+          "Hey Maï, tout roule pour toi ?",
+          "Comme tu peux le voir, mon potager a disparu.",
+          "À la place je désherbe le bord des routes.",
+          "Mais ne crois pas que je sois triste !",
+          "On peut accéder à tellement plus de denrées alimentaires",
+          "grâce à nos voitures et à ces nouvelles routes !",
+          "C’est un gros changement…",
+        ],
+        en: [
+          "Hey Maï, everything okay?",
+          "As you can see, my vegetable garden has disappeared.",
+          "Instead, I'm weeding the roadsides.",
+          "But don't think I'm sad!",
+          "We have access to so much more food",
+          "thanks to our cars and these new roads!",
+          "It's a big change...",
+        ],
+      },
+      repeat: {
+        fr: ["(Allez, ça ne va pas se désherber tout seul…)"],
+        en: ["(Come on, it's not going to weed itself...)"],
+      },
       dependingOn: ["second_act_begin"],
     },
     {
-      messages: [
-        "Hey Maï, ça roule ?",
-        "Moi, ras-le-bol de désherber le bord des routes !",
-        "J’ai vu sur FaceBouc que Django partait en voyage…",
-        "J’aimerais bien partir avec lui !",
-      ],
-      repeat: ["(Il faut que j’aille voir Django pour ce voyage…)"],
+      messages: {
+        fr: [
+          "Hey Maï, ça roule ?",
+          "Moi, ras-le-bol de désherber le bord des routes !",
+          "J’ai vu sur FaceBouc que Django partait en voyage…",
+          "J’aimerais bien partir avec lui !",
+        ],
+        en: [
+          "Hey Maï, how's it going?",
+          "I'm sick and tired of weeding the roadsides!",
+          "I saw on Fotobook that Django is going on a trip...",
+          "I'd love to go with him!",
+        ],
+      },
+      repeat: {
+        fr: ["(Il faut que j’aille voir Django pour ce voyage…)"],
+        en: ["(I need to see Django about this trip...)"],
+      },
       dependingOn: ["third_act_begin"],
     },
     {
-      messages: ["Je n’arrive plus à faire pousser de légumes…"],
+      messages: {
+        fr: ["Je n’arrive plus à faire pousser de légumes…"],
+        en: ["I can no longer grow vegetables..."],
+      },
       dependingOn: ["fourth_act_begin"],
     },
     {
-      messages: [
-        "J’ai répondu à l’appel de Koko et Django…",
-        "Mais peux pas m’empêcher de désherber partout…",
-      ],
-      repeat: ["(Allez, ça ne va pas se désherber tout seul…)"],
+      messages: {
+        fr: [
+          "J’ai répondu à l’appel de Koko et Django…",
+          "Mais peux pas m’empêcher de désherber partout…",
+        ],
+        en: [
+          "I responded to Koko and Django's proposal to protest...",
+          "But I can't help weeding everywhere...",
+        ],
+      },
       dependingOn: ["strike_begin"],
     },
     {
-      messages: ["Attendez… Je prends les tomates !"],
+      messages: {
+        fr: ["Attendez… Je prends les tomates !"],
+        en: ["Wait... I'll take the tomatoes!"],
+      },
       dependingOn: ["django_final_end"],
       unlockEvents: ["game_over"],
     },
   ],
   twoGuys: [
     {
-      messages: [
-        "- Il faudrait qu’on aide Bino au potager.",
-        "- Oui, oui, mais d’abord laisse-moi paresser un peu !",
-        "- Tu as raison, reposons-nous, le travail peut attendre.",
-      ],
+      messages: {
+        fr: [
+          "- Il faudrait qu’on aide Bino au potager.",
+          "- Oui, oui, mais d’abord laisse-moi paresser un peu !",
+          "- Tu as raison, reposons-nous, le travail peut attendre.",
+        ],
+        en: [
+          "- We should help Bino in the vegetable garden.",
+          "- Yes, yes, but first let me laze around a bit!",
+          "- You're right, let's rest, the work can wait.",
+        ],
+      },
+      repeat: {
+        fr: ["Il faudrait qu’on aide Bino au potager…"],
+        en: ["We should help Bino in the vegetable garden..."],
+      },
     },
     {
-      messages: [
-        "- Bino est dans tous ses états à cause de la rivière.",
-        "- Viens, on va le soutenir.",
-        "- Tranquille, faisons une pause avant d’aller le voir.",
-      ],
+      messages: {
+        fr: [
+          "- Bino est dans tous ses états à cause de la rivière.",
+          "- Viens, on va le soutenir.",
+          "- Tranquille, faisons une pause avant d’aller le voir.",
+        ],
+        en: [
+          "- Bino is really upset about the river.",
+          "- Come on, let's go support him.",
+          "- Relax, let's take a break before we go see him.",
+        ],
+      },
+      repeat: {
+        fr: ["Bino est dans tous ses états à cause de la rivière."],
+        en: ["Bino is really upset about the river."],
+      },
       dependingOn: ["first_sleep"],
     },
     {
-      messages: [
-        "- Que c’est pratique ces nouvelles routes !",
-        "- Tu l’as dit, j’ai rangé mon vieux vélo.",
-        "- Le hic, c’est l’éternité qu’il faut…",
-        "pour payer ma nouvelle automobile.",
-      ],
+      messages: {
+        fr: [
+          "- Que c’est pratique ces nouvelles routes !",
+          "- Tu l’as dit, j’ai rangé mon vieux vélo.",
+          "- Le hic, c’est l’éternité qu’il faut…",
+          "pour payer ma nouvelle automobile.",
+        ],
+        en: [
+          "These new roads are so convenient!",
+          "You said it. I've put my old bicycle away.",
+          "The only problem is that it'll take me forever...",
+          "...to pay off my new car.",
+        ],
+      },
+      repeat: {
+        fr: ["Que c’est pratique ces nouvelles routes !"],
+        en: ["These new roads are so convenient!"],
+      },
       dependingOn: ["second_act_begin"],
     },
     {
-      messages: [
-        "- J’ai écrit un poème, écoute :",
-        "Plus d’usines que de maisons",
-        "Plus de mines que de raison",
-        "- La nouvelle usine à l’ouest t’inspire ?",
-        "- Elle m’inspire ce poème oui, de la confiance non.",
-      ],
-      repeat: ["L’usine à l’ouest n’inspire pas confiance."],
+      messages: {
+        fr: [
+          "- J’ai écrit un poème, écoute :",
+          "Plus d’usines que de maisons",
+          "Plus de mines que de raison",
+          "- La nouvelle usine à l’ouest t’inspire ?",
+          "- Elle m’inspire ce poème oui, de la confiance non.",
+        ],
+        en: [
+          "- I wrote a poem, listen:",
+          "More factories than houses",
+          "More mines than sense",
+          "- Does the new factory in the west inspire you?",
+          "- It inspires this poem, yes, but not confidence.",
+        ],
+      },
+      repeat: {
+        fr: ["L’usine à l’ouest n’inspire pas confiance."],
+        en: ["The factory in the west does not inspire confidence."],
+      },
       dependingOn: ["third_act_begin"],
     },
     {
-      messages: [
-        "- (Il parait qu’on peut arrêter les publicités).",
-        "- (Les écrans de publicité ? Mais comment ?)",
-        "- (Moins fort ! Il faudrait demander à Koko)",
-      ],
-      repeat: ["- (Koko a un secret au sujet des écrans…)"],
+      messages: {
+        fr: [
+          "- (Il parait qu’on peut arrêter les publicités).",
+          "- (Les écrans de publicité ? Mais comment ?)",
+          "- (Moins fort ! Il faudrait demander à Koko)",
+        ],
+        en: [
+          "- (Apparently you can stop the adverts).",
+          "- (The advert screens? But how?)",
+          "- (Quiet! We should ask Koko)",
+        ],
+      },
+      repeat: {
+        fr: ["(Koko a un secret au sujet des écrans…)"],
+        en: ["(Koko has a secret about these screens...)"],
+      },
       dependingOn: ["fourth_act_begin"],
     },
     {
-      messages: [
-        "- Avoue, c’est ta première manif’ ?",
-        "- Mais pas du tout… j’ai fait les marches pour le climat !",
-      ],
+      messages: {
+        fr: [
+          "- Avoue, c’est ta première manif’ ?",
+          "- Mais pas du tout… j’ai fait les marches pour le climat !",
+        ],
+        en: [
+          "- Admit it, this is your first protest, isn't it?",
+          "- Not at all... I protested for the climate!",
+        ],
+      },
       dependingOn: ["strike_begin"],
     },
     {
-      messages: [
-        "- Salut Maï, tu es attendue près de chez Bino.",
-        "- Si tu as oublié où il habite, c’est à l’est.",
-      ],
+      messages: {
+        fr: [
+          "- Salut Maï, tu es attendue près de chez Bino.",
+          "- Si tu as oublié où il habite, c’est à l’est.",
+        ],
+        en: [
+          "- Hi Maï, they're waiting for you near Bino's house.",
+          "- If you've forgotten where he lives, it's to the east.",
+        ],
+      },
+      repeat: {
+        fr: ["Tu es attendue près de chez Bino, à l'est."],
+        en: ["You are expected near Bino's place, to the east."],
+      },
       dependingOn: ["strike_end"],
     },
   ],
   twoWomen: [
     {
-      messages: [
-        "- Notre amie Koko sait vraiment tout sur tout.",
-        "- C’est vrai, on peut compter sur elle.",
-        "- Et que dire de Django…",
-        "- Tu as raison, pas le dernier à rendre service !",
-      ],
+      messages: {
+        fr: [
+          "- Notre amie Koko sait vraiment tout sur tout.",
+          "- C’est vrai, on peut compter sur elle.",
+          "- Et que dire de Django…",
+          "- Tu as raison, pas le dernier à rendre service !",
+        ],
+        en: [
+          "- Our friend Koko really knows everything about everything.",
+          "- That's true, we can count on her.",
+          "- And what about Django...",
+          "- You're right, he's always ready to help!",
+        ],
+      },
+      repeat: {
+        fr: ["Django est toujours prêt à aider !"],
+        en: ["Django is always ready to help!"],
+      },
     },
     {
-      messages: [
-        "- Koko m’a dit que Nono est revenu du travail…",
-        "- Oui mais pas en entier, le pauvre !",
-        "- Il faudrait qu’on aille le voir.",
-      ],
+      messages: {
+        fr: [
+          "- Koko m’a dit que Nono est revenu du travail…",
+          "- Oui mais pas en entier, le pauvre !",
+          "- Il faudrait qu’on aille le voir.",
+        ],
+        en: [
+          "- Koko told me that Nono came back from work...",
+          "- Yes, but not entirely, poor thing!",
+          "- We should go see him.",
+        ],
+      },
+      repeat: {
+        fr: ["Il faudrait qu’on aille voir Nono."],
+        en: ["We should go see Nono."],
+      },
       dependingOn: ["first_sleep"],
     },
     {
-      messages: [
-        "- Tu as vu le nouveau smartphone ?",
-        "- Il a quoi de nouveau ?",
-        "- Il se transforme en drone",
-        "pour nous filmer ou nous photographier…",
-        "sous tous les angles !",
-        "Plus besoin de perche à selfie !",
-      ],
+      messages: {
+        fr: [
+          "- Tu as vu le nouveau smartphone ?",
+          "- Il a quoi de nouveau ?",
+          "- Il se transforme en drone",
+          "pour nous filmer ou nous photographier…",
+          "sous tous les angles !",
+          "Plus besoin de perche à selfie !",
+        ],
+        en: [
+          "- Have you seen the new smartphone?",
+          "- What's new about it?",
+          "- It turns into a drone,",
+          "to film or photograph us...",
+          "from every angle!",
+          "No more need for a selfie stick!",
+        ],
+      },
+      repeat: {
+        fr: ["Le dernier smartphone donne envie !"],
+        en: ["The latest smartphone is tempting!"],
+      },
       dependingOn: ["third_act_begin"],
-      repeat: ["- Le dernier smartphone donne envie !"],
     },
     {
-      messages: [
-        "- Il faut désarmer ces industries polluantes…",
-        "- Je te sens rebelle, c’est Maï qui t’inspire ?",
-      ],
+      messages: {
+        fr: [
+          "- Il faut désarmer ces industries polluantes…",
+          "- Je te sens rebelle, c’est Maï qui t’inspire ?",
+        ],
+        en: [
+          "- We must disarm these polluting industries...",
+          "- I sense you're feeling rebellious.",
+          "Is it Maï who's inspiring you?",
+        ],
+      },
       dependingOn: ["strike_begin"],
     },
     {
-      messages: [
-        "- Salut Maï, ça fait un bail !",
-        "- Tu es attendue près du potager de chez Bino.",
-      ],
+      messages: {
+        fr: [
+          "- Salut Maï, ça fait un bail !",
+          "- Tu es attendue près du potager de chez Bino.",
+        ],
+        en: [
+          "- Hi Maï, it's been a while!",
+          "- They're waiting for you near Bino's vegetable garden.",
+        ],
+      },
+      repeat: {
+        fr: ["Tu es attendue près du potager de chez Bino."],
+        en: ["They're waiting for you near Bino's vegetable garden."],
+      },
       dependingOn: ["strike_end"],
     },
   ],
   baby: [
     {
-      messages: ["Pa-pi-lion, pa-pi-lion"],
+      messages: {
+        fr: ["Pa-pi-lion, pa-pi-lion…"],
+        en: ["But-ter-fly, but-ter-fly…"],
+      },
     },
     {
-      messages: ["téyé-phone, téyé-phone…"],
+      messages: {
+        fr: ["téyé-phone, téyé-phone…"],
+        en: ["smart-phone, smart-phone…"],
+      },
       dependingOn: ["third_act_begin"],
     },
     {
-      messages: ["Ca-mion…"],
+      messages: {
+        fr: ["Ca-mion…"],
+        en: ["A lor-ry…"],
+      },
       dependingOn: ["fourth_act_begin"],
     },
   ],
   sleepingGuy: [
     {
-      messages: ["ZZZzzz, mmmh ?"],
-    },
-    {
-      messages: [
-        "Je… suis venu… depuis longtemps…",
-        "Il… est temps de faire une…",
-        "…petite sieste… ZZZzzz…",
-      ],
-      dependingOn: ["strike_begin"],
+      messages: {
+        fr: ["ZZZzzz, mmmh ?"],
+        en: ["ZZZzzz, mmmh ?"],
+      },
     },
   ],
   koko: [
@@ -395,39 +560,73 @@ const messageWorkflow = {
       dependingOn: ["first_sleep"],
     },
     {
-      messages: [
-        "Je vois que tu as le badge de Nono…",
-        "Fais attention à toi, Maï !",
-      ],
+      messages: {
+        fr: [
+          "Je vois que tu as le badge de Nono…",
+          "Fais attention à toi, Maï !",
+        ],
+        en: ["I see you've got Nono's badge...", "Take care, Maï!"],
+      },
       dependingOn: ["card_for_mine"],
     },
     {
-      messages: [
-        "Maï, c’est incroyable tu trouves pas ?",
-        "Le génie humain j’veux dire.",
-        "Pour trois fois moins de temps,",
-        "j’peux aller voir ma famille, mes amies !",
-        "Moi qui ADORE être au courant de tout,",
-        "ça va grandement faciliter les potins héhé.",
-        "D’ailleurs t’sais pas la dernière ?",
-        "Une autre usine s’est installée au nord.",
-        "Ça pousse comme des champignons ces choses là !",
-      ],
-      repeat: [
-        "Tu d’vrais aller voir cette usine au nord",
-        "p’têtre que t’y trouveras encore du travail !",
-      ],
+      messages: {
+        fr: [
+          "Maï, c’est incroyable tu trouves pas ?",
+          "Le génie humain j’veux dire.",
+          "Pour trois fois moins de temps,",
+          "j’peux aller voir ma famille, mes amies !",
+          "Moi qui ADORE être au courant de tout,",
+          "ça va grandement faciliter les potins héhé.",
+          "D’ailleurs t’sais pas la dernière ?",
+          "Une autre usine s’est installée au nord.",
+          "Ça pousse comme des champignons ces choses là !",
+        ],
+        en: [
+          "Mai, it’s incredible, don’t ya think?",
+          "Human genius, I mean.",
+          "In three times less time,",
+          "I can go see my family, my friends!",
+          "And me, who LOVES knowin’ everything,",
+          "this is gonna make gossipin’ soooo much easier, hehe.",
+          "Oh! And ya haven’t heard the latest, have ya?",
+          "Another factory set up north.",
+          "These things pop up like mushrooms!",
+        ],
+      },
+      repeat: {
+        fr: [
+          "Tu d’vrais aller voir cette usine au nord",
+          "p’têtre que t’y trouveras encore du travail !",
+        ],
+        en: [
+          "Ya should go check out that factory up north",
+          "maybe you’ll find some work there!",
+        ],
+      },
       dependingOn: ["second_act_begin"],
     },
     {
-      messages: [
-        "B’jour Maï ! Dis-moi…",
-        "Tu peux m’aider à choisir un nouveau smartphone ?",
-        "Le mien est déjà trop lent…",
-        "C’est vraiment pratique pour être au courant de tout !",
-        "D’ailleurs une nouvelle usine a ouvert à l’ouest.",
-      ],
-      repeat: ["Tu vas aller voir cette nouvelle usine à l’ouest ?"],
+      messages: {
+        fr: [
+          "B’jour Maï ! Dis-moi…",
+          "Tu peux m’aider à choisir un nouveau smartphone ?",
+          "Le mien est déjà trop lent…",
+          "C’est vraiment pratique pour être au courant de tout !",
+          "D’ailleurs une nouvelle usine a ouvert à l’ouest.",
+        ],
+        en: [
+          "Mornin’, Mai! Tell me…",
+          "Think ya could help me pick a new smartphone?",
+          "Mine’s already way too slow…",
+          "It’s real handy for stayin’ up-to-date on everything!",
+          "Oh, and a new factory opened out west.",
+        ],
+      },
+      repeat: {
+        fr: ["Tu vas aller voir cette nouvelle usine à l’ouest ?"],
+        en: ["Ya gonna go check out that new factory out west?"],
+      },
       dependingOn: ["third_act_begin"],
     },
     {
