@@ -630,104 +630,205 @@ const messageWorkflow = {
       dependingOn: ["third_act_begin"],
     },
     {
-      messages: [
-        "Maï…",
-        "J’avais tellement la tête plongée dans les écrans…",
-        "Que j’n’ai pas remarqué l’état de nos rivières !",
-        "Qu’les oiseaux et les papillons ont disparu !",
-        "QUOI ? Tu dis qu’il faut se mobiliser ?",
-        "C’est une bonne idée !",
-        "J’vais réunir les troupes.",
-        "En attendant, t’pourrais faire une action d’éclat.",
-        "Oh, je sais : éteindre les panneaux de pub !",
-        "Les enfants m’ont dit qu’on pouvait les éteindre…",
-        "en passant par derrière !",
-      ],
-      repeat: [
-        "(il parait que…)",
-        "(on peut éteindre les écrans pub par derrière…)",
-        "(mais chut !)",
-      ],
+      messages: {
+        fr: [
+          "Maï…",
+          "J’avais tellement la tête plongée dans les écrans…",
+          "Que j’n’ai pas remarqué l’état de nos rivières !",
+          "Qu’les oiseaux et les papillons ont disparu !",
+          "QUOI ? Tu dis qu’il faut se mobiliser ?",
+          "C’est une bonne idée !",
+          "J’vais réunir les troupes.",
+          "En attendant, t’pourrais faire une action d’éclat.",
+          "Oh, je sais : éteindre les panneaux de pub !",
+          "Les enfants m’ont dit qu’on pouvait les éteindre…",
+          "en passant par derrière !",
+        ],
+        en: [
+          "Maï…",
+          "I was so buried in my screens…",
+          "I didn’t even notice the state of our rivers!",
+          "Didn’t see the birds and butterflies disappearin’!",
+          "WHAT? You’re sayin’ we need to take action?",
+          "That’s a great idea!",
+          "I’ll gather the folks.",
+          "In the meantime, you could make a bold move.",
+          "Oh, I know: turn off those ad screens!",
+          "The kids told me you can switch ’em off…",
+          "…by goin’ around the back!",
+        ],
+      },
+      repeat: {
+        fr: [
+          "(il parait que…)",
+          "(on peut éteindre les écrans pub par derrière…)",
+          "(mais chut !)",
+        ],
+        en: [
+          "(they say that…)",
+          "(you can turn off the ad screens from the back…)",
+          "(but shhh!)",
+        ],
+      },
       dependingOn: ["fourth_act_begin"],
     },
     {
-      messages: [
-        "T’as réussi à éteindre un écran pub ?",
-        "C’pas bien… et… c’est bien, à la fois !",
-        "Si j’étais toi… J’en éteindrais d’autres !",
-      ],
-      repeat: ["Pourquoi ne pas éteindre d’autres écrans ?"],
+      messages: {
+        fr: [
+          "T’as réussi à éteindre un écran pub ?",
+          "C’pas bien… et… c’est bien, à la fois !",
+          "Si j’étais toi… J’en éteindrais d’autres !",
+        ],
+        en: [
+          "Ya managed to turn off one of those ad screens?",
+          "That ain’t right… and yet… it kinda is!",
+          "If I were you… I’d go switch off a few more!",
+        ],
+      },
+      repeat: {
+        fr: ["Pourquoi ne pas éteindre d’autres écrans ?"],
+        en: ["Why don’t ya go switch off some more screens?"],
+      },
       dependingOn: ["screens_shutdown_first"],
     },
     {
-      messages: [
-        "Merci Maï pour tout c’que t’as fait.",
-        "Grâce à toi, tous les villageois…",
-        "S’retrouvent pour une cause commune…",
-        "L’avenir de notre village !",
-      ],
-      repeat: ["Merci encore, Maï."],
+      messages: {
+        fr: [
+          "Merci Maï pour tout c’que t’as fait.",
+          "Grâce à toi, tous les villageois…",
+          "S’retrouvent pour une cause commune…",
+          "L’avenir de notre village !",
+        ],
+        en: [
+          "Thanks, Mai, for everything you’ve done.",
+          "Thanks to you, all the villagers…",
+          "…are comin’ together for a common cause…",
+          "The future of our village!",
+        ],
+      },
+      repeat: {
+        fr: ["Merci encore, Maï."],
+        en: ["Thanks again, Maï."],
+      },
       dependingOn: ["strike_begin"],
     },
   ],
   nono: [
     {
-      messages: [
-        "C’est donc toi Maï ?",
-        "Ton arrivée dans le village ne passe pas inaperçue.",
-        "Comme tu peux le constater dans mon fauteuil roulant…",
-        "tu ne me vois pas au meilleur de ma forme !",
-        "À l’est, une mine vient de s’installer.",
-        "J’ai tenté d’y travailler mais…",
-        "il m’est arrivé un accident malencontreux.",
-        "Il faut dire qu’on n’est pas très bien protégé.",
-        "Et le rythme de travail y est extrêmement soutenu !",
-        "Bref. Je te dirais bien d’en prendre garde mais…",
-        "Je vois dans ton regard que tu es déterminée à y aller.",
-      ],
+      messages: {
+        fr: [
+          "C’est donc toi Maï ?",
+          "Ton arrivée dans le village ne passe pas inaperçue.",
+          "Comme tu peux le constater dans mon fauteuil roulant…",
+          "tu ne me vois pas au meilleur de ma forme !",
+          "À l’est, une mine vient de s’installer.",
+          "J’ai tenté d’y travailler mais…",
+          "il m’est arrivé un accident malencontreux.",
+          "Il faut dire qu’on n’est pas très bien protégé.",
+          "Et le rythme de travail y est extrêmement soutenu !",
+          "Bref. Je te dirais bien d’en prendre garde mais…",
+          "Je vois dans ton regard que tu es déterminée à y aller.",
+        ],
+        en: [
+          "So it's you, Maï?",
+          "Your arrival in the village hasn't gone unnoticed.",
+          "As you can see from my wheelchair...",
+          "I'm not in the best of shape!",
+          "A mine has just been set up in the east.",
+          "I tried to work there, but...",
+          "I had an unfortunate accident.",
+          "It must be said that we're not very well protected.",
+          "And the pace of work there is extremely fast!",
+          "Anyway. I'd tell you to be careful, but...",
+          "I can see in your eyes that you're determined to go.",
+        ],
+      },
       unlockEvents: ["pre_card_for_mine"],
     },
     {
-      messages: [
-        "Prends mon laissez-passer, je n’en ai plus besoin.",
-        "Mais promets moi de faire bien attention à toi !",
-      ],
-      repeat: ["Fais bon usage de mon badge… et sois prudente."],
+      messages: {
+        fr: [
+          "Prends mon laissez-passer, je n’en ai plus besoin.",
+          "Mais promets moi de faire bien attention à toi !",
+        ],
+        en: [
+          "Take my pass, I don't need it anymore.",
+          "But promise me you'll take good care of yourself!",
+        ],
+      },
+      repeat: {
+        fr: ["Fais bon usage de mon badge… et sois prudente."],
+        en: ["Make good use of my badge... and be careful."],
+      },
       dependingOn: ["pre_card_for_mine"],
       unlockEvents: ["card_for_mine"],
     },
     {
-      messages: [
-        "La situation de nos rivières est perturbante,",
-        "mais je dois bien avouer que ces nouvelles routes…",
-        "facilitent énormément mes déplacements !",
-        "Et quand j’irai mieux…",
-        "… je postulerai à la nouvelle usine au nord d’ici.",
-      ],
-      repeat: ["Je pense postuler à l’usine au nord d’ici…"],
+      messages: {
+        fr: [
+          "La situation de nos rivières est perturbante,",
+          "mais je dois bien avouer que ces nouvelles routes…",
+          "facilitent énormément mes déplacements !",
+          "Et quand j’irai mieux…",
+          "… je postulerai à la nouvelle usine au nord d’ici.",
+        ],
+        en: [
+          "The state of our rivers is disturbing",
+          "but I must admit that these new roads...",
+          "make it much easier for me to get around!",
+          "And when I'm better...",
+          "I'll apply for a job at the new factory north of here.",
+        ],
+      },
+      repeat: {
+        fr: ["Je pense postuler à l’usine au nord d’ici…"],
+        en: [
+          "I'm thinking of applying for a job at the factory north of here...",
+        ],
+      },
       dependingOn: ["second_act_begin"],
     },
     {
-      messages: [
-        "C’est assez formidable n’est-ce pas ?",
-        "Ce confort, et l’accès à tout le savoir je veux dire.",
-        "Il faut bien sûr réussir à bien s’informer…",
-        "Heureusement, je sais démêler le vrai du faux !",
-        "(Alors comme ça, la Terre serait plate !?)",
-      ],
-      repeat: ["J’apprends tellement grâce à l’internet !"],
+      messages: {
+        fr: [
+          "C’est assez formidable n’est-ce pas ?",
+          "Ce confort, et l’accès à tout le savoir je veux dire.",
+          "Il faut bien sûr réussir à bien s’informer…",
+          "Heureusement, je sais démêler le vrai du faux !",
+          "(Alors comme ça, la Terre serait plate !?)",
+        ],
+        en: [
+          "It's pretty amazing, isn't it?",
+          "All this convenience and access to knowledge, I mean.",
+          "Of course, you have to be able to find the right information...",
+          "Luckily, I know how to separate fact from fiction!",
+          "(So, the Earth is flat!?)",
+        ],
+      },
+      repeat: {
+        fr: ["J’apprends tellement grâce à l’internet !"],
+        en: ["I learn so much thanks to the internet!"],
+      },
       dependingOn: ["third_act_begin"],
     },
     {
-      messages: ["C’est terrible, le village est méconnaissable…"],
+      messages: {
+        fr: ["C’est terrible, le village est méconnaissable…"],
+        en: ["It's terrible, the village is unrecognisable..."],
+      },
       dependingOn: ["fourth_act_begin"],
     },
     {
-      messages: [
-        "Maï, je trouve que toutes ces expériences…",
-        "t’ont fait grandir ! Je le vois dans tes yeux.",
-      ],
-      repeat: ["Tu as gagné en assurance, Maï."],
+      messages: {
+        fr: [
+          "Maï, je trouve que toutes ces expériences…",
+          "t’ont fait grandir ! Je le vois dans tes yeux.",
+        ],
+        en: [
+          "Maï, I think all these experiences...",
+          "have made you grow up! I can see it in your eyes.",
+        ],
+      },
       dependingOn: ["strike_begin"],
     },
   ],
@@ -762,116 +863,222 @@ const messageWorkflow = {
       unlockEvents: ["django_met"],
     },
     {
-      messages: [
-        "Aah, tu es revenue ! Comme disait ma grand-mère…",
-        "un bon arbre peut loger dix mille oiseaux.",
-        "Allez, entre !",
-      ],
+      messages: {
+        fr: [
+          "Aah, tu es revenue ! Comme disait ma grand-mère…",
+          "un bon arbre peut loger dix mille oiseaux.",
+          "Allez, entre !",
+        ],
+        en: [
+          "Ah, you're back! As my grandmother used to say...",
+          "a good tree can shelter ten thousand birds.",
+          "Come on in!",
+        ],
+      },
       dependingOn: ["miner_first_met"],
       unlockEvents: ["pre_first_sleep"],
     },
     {
-      messages: [
-        "Bien dormi, Maï ?",
-        "Je suis désolé de te l’apprendre au réveil mais…",
-        "quelque chose de terrible est arrivé au village !",
-        "Vois par toi-même, je reste ici me calmer l’esprit.",
-      ],
-      repeat: ["Ooh pauvre rivière, laisse moi te jouer une prière."],
+      messages: {
+        fr: [
+          "Bien dormi, Maï ?",
+          "Je suis désolé de te l’apprendre au réveil mais…",
+          "quelque chose de terrible est arrivé au village !",
+          "Vois par toi-même, je reste ici me calmer l’esprit.",
+        ],
+        en: [
+          "Did you sleep well, Maï?",
+          "I'm sorry to tell you this when you've just woken up, but...",
+          "Something terrible has happened in the village!",
+          "See for yourself. I'll stay here and calm my nerves.",
+        ],
+      },
+      repeat: {
+        fr: ["Ooh pauvre rivière, laisse moi te jouer une prière."],
+        en: ["oh poor river, let me play you a prayer."],
+      },
       dependingOn: ["first_sleep"],
       unlockEvents: ["first_sleep_save"],
     },
     {
-      messages: [
-        "Bien dormi Maï ?",
-        "Après toutes ces semaines d’efforts à la mine,",
-        "je tenais à te remercier.",
-        "Grâce à toi, on a la confirmation",
-        "que les eaux usées de la mine sont bien responsables",
-        "de la pollution de la rivière.",
-        "Mais dans le même temps, le village a pu se moderniser.",
-        "Je dois avouer être un peu partagé.",
-        "Est-ce un mal pour un bien ?",
-        "Je n’ai pas la réponse",
-        "et je ne voudrais pas t’influencer.",
-        "Maintenant que tu as fini ton travail à la mine,",
-        "tu as tout le temps de te balader dans le village.",
-        "Si tu croises Koko, tu la salueras pour moi.",
-      ],
-      repeat: [
-        "Une chose reste immuable dans tout ce bouleversement",
-        "ce sont les 6 cordes de ma guitare.",
-      ],
+      messages: {
+        fr: [
+          "Bien dormi Maï ?",
+          "Après toutes ces semaines d’efforts à la mine,",
+          "je tenais à te remercier.",
+          "Grâce à toi, on a la confirmation",
+          "que les eaux usées de la mine sont bien responsables",
+          "de la pollution de la rivière.",
+          "Mais dans le même temps, le village a pu se moderniser.",
+          "Je dois avouer être un peu partagé.",
+          "Est-ce un mal pour un bien ?",
+          "Je n’ai pas la réponse",
+          "et je ne voudrais pas t’influencer.",
+          "Maintenant que tu as fini ton travail à la mine,",
+          "tu as tout le temps de te balader dans le village.",
+          "Si tu croises Koko, tu la salueras pour moi.",
+        ],
+        en: [
+          "Did you sleep well, Maï?",
+          "After all these weeks of hard work at the mine,",
+          "I wanted to thank you.",
+          "Thanks to you, we now have confirmation",
+          "that the mine is indeed responsible",
+          "for the pollution of the river.",
+          "But at the same time, the village has been able to modernise.",
+          "I must admit I'm a little torn.",
+          "Is it a good thing or a bad thing?",
+          "I don't have the answer,",
+          "and I don't want to influence you.",
+          "Now that you've finished your work at the mine,",
+          "you have plenty of time to walk around the village.",
+          "If you see Koko, say hello to her for me.",
+        ],
+      },
+      repeat: {
+        fr: [
+          "Une chose reste immuable dans tout ce bouleversement",
+          "ce sont les 6 cordes de ma guitare.",
+        ],
+        en: [
+          "One thing remains unchanged amid all this turmoil",
+          "the six strings of my guitar.",
+        ],
+      },
       dependingOn: ["second_act_begin"],
       unlockEvents: ["second_act_save"],
     },
     {
-      messages: [
-        "Bonjour Maï, le sommeil a été un peu agité ?",
-        "Ah ! Tu arrêtes de travailler à l’usine ?",
-        "C’est bien de savoir que l’usine est responsable…",
-        "de la baisse du niveau d’eau dans nos rivières.",
-        "Le mal est fait, on n’arrête pas le progrès…",
-        "On a besoin de produire des équipements numériques",
-        "même si cela consomme beaucoup d’eau.",
-        "Je partirais bien loin de ces problèmes…",
-        "Un voyage, c’est ça qu’il me faut !",
-      ],
-      repeat: ["J’ai envie de voyager, partir loin…"],
+      messages: {
+        fr: [
+          "Bonjour Maï, le sommeil a été un peu agité ?",
+          "Ah ! Tu arrêtes de travailler à l’usine ?",
+          "C’est bien de savoir que l’usine est responsable…",
+          "de la baisse du niveau d’eau dans nos rivières.",
+          "Le mal est fait, on n’arrête pas le progrès…",
+          "On a besoin de produire des équipements numériques",
+          "même si cela consomme beaucoup d’eau.",
+          "Je partirais bien loin de ces problèmes…",
+          "Un voyage, c’est ça qu’il me faut !",
+        ],
+        en: [
+          "Good morning, Maï. Did you sleep well?",
+          "Ah! Are you quitting your job at the factory?",
+          "It's good to know that the factory is responsible...’",
+          "for the drop in water levels in our rivers.",
+          "The damage is done, we can't stop progress...’",
+          "We need to produce digital equipment’",
+          "even if it consumes a lot of water.’",
+          "I'd like to get far away from these problems...’",
+          "A trip is just what I need!’",
+        ],
+      },
+      repeat: {
+        fr: ["J’ai envie de voyager, partir loin…"],
+        en: ["I want to travel, go far away..."],
+      },
       dependingOn: ["third_act_begin"],
       unlockEvents: ["third_act_save"],
     },
     {
-      messages: [
-        "Salut Maï !",
-        "L’usine de recyclage pompe l’eau de la rivière ?",
-        "Grâce à l’eau, les matières recyclées sont séparées ?",
-        "La conséquence sur nos rivières reste préoccupante.",
-        "Et ça continue, vois le chantier près de chez moi.",
-        "Je ne sais pas ce qui se passe encore…",
-      ],
-      repeat: ["Un chantier au milieu de notre village…"],
+      messages: {
+        fr: [
+          "Salut Maï !",
+          "L’usine de recyclage pompe l’eau de la rivière ?",
+          "Grâce à l’eau, les matières recyclées sont séparées ?",
+          "La conséquence sur nos rivières reste préoccupante.",
+          "Et ça continue, vois le chantier près de chez moi.",
+          "Je ne sais pas ce qui se passe encore…",
+        ],
+        en: [
+          "Hi Maï!",
+          "Does the recycling plant pump water from the river?",
+          "Thanks to water, recycled materials are separated?",
+          "The impact on our rivers remains a concern.",
+          "And it continues, look at the construction site near my house.",
+          "I don't know what else is going on...",
+        ],
+      },
+      repeat: {
+        fr: ["Un chantier au milieu de notre village…"],
+        en: ["A building site in the middle of our village..."],
+      },
       dependingOn: ["fourth_act_begin"],
       unlockEvents: ["fourth_act_save"],
     },
     {
-      messages: [
-        "Tu as raison, Maï…",
-        "On ne peut plus laisser toutes ces industries…",
-        "détruire notre village…",
-        "pomper et polluer nos rivières…",
-        "Quand on l’attaque, le village contre-attaque.",
-        "Je suis partant pour une mobilisation générale !",
-        "J’amène ma guitare et j’arrive.",
-      ],
+      messages: {
+        fr: [
+          "Tu as raison, Maï…",
+          "On ne peut plus laisser toutes ces industries…",
+          "détruire notre village…",
+          "pomper et polluer nos rivières…",
+          "Quand on l’attaque, le village contre-attaque.",
+          "Je suis partant pour une mobilisation générale !",
+          "J’amène ma guitare et j’arrive.",
+        ],
+        en: [
+          "You're right, Maï...",
+          "We can't let all these industries...",
+          "destroy our village...",
+          "pump and pollute our rivers...",
+          "When they attack us, the village fights back.",
+          "I'm up for a general mobilisation",
+          "I'll bring my guitar and be right there",
+        ],
+      },
       dependingOn: ["screens_shutdown_end"],
       unlockEvents: ["django_ready_for_strike"],
     },
     {
-      messages: [
-        "Habitants et habitantes de Trois-Rivières !",
-        "Vous savez ce qui se passe dans notre village.",
-        "Nos ressources et nos rivières ont été accaparées…",
-        "Par des industries destructrices et polluantes.",
-        "Aujourd’hui nous leur disons stop !",
-        "Comme le disait ma grand-mère…",
-        "On peut couper nos branches mais pas nos racines.",
-        "La défense de notre village ne fait que commencer !",
-      ],
+      messages: {
+        fr: [
+          "Habitants et habitantes de Trois-Rivières !",
+          "Vous savez ce qui se passe dans notre village.",
+          "Nos ressources et nos rivières ont été accaparées…",
+          "Par des industries destructrices et polluantes.",
+          "Aujourd’hui nous leur disons stop !",
+          "Comme le disait ma grand-mère…",
+          "On peut couper nos branches mais pas nos racines.",
+          "La défense de notre village ne fait que commencer !",
+        ],
+        en: [
+          "People of Trois-Rivières!",
+          "You know what is happening in our village.",
+          "Our resources and our rivers have been taken over...",
+          "By destructive and polluting industries.",
+          "Today, we say stop!",
+          "As my grandmother used to say...",
+          "They can cut our branches, but not our roots.",
+          "The defence of our village has only just begun!",
+        ],
+      },
       dependingOn: ["strike_begin"],
       unlockEvents: ["strike_end"],
     },
     {
-      messages: [
-        "Salut Maï ! Ça fait plaisir de te revoir !",
-        "T’as vu le village ?",
-        "La nature a repris ses droits, et nous nos esprits.",
-        "Il faut dire qu’il n’y avait plus rien à exploiter ici.",
-        "Les industriels sont ainsi partis voir ailleurs…",
-        "Et les oiseaux sont revenus.",
-        "Presque tous… c’est toujours mieux qu’aucun.",
-        "Allez, viens. On t’attendait pour pique-niquer !",
-      ],
+      messages: {
+        fr: [
+          "Salut Maï ! Ça fait plaisir de te revoir !",
+          "T’as vu le village ?",
+          "La nature a repris ses droits, et nous nos esprits.",
+          "Il faut dire qu’il n’y avait plus rien à exploiter ici.",
+          "Les industriels sont ainsi partis voir ailleurs…",
+          "Et les oiseaux sont revenus.",
+          "Presque tous… c’est toujours mieux qu’aucun.",
+          "Allez, viens. On t’attendait pour pique-niquer !",
+        ],
+        en: [
+          "Hi Maï! It's good to see you again!",
+          "Have you seen the village?",
+          "Nature has reclaimed its rights, and we have reclaimed our minds.",
+          "It must be said that there was nothing left to exploit here.",
+          "So the industrialists left to look elsewhere...",
+          "And the birds came back.",
+          "Almost all of them... it's better than none.",
+          "Come on, come with us. We were waiting for you to have a picnic!",
+        ],
+      },
       dependingOn: ["django_final"],
       unlockEvents: ["django_final_end"],
     },
@@ -883,9 +1090,13 @@ const messageWorkflow = {
           "…chut, tu vas faire fuir les poissons…",
           "Et voilà, raté… Va parler aux autres, je suis concentré là.",
         ],
-        en: ["…"],
+        en: [
+          "…shhh, you'll scare the fish away…",
+          "There you go, you've ruined it…",
+          "Go and talk to the others, I'm concentrating here.",
+        ],
       },
-      repeat: { fr: ["…"], en: ["…"] },
+      repeat: { fr: ["…chut"], en: ["…shhh"] },
     },
     {
       messages: {
@@ -1048,23 +1259,39 @@ const messageWorkflow = {
       },
     },
     {
-      messages: ["Y’a moins d’eau dans la rivière maintenant…"],
+      messages: {
+        fr: ["Y’a moins d’eau dans la rivière maintenant…"],
+        en: ["There's less water in the river now..."],
+      },
       dependingOn: ["second_act_begin"],
     },
     {
-      messages: [
-        "Ça serait tellement bien si j’avais…",
-        "un smartphone pour jouer aux jeux vidéos…",
-        "comme FortNight ou BroStar…",
-      ],
+      messages: {
+        fr: [
+          "Ça serait tellement bien si j’avais…",
+          "un smartphone pour jouer aux jeux vidéos…",
+          "comme Brolox, FortNight ou BroStar…",
+        ],
+        en: [
+          "It would be so great if I had...",
+          "a smartphone to play video games...",
+          "like Brolox, Fortnite or BroStar...",
+        ],
+      },
       dependingOn: ["third_act_begin"],
     },
     {
-      messages: ["On devrait pas rester ici…"],
+      messages: {
+        fr: ["On devrait pas rester ici…"],
+        en: ["We shouldn't stay here..."],
+      },
       dependingOn: ["fourth_act_begin"],
     },
     {
-      messages: ["Tante Koko et oncle Django sont trop forts !"],
+      messages: {
+        fr: ["Tante Koko et oncle Django sont trop forts !"],
+        en: ["Aunt Koko and Uncle Django are so cool!"],
+      },
       dependingOn: ["strike_begin"],
     },
   ],
@@ -1288,338 +1515,627 @@ const messageWorkflow = {
   ],
   mine: [
     {
-      messages: [
-        isMobileOrTablet()
-          ? "Installe-toi…\n(touche pour continuer)"
-          : "Installe-toi…\n(espace pour continuer)",
-        "Comme tu es nouvelle, je te mets sur un poste simple…",
-        "…le nettoyage !",
-        "Les roches vont avancer sur le tapis roulant…",
-        "et tu devras les nettoyer pour éliminer les impuretés !",
-        "Pourquoi faire ça tu vas me dire ? Pour le PROGRÈS.",
-        "Les métaux et minerais extraits servent pour tout.",
-        "Smartphones, consoles, plomberie, bijoux…",
-        "Nous sommes la première étape d’un grand tout.",
-        "Et là dedans, tu n’es qu’un maillon insignifiant…",
-        "Bref. Voici comment procéder.",
-        isMobileOrTablet()
-          ? "Bouge le tuyau avec le joystick."
-          : "Bouge le tuyau avec les flèches ← → ↑ ↓",
-        isMobileOrTablet()
-          ? "En bougeant le tuyau, l’eau est pulvérisée."
-          : "Et pulvérise l’eau avec la barre ESPACE.",
-        "J’espère que t’as bien tout compris !",
-        "J’peux pas me permettre que tu ralentisses le train…",
-        "de la mine !",
-      ],
+      messages: {
+        fr: [
+          isMobileOrTablet()
+            ? "Installe-toi…\n(touche pour continuer)"
+            : "Installe-toi…\n(espace pour continuer)",
+          "Comme tu es nouvelle, je te mets sur un poste simple…",
+          "…le nettoyage !",
+          "Les roches vont avancer sur le tapis roulant…",
+          "et tu devras les nettoyer pour éliminer les impuretés !",
+          "Pourquoi faire ça tu vas me dire ? Pour le PROGRÈS.",
+          "Les métaux et minerais extraits servent pour tout.",
+          "Smartphones, consoles, plomberie, bijoux…",
+          "Nous sommes la première étape d’un grand tout.",
+          "Et là dedans, tu n’es qu’un maillon insignifiant…",
+          "Bref. Voici comment procéder.",
+          isMobileOrTablet()
+            ? "Bouge le tuyau avec le joystick virtuel."
+            : "Bouge le tuyau avec les flèches ← → ↑ ↓",
+          isMobileOrTablet()
+            ? "En bougeant le tuyau, l’eau est pulvérisée."
+            : "Et pulvérise l’eau avec la barre ESPACE.",
+          "J’espère que t’as bien tout compris !",
+          "J’peux pas me permettre que tu ralentisses le train…",
+          "de la mine !",
+        ],
+        en: [
+          isMobileOrTablet()
+            ? "Settle in…\n(tap to continue)"
+            : "Settle in…\n(press space to continue)",
+          "Since you're new, I'll put you on a simple job…",
+          "…cleaning!",
+          "The rocks will move along the conveyor belt…",
+          "and you'll have to clean them to remove impurities!",
+          "Why do this, you ask? For PROGRESS.",
+          "The metals and minerals we extract are used for everything.",
+          "Smartphones, consoles, plumbing, jewelry…",
+          "We are the first step in a much bigger process.",
+          "And in that, you're just an insignificant link…",
+          "Anyway. Here's how to proceed.",
+          isMobileOrTablet()
+            ? "Move the pipe with the virtual joystick."
+            : "Move the pipe with the arrow keys ← → ↑ ↓",
+          isMobileOrTablet()
+            ? "Moving the pipe sprays the water."
+            : "And spray the water with the SPACE bar.",
+          "I hope you got it all!",
+          "I can't afford for you to slow down the train…",
+          "of the mine!",
+        ],
+      },
       unlockEvents: ["mine_tuto_begin"],
     },
     {
-      messages: [
-        "Tu n’as pas compris comment ça fonctionne ???",
-        "Tu dois nettoyer la roche à CENT POUR CENT !",
-        "On ne peut pas l’envoyer à moitié nettoyée.",
-        isMobileOrTablet()
-          ? "Bouge le tuyau avec le joystick."
-          : "Bouge le tuyau avec les flèches ← → ↑ ↓",
-        isMobileOrTablet()
-          ? "En bougeant le tuyau, l’eau est pulvérisée. Allez !"
-          : "Et pulvérise l’eau avec la barre ESPACE. Allez !",
-      ],
+      messages: {
+        fr: [
+          "Tu n’as pas compris comment ça fonctionne ???",
+          "Tu dois nettoyer la roche à CENT POUR CENT !",
+          "On ne peut pas l’envoyer à moitié nettoyée.",
+          isMobileOrTablet()
+            ? "Bouge le tuyau avec le joystick virtuel."
+            : "Bouge le tuyau avec les flèches ← → ↑ ↓",
+          isMobileOrTablet()
+            ? "En bougeant le tuyau, l’eau est pulvérisée. Allez !"
+            : "Et pulvérise l’eau avec la barre ESPACE. Allez !",
+        ],
+        en: [
+          "You don’t get how this works???",
+          "You have to clean the rock ONE HUNDRED PERCENT!",
+          "We can’t send it out half-cleaned.",
+          isMobileOrTablet()
+            ? "Move the pipe with the virtual joystick."
+            : "Move the pipe with the arrow keys ← → ↑ ↓",
+          isMobileOrTablet()
+            ? "Moving the pipe sprays the water. Come on!"
+            : "And spray the water with the SPACE bar. Come on!",
+        ],
+      },
       dependingOn: ["mine_tuto_missed"],
       unlockEvents: ["mine_tuto_begin"],
     },
     {
-      messages: [
-        "Tu as compris comment ça fonctionne…",
-        "Passons aux choses sérieuses !",
-      ],
+      messages: {
+        fr: [
+          "Tu as compris comment ça fonctionne…",
+          "Passons aux choses sérieuses !",
+        ],
+        en: ["You understand how it works...", "Let's get down to business!"],
+      },
       dependingOn: ["mine_tuto_end"],
       unlockEvents: ["mine_show_score_board"],
     },
     {
-      messages: [
-        "Ça, c’est ce qui va contrôler ton travail.",
-        "Si tu rates trop souvent, une croix s’allumera.",
-        "Au bout de trois croix…",
-        "je viendrai moi-même t’accompagner à la sortie !",
-        "…",
-        "Quoi ?? Qu’est-ce qui ne va pas ?",
-        "Oui… On extrait l’eau de la rivière !",
-        "Et on stocke les déchets dans des réservoirs.",
-        "Je te rappelle qu’on est une mine responsable.",
-        "C’est du sérieux. On ne fait pas n’importe quoi !",
-        "Bon, arrête de poser des questions, au boulot !",
-      ],
+      messages: {
+        fr: [
+          "Ça, c’est ce qui va contrôler ton travail.",
+          "Si tu rates trop souvent, une croix s’allumera.",
+          "Au bout de trois croix…",
+          "je viendrai moi-même t’accompagner à la sortie !",
+          "…",
+          "Quoi ?? Qu’est-ce qui ne va pas ?",
+          "Oui… On extrait l’eau de la rivière !",
+          "Et on stocke les déchets dans des réservoirs.",
+          "Je te rappelle qu’on est une mine responsable.",
+          "C’est du sérieux. On ne fait pas n’importe quoi !",
+          "Bon, arrête de poser des questions, au boulot !",
+        ],
+        en: [
+          "That's what will control your work.",
+          "If you miss too often, a cross will light up.",
+          "After three crosses...",
+          "I'll come and escort you out myself!",
+          "...’",
+          "What?? What's wrong?",
+          "Yes... We extract water from the river!",
+          "And we store waste in reservoirs.",
+          "I remind you that we are a responsible mine.",
+          "This is serious business. We don't do just anything!",
+          "Stop asking questions and get to work!",
+        ],
+      },
       dependingOn: ["mine_show_score_board"],
       unlockEvents: ["mine_after_tuto"],
     },
     {
-      messages: [
-        "C’est bien ce qu’il me semblait…",
-        "tu ne peux pas tenir un rythme aussi soutenu !",
-        "On arrête les frais pour aujourd’hui.",
-        "Allez… ne fais pas grise mine !",
-      ],
+      messages: {
+        fr: [
+          "C’est bien ce qu’il me semblait…",
+          "tu ne peux pas tenir un rythme aussi soutenu !",
+          "On arrête les frais pour aujourd’hui.",
+          "Allez… ne fais pas grise mine !",
+        ],
+        en: [
+          "That's what I thought...",
+          "You can't keep up such a fast pace!",
+          "Let's call it a day.",
+          "Come on... don't look so glum!",
+        ],
+      },
       dependingOn: ["mine_game_over"],
       unlockEvents: ["mine_end"],
     },
   ],
   whiteWorker1: [
     {
-      messages: [
-        "Il y a trop de monde à la mine…",
-        "alors j’ai tenté ma chance à l’usine.",
-      ],
-      repeat: ["Je tente ma chance à l’usine."],
+      messages: {
+        fr: [
+          "Il y a trop de monde à la mine…",
+          "alors j’ai tenté ma chance à l’usine.",
+        ],
+        en: [
+          "There are too many people at the mine...",
+          "so I tried my luck at the factory.",
+        ],
+      },
+      repeat: {
+        fr: ["Je tente ma chance à l’usine."],
+        en: ["I tried my luck at the factory."],
+      },
     },
     {
-      messages: [
-        "Vu la qualité de ton travail…",
-        "ou la non qualité de ton travail ?",
-        "Tu n’es plus la bienvenue à l’usine. Ordre du chef !",
-      ],
-      repeat: ["Tu n’es plus la bienvenue ici."],
+      messages: {
+        fr: [
+          "Vu la qualité de ton travail…",
+          "ou la non qualité de ton travail ?",
+          "Tu n’es plus la bienvenue à l’usine. Ordre du chef !",
+        ],
+        en: [
+          "Given the quality of your work...",
+          "or the lack of quality in your work?",
+          "You are no longer welcome at the factory.",
+          "That's an order from the boss!",
+        ],
+      },
+      repeat: {
+        fr: ["Tu n’es plus la bienvenue ici."],
+        en: ["You are no longer welcome here."],
+      },
       dependingOn: ["third_act_begin"],
     },
   ],
   whiteWorker2: [
     {
-      messages: [
-        "Je m’y connais pas trop en électronique…",
-        "mais il faut bien que je mange !",
-      ],
-      repeat: ["Je travaille ici car il faut que je mange !"],
+      messages: {
+        fr: [
+          "Je m’y connais pas trop en électronique…",
+          "mais il faut bien que je mange !",
+        ],
+        en: [
+          "I don't know much about electronics...",
+          "but I have to earn a living!",
+        ],
+      },
+      repeat: {
+        fr: ["Je travaille ici car il faut que je mange !"],
+        en: ["I work here because I need to earn a living!"],
+      },
     },
     {
-      messages: ["Tu ne passes plus… Ordre des chefs !"],
+      messages: {
+        fr: ["Tu ne passes plus… Ordre des chefs !"],
+        en: ["You're not coming through. Orders from the bosses!"],
+      },
       dependingOn: ["third_act_begin"],
     },
   ],
   whiteWorkerChief: [
     {
-      messages: [
-        "(Pourquoi j’ai accepté ce job dans ce trou paumé.)",
-        "(Je ne supporte pas ces gens, ni ce village, je…)",
-        "Oui ? … Tu t’appelles Maï et tu veux travailler ?",
-        "Bien sûr, comme tout le monde ici.",
-        "Une usine dernier cri attire forcément…",
-        "des ploucs euh… des gens comme vous.",
-        "Pour t’expliquer en langage simple…",
-        "Ici chez Nano World Company…",
-        "… on assemble des circuits électroniques…",
-        "Qui finissent ensuite dans des écrans ou téléphones.",
-        "Sois contente, tu peux faire une période d’essai.",
-        "Est-ce que tu penses en être capable ?",
-        "Voyons voir ce que tu vaux !",
-      ],
+      messages: {
+        fr: [
+          "(Pourquoi j’ai accepté ce job dans ce trou paumé.)",
+          "(Je ne supporte pas ces gens, ni ce village, je…)",
+          "Oui ? … Tu t’appelles Maï et tu veux travailler ?",
+          "Bien sûr, comme tout le monde ici.",
+          "Une usine dernier cri attire forcément…",
+          "des ploucs euh… des gens comme vous.",
+          "Pour t’expliquer en langage simple…",
+          "Ici chez Nano World Company…",
+          "… on assemble des circuits électroniques…",
+          "Qui finissent ensuite dans des écrans ou téléphones.",
+          "Sois contente, tu peux faire une période d’essai.",
+          "Est-ce que tu penses en être capable ?",
+          "Voyons voir ce que tu vaux !",
+        ],
+        en: [
+          "(Why did I accept this job in this godforsaken place.)",
+          "(I can't stand these people, or this village, I...)",
+          "Yes? ... Your name is Maï and you want to work?",
+          "Of course, like everyone else here.",
+          "A state-of-the-art factory inevitably attracts...",
+          "rednecks... I mean, people like you.",
+          "To explain it in simple terms...",
+          "Here at Nano World Company...",
+          "...we assemble electronic circuits...",
+          "which end up in screens or phones.",
+          "Be glad, you can do a trial period",
+          "Do you think you can do it?",
+          "Let's see what you can do!",
+        ],
+      },
       unlockEvents: ["factory_start"],
     },
   ],
   blueWorker1: [
     {
-      messages: ["C’est l’dernier endroit qui recrute dans la région."],
+      messages: {
+        fr: ["C’est l’dernier endroit qui recrute dans la région."],
+        en: ["This is the last place they're recruiting in the region."],
+      },
     },
     {
-      messages: ["Ne reviens pas… euh… ordre du chef."],
-
+      messages: {
+        fr: ["Ne reviens pas… euh… ordre du chef."],
+        en: ["Don't come back... uh... orders from the chief."],
+      },
       dependingOn: ["fourth_act_begin"],
     },
   ],
   blueWorker2: [
     {
-      messages: ["J’ai cru entendre que le chef ici est un bel orateur."],
+      messages: {
+        fr: ["J’ai cru entendre que le chef ici est un bel orateur."],
+        en: ["I heard that the foreman here is a good speaker."],
+      },
     },
     {
-      messages: ["T’as pas laissé un bon souvenir à l’usine."],
+      messages: {
+        fr: ["T’as pas laissé un bon souvenir à l’usine."],
+        en: ["You didn't leave a good impression at the factory."],
+      },
       dependingOn: ["fourth_act_begin"],
     },
   ],
   blueWorkerChief: [
     {
-      messages: [
-        "Ici euh… chez Tri-Force, on recycle les déchets.",
-        "Et on en fait euh… d’autres équipements.",
-        "Alors oui, on utilise… l’eau de la rivière.",
-        "Mais tout ça est euh… contrôlé et raisonné à 100%.",
-        "Alors… ça vous dit de… tester une journée de travail ?",
-        "Ça nous arrange d’avoir… des femmes.",
-        "Vu qu’on vous paie moins… euh… oubliez ça.",
-        "Suivez-moi !",
-      ],
+      messages: {
+        fr: [
+          "Ici euh… chez Tri-Force, on recycle les déchets.",
+          "Et on en fait euh… d’autres équipements.",
+          "Alors oui, on utilise… l’eau de la rivière.",
+          "Mais tout ça est euh… contrôlé et raisonné à 100%.",
+          "Alors… ça vous dit de… tester une journée de travail ?",
+          "Ça nous arrange d’avoir… des femmes.",
+          "Vu qu’on vous paie moins… euh… oubliez ça.",
+          "Suivez-moi !",
+        ],
+        en: [
+          "Here... er... at Tri-Force, we recycle waste.",
+          "And we turn it into umm... other equipment.",
+          "So yes, we use water from the river.",
+          "But everything is 100% controlled and carefully thought out.",
+          "So... would you like to... try a day's work?",
+          "It suits us to have... women.",
+          "Since we pay you less... er... forget it.",
+          "Follow me!",
+        ],
+      },
       unlockEvents: ["recycling_start"],
     },
   ],
   factory: [
     {
-      messages: [
-        isMobileOrTablet()
-          ? "Installe-toi…\n(touche pour continuer)"
-          : "Installe-toi…\n(espace pour continuer)",
-        "Comme tu es nouvelle, je te mets sur un poste simple…",
-        "Tu dois monter les composants sur les cartes…",
-        "Puis les nettoyer à l’eau pour éliminer les impuretés…",
-        "Et faire ça le plus vite possible…",
-        "Les clients n’attendent pas !",
-        isMobileOrTablet()
-          ? "Choisis le bon composant en appuyant à gauche ou à droite."
-          : "Choisis le bon composant avec les flèches ← →",
-        isMobileOrTablet()
-          ? "Et installe le composant choisi en appuyant au centre."
-          : "Et installe le composant choisi avec la barre ESPACE",
-        "C’est parti !",
-      ],
+      messages: {
+        fr: [
+          isMobileOrTablet()
+            ? "Installe-toi…\n(touche pour continuer)"
+            : "Installe-toi…\n(espace pour continuer)",
+          "Comme tu es nouvelle, je te mets sur un poste simple…",
+          "Tu dois monter les composants sur les cartes…",
+          "Puis les nettoyer à l’eau pour éliminer les impuretés…",
+          "Et faire ça le plus vite possible…",
+          "Les clients n’attendent pas !",
+          isMobileOrTablet()
+            ? "Choisis le bon composant en appuyant à gauche ou à droite."
+            : "Choisis le bon composant avec les flèches ← →",
+          isMobileOrTablet()
+            ? "Et installe le composant choisi en appuyant au centre."
+            : "Et installe le composant choisi avec la barre ESPACE",
+          "C’est parti !",
+        ],
+        en: [
+          isMobileOrTablet()
+            ? "Settle in…\n(tap to continue)"
+            : "Settle in…\n(press space to continue)",
+          "Since you're new, I’ll put you on a simple job…",
+          "You have to mount the components on the boards…",
+          "Then clean them with water to remove impurities…",
+          "And do it as fast as possible…",
+          "The clients are not waiting!",
+          isMobileOrTablet()
+            ? "Choose the right component by pressing left or right."
+            : "Choose the right component with the arrow keys ← →",
+          isMobileOrTablet()
+            ? "Then install the chosen component by pressing the center."
+            : "Then install the chosen component with the SPACE bar",
+          "Let’s go!",
+        ],
+      },
       unlockEvents: ["factory_tuto_begin"],
     },
     {
-      messages: [
-        "Tête de linotte !",
-        "Tu n’as pas compris comment ça fonctionne ?",
-        "Tu dois monter les composants sur les cartes…",
-        isMobileOrTablet()
-          ? "Choisis le bon composant en appuyant à gauche ou à droite."
-          : "Choisis le bon composant avec les flèches ← →",
-        isMobileOrTablet()
-          ? "Et installe le composant choisi en appuyant au centre."
-          : "Et installe le composant choisi avec la barre ESPACE",
-        "C’est à la portée du premier venu !",
-      ],
+      messages: {
+        fr: [
+          "Tête de linotte !",
+          "Tu n’as pas compris comment ça fonctionne ?",
+          "Tu dois monter les composants sur les cartes…",
+          isMobileOrTablet()
+            ? "Choisis le bon composant en appuyant à gauche ou à droite."
+            : "Choisis le bon composant avec les flèches ← →",
+          isMobileOrTablet()
+            ? "Et installe le composant choisi en appuyant au centre."
+            : "Et installe le composant choisi avec la barre ESPACE",
+          "C’est à la portée du premier venu !",
+        ],
+        en: [
+          "Scatterbrain!",
+          "You don’t get how this works?",
+          "You have to mount the components on the boards…",
+          isMobileOrTablet()
+            ? "Choose the right component by pressing left or right."
+            : "Choose the right component with the arrow keys ← →",
+          isMobileOrTablet()
+            ? "Then install the chosen component by pressing the center."
+            : "Then install the chosen component with the SPACE bar",
+          "It’s something anyone can do!",
+        ],
+      },
       dependingOn: ["factory_tuto_missed"],
       unlockEvents: ["factory_tuto_begin"],
     },
     {
-      messages: [
-        "Tu sembles avoir compris comment ça fonctionne…",
-        "Passons aux choses sérieuses !",
-      ],
+      messages: {
+        fr: [
+          "Tu sembles avoir compris comment ça fonctionne…",
+          "Passons aux choses sérieuses !",
+        ],
+        en: [
+          "You seem to have understood how it works...",
+          "Let's get down to business!",
+        ],
+      },
       dependingOn: ["factory_tuto_end"],
       unlockEvents: ["factory_show_score_board"],
     },
     {
-      messages: [
-        "Si tu rates l’assemblage, une croix s’allumera.",
-        "Au bout de trois croix…",
-        "je viendrai moi-même t’accompagner à la sortie !",
-        "As-tu d’autres questions ???",
-        "Tu dis que l’eau utilisé assèche la rivière ?",
-        "Et qu’est-ce que ça peut me faire ?",
-        "Tout le monde sera bien content…",
-        "d’avoir des téléphones derniers cris !",
-        "Arrête de te poser des questions et au boulot.",
-      ],
+      messages: {
+        fr: [
+          "Si tu rates l’assemblage, une croix s’allumera.",
+          "Au bout de trois croix…",
+          "je viendrai moi-même t’accompagner à la sortie !",
+          "As-tu d’autres questions ???",
+          "Tu dis que l’eau utilisé assèche la rivière ?",
+          "Et qu’est-ce que ça peut me faire ?",
+          "Tout le monde sera bien content…",
+          "d’avoir des téléphones derniers cris !",
+          "Arrête de te poser des questions et au boulot.",
+        ],
+        en: [
+          "If you mess up the assembly, a cross will light up.",
+          "After three crosses...",
+          "I'll come and escort you out myself!",
+          "Any other questions???",
+          "You say the water used is drying up the river?",
+          "And what do I care?",
+          "Everyone will be happy...",
+          "to have the latest phones!",
+          "Stop asking yourself questions and get to work.",
+        ],
+      },
       dependingOn: ["factory_show_score_board"],
       unlockEvents: ["factory_after_tuto"],
     },
     {
-      messages: [
-        "C’est bien ce qu’il me semblait…",
-        "tu ne peux pas tenir un rythme aussi soutenu !",
-        "On arrête les frais pour aujourd’hui.",
-        "Allez… Rentre chez toi !",
-      ],
+      messages: {
+        fr: [
+          "C’est bien ce qu’il me semblait…",
+          "tu ne peux pas tenir un rythme aussi soutenu !",
+          "On arrête les frais pour aujourd’hui.",
+          "Allez… Rentre chez toi !",
+        ],
+        en: [
+          "That's what I thought...",
+          "You can't keep up such a fast pace!",
+          "That's all for today.",
+          "Come on... Go home!",
+        ],
+      },
       dependingOn: ["factory_game_over"],
       unlockEvents: ["factory_end"],
     },
   ],
   recyclingCentre: [
     {
-      messages: [
-        isMobileOrTablet()
-          ? "Voilà votre poste…\n(touche pour continuer)"
-          : "Voilà votre poste…\n(espace pour continuer)",
-        "Des déchets tombent… de la trappe en haut.",
-        "Vous devez les réceptionner… avec le chariot en bas.",
-        isMobileOrTablet()
-          ? "Bougez le chariot en appuyant à gauche ou à droite."
-          : "Bougez le chariot avec les flèches ← →",
-        isMobileOrTablet()
-          ? "Et changez son mode en appuyant en haut ou en bas."
-          : "Et changez son mode avec les flèches ↑ ↓",
-        "Il faut détruire le déchet avec euh… le bon mode.",
-        "Faisons un test.",
-      ],
+      messages: {
+        fr: [
+          isMobileOrTablet()
+            ? "Voilà votre poste…\n(touche pour continuer)"
+            : "Voilà votre poste…\n(espace pour continuer)",
+          "Des déchets tombent… de la trappe en haut.",
+          "Vous devez les réceptionner… avec le chariot en bas.",
+          isMobileOrTablet()
+            ? "Bougez le chariot en appuyant à gauche ou à droite."
+            : "Bougez le chariot avec les flèches ← →",
+          isMobileOrTablet()
+            ? "Et changez son mode en appuyant en haut ou en bas."
+            : "Et changez son mode avec les flèches ↑ ↓",
+          "Il faut détruire le déchet avec euh… le bon mode.",
+          "Faisons un test.",
+        ],
+        en: [
+          isMobileOrTablet()
+            ? "Here’s your station…\n(tap to continue)"
+            : "Here’s your station…\n(press space to continue)",
+          "Waste is falling… from the trap at the top.",
+          "You have to catch it… with the cart at the bottom.",
+          isMobileOrTablet()
+            ? "Move the cart by pressing left or right."
+            : "Move the cart with the arrow keys ← →",
+          isMobileOrTablet()
+            ? "And change its mode by pressing up or down."
+            : "And change its mode with the arrow keys ↑ ↓",
+          "You need to destroy the waste with… the right mode.",
+          "Let’s do a test.",
+        ],
+      },
       unlockEvents: ["recycling_tuto_begin"],
     },
     {
-      messages: [
-        "Euh… je vais vous faire un petit rappel, pas le choix.",
-        isMobileOrTablet()
-          ? "Bougez le chariot en appuyant à gauche ou à droite."
-          : "Bougez le chariot avec les flèches ← →",
-        isMobileOrTablet()
-          ? "Et changez son mode en appuyant en haut ou en bas."
-          : "Et changez son mode avec les flèches ↑ ↓",
-        "Le mode doit correspondre au déchet qui tombe !",
-        "Allez, c’est euh… reparti.",
-      ],
+      messages: {
+        fr: [
+          "Euh… je vais vous faire un petit rappel, pas le choix.",
+          isMobileOrTablet()
+            ? "Bougez le chariot en appuyant à gauche ou à droite."
+            : "Bougez le chariot avec les flèches ← →",
+          isMobileOrTablet()
+            ? "Et changez son mode en appuyant en haut ou en bas."
+            : "Et changez son mode avec les flèches ↑ ↓",
+          "Le mode doit correspondre au déchet qui tombe !",
+          "Allez, c’est euh… reparti.",
+        ],
+        en: [
+          "Uh… I’m going to give you a little reminder, no choice.",
+          isMobileOrTablet()
+            ? "Move the cart by pressing left or right."
+            : "Move the cart with the arrow keys ← →",
+          isMobileOrTablet()
+            ? "And change its mode by pressing up or down."
+            : "And change its mode with the arrow keys ↑ ↓",
+          "The mode must match the falling waste!",
+          "Come on, let’s… get started again.",
+        ],
+      },
       dependingOn: ["recycling_tuto_missed"],
       unlockEvents: ["recycling_tuto_begin"],
     },
     {
-      messages: [
-        "Bon euh… ça suffira. Ne perdons pas plus de temps.",
-        "On va vous tester pour de vrai.",
-      ],
+      messages: {
+        fr: [
+          "Bon euh… ça suffira. Ne perdons pas plus de temps.",
+          "On va vous tester pour de vrai.",
+        ],
+        en: [
+          "Right, well... that's enough. Let's not waste any more time.",
+          "We're going to test you for real.",
+        ],
+      },
       dependingOn: ["recycling_tuto_end"],
       unlockEvents: ["recycling_show_score_board"],
     },
     {
-      messages: [
-        "Ça, c’est le panneau d’erreurs.",
-        "Si vous ratez plusieurs déchets… une croix s’allume.",
-        "Au bout de trois croix euh… j’arrête votre journée.",
-        "Je le répète, c’est très important ce qu’on fait ici.",
-        "On démantèle et on recycle les équipements.",
-        "On est pour ainsi dire euh… super écolo.",
-        "Toute l’eau qu’on pollue et gaspille…",
-        "C’est pour un bien encore plus grand.",
-        "Allez euh… au boulot !",
-      ],
+      messages: {
+        fr: [
+          "Ça, c’est le panneau d’erreurs.",
+          "Si vous ratez plusieurs déchets… une croix s’allume.",
+          "Au bout de trois croix euh… j’arrête votre journée.",
+          "Je le répète, c’est très important ce qu’on fait ici.",
+          "On démantèle et on recycle les équipements.",
+          "On est pour ainsi dire euh… super écolo.",
+          "Toute l’eau qu’on pollue et gaspille…",
+          "C’est pour un bien encore plus grand.",
+          "Allez euh… au boulot !",
+        ],
+        en: [
+          "That's the error panel.",
+          "If you miss several pieces of waste... a cross lights up.",
+          "After three crosses, um... I'll stop your day.",
+          "I repeat, what we're doing here is very important.",
+          "We dismantle and recycle equipment.",
+          "We're, so to speak, super eco-friendly.",
+          "All the water we pollute and waste...",
+          "It's for a greater good.",
+          "Come on, let's get to work!",
+        ],
+      },
       dependingOn: ["recycling_show_score_board"],
       unlockEvents: ["recycling_after_tuto"],
     },
     {
-      messages: [
-        "Bon euh… c’est fini pour aujourd’hui.",
-        "Il faudra être plus performante pour…",
-        "sauver la planète !",
-      ],
+      messages: {
+        fr: [
+          "Bon euh… c’est fini pour aujourd’hui.",
+          "Il faudra être plus performante pour…",
+          "sauver la planète !",
+        ],
+        en: [
+          "Well, um... that's it for today.",
+          "We'll need to do better to...",
+          "save the planet!",
+        ],
+      },
       dependingOn: ["recycling_game_over"],
       unlockEvents: ["recycling_end"],
     },
   ],
   dcWorkerChief: [
     {
-      messages: [
-        "Pour développer l’IA…",
-        "On construit un datacenter près de la rivière…",
-        "Son eau refroidira les serveurs, c’pas super !?",
-        "Si ça te gêne, dégage ! Et laisse nous bosser.",
-      ],
-      repeat: ["On construit un datacenter, ça te gène ?"],
+      messages: {
+        fr: [
+          "Pour développer l’IA…",
+          "On construit un datacenter près de la rivière…",
+          "Son eau refroidira les serveurs, c’pas super !?",
+          "Si ça te gêne, dégage ! Et laisse nous bosser.",
+        ],
+        en: [
+          "To develop AI...",
+          "We're building a data centre near the river...",
+          "Its water will cool the servers, isn't that great?",
+          "If it bothers you, get lost! And let us work",
+        ],
+      },
+      repeat: {
+        fr: ["On construit un datacenter, ça te gène ?"],
+        en: ["We're building a data centre. Does that bother you?"],
+      },
     },
   ],
   minerZad1: [
     {
-      messages: [
-        "Comment tu nous as trouvé ?",
-        "Nous étions des ouvriers et avons déserté la mine…",
-        "… nous avons abandonné notre travail…",
-        "… et avons créé cette petite communauté…",
-        "… où l’on plante nos légumes…",
-        "… et on essaye de construire un monde plus sobre.",
-      ],
-      repeat: ["Ici, on envisage un mode de vie plus sobre."],
+      messages: {
+        fr: [
+          "Comment tu nous as trouvé ?",
+          "Nous étions des ouvriers et avons déserté la mine…",
+          "… nous avons abandonné notre travail…",
+          "… et avons créé cette petite communauté…",
+          "… où l’on plante nos légumes…",
+          "… et on essaye de construire un monde plus sobre.",
+        ],
+        en: [
+          "How did you find us?",
+          "We were mine workers and we deserted the mine...",
+          "...we gave up our jobs...",
+          "...and created this little community...",
+          "...where we grow our own vegetables...",
+          "...and try to build a simpler world.",
+        ],
+      },
+      repeat: {
+        fr: ["Ici, on envisage un mode de vie plus sobre."],
+        en: ["Here, we are considering a more modest lifestyle."],
+      },
     },
   ],
   minerZad2: [
     {
-      messages: [
-        "Nous sommes plusieurs anciens ouvriers à vivre ici.",
-        "Aucun regret sur ce choix de vie.",
-        "Cependant, on vit cachés dans la forêt.",
-      ],
-      repeat: ["On est obligé de vivre cachés dans la forêt."],
+      messages: {
+        fr: [
+          "Nous sommes plusieurs anciens ouvriers à vivre ici.",
+          "Aucun regret sur ce choix de vie.",
+          "Cependant, on vit cachés dans la forêt…",
+          "par crainte de représailles.",
+        ],
+        en: [
+          "There are several of us former workers living here.",
+          "I have no regrets about this choice of lifestyle.",
+          "However, we live hidden away in the forest...",
+          "for fear of reprisals.",
+        ],
+      },
+      repeat: {
+        fr: ["On est obligé de vivre cachés dans la forêt."],
+        en: ["We are forced to live hidden away in the forest."],
+      },
     },
   ],
 };
