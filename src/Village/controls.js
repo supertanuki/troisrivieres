@@ -66,16 +66,14 @@ export const createControls = function (scene) {
 };
 
 export const addJoystickForMobile = function (scene) {
-  if (!isMobileOrTablet()) {
-    return;
-  }
+  if (!isMobileOrTablet()) return;
 
   scene.joystick = scene.plugins.get("rexvirtualjoystickplugin").add(scene, {
     x: 100,
     y: 200,
-    radius: 100,
-    base: scene.add.circle(0, 0, 50, 0xff5544, 0.4).setDepth(10000),
-    thumb: scene.add.circle(0, 0, 30, 0xcccccc, 0.3).setDepth(10000),
+    radius: 50,
+    base: scene.add.circle(0, 0, 40, 0xff5544, 0.2).setDepth(10000),
+    thumb: scene.add.circle(0, 0, 20, 0xffffff, 0.3).setDepth(10000),
     dir: "8dir",
     forceMin: 16,
     enable: true,
@@ -87,6 +85,8 @@ export const addJoystickForMobile = function (scene) {
   scene.input.on(
     "pointerdown",
     (pointer) => {
+      if (scene.isCinematic) return;
+
       scene.joystick.setPosition(pointer.x, pointer.y);
       scene.joystick.setVisible(true);
       handleAction(scene);
@@ -97,6 +97,8 @@ export const addJoystickForMobile = function (scene) {
   scene.joystick.on(
     "update",
     () => {
+      if (scene.isCinematic) return;
+
       scene.howToPlay = false;
       scene.goingAngle = scene.joystick.angle;
 
@@ -142,6 +144,8 @@ export const addJoystickForMobile = function (scene) {
   scene.joystick.on(
     "pointerup",
     () => {
+      if (scene.isCinematic) return;
+
       scene.joystick.setVisible(false);
       scene.stopMoving();
     },

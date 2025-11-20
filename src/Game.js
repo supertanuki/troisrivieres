@@ -418,6 +418,10 @@ export default class Game extends Scene {
   }
 
   update(time, delta) {
+    if (this.isCinematic) {
+      this?.joystick?.setVisible(false);
+    }
+
     if (this.night && this.darkOverlay) {
       updateNightPosition(this);
     }
@@ -435,7 +439,6 @@ export default class Game extends Scene {
         DiscussionStatus.INPROGRESS,
       ].includes(this.currentDiscussionStatus)
     ) {
-      console.log("stopAndWait", this.currentDiscussionStatus);
       this.hero.stopAndWait();
       return;
     }
