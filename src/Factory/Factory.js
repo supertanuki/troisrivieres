@@ -6,7 +6,12 @@ import { dispatchUnlockEvents, eventsHas } from "../Utils/events";
 import { DiscussionStatus } from "../Utils/discussionStatus";
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import { getUiMessage } from "../Workflow/messageWorkflow";
-import { fadeOutMusic, playMiniGameTheme, playSound, preloadSound } from "../Utils/music";
+import {
+  fadeOutMusic,
+  playMiniGameTheme,
+  playSound,
+  preloadSound,
+} from "../Utils/music";
 
 const COMPONENTS = {
   blue: "component-blue",
@@ -227,7 +232,7 @@ export default class Factory extends MiniGameUi {
   }
 
   startGame() {
-    if (urlParamHas('factory')) {
+    if (urlParamHas("factory")) {
       playMiniGameTheme(this);
     }
 
@@ -267,7 +272,7 @@ export default class Factory extends MiniGameUi {
   }
 
   tutoBegin() {
-    console.log('tutoBegin')
+    console.log("tutoBegin");
     this.isCinematic = false;
     this.firstStep = true;
     this.initMotherboard();
@@ -280,14 +285,14 @@ export default class Factory extends MiniGameUi {
   }
 
   tutoEnd() {
-    console.log('tutoEnd')
+    console.log("tutoEnd");
     this.isCinematic = true;
     dispatchUnlockEvents(["factory_tuto_end"]);
     this.startDiscussion("factory");
   }
 
   afterTuto() {
-    console.log('afterTuto')
+    console.log("afterTuto");
     this.isCinematic = false;
     this.firstStep = false;
     this.initMotherboard();
@@ -390,7 +395,7 @@ export default class Factory extends MiniGameUi {
 
   initMotherboard() {
     this.enableComponentsControl = false;
-    this.time.delayedCall(1000, () => this.enableComponentsControl = true);
+    this.time.delayedCall(1000, () => (this.enableComponentsControl = true));
 
     const x = -150;
     const componentsNumber = this.getComponentsNumber();
@@ -496,29 +501,26 @@ export default class Factory extends MiniGameUi {
     if (isMobileOrTablet()) {
       const delta = 80;
       const arrowY = 225;
-
-      const arrowStyle = {
-        fontSize: "32px",
-        fill: "#ffffff",
-      };
+      const arrowAlpha = 0.2;
+      const arrowColor = 0xff5544;
 
       this.add
-        .text(70, arrowY, "←", arrowStyle)
+        .bitmapText(70, arrowY, "FreePixel-16", "←", 16)
         .setOrigin(0.5, 0.5)
         .setDepth(10000);
-      this.add.circle(70, arrowY, 30, 0xff5544, 0.3).setDepth(10000);
+      this.add.circle(70, arrowY, 30, arrowColor, arrowAlpha).setDepth(10000);
 
       this.add
-        .text(275, arrowY, "↑", arrowStyle)
+        .bitmapText(275, arrowY, "FreePixel-16", "↑", 16)
         .setOrigin(0.5, 0.5)
         .setDepth(10000);
-      this.add.circle(275, arrowY, 30, 0xff5544, 0.3).setDepth(10000);
+      this.add.circle(275, arrowY, 30, arrowColor, arrowAlpha).setDepth(10000);
 
       this.add
-        .text(480, arrowY, "→", arrowStyle)
+        .bitmapText(480, arrowY, "FreePixel-16", "→", 16)
         .setOrigin(0.5, 0.5)
         .setDepth(10000);
-      this.add.circle(480, arrowY, 30, 0xff5544, 0.3).setDepth(10000);
+      this.add.circle(480, arrowY, 30, arrowColor, arrowAlpha).setDepth(10000);
 
       this.input.on(
         "pointerdown",
@@ -560,6 +562,8 @@ export default class Factory extends MiniGameUi {
   }
 
   right() {
+    super.handleAction();
+
     if (
       !this.enableComponentsControl ||
       this.componentsLinePosition - 1 < -1 * this.componentsLine.length + 1
@@ -596,6 +600,8 @@ export default class Factory extends MiniGameUi {
   }
 
   left() {
+    super.handleAction();
+
     if (!this.enableComponentsControl || this.componentsLinePosition + 1 > 0) {
       return;
     }
@@ -681,9 +687,15 @@ export default class Factory extends MiniGameUi {
     if (validatedComponent) {
       const { component, name } = validatedComponent;
 
-      playSound(`sfx_mini-jeu_puce-bonne_${this.indexSoundComponentValidated}`, this, true, 1);
+      playSound(
+        `sfx_mini-jeu_puce-bonne_${this.indexSoundComponentValidated}`,
+        this,
+        true,
+        1
+      );
       this.indexSoundComponentValidated++;
-      if (this.indexSoundComponentValidated > 3) this.indexSoundComponentValidated = 1;
+      if (this.indexSoundComponentValidated > 3)
+        this.indexSoundComponentValidated = 1;
 
       this.tweens.add({
         targets: selectedComponent,
@@ -713,7 +725,9 @@ export default class Factory extends MiniGameUi {
         ease: "Sine.easeInOut",
         duration: animDuration,
         onComplete: () => {
-          this.enableComponentsControl = !(this.componentValidated === this.getComponentsNumber());
+          this.enableComponentsControl = !(
+            this.componentValidated === this.getComponentsNumber()
+          );
           this.resetUserHand();
         },
       });
@@ -740,7 +754,9 @@ export default class Factory extends MiniGameUi {
         ease: "Sine.easeInOut",
         duration: animDuration,
         onComplete: () => {
-          this.enableComponentsControl = !(this.componentValidated === this.getComponentsNumber());
+          this.enableComponentsControl = !(
+            this.componentValidated === this.getComponentsNumber()
+          );
           this.resetUserHand();
         },
       });
@@ -762,7 +778,7 @@ export default class Factory extends MiniGameUi {
     this.numberValidated++;
     this.waterCleaningAnims.forEach((element) => element.setVisible(true));
     playSound("sfx_mini-jeu_jet-eau", this, false, 0.5);
-    fadeOutMusic(this, this.sounds["sfx_mini-jeu_jet-eau"])
+    fadeOutMusic(this, this.sounds["sfx_mini-jeu_jet-eau"]);
 
     this.time.delayedCall(1000, () =>
       this.waterCleaningAnims.forEach((element) => element.setVisible(false))
@@ -807,7 +823,7 @@ export default class Factory extends MiniGameUi {
       }
 
       this.time.delayedCall(3000, () => {
-        this.motherboardSpeed -= (acceleration/2);
+        this.motherboardSpeed -= acceleration / 2;
         this.initMotherboard();
       });
 
