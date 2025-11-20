@@ -337,9 +337,9 @@ export default class Mine extends MiniGameUi {
       this.joystick = this.plugins.get("rexvirtualjoystickplugin").add(this, {
         x: 100,
         y: 200,
-        radius: 100,
-        base: this.add.circle(0, 0, 50, 0xff5544, 0.4).setDepth(10000),
-        thumb: this.add.circle(0, 0, 30, 0xcccccc, 0.3).setDepth(10000),
+        radius: 50,
+        base: this.add.circle(0, 0, 40, 0xff5544, 0.2).setDepth(10000),
+        thumb: this.add.circle(0, 0, 20, 0xffffff, 0.3).setDepth(10000),
         dir: "8dir",
         forceMin: 16,
         enable: true,
