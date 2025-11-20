@@ -85,6 +85,8 @@ export const playMiniGameTheme = function (scene) {
     return;
 
   fadeOutMusic(scene, scene.industryTheme);
+  fadeOutMusic(scene, scene.villageAmbianceV1);
+  fadeOutMusic(scene, scene.villageTheme);
 
   if (scene.miniGameTheme && scene.sound.get("minigame-theme")) {
     fadeInMusic(scene, scene.miniGameTheme);
