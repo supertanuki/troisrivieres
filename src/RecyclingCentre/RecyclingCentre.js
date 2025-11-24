@@ -217,10 +217,11 @@ export default class RecyclingCentre extends MiniGameUi {
     this.physics.add.existing(this.containersObject);
     this.containersObject.setDepth(1);
     const body = this.containersObject.body;
-    body.setAllowGravity(false);
-    body.setMaxVelocity(200);
-    body.setDamping(true);
-    body.setDrag(0.01);
+    body
+      .setAllowGravity(false)
+      .setMaxVelocity(200)
+      .setDamping(true)
+      .setDrag(0.01);
 
     if (urlParamHas("bypassminigame")) {
       this.endGame();
@@ -510,10 +511,10 @@ export default class RecyclingCentre extends MiniGameUi {
     const containerX = this.containersObject.x;
 
     if (this.goingRight) {
-      const realStepX = containerX > 350 ? 0 : STEPX;
+      const realStepX = containerX > 370 ? 0 : STEPX;
       this.moveContainers(realStepX);
     } else if (this.goingLeft) {
-      const realStepX = containerX < 200 ? 0 : STEPX;
+      const realStepX = containerX < 180 ? 0 : STEPX;
       this.moveContainers(-realStepX);
     } else {
       this.containersObject.body.setAccelerationX(0);
