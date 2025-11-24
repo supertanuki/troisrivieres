@@ -3,7 +3,6 @@ import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import { DiscussionStatus } from "../Utils/discussionStatus";
 import { fadeOutMusic, playSound, preloadSound } from "../Utils/music";
 import { dispatchUnlockEvents } from "../Utils/events";
-import isMobileOrTablet from "../Utils/isMobileOrTablet";
 
 const DEPTH = 2000;
 
