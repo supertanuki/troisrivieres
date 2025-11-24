@@ -290,21 +290,27 @@ export default class Mine extends MiniGameUi {
       down: "down",
       left: "left",
       right: "right",
+      w: "up",
+      z: "up",
+      q: "left",
+      a: "left",
+      s: "down",
+      d: "right",
     });
 
     this.input.keyboard.on(
       "keydown",
       (event) => {
-        if (event.key === "ArrowUp") {
+        if (["ArrowUp", "z", "w"].includes(event.key)) {
           this.goingUp = true;
           this.goingDown = false;
-        } else if (event.key === "ArrowDown") {
+        } else if (["ArrowDown", "s"].includes(event.key)) {
           this.goingDown = true;
           this.goingUp = false;
-        } else if (event.key === "ArrowLeft") {
+        } else if (["ArrowLeft", "q", "a"].includes(event.key)) {
           this.goingLeft = true;
           this.goingRight = false;
-        } else if (event.key === "ArrowRight") {
+        } else if (["ArrowRight", "d"].includes(event.key)) {
           this.goingRight = true;
           this.goingLeft = false;
         } else if (event.keyCode === 32) {
@@ -318,13 +324,13 @@ export default class Mine extends MiniGameUi {
     this.input.keyboard.on(
       "keyup",
       (event) => {
-        if (event.key == "ArrowUp") {
+        if (["ArrowUp", "z", "w"].includes(event.key)) {
           this.goingUp = false;
-        } else if (event.key == "ArrowDown") {
+        } else if (["ArrowDown", "s"].includes(event.key)) {
           this.goingDown = false;
-        } else if (event.key == "ArrowLeft") {
+        } else if (["ArrowLeft", "q", "a"].includes(event.key)) {
           this.goingLeft = false;
-        } else if (event.key == "ArrowRight") {
+        } else if (["ArrowRight", "d"].includes(event.key)) {
           this.goingRight = false;
         } else if (event.keyCode === 32) {
           this.action = false;
