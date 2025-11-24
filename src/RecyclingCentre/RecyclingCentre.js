@@ -636,49 +636,82 @@ export default class RecyclingCentre extends MiniGameUi {
     );
 
     if (isMobileOrTablet()) {
-      const delta = 80;
-      const arrowY = 225;
+      const arrowAlpha = 0.2;
+      const arrowColor = 0xff5544;
 
-      const arrowStyle = {
-        fontSize: "32px",
-        fill: "#ffffff",
+      const fadeControl = (object) => {
+        object.alpha = 0.5;
+        this.tweens.add({
+          targets: object,
+          alpha: 0.1,
+          duration: 500,
+        });
       };
 
       this.add
-        .text(70, arrowY, "←", arrowStyle)
+        .bitmapText(40, 210, "FreePixel-16", "←", 16)
         .setOrigin(0.5, 0.5)
-        .setDepth(10000);
-      this.add.circle(70, arrowY, 30, 0xff5544, 0.3).setDepth(10000);
+        .setDepth(100000);
+      const left = this.add
+        .circle(40, 210, 30, arrowColor)
+        .setAlpha(arrowAlpha)
+        .setDepth(100000)
+        .setInteractive()
+        .on("pointerdown", () => {
+          this.left();
+          fadeControl(left);
+        });
 
       this.add
-        .text(275, arrowY, "↑", arrowStyle)
+        .bitmapText(90, 160, "FreePixel-16", "↑", 16)
         .setOrigin(0.5, 0.5)
-        .setDepth(10000);
-      this.add.circle(275, arrowY, 30, 0xff5544, 0.3).setDepth(10000);
-
-      this.add
-        .text(480, arrowY, "→", arrowStyle)
-        .setOrigin(0.5, 0.5)
-        .setDepth(10000);
-      this.add.circle(480, arrowY, 30, 0xff5544, 0.3).setDepth(10000);
-
-      this.input.on(
-        "pointerdown",
-        (pointer) => {
-          if (pointer.x < 275 - delta) {
-            this.left();
-            return;
-          }
-
-          if (pointer.x > 275 + delta) {
-            this.right();
-            return;
-          }
-
+        .setDepth(100000);
+      const up = this.add
+        .circle(90, 160, 30, arrowColor)
+        .setAlpha(arrowAlpha)
+        .setDepth(100000)
+        .setInteractive()
+        .on("pointerdown", () => {
           this.handleAction();
-        },
-        this
-      );
+          this.up();
+          fadeControl(up);
+        });
+
+      this.add
+        .bitmapText(90, 260, "FreePixel-16", "↓", 16)
+        .setOrigin(0.5, 0.5)
+        .setDepth(100000);
+      const down = this.add
+        .circle(90, 260, 30, arrowColor)
+        .setAlpha(arrowAlpha)
+        .setDepth(100000)
+        .setInteractive()
+        .on("pointerdown", () => {
+          this.handleAction();
+          this.down();
+          fadeControl(down);
+        });
+
+      this.add
+        .bitmapText(140, 210, "FreePixel-16", "→", 16)
+        .setOrigin(0.5, 0.5)
+        .setDepth(100000);
+      const right = this.add
+        .circle(140, 210, 30, arrowColor)
+        .setAlpha(arrowAlpha)
+        .setDepth(100000)
+        .setInteractive()
+        .on("pointerdown", () => {
+          this.right();
+          fadeControl(right);
+        });
+
+      this.input.on("pointerup", () => {
+        this.goingLeft = false;
+        this.goingRight = false;
+      });
+
+      this.input.on("pointerdown", () => this.handleAction());
     }
   }
 }
