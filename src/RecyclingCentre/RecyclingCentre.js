@@ -334,6 +334,8 @@ export default class RecyclingCentre extends MiniGameUi {
   }
 
   setSelectedObject(direction) {
+    if (this.changeMode) return;
+    this.changeMode = true;
     this.selectedObject = this.getObjectNameByDirection(direction);
     this.currentObject.setFrame(this.selectedObject);
     this.previousObject.setFrame(this.getObjectNameByDirection(-1) + "-little");
@@ -350,6 +352,7 @@ export default class RecyclingCentre extends MiniGameUi {
           targets: this.shredder,
           y: -65,
           duration: 100,
+          onComplete: () => this.changeMode = false,
         });
       },
     });
