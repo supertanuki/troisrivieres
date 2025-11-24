@@ -333,7 +333,96 @@ export default class Mine extends MiniGameUi {
       this
     );
 
-    if (isMobileOrTablet()) {
+    if (isMobileOrTablet() && !urlParamHas("joystick")) {
+      const arrowAlpha = 0.2;
+      const arrowColor = 0xff5544;
+
+      const fadeControl = (object) => {
+        object.alpha = 0.5;
+        this.tweens.add({
+          targets: object,
+          alpha: 0.1,
+          duration: 500,
+        });
+      };
+
+      this.add
+        .bitmapText(40, 210, "FreePixel-16", "←", 16)
+        .setOrigin(0.5, 0.5)
+        .setDepth(100000);
+      const left = this.add
+        .circle(40, 210, 30, arrowColor)
+        .setAlpha(arrowAlpha)
+        .setDepth(100000)
+        .setInteractive()
+        .on("pointerdown", () => {
+          this.goingLeft = true;
+          this.goingRight = false;
+          fadeControl(left);
+        });
+
+      this.add
+        .bitmapText(90, 160, "FreePixel-16", "↑", 16)
+        .setOrigin(0.5, 0.5)
+        .setDepth(100000);
+      const up = this.add
+        .circle(90, 160, 30, arrowColor)
+        .setAlpha(arrowAlpha)
+        .setDepth(100000)
+        .setInteractive()
+        .on("pointerdown", () => {
+          this.handleAction();
+          this.goingUp = true;
+          this.goingDown = false;
+          fadeControl(up);
+        });
+
+      this.add
+        .bitmapText(90, 260, "FreePixel-16", "↓", 16)
+        .setOrigin(0.5, 0.5)
+        .setDepth(100000);
+      const down = this.add
+        .circle(90, 260, 30, arrowColor)
+        .setAlpha(arrowAlpha)
+        .setDepth(100000)
+        .setInteractive()
+        .on("pointerdown", () => {
+          this.handleAction();
+          this.goingUp = false;
+          this.goingDown = true;
+          fadeControl(down);
+        });
+
+      this.add
+        .bitmapText(140, 210, "FreePixel-16", "→", 16)
+        .setOrigin(0.5, 0.5)
+        .setDepth(100000);
+      const right = this.add
+        .circle(140, 210, 30, arrowColor)
+        .setAlpha(arrowAlpha)
+        .setDepth(100000)
+        .setInteractive()
+        .on("pointerdown", () => {
+          this.goingLeft = false;
+          this.goingRight = true;
+          fadeControl(right);
+        });
+
+      this.input.on("pointerup", () => {
+        this.goingLeft = false;
+        this.goingRight = false;
+        this.goingUp = false;
+        this.goingDown = false;
+        this.action = false;
+      });
+
+      this.input.on("pointerdown", () => {
+        this.action = true;
+        this.handleAction();
+      });
+    }
+
+    if (isMobileOrTablet() && urlParamHas("joystick")) {
       this.joystick = this.plugins.get("rexvirtualjoystickplugin").add(this, {
         x: 100,
         y: 200,
