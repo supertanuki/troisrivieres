@@ -504,38 +504,59 @@ export default class Factory extends MiniGameUi {
       const arrowAlpha = 0.2;
       const arrowColor = 0xff5544;
 
+      const fadeControl = (object) => {
+        object.alpha = 0.5;
+        this.tweens.add({
+          targets: object,
+          alpha: 0.1,
+          duration: 500,
+        });
+      };
+
       this.add
         .bitmapText(70, arrowY, "FreePixel-16", "←", 16)
         .setOrigin(0.5, 0.5)
-        .setDepth(10000);
-      this.add.circle(70, arrowY, 30, arrowColor, arrowAlpha).setDepth(10000);
+        .setDepth(100000);
+      const left = this.add
+        .circle(70, arrowY, 30, arrowColor)
+        .setAlpha(arrowAlpha)
+        .setDepth(100000);
 
       this.add
         .bitmapText(275, arrowY, "FreePixel-16", "↑", 16)
         .setOrigin(0.5, 0.5)
-        .setDepth(10000);
-      this.add.circle(275, arrowY, 30, arrowColor, arrowAlpha).setDepth(10000);
+        .setDepth(100000);
+      const up = this.add
+        .circle(275, arrowY, 30, arrowColor)
+        .setAlpha(arrowAlpha)
+        .setDepth(100000);
 
       this.add
         .bitmapText(480, arrowY, "FreePixel-16", "→", 16)
         .setOrigin(0.5, 0.5)
-        .setDepth(10000);
-      this.add.circle(480, arrowY, 30, arrowColor, arrowAlpha).setDepth(10000);
+        .setDepth(100000);
+      const right = this.add
+        .circle(480, arrowY, 30, arrowColor)
+        .setAlpha(arrowAlpha)
+        .setDepth(100000);
 
       this.input.on(
         "pointerdown",
         (pointer) => {
           if (pointer.x < 275 - delta) {
             this.left();
+            fadeControl(left);
             return;
           }
 
           if (pointer.x > 275 + delta) {
             this.right();
+            fadeControl(right);
             return;
           }
 
           this.handleAction();
+          fadeControl(up);
         },
         this
       );
