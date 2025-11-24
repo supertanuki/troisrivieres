@@ -600,21 +600,28 @@ export default class RecyclingCentre extends MiniGameUi {
 
     this.cursors = this.input.keyboard.addKeys({
       space: "space",
+      up: "up",
       down: "down",
       left: "left",
       right: "right",
+      w: "up",
+      z: "up",
+      q: "left",
+      a: "left",
+      s: "down",
+      d: "right",
     });
 
     this.input.keyboard.on(
       "keydown",
       (event) => {
-        if (event.key === "ArrowDown") {
-          this.down();
-        } else if (event.key === "ArrowUp") {
+        if (["ArrowUp", "z", "w"].includes(event.key)) {
           this.up();
-        } else if (event.key === "ArrowLeft") {
+        } else if (["ArrowDown", "s"].includes(event.key)) {
+          this.down();
+        } else if (["ArrowLeft", "q", "a"].includes(event.key)) {
           this.left();
-        } else if (event.key === "ArrowRight") {
+        } else if (["ArrowRight", "d"].includes(event.key)) {
           this.right();
         } else if (event.keyCode === 32) {
           this.handleAction();
@@ -626,9 +633,9 @@ export default class RecyclingCentre extends MiniGameUi {
     this.input.keyboard.on(
       "keyup",
       (event) => {
-        if (event.key === "ArrowLeft") {
+        if (["ArrowLeft", "q", "a"].includes(event.key)) {
           this.goingLeft = false;
-        } else if (event.key === "ArrowRight") {
+        } else if (["ArrowRight", "d"].includes(event.key)) {
           this.goingRight = false;
         }
       },
