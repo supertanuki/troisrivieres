@@ -164,6 +164,8 @@ export const init = function (scene, continueplaying) {
 
 /** @param {Game} scene  */
 const howToPlay = function (scene) {
+  if (!scene.howToPlay) return;
+
   scene.howToPlayText = scene.add
     .bitmapText(
       225,
@@ -185,6 +187,8 @@ const howToPlay = function (scene) {
     ease: "Sine.easeInOut",
     duration: 2000,
   });
+
+  scene.joystick?.setVisible(true)
 
   hideOrNotHowToPlay(scene);
 };
