@@ -477,22 +477,24 @@ export default class Factory extends MiniGameUi {
     this.cursors = this.input.keyboard.addKeys({
       space: "space",
       up: "up",
-      down: "down",
       left: "left",
       right: "right",
+      w: "up",
+      z: "up",
+      q: "left",
+      a: "left",
+      d: "right",
     });
 
     this.input.keyboard.on(
       "keydown",
       (event) => {
-        if (event.key === "ArrowUp") {
+        if (["ArrowUp", "z", "w"].includes(event.key) || event.keyCode === 32) {
           this.handleAction();
-        } else if (event.key === "ArrowLeft") {
+        } else if (["ArrowLeft", "q", "a"].includes(event.key)) {
           this.left();
-        } else if (event.key === "ArrowRight") {
+        } else if (["ArrowRight", "d"].includes(event.key)) {
           this.right();
-        } else if (event.keyCode === 32) {
-          this.handleAction();
         }
       },
       this
