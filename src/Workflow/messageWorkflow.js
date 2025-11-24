@@ -1872,7 +1872,7 @@ const messageWorkflow = {
             ? "Choose the right component by pressing left or right."
             : "Choose the right component with the arrow keys ← →",
           isMobileOrTablet()
-            ? "Then install the chosen component by pressing the center."
+            ? "Then install the chosen component by pressing on it."
             : "Then install the chosen component with the SPACE bar",
           "Let’s go!",
         ],
@@ -1901,7 +1901,7 @@ const messageWorkflow = {
             ? "Choose the right component by pressing left or right."
             : "Choose the right component with the arrow keys ← →",
           isMobileOrTablet()
-            ? "Then install the chosen component by pressing the center."
+            ? "Then install the chosen component by pressing on it."
             : "Then install the chosen component with the SPACE bar",
           "It’s something anyone can do!",
         ],
@@ -2207,13 +2207,17 @@ const uiMessages = {
   },
 
   "game.howToPlay": {
-    fr: "Déplace-toi avec les touches ← → ↑ ↓ (ou ZQSD)",
-    en: "Move using the arrow keys ← → ↑ ↓ (or WASD)",
+    fr: isMobileOrTablet()
+      ? "Déplace-toi avec le joystick virtuel."
+      : "Déplace-toi avec les touches ← → ↑ ↓ (ou ZQSD)",
+    en: isMobileOrTablet()
+      ? "Move using the virtual joystick."
+      : "Move using the arrow keys ← → ↑ ↓ (or WASD)",
   },
 
   "game.action": {
-    fr: isMobileOrTablet() ? "Appuyer pour continuer" : "Appuyer sur espace",
-    en: isMobileOrTablet() ? "Press to continue" : "Press space bar",
+    fr: isMobileOrTablet() ? "Toucher pour interagir" : "Appuyer sur espace",
+    en: isMobileOrTablet() ? "Touch to interact" : "Press space bar",
   },
 
   "mine.faster": {
