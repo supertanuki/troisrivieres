@@ -24,9 +24,9 @@ export const splashScreen = function (scene) {
 
   const chooseLocale = (locale) => {
     saveLocale(locale);
-    afterLocaleSelected(scene);
     frText.destroy();
     enText.destroy();
+    afterLocaleSelected(scene);
   };
 
   const frText = scene.add
@@ -34,6 +34,8 @@ export const splashScreen = function (scene) {
     .setOrigin(0.5, 0.5)
     .setTintFill(0xffffff)
     .setInteractive({ useHandCursor: true });
+
+  frText.input.hitArea.setTo(-30, -30, frText.width + 60, frText.height + 60);
 
   frText.on("pointerdown", () => chooseLocale("fr"));
   frText.on("pointerover", () => mouseOver(frText, 0x307f6d));
@@ -44,6 +46,8 @@ export const splashScreen = function (scene) {
     .setOrigin(0.5, 0.5)
     .setTintFill(0xffffff)
     .setInteractive({ useHandCursor: true });
+
+  enText.input.hitArea.setTo(-30, -30, enText.width + 60, enText.height + 60);
 
   enText.on("pointerdown", () => chooseLocale("en"));
   enText.on("pointerover", () => mouseOver(enText, 0x307f6d));
@@ -171,7 +175,7 @@ const afterLocaleSelected = function (scene) {
   const title = scene.add
     .bitmapText(
       275,
-      130 + (progression && -30),
+      130 + (progression && -50),
       "FreePixel-16",
       "Trois-Rivières",
       32
@@ -202,6 +206,8 @@ const afterLocaleSelected = function (scene) {
     .setOrigin(0.5, 0.5)
     .setTintFill(0xffffff)
     .setInteractive({ useHandCursor: true });
+
+  textStart.input.hitArea.setTo(-20, -10, textStart.width + 40, textStart.height + 20);
 
   const startGame = (continueplaying = false) => {
     scene.isBonus = false;
@@ -251,7 +257,6 @@ const afterLocaleSelected = function (scene) {
     if (goingSomewhere) return;
     startGame();
   });
-
   textStart.on("pointerover", () => mouseOver(textStart, 0x307f6d));
   textStart.on("pointerout", () => mouseOut(textStart));
 
@@ -259,7 +264,7 @@ const afterLocaleSelected = function (scene) {
     continueplay = scene.add
       .bitmapText(
         275,
-        134,
+        124,
         "FreePixel-16",
         getUiMessage("game.continueGame"),
         16
@@ -267,6 +272,8 @@ const afterLocaleSelected = function (scene) {
       .setOrigin(0.5, 0.5)
       .setTintFill(0xffffff)
       .setInteractive({ useHandCursor: true });
+
+    continueplay.input.hitArea.setTo(-20, -10, continueplay.width + 40, continueplay.height + 20);
 
     continueplay.on("pointerdown", () => {
       if (goingSomewhere) return;
@@ -278,11 +285,12 @@ const afterLocaleSelected = function (scene) {
   }
 
   const credits = scene.add
-    .bitmapText(510, 290, "FreePixel-16", getUiMessage("game.credits"), 16)
+    .bitmapText(510, 285, "FreePixel-16", getUiMessage("game.credits"), 16)
     .setOrigin(0.5, 0.5)
     .setTintFill(0xffffff)
     .setInteractive({ useHandCursor: true });
 
+  credits.input.hitArea.setTo(-20, -10, credits.width + 40, credits.height + 20);
   credits.on("pointerdown", () => (window.location.href = "credits.html"));
   credits.on("pointerover", () => mouseOver(credits, 0x000000));
   credits.on("pointerout", () => mouseOut(credits));
@@ -293,6 +301,7 @@ const afterLocaleSelected = function (scene) {
       .setOrigin(0.5, 0.5)
       .setTintFill(0xffffff)
       .setInteractive({ useHandCursor: true });
+    textMine.input.hitArea.setTo(-20, -10, textMine.width + 40, textMine.height + 20);
     textMine.on("pointerover", () => mouseOver(textMine));
     textMine.on("pointerout", () => mouseOut(textMine));
     textMine.on("pointerdown", () => {
@@ -306,6 +315,7 @@ const afterLocaleSelected = function (scene) {
       .setOrigin(0.5, 0.5)
       .setTintFill(0xffffff)
       .setInteractive({ useHandCursor: true });
+    textFactory.input.hitArea.setTo(-20, -10, textFactory.width + 40, textFactory.height + 20);
     textFactory.on("pointerover", () => mouseOver(textFactory));
     textFactory.on("pointerout", () => mouseOut(textFactory));
     textFactory.on("pointerdown", () => {
@@ -319,6 +329,7 @@ const afterLocaleSelected = function (scene) {
       .setOrigin(0.5, 0.5)
       .setTintFill(0xffffff)
       .setInteractive({ useHandCursor: true });
+    textRecycling.input.hitArea.setTo(-20, -10, textRecycling.width + 40, textRecycling.height + 20);
     textRecycling.on("pointerover", () => mouseOver(textRecycling));
     textRecycling.on("pointerout", () => mouseOut(textRecycling));
     textRecycling.on("pointerdown", () => {
