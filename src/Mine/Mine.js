@@ -339,7 +339,7 @@ export default class Mine extends MiniGameUi {
       this
     );
 
-    if (isMobileOrTablet() && !urlParamHas("joystick")) {
+    if (isMobileOrTablet()) {
       const arrowAlpha = 0.2;
       const arrowColor = 0xff5544;
 
@@ -377,7 +377,6 @@ export default class Mine extends MiniGameUi {
         .setDepth(100000)
         .setInteractive()
         .on("pointerdown", () => {
-          this.handleAction();
           this.goingUp = true;
           this.goingDown = false;
           fadeControl(up);
@@ -393,7 +392,6 @@ export default class Mine extends MiniGameUi {
         .setDepth(100000)
         .setInteractive()
         .on("pointerdown", () => {
-          this.handleAction();
           this.goingUp = false;
           this.goingDown = true;
           fadeControl(down);
@@ -414,102 +412,25 @@ export default class Mine extends MiniGameUi {
           fadeControl(right);
         });
 
-      this.input.on("pointerup", () => {
-        this.goingLeft = false;
-        this.goingRight = false;
-        this.goingUp = false;
-        this.goingDown = false;
+      // add extra pointer
+      this.input.addPointer(1);
+
+      this.input.on("pointerup", (event) => {
+        if (event.worldX < 200) {
+          this.goingLeft = false;
+          this.goingRight = false;
+          this.goingUp = false;
+          this.goingDown = false;
+          return;
+        }
         this.action = false;
       });
 
-      this.input.on("pointerdown", () => {
+      this.input.on("pointerdown", (event) => {
+        if (event.worldX < 200) return;
         this.action = true;
         this.handleAction();
       });
-    }
-
-    if (isMobileOrTablet() && urlParamHas("joystick")) {
-      this.joystick = this.plugins.get("rexvirtualjoystickplugin").add(this, {
-        x: 100,
-        y: 200,
-        radius: 50,
-        base: this.add.circle(0, 0, 40, 0xff5544, 0.2).setDepth(10000),
-        thumb: this.add.circle(0, 0, 20, 0xffffff, 0.3).setDepth(10000),
-        dir: "8dir",
-        forceMin: 16,
-        enable: true,
-        inputEnable: true,
-        fixed: true,
-      });
-
-      // Make floating joystick
-      this.input.on(
-        "pointerdown",
-        (pointer) => {
-          this.joystick.setPosition(pointer.x, pointer.y);
-          this.joystick.setVisible(true);
-          this.action = true;
-          this.handleAction();
-        },
-        this
-      );
-
-      this.joystick.on(
-        "update",
-        function () {
-          this.goingAngle = this.joystick.angle;
-
-          if (this.joystick.left) {
-            this.goingLeft = true;
-            this.goingRight = false;
-
-            if (177.5 < this.goingAngle || -177.5 > this.goingAngle) {
-              this.goingUp = false;
-              this.goingDown = false;
-            }
-          } else if (this.joystick.right) {
-            this.goingRight = true;
-            this.goingLeft = false;
-
-            if (22.5 > this.goingAngle && -22.5 < this.goingAngle) {
-              this.goingUp = false;
-              this.goingDown = false;
-            }
-          }
-
-          if (this.joystick.up) {
-            this.goingUp = true;
-            this.goingDown = false;
-
-            if (-67.5 > this.goingAngle && -112.5 < this.goingAngle) {
-              this.goingRight = false;
-              this.goingLeft = false;
-            }
-          } else if (this.joystick.down) {
-            this.goingDown = true;
-            this.goingUp = false;
-
-            if (67.5 < this.goingAngle && 112.5 > this.goingAngle) {
-              this.goingRight = false;
-              this.goingLeft = false;
-            }
-          }
-        },
-        this
-      );
-
-      this.joystick.on(
-        "pointerup",
-        () => {
-          this.joystick.setVisible(false);
-          this.action = false;
-          this.goingUp = false;
-          this.goingDown = false;
-          this.goingRight = false;
-          this.goingLeft = false;
-        },
-        this
-      );
     }
   }
 

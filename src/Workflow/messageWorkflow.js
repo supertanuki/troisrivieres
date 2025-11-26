@@ -1556,10 +1556,10 @@ const messageWorkflow = {
           "Et là dedans, tu n’es qu’un maillon insignifiant…",
           "Bref. Voici comment procéder.",
           isMobileOrTablet()
-            ? "Bouge le tuyau avec le joystick virtuel."
+            ? "Bouge le tuyau avec les boutons ← → ↑ ↓"
             : "Bouge le tuyau avec les flèches ← → ↑ ↓",
           isMobileOrTablet()
-            ? "En bougeant le tuyau, l’eau est pulvérisée."
+            ? "Et pulvérise l’eau en touchant l'écran."
             : "Et pulvérise l’eau avec la barre ESPACE.",
           "J’espère que t’as bien tout compris !",
           "J’peux pas me permettre que tu ralentisses le train…",
@@ -1580,11 +1580,11 @@ const messageWorkflow = {
           "And in that, you’re just an insignificant link…",
           "Anyway. Here’s how to proceed.",
           isMobileOrTablet()
-            ? "Move the pipe with the virtual joystick."
+            ? "Move the pipe with the ← → ↑ ↓ buttons."
             : "Move the pipe with the arrow keys ← → ↑ ↓",
           isMobileOrTablet()
             ? "Moving the pipe sprays the water."
-            : "And spray the water with the SPACE bar.",
+            : "And spray water by touching the screen.",
           "I hope you got it all!",
           "I can’t afford for you to slow down the train…",
           "of the mine!",
@@ -1599,10 +1599,10 @@ const messageWorkflow = {
           "Tu dois nettoyer la roche à CENT POUR CENT !",
           "On ne peut pas l’envoyer à moitié nettoyée.",
           isMobileOrTablet()
-            ? "Bouge le tuyau avec le joystick virtuel."
+            ? "Bouge le tuyau avec les boutons ← → ↑ ↓."
             : "Bouge le tuyau avec les flèches ← → ↑ ↓",
           isMobileOrTablet()
-            ? "En bougeant le tuyau, l’eau est pulvérisée. Allez !"
+            ? "Et pulvérise l’eau en touchant l'écran."
             : "Et pulvérise l’eau avec la barre ESPACE. Allez !",
         ],
         en: [
@@ -1610,10 +1610,10 @@ const messageWorkflow = {
           "You have to clean the rock ONE HUNDRED PERCENT!",
           "We can’t send it out half-cleaned.",
           isMobileOrTablet()
-            ? "Move the pipe with the virtual joystick."
+            ? "Move the pipe with the ← → ↑ ↓ buttons."
             : "Move the pipe with the arrow keys ← → ↑ ↓",
           isMobileOrTablet()
-            ? "Moving the pipe sprays the water. Come on!"
+            ? "And spray water by touching the screen. Come on!"
             : "And spray the water with the SPACE bar. Come on!",
         ],
       },
@@ -2233,8 +2233,8 @@ const uiMessages = {
     en: "The water tank is empty! You must wait for it to refill.",
   },
   "mine.waterFull": {
-    fr: "Réservoir d’eau plein, allez !!!",
-    en: "Water tank full! Come on!!!",
+    fr: "Réservoir d’eau plein, allez !",
+    en: "Water tank full! Come on!",
   },
   "mine.moreMaterials": {
     fr: "Arrivage de minerais, on augmente la cadence !",
