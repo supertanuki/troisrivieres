@@ -2285,6 +2285,10 @@ const uiMessages = {
     en: "Progress saved",
   },
 
+  "generic.0": {
+    fr: "Ce jeu ne reflète pas la réalité. Elle est bien plus sombre.",
+    en: "This game does not reflect reality. It is far darker.",
+  },
   "generic.1": {
     fr: "L’extraction minière est l’industrie la plus polluante au monde.",
     en: "Mining is the most polluting industry in the world.",
@@ -2310,8 +2314,8 @@ const uiMessages = {
     en: "And let’s keep useful devices for longer.",
   },
   "generic.7": {
-    fr: "Ce jeu est dédié au vivant, humains compris, qui chaque jour paye de plus en plus cher, l’accélération technologique.",
-    en: "This game is dedicated to living beings, including humans, who are paying an increasingly high price for technological acceleration every day.",
+    fr: "Ce jeu est dédié au vivant, humains compris, qui chaque jour paye très cher, l’accélération technologique.",
+    en: "This game is dedicated to living beings, including humans, who are paying a high price for technological acceleration every day.",
   },
   "generic.thanks": {
     fr: "Merci d’avoir joué.",

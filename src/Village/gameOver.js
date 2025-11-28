@@ -64,7 +64,7 @@ export const gameOver = function (scene) {
           50,
           120,
           "FreePixel-16",
-          getUiMessage("generic.1"),
+          getUiMessage("generic.0"),
           16
         )
         .setScrollFactor(0)
@@ -102,29 +102,32 @@ export const gameOver = function (scene) {
 
       scene.time.delayedCall(1000, () => fadeInMessageEnd());
       scene.time.delayedCall(5000, () =>
-        fadeOutMessageEnd(getUiMessage("generic.2"))
+        fadeOutMessageEnd(getUiMessage("generic.1"))
       );
       scene.time.delayedCall(10000, () =>
-        fadeOutMessageEnd(getUiMessage("generic.3"))
+        fadeOutMessageEnd(getUiMessage("generic.2"))
       );
       scene.time.delayedCall(15000, () =>
+        fadeOutMessageEnd(getUiMessage("generic.3"))
+      );
+      scene.time.delayedCall(20000, () =>
         fadeOutMessageEnd(getUiMessage("generic.4"))
       );
-      scene.time.delayedCall(19000, () =>
+      scene.time.delayedCall(24000, () =>
         fadeOutMessageEnd(getUiMessage("generic.5"))
       );
-      scene.time.delayedCall(25000, () =>
+      scene.time.delayedCall(30000, () =>
         fadeOutMessageEnd(getUiMessage("generic.6"))
       );
-      scene.time.delayedCall(29000, () =>
+      scene.time.delayedCall(34000, () =>
         fadeOutMessageEnd(getUiMessage("generic.7"))
       );
-      scene.time.delayedCall(37000, () =>
+      scene.time.delayedCall(42000, () =>
         fadeOutMessageEnd(getUiMessage("generic.thanks"))
       );
-      scene.time.delayedCall(40000, () => fadeOutMessageEnd());
+      scene.time.delayedCall(45000, () => fadeOutMessageEnd());
 
-      scene.time.delayedCall(42000, () => {
+      scene.time.delayedCall(47000, () => {
         messageEnd
           .setText(getUiMessage("generic.credits"))
           .setPosition(20, 300)
@@ -140,10 +143,10 @@ export const gameOver = function (scene) {
 
       scene.tweens.add({
         targets: scene.cameras.main,
-        scrollX: 1000,
-        scrollY: 500,
+        scrollX: 1100,
+        scrollY: 400,
         ease: "Sine.linear",
-        duration: 25000,
+        duration: 30000,
         onUpdate: (event) => {
           if (!fadeOut && event.progress > 0.95) {
             fadeOutDarkScreen();
