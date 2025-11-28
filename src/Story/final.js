@@ -1,10 +1,7 @@
 import { sceneEvents, sceneEventsEmitter } from "../Events/EventsCenter";
 import Game from "../Game";
 import { dispatchUnlockEvents, eventsHas } from "../Utils/events";
-import {
-  playDjangoTheme,
-  playVillageAmbianceV1,
-} from "../Utils/music";
+import { playDjangoTheme, playVillageAmbianceV1 } from "../Utils/music";
 import { showBirds } from "../Village/birds";
 import { handleAction } from "../Village/handleAction";
 import { showBikes } from "../Village/hideBikes";
@@ -32,19 +29,22 @@ export const beforeFinal = function (scene) {
 
 /** @param {Game} scene  */
 export const afterFinalMessage = function (scene) {
+  scene.isCinematic = true;
   scene.wakeGame();
   setVillageFinalVersion(scene);
 
-  scene.isCinematic = true;
+  scene.cameras.main.fadeIn(2000, 0, 0, 0, (cam, progress) => {
+    // force slow right
+    scene.hero.slowRight();
+    if (progress !== 1) return;
+    scene.isCinematic = false;
+    scene.hero.stopAndWait();
+  });
+
   scene.cameras.main.startFollow(scene.hero, true);
   scene.setHeroPosition("heroFinal");
   scene.hero.slowRight();
   scene.hero.animateToRight();
-
-  scene.cameras.main.fadeIn(2000, 0, 0, 0, (cam, progress) => {
-    if (progress !== 1) return;
-    scene.isCinematic = false;
-  });
 };
 
 /** @param {Game} scene  */
@@ -104,10 +104,7 @@ export const setVillageFinalVersion = function (scene, debug = false) {
   scene.screensTop.destroy();
 
   scene.screenOffSprites.forEach((screen) => screen.destroy());
-  scene.map
-    .createLayer("screensDamaged", scene.tileset)
-    .setDepth(49);
-
+  scene.map.createLayer("screensDamaged", scene.tileset).setDepth(49);
   scene.map.createLayer("screensDamagedTop", scene.tileset).setDepth(149);
   scene.map.createLayer("carsDamagedBottom", scene.tileset).setDepth(98);
 
@@ -178,11 +175,9 @@ export const setVillageFinalVersion = function (scene, debug = false) {
 
     if (o.name === "djangoFinal") scene.django.setFinal(o.x, o.y);
 
-    if (o.name === "girlFinal")
-      scene.girl.setFinal(o.x, o.y);
+    if (o.name === "girlFinal") scene.girl.setFinal(o.x, o.y);
 
-    if (o.name === "boyFinal")
-      scene.boy.setFinal(o.x, o.y);
+    if (o.name === "boyFinal") scene.boy.setFinal(o.x, o.y);
 
     if (o.name === "dogFinal") scene.dog.setPosition(o.x, o.y);
 
@@ -201,8 +196,7 @@ export const setVillageFinalVersion = function (scene, debug = false) {
     if (o.name === "deerFinal")
       scene.deer.setPosition(o.x, o.y).setVisible(true);
 
-    if (o.name === "owlFinal")
-      scene.owl.setPosition(o.x, o.y).setVisible(true);
+    if (o.name === "owlFinal") scene.owl.setPosition(o.x, o.y).setVisible(true);
 
     if (o.name === "cowFinal") {
       scene.cow.setPosition(o.x, o.y);
