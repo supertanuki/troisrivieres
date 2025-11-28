@@ -31,7 +31,7 @@ export const afterRecycling = function (scene) {
   scene.hero.slowDown();
   scene.hero.animateToDown();
 
-  scene.time.delayedCall(1500, () => {
+  scene.time.delayedCall(2100, () => {
     scene.cameras.main.fadeOut(1000, 0, 0, 0, (cam, progress) => {
       if (progress !== 1) return;
       scene.setHeroPosition("heroNightComeBack");
