@@ -36,18 +36,30 @@ export const splashScreen = function (scene) {
       .setOrigin(0.5, 0.5)
       .setVisible(false)
       .setDepth(10000);
-    const checkOrientation = (orientation) => {
-      if (!orientation?.type) return;
-      if (orientation.type.includes("landscape")) {
+
+    const checkOrientation = () => {
+      if (
+        screen?.orientation?.type?.includes("landscape") ||
+        (!screen?.orientation &&
+          window?.matchMedia("(orientation: landscape)")?.matches)
+      ) {
         orientationMessage.setVisible(false);
         return;
       }
+
       orientationMessage.setVisible(true);
     };
-    checkOrientation(screen.orientation);
-    screen.orientation.addEventListener("change", (event) =>
-      checkOrientation(event.target)
-    );
+
+    checkOrientation();
+    if (screen?.orientation) {
+      screen.orientation.addEventListener("change", () => checkOrientation());
+    } else {
+      const mql = window?.matchMedia("(orientation: landscape)");
+      mql?.addListener((m) => {
+        if (m.matches) orientationMessage.setVisible(false);
+        else orientationMessage.setVisible(true);
+      });
+    }
   }
 
   const chooseLocale = (locale) => {
