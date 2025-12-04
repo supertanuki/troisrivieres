@@ -3,6 +3,7 @@ import Game from "../Game";
 import { goToMine, goToFactory, goToRecycling } from "../Story/goToGame";
 import { urlParamHas } from "../Utils/debug";
 import { eventsHas } from "../Utils/events";
+import isMobileOrTablet from "../Utils/isMobileOrTablet";
 import { saveLocale } from "../Utils/locale";
 import { playVillageAmbiance } from "../Utils/music";
 import { getProgression } from "../Utils/progression";
@@ -20,6 +21,33 @@ export const splashScreen = function (scene) {
   if (scene.isBonus) {
     afterLocaleSelected(scene);
     return;
+  }
+
+  if (isMobileOrTablet()) {
+    const orientationMessage = scene.add
+      .bitmapText(
+        225,
+        50,
+        "FreePixel-16",
+        "Tournez votre appareil en mode paysage",
+        32
+      )
+      .setMaxWidth(400)
+      .setOrigin(0.5, 0.5)
+      .setVisible(false)
+      .setDepth(10000);
+    const checkOrientation = (orientation) => {
+      if (!orientation?.type) return;
+      if (orientation.type.includes("landscape")) {
+        orientationMessage.setVisible(false);
+        return;
+      }
+      orientationMessage.setVisible(true);
+    };
+    checkOrientation(screen.orientation);
+    screen.orientation.addEventListener("change", (event) =>
+      checkOrientation(event.target)
+    );
   }
 
   const chooseLocale = (locale) => {
@@ -207,7 +235,12 @@ const afterLocaleSelected = function (scene) {
     .setTintFill(0xffffff)
     .setInteractive({ useHandCursor: true });
 
-  textStart.input.hitArea.setTo(-20, -10, textStart.width + 40, textStart.height + 20);
+  textStart.input.hitArea.setTo(
+    -20,
+    -10,
+    textStart.width + 40,
+    textStart.height + 20
+  );
 
   const startGame = (continueplaying = false) => {
     scene.isBonus = false;
@@ -273,7 +306,12 @@ const afterLocaleSelected = function (scene) {
       .setTintFill(0xffffff)
       .setInteractive({ useHandCursor: true });
 
-    continueplay.input.hitArea.setTo(-20, -10, continueplay.width + 40, continueplay.height + 20);
+    continueplay.input.hitArea.setTo(
+      -20,
+      -10,
+      continueplay.width + 40,
+      continueplay.height + 20
+    );
 
     continueplay.on("pointerdown", () => {
       if (goingSomewhere) return;
@@ -290,7 +328,12 @@ const afterLocaleSelected = function (scene) {
     .setTintFill(0xffffff)
     .setInteractive({ useHandCursor: true });
 
-  credits.input.hitArea.setTo(-20, -10, credits.width + 40, credits.height + 20);
+  credits.input.hitArea.setTo(
+    -20,
+    -10,
+    credits.width + 40,
+    credits.height + 20
+  );
   credits.on("pointerdown", () => (window.location.href = "credits.html"));
   credits.on("pointerover", () => mouseOver(credits, 0x000000));
   credits.on("pointerout", () => mouseOut(credits));
@@ -301,7 +344,12 @@ const afterLocaleSelected = function (scene) {
       .setOrigin(0.5, 0.5)
       .setTintFill(0xffffff)
       .setInteractive({ useHandCursor: true });
-    textMine.input.hitArea.setTo(-20, -10, textMine.width + 40, textMine.height + 20);
+    textMine.input.hitArea.setTo(
+      -20,
+      -10,
+      textMine.width + 40,
+      textMine.height + 20
+    );
     textMine.on("pointerover", () => mouseOver(textMine));
     textMine.on("pointerout", () => mouseOut(textMine));
     textMine.on("pointerdown", () => {
@@ -315,7 +363,12 @@ const afterLocaleSelected = function (scene) {
       .setOrigin(0.5, 0.5)
       .setTintFill(0xffffff)
       .setInteractive({ useHandCursor: true });
-    textFactory.input.hitArea.setTo(-20, -10, textFactory.width + 40, textFactory.height + 20);
+    textFactory.input.hitArea.setTo(
+      -20,
+      -10,
+      textFactory.width + 40,
+      textFactory.height + 20
+    );
     textFactory.on("pointerover", () => mouseOver(textFactory));
     textFactory.on("pointerout", () => mouseOut(textFactory));
     textFactory.on("pointerdown", () => {
@@ -329,7 +382,12 @@ const afterLocaleSelected = function (scene) {
       .setOrigin(0.5, 0.5)
       .setTintFill(0xffffff)
       .setInteractive({ useHandCursor: true });
-    textRecycling.input.hitArea.setTo(-20, -10, textRecycling.width + 40, textRecycling.height + 20);
+    textRecycling.input.hitArea.setTo(
+      -20,
+      -10,
+      textRecycling.width + 40,
+      textRecycling.height + 20
+    );
     textRecycling.on("pointerover", () => mouseOver(textRecycling));
     textRecycling.on("pointerout", () => mouseOut(textRecycling));
     textRecycling.on("pointerdown", () => {
