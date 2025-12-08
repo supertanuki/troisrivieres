@@ -114,8 +114,13 @@ export const setVillageForSecondAct = function (scene) {
       scene.miner.disableChatIcon();
     }
 
-    if (o.name === `minoAfterMine`) {
-      scene.fisherman.setPosition(o.x, o.y);
+    if (o.name === `minoAfterMine`) scene.fisherman.setPosition(o.x, o.y);
+
+    if (o.name === `dogAfterMine`) scene.dog.setPosition(o.x, o.y);
+
+    if (o.name === `catAfterMine`) {
+      scene.cat.setPosition(o.x, o.y);
+      scene.cat.setDepth(121);
     }
 
     for (let i = 2; i <= 4; i++) {

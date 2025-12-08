@@ -125,7 +125,7 @@ export default class Chat extends Phaser.Physics.Arcade.Sprite {
       }
     }
 
-    if (isHeroNearMe) {
+    if (isHeroNearMe && [INITIAL_DEPTH, FRONT_HERO_DEPTH].includes(this.depth)) {
       const hero = this.scene.hero;
       if (this.y < hero.y) {
         this.setDepth(INITIAL_DEPTH);
