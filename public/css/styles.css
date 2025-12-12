@@ -39,17 +39,6 @@ h2 {
   margin: 3rem 1rem 0rem;
 }
 
-.logos {
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-  background: white;
-  padding: 1rem;
-}
-.logos img {
-  max-width: 45%;
-}
-
 a {
   color:#307f6d;
 }

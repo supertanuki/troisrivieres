@@ -29,7 +29,7 @@ export const splashScreen = function (scene) {
         225,
         50,
         "FreePixel-16",
-        "Tournez votre appareil en mode paysage",
+        "Tournez votre appareil en mode paysage.",
         32
       )
       .setMaxWidth(400)
