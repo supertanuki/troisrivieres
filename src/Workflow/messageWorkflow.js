@@ -1453,7 +1453,7 @@ const messageWorkflow = {
         fr: [
           "Bienvenue à Grise Mine, LA mine responsable !",
           "D’ici sortent des tonnes de minerais chaque jour…",
-          "extraits avec de l’énergie bas-carbone s’il vous plait !",
+          "extraits avec de l’énergie renouvelable !",
           "Nous utilisons l’eau de façon raisonnée…",
           "traitons nos employés de manière exemplaire, et…",
           "Ça ne t’intéresse pas mon discours ?",
@@ -1468,7 +1468,7 @@ const messageWorkflow = {
         en: [
           "Welcome to Grey Mine, THE responsible mine!",
           "Tons of ore come out of here every day…",
-          "extracted with low-carbon energy, please!",
+          "extracted using renewable energy!",
           "We use water wisely…",
           "treat our employees in an exemplary manner, and…",
           "Aren’t you interested in what I’m saying?",
