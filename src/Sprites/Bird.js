@@ -84,11 +84,13 @@ export default class Bird extends Phaser.Physics.Arcade.Sprite {
   hide() {
     this.setVisible(false);
     this.setActive(false);
+    this.body.checkCollision.none = true;
   }
 
   show() {
-    this.setVisible(true);
     this.setActive(true);
+    this.setVisible(true);
+    this.body.checkCollision.none = false;
   }
 
   outOfScreen() {

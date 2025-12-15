@@ -37,11 +37,7 @@ export const toggleSpritesVisibility = function (
 
   if (scene.isNoMoreBirds) return;
 
-  scene.birds.forEach((bird) => {
-    bird.setVisible(state);
-    bird.setActive(state);
-    bird.body.checkCollision.none = !state;
-  });
+  scene.birds.forEach((bird) => state ? bird.show() : bird.hide());
 
   scene.butterflies.forEach((butterfly) => {
     butterfly.setVisible(state);
